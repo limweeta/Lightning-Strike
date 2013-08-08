@@ -10,14 +10,14 @@ public class User{
   
   public User(){}
   
-  public User(id, fullname, username, contact, gender, email, role){
-    this(fullname, username, contact, gender, email, role);
+  public User(id, fullName, userName, contact, gender, email, role){
+    this(fullName, userName, contact, gender, email, role);
     this.id = id;
   }
   
-  public User(fullname, username, contact, gender, email, role){
-    this.fullname = fullname;
-    this.username = username;
+  public User(fullName, userName, contact, gender, email, role){
+    this.fullname = fullName;
+    this.username = userName;
     this.contact = contact;
     this.gender = gender;
     this.email = email;
