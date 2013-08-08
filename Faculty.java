@@ -1,47 +1,23 @@
-public class Faculty{
-  @Id private Long id;
-  private String facultyEmail;
-  private String facultyName;
-  private String facultyContact;
+public class Faculty extends User{
+  private String type;
   
   public Faculty(){}
   
-  public Faculty(Long id, String facultyEmail, String facultyName, String facultyContact){
-    this(facultyEmail, facultyName, facultyContact);
-    this.id=id;
+  public Faculty(Long id, String fullName, String userName, String contact, String gender, String email, String role, String type){
+    super(id, fullName, userName, contact, gender, email, role);
+    this.type = type;
   }
   
-  public Faculty(String facultyEmail, String facultyName, String facultyContact){
-    this.facultyEmail = facultyEmail;
-    this.facultyName = facultyName;
-    this.facultyContact = facultyContact;
+  public Faculty(String fullName, String userName, String contact, String gender, String email, String role, String type){
+    super(fullName, userName, contact, gender, email, role);
+    this.type = type;
   }
   
-  public Long getId(){
-    return id;
+  public String getType(){
+    return type;
   }
   
-  public String getFacultyEmail(){
-    return facultyEmail;
-  }
-  
-  public void setFacultyEmail(String facultyEmail){
-    this.facultyEmail = facultyEmail;
-  }
-  
-  public String getFacultyName(){
-    return facultyName;
-  }
-  
-  public void setFacultyName(String facultyName){
-    this.facultyName = facultyName;
-  }
-  
-  public String getFacultyContact(){
-    return facultyContact;
-  }
-  
-  public void setFacultyContact(String facultyContact){
-    this.facultyContact = facultyContact;
+  public void setType(String type){
+    this.type = type;
   }
 }
