@@ -1,4 +1,4 @@
-public class Faculty extends Role{
+public class Faculty extends User{
   private String type;
   
   public Faculty(){}
