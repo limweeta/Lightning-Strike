@@ -6,7 +6,7 @@ public class TA extends User{
      super(id, fullName, userName, contact, gender, email, role);
   }
   
-    public User(String fullName, String userName, String contact, String gender, String email, String role){
+    public TA(String fullName, String userName, String contact, String gender, String email, String role){
       super(fullName, userName, contact, gender, email, role);
   }
 }
