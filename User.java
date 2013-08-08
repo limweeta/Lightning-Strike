@@ -10,12 +10,12 @@ public class User{
   
   public User(){}
   
-  public User(id, fullName, userName, contact, gender, email, role){
+  public User(Long id, String fullName, String userName, String contact, String gender, String email, String role){
     this(fullName, userName, contact, gender, email, role);
     this.id = id;
   }
   
-  public User(fullName, userName, contact, gender, email, role){
+  public User(String fullName, String userName, String contact, String gender, String email, String role){
     this.fullname = fullName;
     this.username = userName;
     this.contact = contact;
