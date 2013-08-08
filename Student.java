@@ -1,4 +1,4 @@
-public class Student extends Role{
+public class Student extends User{
   
   @Id private Long id;
   private String secondMajor;
