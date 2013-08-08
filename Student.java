@@ -5,9 +5,14 @@ public class Student extends User{
   
   public Student(){}
   
-  public Student(Long id, String email, String fullname, String contact, String secondMajor){
-    super(id, email, fullname,contact);
-    this.secondMajor = seccondMajor;
+  public Student(Long id, String fullName, String userName, String contact, String gender, String email, String role, String secondMajor){
+    super(id, fullname, userName, contact, gender, email, role);
+    this.secondMajor = secondMajor;
+  }
+  
+  public Student(String fullName, String userName, String contact, String gender, String email, String role, String secondMajor){
+    super(fullname, userName, contact, gender, email, role);
+    this.secondMajor = secondMajor;
   }
   
   public String getSecondMajor(){
