@@ -1,27 +1,27 @@
 public class Requirement{
   @Id private Long id;
-  private String requirement;
+  private String description;
   
   public Requirement(){}
   
-  public Requirement(Long id, String requirement){
-    this(requirement);
+  public Requirement(Long id, String description){
+    this(description);
     this.id = id;
   }
   
-  public Requirement(String requirement){
-    this.requirement = requirement;  
+  public Requirement(String description){
+    this.description = description;  
   }
   
   public Long getId(){
     return id;
   }
   
-  public String getRequirement(){
-    return requirement;
+  public String getDescription(){
+    return description;
   }
   
-  public void setRequirement(String requirement){
-    this.requirement = requirement;
+  public void setDescription(String description){
+    this.description = description;
   }
 }
