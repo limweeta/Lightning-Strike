@@ -1,18 +1,18 @@
 public class Notification{
   @Id private Long id;
-  private String content;
+  private String description;
   private String timestamp;
   private boolean read;
   
   public Notification(){}
   
-  public Notification(Long id, String content, String timestamp, boolean read){
-    this(content, timestamp, read);
+  public Notification(Long id, String description, String timestamp, boolean read){
+    this(description, timestamp, read);
     this.id = id;
   }
   
-  public Notification(String content, String timestamp, boolean read){
-    this.content = content;
+  public Notification(String description, String timestamp, boolean read){
+    this.description = description;
     this.timestamp = timestamp;
     this.read = read;
   }
@@ -21,12 +21,12 @@ public class Notification{
     return id;
   }
   
-  public String getContent(){
-    return content;
+  public String getDescription(){
+    return description;
   }
   
-  public void setContent(String content){
-    this.content = content;
+  public void setDescription(String description){
+    this.description = description;
   }
   
   public String getTimestamp(){
