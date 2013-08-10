@@ -1,27 +1,27 @@
 public class Skill{
   @Id private Long id;
-  private String skill;
+  private String description;
   
   public Skill(){}
   
-  public Skill(Long id, String skill){
-    this(skill);
+  public Skill(Long id, String description){
+    this(description);
     this.id = id;
   }
   
-  public Skill(String skill){
-    this.skill = skill;  
+  public Skill(String description){
+    this.description = description;  
   }
   
   public Long getId(){
     return id;
   }
   
-  public String getSkill(){
-    return skill;
+  public String getDescription(){
+    return description;
   }
   
-  public void setSkill(String skill){
-    this.skill = skill;
+  public void setDescription(String description){
+    this.description = description;
   }
 }
