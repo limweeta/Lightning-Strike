@@ -1,26 +1,40 @@
 public class Project{
   @Id private Long id;
+  private Long termId;
   private String name;
   private String description;
   private String status;
-  private String predecessor;
+  private String industry;
+  private String organization;
+  private String teamName;
   
   public Project(){}
   
-  public Project(Long id, String name, String description, String status, String predecessor){
-    this(name, description, status, predecessor);
+  public Project(Long id, Long teamId, String name, String description, String status, String industry, String organization, String teamName){
+    this(termId, name, description, status, industry, organization, teamName);
     this.id = id;
   }
   
-  public Project(String name, String description, String status, String predecessor){
+  public Project(Long termId, String name, String description, String status, String industry, String organization, String teamName){
+    this.termId = termId;
     this.name = name;
     this.description = description;
     this.status = status;
-    this.predecessor = predecessor;
+    this.industry = industry;
+    this.organization = organization;
+    this.teamName = teamName;
   }
   
   public Long getId(){
     return id;
+  }
+  
+  public Long getTermId(){
+    return termId;
+  }
+  
+  public Long setTermId(Long termId){
+    this.termId = termId;
   }
   
   public String getName(){
@@ -47,11 +61,27 @@ public class Project{
     this.status = status;
   }
   
-  public String getPredecessor(){
-    return predecessor;
+  public String getIndustry(){
+    return industry;
   }
   
-  public void setPredecessor(String predecessor){
-    this.predecessor = predecessor;
+  public void setIndustry(String industry){
+    this.industry = industry;
+  }
+  
+  public String getOrganization(){
+    return organization;
+  }
+  
+  public void setOrganization(String organization){
+    this.organization = organization;
+  }
+  
+  public String getTeamName(){
+    return teamName;
+  }
+  
+  public void setTeamName(String teamName){
+    this.teamName = teamName;
   }
 }
