@@ -12,11 +12,11 @@ public class Project{
   
   public Project(){}
   
-  public Project(Long id, Long teamId, String name, String description, String status, String industry, String organization, String teamName){
+  public Project(Long id, Long termId, String name, String description, String status, String industry, String organization, String teamName){
     this(termId, name, description, status, industry, organization, teamName);
     this.id = id;
   }
-  
+
   public Project(Long termId, String name, String description, String status, String industry, String organization, String teamName){
     this.termId = termId;
     this.name = name;
