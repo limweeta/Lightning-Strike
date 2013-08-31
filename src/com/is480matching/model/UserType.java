@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class UserType{
   @Id private Long id;
   private String roleName;

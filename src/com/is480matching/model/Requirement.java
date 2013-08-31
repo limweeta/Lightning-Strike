@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class Requirement{
   @Id private Long id;
   private String description;

@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class CourseCoordinator extends User{
   
   public CourseCoordinator(){}

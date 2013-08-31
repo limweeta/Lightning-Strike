@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class Project{
   @Id private Long id;
   private Long termId;

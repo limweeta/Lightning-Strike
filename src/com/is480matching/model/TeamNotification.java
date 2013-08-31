@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class TeamNotification{
   @Id private Long id;
   private Long notificationId;

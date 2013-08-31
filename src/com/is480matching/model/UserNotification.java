@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class UserNotification{
   @ID private Long id;
   private Long notificationId;

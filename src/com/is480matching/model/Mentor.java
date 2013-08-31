@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class Mentor extends User{
   private String company;
   private String companyAddress;

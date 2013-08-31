@@ -1,3 +1,5 @@
+package com.is480matching.model;
+
 public class Student extends User{
   
   @Id private Long id;
