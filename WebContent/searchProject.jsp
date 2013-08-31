@@ -6,7 +6,7 @@
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="searchteam">
-					<form name="searchteam" id="searchteam" action="#">
+					<form name="searchteam" id="searchteam" action="/searchProjects">
 						<fieldset class="login-fieldset">
 							<div class="field-container">
 								<label for="projectName" >Project Name:</label>
