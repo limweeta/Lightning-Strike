@@ -1,9 +1,11 @@
-package com.is480matching.model;
+package com.is480matching.manager;
 
+import com.is480matching.model.*;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.*;
 
+import com.is480matching.model.MySQLConnector;
 import com.is480matching.model.Sponsor;
 
 public class SponsorDataManager implements Serializable {

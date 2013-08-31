@@ -1,5 +1,6 @@
 package com.is480matching.service;
 
+import com.is480matching.manager.SponsorDataManager;
 import com.is480matching.model.*;
 
 public class AuthenticateService {
