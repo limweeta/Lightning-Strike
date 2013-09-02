@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>SMU480 Matching System</title>
+	</head>
+	<body>	
+	<div id="content-container" class="shadow">
+			<div id="content">
+				<div class="login-area">
+					<form name="loginFrm" id="loginFrm" action="register">
+						<fieldset class="login-fieldset">
+							<div class="field-container">
+								<label for="userName" >User Name:</label>
+								<input type="text" class="right rounded" name="userName" id="userName"/>
+							</div>
+							<div class="field-container">
+								<label for='password' >Password:</label>
+								<input type="password" class="right rounded" name="password" id="password" />
+							</div>
+							<div class="field-container">
+								<label for='roleName' >Role Name:</label>
+								<input type="text" class="right rounded" name="roleName" id="roleName" />
+							</div>
+							<div class="field-container">
+								<label for='company' >Company:</label>
+								<input type="text" class="right rounded" name="company" id="company" />
+							</div>
+							<div class="field-container">
+								<label for='addresse' >Address:</label>
+								<input type="text" class="right rounded" name="address" id="address" />
+							</div>
+							<div id="loginError" class="error"></div><br/>
+							<input type="submit" id="register" name="register" value="Register"/>
+							<br/>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

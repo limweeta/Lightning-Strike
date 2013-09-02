@@ -49,7 +49,7 @@
     <script src="script.js"></script>
     <img src="http://db.tt/r4taMQoX" id="pic"/>
     
-  	<div id="div-1c"><a href="/Register.html">Register</a></div>
+  	<div id="div-1c"><a href="/register.jsp">Register</a></div>
 </head>
 <body>
 <div id="div-1">SIS IS480 System</div>

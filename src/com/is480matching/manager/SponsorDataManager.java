@@ -1,6 +1,7 @@
 package com.is480matching.manager;
 
 import com.is480matching.model.*;
+
 import java.io.Serializable;
 import java.sql.*;
 import java.util.*;
@@ -22,14 +23,13 @@ public class SponsorDataManager implements Serializable {
 		while (iterator.hasNext()){
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
-			String id = array.get(0);
-			String name = array.get(1);
-			String username = array.get(2);
-			String contact = array.get(3);
-			String email = array.get(4);
-			String password = array.get(5);
+			String username = array.get(0);
+			String password = array.get(1);
+			String roleName = array.get(2);
+			String sponsorCompany = array.get(3);
+			String sponsorAddress = array.get(4);
 			
-			Sponsor sponsor = new Sponsor(id,name,username,contact,email,password);
+			Sponsor sponsor = new Sponsor(username, password, roleName, sponsorCompany, sponsorAddress);
 			sponsors.add(sponsor);
 		}
 		
@@ -38,33 +38,34 @@ public class SponsorDataManager implements Serializable {
 	
 	public Sponsor retrieve(String username) throws Exception{
 		Sponsor sponsor = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from sponsors where username = '" + username + "';");
+		System.out.println("testing1");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from sponsor where user_username = '" + username + "';");
+		System.out.println("testing2");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
 		while (iterator.hasNext()){
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
-			String id = array.get(0);
-			String name = array.get(1);
-			username = array.get(2);
-			String contact = array.get(3);
-			String email = array.get(4);
-			String password = array.get(5);
+			String retrieveUsername = array.get(0);
+			String password = array.get(1);
+			String roleName = array.get(2);
+			String sponsorCompany = array.get(3);
+			String sponsorAddress = array.get(4);
 			
-			sponsor = new Sponsor(id,name,username,contact,email,password);
+		sponsor = new Sponsor(retrieveUsername, password, roleName, sponsorCompany, sponsorAddress);
 		}
 		return sponsor;
 	}
 	
 	public void add(Sponsor sponsor){
-		String ID = sponsor.getID();
-		String name = sponsor.getName();
+		
 		String username = sponsor.getUsername();
-		String contact = sponsor.getContact();
-		String email = sponsor.getEmail();
 		String password = sponsor.getPassword();
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`ID`, `name`, `username`, `contact`, `email`, `password`) VALUES ('" + ID + "', '" + name + "', '" + username + "', '" + contact + "', '" + email + "', '" + password +"');");
+		String roleName = sponsor.getRoleName();
+		String sponsorCompany = sponsor.getSponsorCompany();
+		String sponsorAddress = sponsor.getSponsorAddress();
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`user_username`, `user_password`, `role_name, `sponsor_company`, `sponsor_address`) VALUES ('" + username + "', '" + password + "', '" + roleName + "', '" + sponsorCompany + "', '" + sponsorAddress + "');");
 		System.out.println("sponsor added successfully");
 	}
 		
