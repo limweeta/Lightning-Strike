@@ -74,27 +74,28 @@
 		background: #4b545f;
 	}
 	h1{
-		font-family:"Impact";
+		font-family:Impact;
+		font-size:1.75em;
 	}
 	#teamName{
-		width:20em;
+		width:49.8em;
+		font-size:1em;
 	}
-	#industryType{
-		width:10em;
+	#createTeam{
+		font-size:1em;
 	}
-	#term{
-		width:10em;
+	#teamLimit{
+		width:5em;
 	}
 </style>
 	<head>
-		</br>
-	    <div id="welcome">Welcome, chloechiang.2011</div>
+		<div id="welcome">Welcome, chloechiang.2011</div>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body>
-		<nav>
+			<nav>
 			<ul>
 				<li><a href="#">Projects</a>
 					<ul>
@@ -119,29 +120,47 @@
 			</ul>
 		</nav>
 		</br></br></br>
-		
-					<h1>Search Team</h1>
-				 		
 		<div id="content-container" class="shadow">
 			<div id="content">
-				<div class="searchTeam">
-					<form name="searchTeam" id="searchTeam" action="searchTeam">
-						<font size="4" face="Courier">Team Name:</font></br>
-						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Term:</font></br>
-						<select id="term" value="Term">
-						  <option value="all">All</option>
+				<div class="createTeam">
+					<form action="createProject">
+						<font size="4" face="Courier">Project Name:</font></br>
+						<input id="projectName" type="text" name="projectName"></br></br>	
+						<font size="4" face="Courier">Project Term:</font></br>
+						<select name="projectTerm">
 						  <option value="2013/2014T1">2013/2014 T1</option>
 						  <option value="2013/2014T2">2013/2014 T2</option>
+						  <option value="2012/2013T1">2012/2013 T1</option>
+						  <option value="2012/2013T2">2012/2013 T2</option>
+						</select></br></br>
+						<font size="4" face="Courier">Project Description:</font></br>
+						<textarea name="projectDescription" cols="97" rows="10"></textarea></br></br>
+						<font size="4" face="Courier">Project Status:</font></br>
+						<select name="projectStatus">
+						  <option value="open">Open</option>
+						  <option value="ongoing">Ongoing</option>
+						  <option value="closed">Closed</option>
 						</select></br></br>
 						<font size="4" face="Courier">Industry Type:</font></br>
-						<select id="industryType" name="industryType">
+						<select name="industryType">
 						  <option value="banking">Banking</option>
 						  <option value="IT">IT</option>
 						  <option value="Health">Health</option>
 						</select></br></br>
-						<input id="searchTeam" type="submit" value="Search Team">
+						<font size="4" face="Courier">Project Organization:</font></br>
+						<input id="projectOrganization" type="text" name="projectOrganization"></br></br>
+						<font size="4" face="Courier">Contact Details: </font></br>
+						<font size="4" face="Courier">Contact Name: </font>&nbsp;&nbsp;
+						<input type="text" name="contactName">
+						<font size="4" face="Courier">Contact Number: </font>&nbsp;&nbsp;<input type="text" name="contactNumber"></br></br>
+						<font size="4" face="Courier">Team Name:</font></br>
+						<input id="teamName" type="text" name="teamName"></br></br>
+						<font size="4" face="Courier">Project Diagrams:</font></br>
+						<textarea id="projectDiagrams" cols="97" rows="10" disabled></textarea></br>
+						</br>
+						<input id="createProject" type="submit" value="Create Project">
 					</form>
+					<br/>
 				</div>
 			</div>
 		</div>

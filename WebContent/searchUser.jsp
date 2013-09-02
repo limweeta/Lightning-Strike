@@ -76,14 +76,8 @@
 	h1{
 		font-family:"Impact";
 	}
-	#teamName{
-		width:20em;
-	}
-	#industryType{
-		width:10em;
-	}
-	#term{
-		width:10em;
+	#userName{
+		width:15em;
 	}
 </style>
 	<head>
@@ -94,7 +88,7 @@
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body>
-		<nav>
+				<nav>
 			<ul>
 				<li><a href="#">Projects</a>
 					<ul>
@@ -120,27 +114,20 @@
 		</nav>
 		</br></br></br>
 		
-					<h1>Search Team</h1>
+					<h1>Search User</h1>
 				 		
 		<div id="content-container" class="shadow">
 			<div id="content">
-				<div class="searchTeam">
-					<form name="searchTeam" id="searchTeam" action="searchTeam">
-						<font size="4" face="Courier">Team Name:</font></br>
-						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Term:</font></br>
-						<select id="term" value="Term">
-						  <option value="all">All</option>
-						  <option value="2013/2014T1">2013/2014 T1</option>
-						  <option value="2013/2014T2">2013/2014 T2</option>
-						</select></br></br>
-						<font size="4" face="Courier">Industry Type:</font></br>
-						<select id="industryType" name="industryType">
-						  <option value="banking">Banking</option>
-						  <option value="IT">IT</option>
-						  <option value="Health">Health</option>
-						</select></br></br>
-						<input id="searchTeam" type="submit" value="Search Team">
+				<div class="searchUser">
+					<form name="searchUser" id="searchUser" action="searchUser">
+						
+							<div class="field-container">
+								<font size="4" face="Courier">Username:</font></br>
+								<input id="userName" type="text" name="userName"></br>
+								<input id="searchUser" type="submit" value="Search User" name="searchUser">
+							</div>
+							<br/>
+						
 					</form>
 				</div>
 			</div>

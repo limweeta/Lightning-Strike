@@ -74,27 +74,28 @@
 		background: #4b545f;
 	}
 	h1{
-		font-family:"Impact";
+		font-family:Impact;
+		font-size:1.75em;
 	}
 	#teamName{
-		width:20em;
+		width:49.8em;
+		font-size:1em;
 	}
-	#industryType{
-		width:10em;
+	#createTeam{
+		font-size:1em;
 	}
-	#term{
-		width:10em;
+	#teamLimit{
+		width:5em;
 	}
 </style>
 	<head>
-		</br>
-	    <div id="welcome">Welcome, chloechiang.2011</div>
+		<div id="welcome">Welcome, chloechiang.2011</div>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body>
-		<nav>
+			<nav>
 			<ul>
 				<li><a href="#">Projects</a>
 					<ul>
@@ -119,29 +120,24 @@
 			</ul>
 		</nav>
 		</br></br></br>
-		
-					<h1>Search Team</h1>
-				 		
 		<div id="content-container" class="shadow">
 			<div id="content">
-				<div class="searchTeam">
-					<form name="searchTeam" id="searchTeam" action="searchTeam">
+				<div class="createTeam">
+					<form action="createTeam">
 						<font size="4" face="Courier">Team Name:</font></br>
 						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Term:</font></br>
-						<select id="term" value="Term">
-						  <option value="all">All</option>
-						  <option value="2013/2014T1">2013/2014 T1</option>
-						  <option value="2013/2014T2">2013/2014 T2</option>
+						<font size="4" face="Courier">Project Manager Name:</font></br>
+						<input id="pmName" type="text" name="pmName"></br>
+						</br>
+						<font size="4" face="Courier">Team Limit:</font></br>
+						<select value="teamLimit" id="teamLimit" name="teamLimit">
+						  <option value="4">4</option>
+						  <option value="5">5</option>
+						  <option value="6">6</option>
 						</select></br></br>
-						<font size="4" face="Courier">Industry Type:</font></br>
-						<select id="industryType" name="industryType">
-						  <option value="banking">Banking</option>
-						  <option value="IT">IT</option>
-						  <option value="Health">Health</option>
-						</select></br></br>
-						<input id="searchTeam" type="submit" value="Search Team">
+						<input type="submit" id="createTeam" name="createTeam" value="Create Team"/>
 					</form>
+					<br/>
 				</div>
 			</div>
 		</div>
