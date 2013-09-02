@@ -1,7 +1,9 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class UserNotification{
-  @ID private Long id;
+  @Id private Long id;
   private Long notificationId;
   private String userName;
   

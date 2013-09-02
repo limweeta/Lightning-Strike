@@ -1,5 +1,7 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class User{
   
   @Id private Long id;
@@ -18,8 +20,8 @@ public class User{
   }
   
   public User(String fullName, String userName, String contact, String gender, String email, String role){
-    this.fullname = fullName;
-    this.username = userName;
+    this.fullName = fullName;
+    this.userName = userName;
     this.contact = contact;
     this.gender = gender;
     this.email = email;

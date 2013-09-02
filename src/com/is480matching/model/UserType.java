@@ -1,5 +1,7 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class UserType{
   @Id private Long id;
   private String roleName;
@@ -37,13 +39,5 @@ public class UserType{
   
   public void setUserName(String userName){
     this.userName = userName;
-  }
-  
-  public Long getNotificationId(){
-    return notificationId;
-  }
-  
-  public void setNotificationId(Long notificationId){
-    this.notificationID = notificationId;
   }
 }

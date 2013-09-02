@@ -23,7 +23,7 @@ public class TeamDataManager implements Serializable {
 			ArrayList<String> array = map.get(key);	
 			String teamName = array.get(0);
 			String projectManager = array.get(1);
-			int teamLimit = Integer.parseInt(array.get(2));
+			String teamLimit = array.get(2);
 			
 			Team team = new Team(teamName, projectManager, teamLimit);
 			teams.add(team);
@@ -45,7 +45,7 @@ public class TeamDataManager implements Serializable {
 			ArrayList<String> array = map.get(key);	
 			String teamName = array.get(0);
 			String projectManager = array.get(1);
-			int teamLimit = Integer.parseInt(array.get(2));
+			String teamLimit = array.get(2);
 			
 			team = new Team(teamName, projectManager, teamLimit);
 		}

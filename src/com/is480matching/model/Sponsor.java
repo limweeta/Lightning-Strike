@@ -2,9 +2,11 @@ package com.is480matching.model;
 
 import java.io.*;
 
+import javax.persistence.Id;
+
 public class Sponsor implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String username;
+	@Id private String username;
 	private String password;
 	private String roleName;
 	private String sponsorCompany;

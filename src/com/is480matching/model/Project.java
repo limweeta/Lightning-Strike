@@ -1,5 +1,7 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class Project{
   @Id private Long id;
   private Long termId;
@@ -35,7 +37,7 @@ public class Project{
     return termId;
   }
   
-  public Long setTermId(Long termId){
+  public void setTermId(Long termId){
     this.termId = termId;
   }
   

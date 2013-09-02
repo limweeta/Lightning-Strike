@@ -1,5 +1,7 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class TeamNotification{
   @Id private Long id;
   private Long notificationId;
@@ -13,7 +15,7 @@ public class TeamNotification{
   }
   
   public TeamNotification(Long notificationId, String teamName){
-    this.notitificationId = notificationId;
+    this.notificationId = notificationId;
     this.teamName = teamName;
   }
   

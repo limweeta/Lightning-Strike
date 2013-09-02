@@ -1,5 +1,7 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class ProjectRequirement{
   @Id private Long id;
   private Long projectId;

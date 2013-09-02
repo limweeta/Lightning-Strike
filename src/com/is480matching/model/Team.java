@@ -1,39 +1,41 @@
 package com.is480matching.model;
 
+import javax.persistence.Id;
+
 public class Team{ 
-  @Id private Long id;
   private String name;
-  private String contactName;
+  private String pmName;
+  private String teamLimit;
   
   public Team(){}
   
-  public Team(Long id, String name, String contactName){
-    this(name, contactName);
-    this.id = id;
+  public Team (String name, String pmName, String teamLimit){
+    this.name 		= 	name;
+    this.pmName 	= 	pmName;
+    this.teamLimit 	= 	teamLimit;
   }
   
-  public Team (String name, String contactName){
-    this.name = name;
-    this.contactName = contactName;
-  }
-  
-  public Long getId(){
-    return id;
-  }
-  
-  private String getName(){
+  public String getName(){
     return name;
   }
+  
+  private String getPMName(){
+    return pmName;
+  }
+  
+  private String getTeamLimit(){
+	    return teamLimit;
+	  }
   
   private void setName(String name){
     this.name = name;
   }
   
-  private String getContactName(){
-    return contactName;
+  private void setPMName(String pmName){
+    this.pmName = pmName;
   }
   
-  private void setContactName(String contactName){
-    this.contactName = contactName;
-  }
+  private void setTeamLimit(String teamLimit){
+	    this.teamLimit = teamLimit;
+	  }
 }
