@@ -1,9 +1,8 @@
-package com.is480matching.servlet;
+package servlet;
 import org.apache.catalina.util.Base64;
 
-import com.is480matching.manager.SponsorDataManager;
-import com.is480matching.model.Sponsor;
-import com.is480matching.service.AuthenticateService;
+import manager.*;
+import model.*;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -47,18 +46,24 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		SponsorDataManager sdm = new SponsorDataManager();
+		UserDataManager udm = new UserDataManager();
 		
+		ArrayList<User> users = udm.retrieveAll();
+		int id = users.size() + 1;
 		String username = request.getParameter("userName");
-		String password = request.getParameter("password");
-		String roleName = request.getParameter("roleName");
-		String company	= request.getParameter("company");
-		String address	= request.getParameter("address");
+		String fullName = request.getParameter("fullName");
+		String contactNum = request.getParameter("contactNum");
+		String email	= request.getParameter("email");
+		String type		= request.getParameter("type");
+		String coyName	= request.getParameter("coyName");
+		String password	= request.getParameter("password");
 		
-		if(!username.trim().isEmpty() && !password.trim().isEmpty() && !roleName.trim().isEmpty() && !company.trim().isEmpty() && !address.trim().isEmpty()) {
-			Sponsor newSponsor = new Sponsor(username,password,roleName,company,address);
+		if(!username.trim().isEmpty() && !fullName.trim().isEmpty() && !contactNum.trim().isEmpty() && !email.trim().isEmpty() && !coyName.trim().isEmpty()&& !password.trim().isEmpty()) {
+			Sponsor newSponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyName, password);
 			try {
 				sdm.add(newSponsor);
 				writer.print("Thank you for registering.");
+				response.sendRedirect("index.jsp");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

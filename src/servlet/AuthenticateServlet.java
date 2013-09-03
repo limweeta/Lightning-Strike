@@ -1,12 +1,11 @@
-package com.is480matching.servlet;
+package servlet;
 
 import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.is480matching.model.*;
-import com.is480matching.service.AuthenticateService;
+import model.*;
 
 @SuppressWarnings("serial")
 public class AuthenticateServlet extends HttpServlet {
@@ -35,9 +34,13 @@ public class AuthenticateServlet extends HttpServlet {
 			try {
 				authSponsor = authService.authenticateSponsor(username, password);
 				if(authSponsor!= null){
+					String fullName = authSponsor.getFullName();
+					String sponsorUsername	= authSponsor.getUsername();
 					HttpSession session = request.getSession();
-					session.setAttribute("sponsor", authSponsor);
+					session.setAttribute("fullName", fullName);
+					session.setAttribute("username", sponsorUsername);
 					writer.print("true");
+					response.sendRedirect("mainPage.jsp");
 				} else {
 					writer.print("false1");
 				}

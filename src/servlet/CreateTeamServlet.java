@@ -1,36 +1,35 @@
-package com.is480matching.servlet;
+package servlet;
 
 import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.is480matching.model.*;
-import com.is480matching.manager.*;
-import com.is480matching.service.AuthenticateService;
+import model.*;
+import manager.*;
 
 @SuppressWarnings("serial")
 public class CreateTeamServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
-		processAuthenticateRequest(request, response);
+		processCreateTeamRequest(request, response);
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 			
-			processAuthenticateRequest(request, response);
+			processCreateTeamRequest(request, response);
 	}
 	
-	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+	public void processCreateTeamRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
+		StudentDataManager 
 		PrintWriter writer = response.getWriter();
-		
+		String username = request.getParameter("username");
 		String teamName = request.getParameter("teamName");
+		String teamDesc = request.getParameter("teamDesc");
 		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
-		String [] teamMembers = request.getParameterValues("teamMember");
-		String [] role = request.getParameterValues("role");
 		
 		String projectManager = teamMembers[0];
 		

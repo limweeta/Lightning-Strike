@@ -1,4 +1,4 @@
-package com.is480matching.servlet;
+package servlet;
 import org.apache.catalina.util.Base64;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -107,6 +107,7 @@ public class LoginServlet extends HttpServlet {
 				out.println("Session attributes have been set");
 				out.println(session.getAttribute("username"));
 				out.println(session.getAttribute("fullname"));
+				response.sendRedirect("mainPage.jsp");
 				
 			} else {
 			    out.println("There is an error in the login process. Please try again.");

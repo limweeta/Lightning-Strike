@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>is480-matching</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
 
 	<servlet>
  		<servlet-name>Authenticate</servlet-name>
- 		<servlet-class>com.is480matching.servlet.AuthenticateServlet</servlet-class>
+ 		<servlet-class>servlet.AuthenticateServlet</servlet-class>
 	</servlet> 
 	<servlet-mapping>
 		<servlet-name>Authenticate</servlet-name>
@@ -21,7 +12,7 @@
  
 	<servlet>
  		<servlet-name>LoginServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.LoginServlet</servlet-class>
+ 		<servlet-class>servlet.LoginServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -30,7 +21,7 @@
   	
   	<servlet>
  		<servlet-name>CreateTeamServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.CreateTeamServlet</servlet-class>
+ 		<servlet-class>servlet.CreateTeamServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
 		<servlet-name>CreateTeamServlet</servlet-name>
@@ -39,7 +30,7 @@
  	
  	<servlet>
  		<servlet-name>CreateProjectServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.CreateProjectServlet</servlet-class>
+ 		<servlet-class>servlet.CreateProjectServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
 		<servlet-name>CreateProjectServlet</servlet-name>
@@ -48,16 +39,16 @@
  	
  	<servlet>
  		<servlet-name>SearchUserServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.SearchUserServlet</servlet-class>
+ 		<servlet-class>servlet.SearchUserServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
-		<servlet-name>SerachUserServlet</servlet-name>
+		<servlet-name>SearchUserServlet</servlet-name>
 		<url-pattern>/searchUser</url-pattern>
  	</servlet-mapping>
  	
  	<servlet>
  		<servlet-name>SearchTeamServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.SearchTeamServlet</servlet-class>
+ 		<servlet-class>servlet.SearchTeamServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
 		<servlet-name>SearchTeamServlet</servlet-name>
@@ -66,7 +57,7 @@
  	
  	<servlet>
  		<servlet-name>RegisterServlet</servlet-name>
- 		<servlet-class>com.is480matching.servlet.RegisterServlet</servlet-class>
+ 		<servlet-class>servlet.RegisterServlet</servlet-class>
  	</servlet> 
  	<servlet-mapping>
 		<servlet-name>RegisterServlet</servlet-name>

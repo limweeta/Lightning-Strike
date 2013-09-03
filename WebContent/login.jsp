@@ -10,7 +10,7 @@
 						<fieldset class="login-fieldset">
 							<legend>Enter your SMU email and password:</legend>
 							<div class="field-container">
-								<label for="userName" >User Name:</label>
+								<label for="userName" >Username:</label>
 								<input type="text" class="right rounded" name="userName" id="userName"/>
 							</div>
 							<div class="field-container">
@@ -22,6 +22,7 @@
 							<br/>
 						</fieldset>
 					</form>
+					<a href="./register.jsp">Need to register?</a>
 				</div>
 			</div>
 		</div>

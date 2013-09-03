@@ -9,24 +9,31 @@
 					<form name="loginFrm" id="loginFrm" action="register">
 						<fieldset class="login-fieldset">
 							<div class="field-container">
-								<label for="userName" >User Name:</label>
+								<label for="userName" >Username:</label>
 								<input type="text" class="right rounded" name="userName" id="userName"/>
+							</div>
+							<div class="field-container">
+								<label for='fullName' >Full Name:</label>
+								<input type="text" class="right rounded" name="fullName" id="fullName" />
+							</div>
+							<div class="field-container">
+								<label for='contactNum' >Contact Number:</label>
+								<input type="text" class="right rounded" name="contactNum" id="contactNum" />
+							</div>
+							<div class="field-container">
+								<label for='email' >Email:</label>
+								<input type="text" class="right rounded" name="email" id="email" />
+							</div>
+							<div class="field-container">
+								<label for='coyName' >Company Name:</label>
+								<input type="text" class="right rounded" name="coyName" id="coyName" />
+							</div>
+							<div class="field-container">
+								<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />
 							</div>
 							<div class="field-container">
 								<label for='password' >Password:</label>
 								<input type="password" class="right rounded" name="password" id="password" />
-							</div>
-							<div class="field-container">
-								<label for='roleName' >Role Name:</label>
-								<input type="text" class="right rounded" name="roleName" id="roleName" />
-							</div>
-							<div class="field-container">
-								<label for='company' >Company:</label>
-								<input type="text" class="right rounded" name="company" id="company" />
-							</div>
-							<div class="field-container">
-								<label for='addresse' >Address:</label>
-								<input type="text" class="right rounded" name="address" id="address" />
 							</div>
 							<div id="loginError" class="error"></div><br/>
 							<input type="submit" id="register" name="register" value="Register"/>

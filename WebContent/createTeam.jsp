@@ -89,7 +89,11 @@
 	}
 </style>
 	<head>
-		<div id="welcome">Welcome, chloechiang.2011</div>
+	<% 	
+		String fullName = (String)session.getAttribute("fullName");
+		String username = (String) session.getAttribute("username");
+	%>
+		<div id="welcome">Welcome, <%=fullName %></div>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
@@ -126,8 +130,8 @@
 					<form action="createTeam">
 						<font size="4" face="Courier">Team Name:</font></br>
 						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Project Manager Name:</font></br>
-						<input id="pmName" type="text" name="pmName"></br>
+						<font size="4" face="Courier">Team Description:</font></br>
+						<input id="teamDesc" type="text" name="teamDesc"></br>
 						</br>
 						<font size="4" face="Courier">Team Limit:</font></br>
 						<select value="teamLimit" id="teamLimit" name="teamLimit">
@@ -135,6 +139,7 @@
 						  <option value="5">5</option>
 						  <option value="6">6</option>
 						</select></br></br>
+						<input type= "hidden" id="username" name="username" value="<%=username%>">
 						<input type="submit" id="createTeam" name="createTeam" value="Create Team"/>
 					</form>
 					<br/>

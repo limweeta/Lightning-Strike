@@ -1,4 +1,4 @@
-package com.is480matching.servlet;
+package servlet;
 
 import java.io.*;
 import java.util.ArrayList;

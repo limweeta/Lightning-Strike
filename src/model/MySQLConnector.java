@@ -1,4 +1,4 @@
-package com.is480matching.model;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,9 +22,13 @@ public class MySQLConnector {
 			Class.forName("com.mysql.jdbc.Driver");
 			// Getting a connection to the database. Change the URL parameters
 			// My database
+			//connection = DriverManager.getConnection(
+					//"jdbc:mysql://127.0.0.1:3306/is480-matching", "root",
+					//"lightningstrike480");
+			//testing
 			connection = DriverManager.getConnection(
-					"jdbc:mysql://127.0.0.1:3306/is480-matching", "root",
-					"lightningstrike480");
+					"jdbc:mysql://localhost:3306/is480-matching", "root",
+					"N3wn@it88");
 			System.out.println("Connection success");
 			// Creating a statement object
 			Statement stmt = connection.createStatement();

@@ -48,8 +48,6 @@
 <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
     <img src="http://db.tt/r4taMQoX" id="pic"/>
-    
-  	<div id="div-1c"><a href="/register.jsp">Register</a></div>
 </head>
 <body>
 <div id="div-1">SIS IS480 System</div>
@@ -64,7 +62,7 @@
 				<div id="div-1a">
 					<div class="login-area">
 						<div id="loginError" class="error"></div><br/>
-						<input type="button" id="loginBtn" name="loginBtn" value="SSO Login" onclick="JavaScript:newPopup(document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm');"/>
+						<input type="button" id="loginBtn" name="loginBtn" value="SSO Login" onclick="document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm';"/>
 					</div>
 				</div>
 			
