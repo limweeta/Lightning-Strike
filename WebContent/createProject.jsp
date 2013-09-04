@@ -123,7 +123,7 @@
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form action="createProject">
+					<form action="createProject" method="post">
 						<font size="4" face="Courier">Project Name:</font></br>
 						<input id="projectName" type="text" name="projectName"></br></br>	
 						<font size="4" face="Courier">Project Term:</font></br>
@@ -147,18 +147,28 @@
 						  <option value="IT">IT</option>
 						  <option value="Health">Health</option>
 						</select></br></br>
+						
+						<!-- Company name to have autocomplete in accordance to database -->
+						<!-- include hidden field for id -->
 						<font size="4" face="Courier">Project Organization:</font></br>
 						<input id="projectOrganization" type="text" name="projectOrganization"></br></br>
+					<!-- 
 						<font size="4" face="Courier">Contact Details: </font></br>
 						<font size="4" face="Courier">Contact Name: </font>&nbsp;&nbsp;
 						<input type="text" name="contactName">
 						<font size="4" face="Courier">Contact Number: </font>&nbsp;&nbsp;<input type="text" name="contactNumber"></br></br>
 						<font size="4" face="Courier">Team Name:</font></br>
+						 -->
+						<!-- Team name to be extracted from session -->
+						<!-- include hidden field for id -->
+						<!-- Team name field to be uneditable -->
+					
+					 <!--  
 						<input id="teamName" type="text" name="teamName"></br></br>
 						<font size="4" face="Courier">Project Diagrams:</font></br>
 						<textarea id="projectDiagrams" cols="97" rows="10" disabled></textarea></br>
-						</br>
-						<input id="createProject" type="submit" value="Create Project">
+						</br>-->
+						<input id="createProject" type="submit" value="Create Project"> 
 					</form>
 					<br/>
 				</div>

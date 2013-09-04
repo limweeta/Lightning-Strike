@@ -28,7 +28,7 @@ public class MySQLConnector {
 			//testing
 			connection = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/is480-matching", "root",
-					"N3wn@it88");
+					"lightningstrike480");
 			System.out.println("Connection success");
 			// Creating a statement object
 			Statement stmt = connection.createStatement();

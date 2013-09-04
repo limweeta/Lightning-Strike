@@ -7,7 +7,7 @@ public class Faculty extends User{
 	
 	//constructor
 	public Faculty(int id, String username, String fullName, String contactNum, String email, String type){
-		super(id, username, fullName, contactNum, email);
+		super(id, username, fullName, contactNum, email, type);
 		this.type = type;
 	}
 	

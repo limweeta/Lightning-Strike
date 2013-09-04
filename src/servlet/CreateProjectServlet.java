@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
-import com.is480matching.model.*;
-import com.is480matching.manager.*;
-import com.is480matching.service.AuthenticateService;
+import model.*;
+import manager.*;
 
 @SuppressWarnings("serial")
 public class CreateProjectServlet extends HttpServlet {
@@ -31,23 +27,37 @@ public class CreateProjectServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
+		
+		ProjectDataManager pdm = new ProjectDataManager();
+		
 		ArrayList<Project> projects = pdm.retrieveAll();
 		int id = projects.size() + 1;
 		
-		Long termID = Long.parseLong(request.getParameter("termId"));
+		String termID = request.getParameter("projectTerm");
 		String projName = request.getParameter("projectName");
-		String sponsor = request.getParameter("sponsor");
+		String sponsor = request.getParameter("projectOrganization");
 		String projDesc = request.getParameter("projectDescription");
 		String projStatus = request.getParameter("projectStatus");
 		String industry = request.getParameter("industryType");
+		String status = request.getParameter("projectStatus");
 		
+		//if new sponsor, add to db
 		
+		//extract teamid or sponsorid from session
+		// ifelse statement to identify team_id and sponsor_id 
+		// if faculty, default below.
+		
+		int company_id = 0;
+		int team_id = 0;
+		int sponsor_id = 0;
 		int supervisor_id = 0;
 		int reviewer1_id = 0;
 		int reviewer2_id = 0;
-		String status = "Pending";
-		ProjectDataManager pdm = new ProjectDataManager();
+		
+		
 		Project proj = new Project(id, termID, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry);
 		pdm.add(proj);
+		
+		System.out.println(id);
 	}
 }

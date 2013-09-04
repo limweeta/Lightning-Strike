@@ -4,7 +4,7 @@ import javax.persistence.Id;
 
 public class Project{
 	@Id private int id;
-	private int termId;
+	private String termId;
 	private int coyId;
 	private int teamId;
 	private int sponsorId;
@@ -19,7 +19,7 @@ public class Project{
 	public Project(){}
 	
 	//constructor
-	public Project(int id, int termId, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, String industry){
+	public Project(int id, String termId, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, String industry){
 		this.id				=	id;
 		this.termId 		=	termId;
 		this.coyId 			= 	coyId;
@@ -38,7 +38,7 @@ public class Project{
 		return id;
 	}
   
-	public int getTermId(){
+	public String getTermId(){
 		return termId;
 	}
   
@@ -87,7 +87,7 @@ public class Project{
 		this.id = id;
 	}
 	  
-	public void setTermId(int termId){
+	public void setTermId(String termId){
 		this.termId = termId;
 	}
   
