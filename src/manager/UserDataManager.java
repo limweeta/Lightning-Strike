@@ -56,7 +56,7 @@ public class UserDataManager implements Serializable {
 	
 	public User retrieve(String username) throws Exception{
 		User User = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.username= '" + username + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.username LIKE '" + username + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

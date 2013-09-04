@@ -6,10 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>SMU IS480 Matching System</title>
 <% 	
-		String fullName = (String)session.getAttribute("fullName");
+		String fullName = (String)session.getAttribute("fullname");
+		String userType = (String) session.getAttribute("type");
 %>
 <body>
-		<div id="welcome">Welcome, <%=fullName %></div>
+		<div id="welcome">Welcome, <%=fullName %>. You are a <%=userType %></div>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>

@@ -1,6 +1,9 @@
 package servlet;
 import org.apache.catalina.util.Base64;
 
+import manager.*;
+import model.*;
+
 import javax.crypto.spec.SecretKeySpec;
 
 import java.util.*;
@@ -39,6 +42,9 @@ public class LoginServlet extends HttpServlet {
 	
 	public void processSSORequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String link = "";
+		
+		RequestDispatcher rd;
 		
 		PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -107,7 +113,34 @@ public class LoginServlet extends HttpServlet {
 				out.println("Session attributes have been set");
 				out.println(session.getAttribute("username"));
 				out.println(session.getAttribute("fullname"));
-				response.sendRedirect("mainPage.jsp");
+				//response.sendRedirect("mainPage.jsp");
+				
+				boolean firstTime = false;
+				
+				String loginUser = request.getParameter("smu_username");
+				String type = "test";
+				try{
+					UserDataManager udm = new UserDataManager();
+					User u = udm.retrieve(loginUser);
+						
+					if(u == null){
+						link = "details.jsp";
+					}else{
+						if(u.getUsername().matches(".*\\d.*")){
+							type = "Student";	
+						}else{
+							type ="Faculty";
+						}
+						
+						link = "mainPage.jsp";
+					}
+					
+					session.setAttribute("type", type);
+					
+				}catch(Exception e){
+					e.printStackTrace();
+					System.out.println("Invalid Login");
+				}
 				
 			} else {
 			    out.println("There is an error in the login process. Please try again.");
@@ -120,6 +153,10 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 		    out.println("There is an error in the login process. Please try again.");
 		} 
+		rd = request.getRequestDispatcher(link);
+		
+		rd.forward(request, response);
+		
 	}
 	
 	// Go to http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480PSAS
@@ -141,7 +178,7 @@ public class LoginServlet extends HttpServlet {
        "smu_groups",
        "smu_username"};
    
-   private static final String SECRET_KEY = "mstest2012";
+   private static final String SECRET_KEY = "psastest2012";
    
    public static String encode(String plain) {
        try {

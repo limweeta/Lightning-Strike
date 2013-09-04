@@ -1,23 +1,23 @@
 package model;
 
-public class Faculty extends User{
-	private String type;
-  
-	public Faculty(){}
-	
-	//constructor
-	public Faculty(int id, String username, String fullName, String contactNum, String email, String type){
+public class Faculty extends User {
+	private String facultyType;
+
+	public Faculty() {
+	}
+
+	// constructor
+	public Faculty(int id, String username, String fullName, String contactNum,
+			String email, String type, String facultyType) {
 		super(id, username, fullName, contactNum, email, type);
-		this.type = type;
-	}
+		this.facultyType = facultyType;
+	} // getter 
 	
-	//getter
-	public String getType(){
-		return type;
-	}
-	
+	public String getFacultyType(){ 
+		return facultyType; 
+	} 
 	//setter
-	public void setType(String type){
-		this.type = type;
-	}
+	public void setFacultyType(String facultyType){ 
+		this.facultyType =facultyType; 
+		} 
 }

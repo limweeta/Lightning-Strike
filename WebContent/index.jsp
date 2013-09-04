@@ -62,7 +62,7 @@
 				<div id="div-1a">
 					<div class="login-area">
 						<div id="loginError" class="error"></div><br/>
-						<input type="button" id="loginBtn" name="loginBtn" value="SSO Login" onclick="document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm';"/>
+						<input type="button" id="loginBtn" name="loginBtn" value="SSO Login" onclick="document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480PSAS';"/>
 					</div>
 				</div>
 			
