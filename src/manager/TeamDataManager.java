@@ -37,7 +37,7 @@ public class TeamDataManager implements Serializable {
 	
 	public Team retrieve(int id) throws Exception{
 		Team retrievedTeam = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = '" + id + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = " + id + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -67,6 +67,22 @@ public class TeamDataManager implements Serializable {
 		System.out.println("Team added successfully");
 	}
 		
+	public Team getTeamFromList(ArrayList<Team> array, int teamId){
+		
+		Team team = null;
+		
+		for(int i = 0; i < array.size(); i++){
+			Team tmpTeam = array.get(i);
+			if(tmpTeam.getId() == teamId){
+				team = tmpTeam;
+				break;
+			}
+		}
+		
+		return team;
+		
+	}
+	
 	public void modify(){
 		
 	}

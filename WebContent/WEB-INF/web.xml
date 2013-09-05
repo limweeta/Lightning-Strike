@@ -57,11 +57,11 @@
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>UpdateProfileServlet</servlet-name>
-    <servlet-class>servlet.UpdateProfileServlet</servlet-class>
+    <servlet-name>DeleteProjectServlet</servlet-name>
+    <servlet-class>servlet.DeleteProjectServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UpdateProfileServlet</servlet-name>
-    <url-pattern>/updateProfile</url-pattern>
+    <servlet-name>DeleteProjectServlet</servlet-name>
+    <url-pattern>/deleteProject</url-pattern>
   </servlet-mapping>
 </web-app>

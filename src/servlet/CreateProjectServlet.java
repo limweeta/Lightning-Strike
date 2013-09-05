@@ -55,7 +55,7 @@ public class CreateProjectServlet extends HttpServlet {
 		int reviewer2_id = 0;
 		
 		
-		Project proj = new Project(id, termID, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry);
+		Project proj = new Project(id, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID);
 		pdm.add(proj);
 		
 		System.out.println(id);

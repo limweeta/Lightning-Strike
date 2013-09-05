@@ -16,7 +16,7 @@ public class MySQLConnector {
 			String executeType, String query) {
 		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		Connection connection = null;
-		System.out.println("Test ");
+		System.out.println(query);
 		try {
 			// Loading the JDBC driver for MySql
 			Class.forName("com.mysql.jdbc.Driver");

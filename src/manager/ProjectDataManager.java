@@ -35,7 +35,7 @@ public class ProjectDataManager implements Serializable {
 			String termId 		= 	array.get(11);
 			
 			
-			Project proj = new Project(id, termId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry);
+			Project proj = new Project(id, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
 			projects.add(proj);
 		}
 		
@@ -46,7 +46,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public Project retrieve(int id) throws Exception{
 		Project proj = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from team where id = '" + id + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects where id = " + id + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -68,7 +68,7 @@ public class ProjectDataManager implements Serializable {
 			String termId 		= 	array.get(11);
 			
 			
-			proj = new Project(retrievedId, termId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry);
+			proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
 			
 		}
 		return proj;
@@ -117,7 +117,7 @@ public class ProjectDataManager implements Serializable {
 			String industry		= 	array.get(10);
 			String termId 		= 	array.get(11);
 			
-			project = new Project(retrievedId, termId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry);
+			project = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
 		}
 		
 		return project;
@@ -147,7 +147,7 @@ public class ProjectDataManager implements Serializable {
 			String retrievedTermId 		= 	array.get(11);
 			
 			
-			Project proj = new Project(retrievedId, retrievedTermId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId);
 			projects.add(proj);
 		}
 		
@@ -156,7 +156,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public ArrayList<Project> retrieveProjectsByIndustry(String industry){
 		ArrayList<Project> projects = new ArrayList<Project>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project where project_industry = '" + industry + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project where project_industry LIKE '" + industry + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -178,11 +178,26 @@ public class ProjectDataManager implements Serializable {
 			String termId 		= 	array.get(11);
 			
 			
-			Project proj = new Project(retrievedId, termId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, retrievedIndustry);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
 			projects.add(proj);
 		}
 		
 		return projects;
+	}
+	
+	public Project getProjFromList(ArrayList<Project> array, int projId){
+		
+		Project proj = null;
+		
+		for(int i = 0; i < array.size(); i++){
+			Project tmpProj = array.get(i);
+			if(tmpProj.getId() == projId){
+				proj = tmpProj;
+				break;
+			}
+		}
+		
+		return proj;
 	}
 	
 	public void modify(){
@@ -190,7 +205,7 @@ public class ProjectDataManager implements Serializable {
 	}
 	
 	public void remove(int ID){
-		
+		MySQLConnector.executeMySQL("delete", "delete from projects where id = " + ID + ";");
 	}
 	
 	public void removeAll() {

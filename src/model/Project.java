@@ -19,7 +19,7 @@ public class Project{
 	public Project(){}
 	
 	//constructor
-	public Project(int id, String termId, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, String industry){
+	public Project(int id, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, String industry, String termId){
 		this.id				=	id;
 		this.termId 		=	termId;
 		this.coyId 			= 	coyId;

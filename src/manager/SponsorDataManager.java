@@ -27,8 +27,9 @@ public class SponsorDataManager implements Serializable {
 			String type = array.get(5);
 			String coyName = array.get(7);
 			String password = array.get(8);
+			int userid = Integer.parseInt(array.get(9));
 			
-			Sponsor sponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyName, password);
+			Sponsor sponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyName, password, userid);
 			sponsors.add(sponsor);
 		}
 		
@@ -37,7 +38,7 @@ public class SponsorDataManager implements Serializable {
 	
 	public Sponsor retrieve(int id) throws Exception{
 		Sponsor sponsor = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.id where users.id= '" + id + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id where sponsors.id= " + id + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -52,8 +53,9 @@ public class SponsorDataManager implements Serializable {
 			String type = array.get(5);
 			String coyName = array.get(7);
 			String password = array.get(8);
+			int userid = Integer.parseInt(array.get(9));
 			
-		sponsor = new Sponsor(retrievedId, username, fullName, contactNum, email, type, coyName, password);
+		sponsor = new Sponsor(retrievedId, username, fullName, contactNum, email, type, coyName, password, userid);
 		}
 		return sponsor;
 	}
@@ -75,8 +77,10 @@ public class SponsorDataManager implements Serializable {
 			String type = array.get(5);
 			String coyName = array.get(7);
 			String password = array.get(8);
+			int userid = Integer.parseInt(array.get(9));
+
 			
-		sponsor = new Sponsor(id, retrievedUsername, fullName, contactNum, email, type, coyName, password);
+		sponsor = new Sponsor(id, retrievedUsername, fullName, contactNum, email, type, coyName, password, userid);
 		}
 		return sponsor;
 	}
@@ -97,6 +101,23 @@ public class SponsorDataManager implements Serializable {
 		System.out.println("sponsor added successfully");
 	}
 		
+	
+	public Sponsor getSponsorFromList(ArrayList<Sponsor> array, int sponsorId){
+		
+		Sponsor sponsor = null;
+		
+		for(int i = 0; i < array.size(); i++){
+			Sponsor tmpSponsor = array.get(i);
+			if(tmpSponsor.getID() == sponsorId){
+				sponsor = tmpSponsor;
+				break;
+			}
+		}
+		
+		return sponsor;
+		
+	}
+	
 	public void modify(Sponsor sponsor){
 		
 	}

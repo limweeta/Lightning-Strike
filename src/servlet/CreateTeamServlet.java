@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.*;
+import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -24,17 +25,40 @@ public class CreateTeamServlet extends HttpServlet {
 	
 	public void processCreateTeamRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
-		StudentDataManager 
+		StudentDataManager sdm = new StudentDataManager();
+		
+		UserDataManager udm = new UserDataManager();
+		ArrayList<User> users = udm.retrieveAll();
+		
+		TeamDataManager tdm = new TeamDataManager();
+		ArrayList<Team> members = tdm.retrieveAll();
+		int teamid = (members.get(members.size()-1).getId()) + 1;
+		
 		PrintWriter writer = response.getWriter();
 		String username = request.getParameter("username");
 		String teamName = request.getParameter("teamName");
 		String teamDesc = request.getParameter("teamDesc");
 		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
 		
+		String[] teamMembers = request.getParameterValues("members");
+		String[] roles = request.getParameterValues("roles");
+		
 		String projectManager = teamMembers[0];
 		
-		TeamDataManager tdm = new TeamDataManager();
-		Team team = new Team(teamName, projectManager, teamLimit);
-		tdm.add(team, teamMembers, role);
+		int pmid = 0;
+		
+		try{
+			pmid = udm.retrieve(projectManager).getID();
+		}catch(Exception e){
+			System.out.println("Invalid PM");
+		}
+		
+		Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid);
+		
+		//Add loop to loop through members to add into team object
+		
+		//tdm.add(team, teamMembers, role);
+		
+		//update student table
 	}
 }
