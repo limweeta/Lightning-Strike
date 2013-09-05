@@ -100,6 +100,13 @@ public class StudentDataManager implements Serializable {
 		System.out.println("student added successfully");
 	}
 		
+	public void updateStudent(int id,int teamId, String role){
+		
+		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `team_id`=" + teamId + " AND role = '" + role + "' WHERE `id`=" + id + ");");
+		//fix this statement.
+	}
+	
+	
 	public void modify(Student student){
 		
 	}

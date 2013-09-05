@@ -55,10 +55,22 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid);
 		
-		//Add loop to loop through members to add into team object
+		for(int i = 0; i < teamMembers.length; i++){
+			User u = null; 
+			
+			try{
+				u = udm.retrieve(teamMembers[i]);
+			}catch(Exception e){
+				System.out.println("Invalid Login");
+			}
+			
+			String role = roles[i];
+			
+			int id = u.getID();
+			sdm.updateStudent(id, teamid, role);
+		}
 		
-		//tdm.add(team, teamMembers, role);
+		response.sendRedirect("viewTeam.jsp");
 		
-		//update student table
 	}
 }

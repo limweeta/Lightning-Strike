@@ -89,6 +89,11 @@
 	}
 </style>
 	<head>
+	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="js/jquery.autocomplete.js"></script>  
+    
 	<% 	
 		String fullName = (String)session.getAttribute("fullName");
 		String username = (String) session.getAttribute("username");
@@ -139,6 +144,12 @@
 						  <option value="5">5</option>
 						  <option value="6">6</option>
 						</select></br></br>
+						<input type="text" name="members" id="members">
+						
+						<script>
+					        $("#members").autocomplete("usernamedata.jsp");
+					    </script>
+						
 						<input type= "hidden" id="username" name="username" value="<%=username%>">
 						<input type="submit" id="createTeam" name="createTeam" value="Create Team"/>
 					</form>

@@ -11,11 +11,12 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
-		<title>DataTables example</title>
+		<title>Search Team</title>
 		<style type="text/css" title="currentStyle">
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
+			@import "./css/searchTeam.css";
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -32,8 +33,9 @@
 	</head>
 	<body id="dt_example">
 		<div id="container">
-			<div class="full_width big">
-				<i>DataTables</i> events (pre-initialisation) example
+			<div id="header" class="full_width big">
+				<header>Search Teams</header> 
+				<!-- <i>DataTables</i> events (pre-initialisation) example -->
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
