@@ -31,17 +31,25 @@ public class CreateTeamServlet extends HttpServlet {
 		ArrayList<User> users = udm.retrieveAll();
 		
 		TeamDataManager tdm = new TeamDataManager();
-		ArrayList<Team> members = tdm.retrieveAll();
-		int teamid = (members.get(members.size()-1).getId()) + 1;
+		ArrayList<Team> teams = tdm.retrieveAll();
+		int teamid = 0;
+		
+		int largestId = 0;
+		for(int j = 0; j < teams.size(); j++){
+			if(teams.get(j).getId() > largestId){
+				largestId = teams.get(j).getId();
+			}
+		}
+		teamid = largestId + 1;
 		
 		PrintWriter writer = response.getWriter();
-		String username = request.getParameter("username");
+		
 		String teamName = request.getParameter("teamName");
 		String teamDesc = request.getParameter("teamDesc");
 		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
 		
-		String[] teamMembers = request.getParameterValues("members");
-		String[] roles = request.getParameterValues("roles");
+		String[] teamMembers = request.getParameterValues("username");
+		String[] roles = request.getParameterValues("memberRole");
 		
 		String projectManager = teamMembers[0];
 		
@@ -57,7 +65,6 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		for(int i = 0; i < teamMembers.length; i++){
 			User u = null; 
-			
 			try{
 				u = udm.retrieve(teamMembers[i]);
 			}catch(Exception e){
@@ -65,12 +72,11 @@ public class CreateTeamServlet extends HttpServlet {
 			}
 			
 			String role = roles[i];
-			
 			int id = u.getID();
 			sdm.updateStudent(id, teamid, role);
 		}
-		
-		response.sendRedirect("viewTeam.jsp");
+		tdm.add(team);
+		response.sendRedirect("teamProfile.jsp?id="+teamid);
 		
 	}
 }

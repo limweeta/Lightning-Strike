@@ -58,6 +58,6 @@ public class CreateProjectServlet extends HttpServlet {
 		Project proj = new Project(id, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID);
 		pdm.add(proj);
 		
-		System.out.println(id);
+		response.sendRedirect("projectProfile.jsp?id="+id);
 	}
 }

@@ -38,7 +38,7 @@ public class SponsorDataManager implements Serializable {
 	
 	public Sponsor retrieve(int id) throws Exception{
 		Sponsor sponsor = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id where sponsors.id= " + id + ";");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id where sponsors.user_id= " + id + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

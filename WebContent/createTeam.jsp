@@ -50,7 +50,7 @@
 		String fullName = (String)session.getAttribute("fullName");
 		String username = (String) session.getAttribute("username");
 	%>
-		<div id="welcome">Welcome, <%=fullName %></div>
+		<div id="welcome">Welcome, <%=username %></div>
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
@@ -77,10 +77,12 @@
 						
 						<font size="4" face="Courier">Team Members:</font></br>
 						<script>
-					        $("#members").autocomplete("usernamedata.jsp");
+					        $("#username").autocomplete("usernamedata.jsp");
 					    </script>
 						
 						<input type= "text" id="username" name="username" value="<%=username%>" disabled>
+						<input type="hidden" id="username" name="username" value="<%=username%>">
+						<input type="hidden" id="memberRole" name="memberRole" value="Project Manager">
 						<select value="memberRole" id="memberRole" name="memberRole" disabled>
 						  <option value="projectManager">Project Manager</option>
 						</select></br>

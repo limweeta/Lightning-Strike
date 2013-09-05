@@ -1,3 +1,6 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
 
 <style type="text/css">
@@ -52,32 +55,124 @@
 	<% 	
 		String fullName = (String)session.getAttribute("fullName");
 		String username = (String) session.getAttribute("username");
+		
+		if(username == null || username.isEmpty()){
+			response.sendRedirect("searchProjects.jsp");
+		}else{
+		
 	%>
-		<div id="welcome">Welcome, <%=fullName %></div>
+		<div id="welcome">Welcome, <%=username %></div>
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body>
-		<h1>IS480 Matching Project</h1>
+	<%
+	int reqId = Integer.parseInt(request.getParameter("id"));
+	
+	TeamDataManager tdm = new TeamDataManager();
+	ArrayList<Team> teams = tdm.retrieveAll();
+	UserDataManager udm = new UserDataManager();
+	ArrayList<User> users = udm.retrieveAll();
+	
+	ProjectDataManager pdm = new ProjectDataManager();
+	SponsorDataManager sdm = new SponsorDataManager();
+	
+	Project reqProj = pdm.retrieve(reqId);
+	String reqProjName = reqProj.getProjName();
+	System.out.println(reqProj.getTeamId());
+	Team projTeam = null; 
+	String projTeamName = "";
+	
+	try{
+		projTeam = tdm.retrieve(reqProj.getTeamId());
+		projTeamName = projTeam.getTeamName();
+	}catch(Exception e){
+		projTeamName = "No Team Yet";
+	}
+	
+	User projSponsor = null;
+	String company = "";
+	String sponsorName = "";
+	try{
+		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
+		company = sdm.retrieve(reqProj.getSponsorId()).getCoyName();
+		sponsorName = projSponsor.getFullName();
+	}catch(Exception e){
+		sponsorName = "No Sponsor Yet";
+		company = "Not Applicable";
+	}
+	
+	String supervisor = "";
+	
+	try{
+		supervisor = udm.retrieve(reqProj.getSupervisorId()).getFullName();
+	}catch(Exception e){
+		supervisor = "No Supervisor Yet";
+	}
+
+	String projManager = "";
+	
+	try{
+		projManager = udm.retrieve(projTeam.getPmId()).getFullName();
+	}catch(Exception e){
+		projManager = "Not Applicable";
+	}
+	
+	
+	String reviewers = "";
+	String rev1 = "";
+	String rev2 = "";
+	
+	try{
+		rev1 = udm.retrieve(reqProj.getReviewer1Id()).getFullName();;
+	}catch(Exception e){
+		rev1 = "";
+	}
+	
+	try{
+		rev2 = udm.retrieve(reqProj.getReviewer2Id()).getFullName();;
+	}catch(Exception e){
+		rev2 = "";
+	}
+	
+	reviewers = rev1 + ", " + rev2;
+	
+	%>
+		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
 			<font size="4" face="Courier">Project Description:</font></br>
-			 <textarea id="about" rows="10" cols="75" disabled>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+			 <textarea id="about" rows="10" cols="75" disabled>
+			 <%=reqProj.getProjDesc() %>
+			 </textarea>
         </div>
              </br>
-            <font size="4" face="Courier">Sponsor:</font></br>
-            <font size="4" face="Courier">Team:</font></br> 	
-            <font size="4" face="Courier">Supervisor:</font></br>
-            <font size="4" face="Courier">Reviewer(s):</font></br>
-            <font size="4" face="Courier">Mentor:</font></br>
-            <font size="4" face="Courier">Term:</font></br>
-            <font size="4" face="Courier">Company:</font></br>
-            <font size="4" face="Courier">Industry:</font></br>
-            <font size="4" face="Courier">Project Status:</font></br>
+            <font size="4" face="Courier">Sponsor: <%=sponsorName %></font></br>
+            <font size="4" face="Courier">Team: <%=projTeamName %></font></br> 	
+            <font size="4" face="Courier">Supervisor: <%=supervisor %></font></br>
+            <font size="4" face="Courier">Reviewer(s): <%=reviewers %></font></br>
+            <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br>
+            <font size="4" face="Courier">Company: <%=company %></font></br>
+            <font size="4" face="Courier">Industry: <%=reqProj.getIndustry() %></font></br>
+            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br>
 		
-		<a href="#">Apply for Project</a></br>
-		<a href="#">Remove Project</a>
+		<a href="#">Apply for Project</a></br></form>
+		<%	
+		
+if(username == null || username.isEmpty()){
+
+	}else{
+		%>
+		<form method="post" action="deleteProject">
+			<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+		<input type=submit value="Delete">
+		</form>
+		<%
+	}
+		}
+%>
+	
 	</body>
 
 </html>

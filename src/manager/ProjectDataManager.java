@@ -185,6 +185,21 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	public Project getProjFromTeam(ArrayList<Project> array, int teamid){
+		
+		Project proj = null;
+		
+		for(int i = 0; i < array.size(); i++){
+			Project tmpProj = array.get(i);
+			if(tmpProj.getId() == teamid){
+				proj = tmpProj;
+				break;
+			}
+		}
+		
+		return proj;
+	}
+	
 	public Project getProjFromList(ArrayList<Project> array, int projId){
 		
 		Project proj = null;

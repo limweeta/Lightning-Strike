@@ -93,6 +93,7 @@
 			}else{
 				sponsor =  sdm.retrieve(sponsorid).getCoyName();
 			}
+			System.out.println(sponsorid);
 			
 			if(count % 2 == 0){
 				rowclass = "gradeA even";
@@ -103,7 +104,7 @@
 	%>
 	<tr class="<%=rowclass %>">
 			<td class="sorting_1"><%=term %></td>
-			<td class=" "><a href="projects.jsp?id=<%=id %>"><%=name %></a></td>
+			<td class=" "><a href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
 			<td class="center "><%=sponsor %></td>
 	</tr>

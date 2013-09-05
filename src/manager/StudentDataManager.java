@@ -102,10 +102,36 @@ public class StudentDataManager implements Serializable {
 		
 	public void updateStudent(int id,int teamId, String role){
 		
-		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `team_id`=" + teamId + " AND role = '" + role + "' WHERE `id`=" + id + ");");
+		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `team_id`=" + teamId + " WHERE `id`=" + id );
+		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `role`='" + role + "' WHERE `id`=" + id);
 		//fix this statement.
 	}
 	
+	public ArrayList<Student> getTeamListFromTeamId(int teamId){
+		ArrayList<Student> students = new ArrayList<Student>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE students.team_id = " + teamId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id 				= Integer.parseInt(array.get(0));
+			String username 	= array.get(1);
+			String fullName 	= array.get(2);
+			String contactNum 	= array.get(3);
+			String email 		= array.get(4);
+			String type			= array.get(5);
+			String secondMajor 	= array.get(7);
+			String role 		= array.get(8);
+			int teamid 			= Integer.parseInt(array.get(9));
+			
+			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamid);
+			students.add(student);
+		}
+		
+		return students;
+	}
 	
 	public void modify(Student student){
 		

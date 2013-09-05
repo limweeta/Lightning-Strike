@@ -63,7 +63,7 @@ public class TeamDataManager implements Serializable {
 		int pmId		=	team.getPmId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`teams` "
 				+ "(`id`, `team_name`, `team_description`, `team_limit`, `pm_id`) "
-				+ "VALUES ('" + teamId + "', '" + teamName + "', '" + teamDesc +"', '" + teamLimit + "', '" + pmId + "');");
+				+ "VALUES (" + teamId + ", '" + teamName + "', '" + teamDesc +"', " + teamLimit + ", " + pmId + ");");
 		System.out.println("Team added successfully");
 	}
 		
@@ -84,22 +84,21 @@ public class TeamDataManager implements Serializable {
 	}
 	
 	public void updateStudentsIfTeamDeleted(int teamId){
-		MySQLConnector.executeMySQL("update", "UPDATE STUDENTS SET team_id = " + 0 + " WHERE team_id = " + teamId + ");");
-		System.out.println("Updated Student table");
+		MySQLConnector.executeMySQL("update", "UPDATE STUDENTS SET team_id = " + 0 + " WHERE team_id = " + teamId);
+		//System.out.println("Updated Student table");
 	}
 	
 	public void updateProjectIfTeamDeleted(int teamId){
-		MySQLConnector.executeMySQL("update", "UPDATE PROJECTS SET team_id = " + 0 + " WHERE team_id = " + teamId + " AND status LIKE 'Closed');");
-		System.out.println("Updated Projects table");
+		MySQLConnector.executeMySQL("update", "UPDATE PROJECTS SET team_id = " + 0 + " WHERE team_id = " + teamId + " AND status NOT LIKE 'Closed'");
+		//System.out.println("Updated Projects table");
 	}
-	
 	
 	public void modify(){
 		
 	}
 	
 	public void remove(int ID){
-		
+		MySQLConnector.executeMySQL("delete", "Delete FROM teams WHERE id = " + ID);
 	}
 	
 	public void removeAll() {

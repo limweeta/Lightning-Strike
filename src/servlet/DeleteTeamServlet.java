@@ -36,6 +36,6 @@ public class DeleteTeamServlet extends HttpServlet {
 		
 		tdm.remove(teamId);
 		
-		
+		response.sendRedirect("searchTeam.jsp");
 	}
 }

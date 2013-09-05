@@ -1,3 +1,6 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
 
 <style type="text/css">
@@ -52,8 +55,31 @@
 	<% 	
 		String fullName = (String)session.getAttribute("fullName");
 		String username = (String) session.getAttribute("username");
+		
+		String teamId = request.getParameter("id");
+		
+		if(teamId == null || teamId.isEmpty()){
+			response.sendRedirect("searchTeam.jsp");
+		}else{
+			ProjectDataManager pdm = new ProjectDataManager();
+			ArrayList<Project> projs = pdm.retrieveAll();
+			
+			StudentDataManager sdm = new StudentDataManager();
+			ArrayList<Student> members = sdm.getTeamListFromTeamId(Integer.parseInt(teamId));
+			
+			TeamDataManager tdm = new TeamDataManager();
+			Team team = tdm.retrieve(Integer.parseInt(teamId));
+			
+			Project teamProj = pdm.getProjFromTeam(projs, Integer.parseInt(teamId));
+			String projName = "";
+			
+			try{
+				projName = teamProj.getProjName();
+			}catch(Exception e){
+				projName = "No Project Yet";
+			}
 	%>
-		<div id="welcome">Welcome, <%=fullName %></div>
+		<div id="welcome">Welcome, <%=username %></div>
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
@@ -63,14 +89,31 @@
 		<div id="teamprofilepic"><a href="#"><img src="http://db.tt/T1ASL5ed" width="675" height="200" /></a></div>
 		<div id="aboutus"></br></br>
 			<font size="4" face="Courier">About Us:</font></br>
-			 <textarea id="about" rows="10" cols="75" disabled>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-             </br></br>
-            <font size="4" face="Courier">Members:</font></br>
-            <font size="4" face="Courier">Project:</font></br>	
+			 <textarea id="about" rows="10" cols="75">
+			 <%=team.getTeamDesc() %>
+			 </textarea> </br></br>
+            <font size="4" face="Courier">Members:
+            <%
+            for(int i=0; i < members.size(); i++){
+            	Student student = members.get(i);
+            	%>
+            	<%=student.getFullName() %><br>
+            	<%
+            }
+            %>
+            </font></br>
+            <font size="4" face="Courier">Project: <%=projName %></font></br>	
 		</div>
 		<a href="#">Request to Join</a></br>
 		<a href="#">Leave Team</a></br>
-		<a href="#">Remove Team</a>
+		<form method="post" action="deleteTeam">
+		<input type="hidden" name="teamId" value="<%=teamId %>">
+	<input type=submit value="Delete">
+	</form>
+		
+		<%
+		}
+		%>
 	</body>
 
 </html>
