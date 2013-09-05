@@ -60,17 +60,24 @@
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body>
-		<div id="teamprofilepic"><a href="#"><img src="http://db.tt/T1ASL5ed" width="675" height="200" /></a></div>
-		<div id="aboutus"></br></br>
-			<font size="4" face="Courier">About Us:</font></br>
+		<h1>IS480 Matching Project</h1>
+		<div id="projectdescription">
+			<font size="4" face="Courier">Project Description:</font></br>
 			 <textarea id="about" rows="10" cols="75" disabled>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
-             </br></br>
-            <font size="4" face="Courier">Members:</font></br>
-            <font size="4" face="Courier">Project:</font></br>	
-		</div>
-		<a href="#">Request to Join</a></br>
-		<a href="#">Leave Team</a></br>
-		<a href="#">Remove Team</a>
+        </div>
+             </br>
+            <font size="4" face="Courier">Sponsor:</font></br>
+            <font size="4" face="Courier">Team:</font></br> 	
+            <font size="4" face="Courier">Supervisor:</font></br>
+            <font size="4" face="Courier">Reviewer(s):</font></br>
+            <font size="4" face="Courier">Mentor:</font></br>
+            <font size="4" face="Courier">Term:</font></br>
+            <font size="4" face="Courier">Company:</font></br>
+            <font size="4" face="Courier">Industry:</font></br>
+            <font size="4" face="Courier">Project Status:</font></br>
+		
+		<a href="#">Apply for Project</a></br>
+		<a href="#">Remove Project</a>
 	</body>
 
 </html>
