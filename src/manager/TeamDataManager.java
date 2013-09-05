@@ -83,6 +83,17 @@ public class TeamDataManager implements Serializable {
 		
 	}
 	
+	public void updateStudentsIfTeamDeleted(int teamId){
+		MySQLConnector.executeMySQL("update", "UPDATE STUDENTS SET team_id = " + 0 + " WHERE team_id = " + teamId + ");");
+		System.out.println("Updated Student table");
+	}
+	
+	public void updateProjectIfTeamDeleted(int teamId){
+		MySQLConnector.executeMySQL("update", "UPDATE PROJECTS SET team_id = " + 0 + " WHERE team_id = " + teamId + " AND status LIKE 'Closed');");
+		System.out.println("Updated Projects table");
+	}
+	
+	
 	public void modify(){
 		
 	}

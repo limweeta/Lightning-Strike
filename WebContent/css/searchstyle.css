@@ -1,0 +1,13 @@
+th,tr{
+	font-family:"Helvetica";
+	
+}
+
+thead{
+	font-weight: bold;
+}
+td{
+	font-family: "Helvetica";
+	text-align:center;
+	word-wrap:break-word;
+}

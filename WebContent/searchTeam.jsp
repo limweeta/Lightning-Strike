@@ -3,6 +3,9 @@
 <%@ page import="java.util.*" %>
 <html>
 	<head>
+	</br>
+	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+	<%@include file="navbar.jsp"%>
 	<%
 	TeamDataManager tdm = new TeamDataManager();
 	ArrayList<Team> teams = tdm.retrieveAll();
@@ -11,12 +14,13 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
-		<title>Search Team</title>
+		<title>DataTables example</title>
 		<style type="text/css" title="currentStyle">
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
-			@import "./css/searchTeam.css";
+			@import "./css/style.css";
+			@import "./css/searchstyle.css";
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -30,12 +34,16 @@
 				$('#example').dataTable();
 			} );
 		</script>
+		</br>
+		<font id="welcome"></font>
+	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
+	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
+	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body id="dt_example">
 		<div id="container">
-			<div id="header" class="full_width big">
-				<header>Search Teams</header> 
-				<!-- <i>DataTables</i> events (pre-initialisation) example -->
+			<div class="full_width big">
+				<h1>Search Teams</h1>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->

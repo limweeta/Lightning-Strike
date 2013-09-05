@@ -3,6 +3,8 @@
 <%@ page import="java.util.*" %>
 <html>
 	<head>
+	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+	<%@include file="navbar.jsp"%>
 	<%
 	ProjectDataManager pdm = new ProjectDataManager();
 	ArrayList<Project> projects = pdm.retrieveAll();
@@ -17,6 +19,8 @@
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
+			@import "./css/style.css";
+			@import "./css/searchstyle.css";
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -30,11 +34,16 @@
 				$('#example').dataTable();
 			} );
 		</script>
+		</br>
+		<font id="welcome"></font>
+	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
+	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
+	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	</head>
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<i>DataTables</i> events (pre-initialisation) example
+				<h1>Search Projects</h1>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
