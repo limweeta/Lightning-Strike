@@ -49,8 +49,27 @@ public class RegisterServlet extends HttpServlet {
 		UserDataManager udm = new UserDataManager();
 		
 		ArrayList<User> users = udm.retrieveAll();
+		int id = 0;
+		for(int i =0; i < users.size(); i++){
+			User u = users.get(i);
+			if(id < u.getID()){
+				id = u.getID();
+			}
+		}
 		
-		int id = users.get(users.size()-1).getID() + 1;
+		id++;
+		
+		ArrayList<Sponsor> sponsors = sdm.retrieveAll();
+		int sponsorid = 0;
+		for(int i =0; i < sponsors.size(); i++){
+			Sponsor s = sponsors.get(i);
+			if(sponsorid < s.getID()){
+				sponsorid = s.getID();
+			}
+		}
+		
+		sponsorid++;
+		
 		String username = request.getParameter("userName");
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
@@ -60,7 +79,7 @@ public class RegisterServlet extends HttpServlet {
 		String password	= request.getParameter("password");
 		
 		if(!username.trim().isEmpty() && !fullName.trim().isEmpty() && !contactNum.trim().isEmpty() && !email.trim().isEmpty() && !coyName.trim().isEmpty()&& !password.trim().isEmpty()) {
-			Sponsor newSponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyName, password, id);
+			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, coyName, password, id);
 			try {
 				sdm.add(newSponsor);
 				writer.print("Thank you for registering.");

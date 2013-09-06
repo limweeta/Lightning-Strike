@@ -79,7 +79,8 @@
 				projName = "No Project Yet";
 			}
 	%>
-		<div id="welcome">Welcome, <%=username %></div>
+		
+	<div id="welcome">Welcome, <%=fullName %></div>
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
@@ -93,6 +94,7 @@
 			 <%=team.getTeamDesc() %>
 			 </textarea> </br></br>
             <font size="4" face="Courier">Members:
+            
             <%
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);

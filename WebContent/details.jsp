@@ -161,7 +161,7 @@ h1 {
 	<div id="content-container" class="shadow">
 		<div id="content">
 			<div class="updateProfile">
-				<form action="updateProfile">
+				<form action="updateProfile" method="post">
 					<font size="4" face="Courier">Username:</font> <input type="text"
 						id="username" name="username" value="<%=username%>"><br />
 					<font size="4" face="Courier">Full Name:</font> <input

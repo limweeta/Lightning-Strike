@@ -64,20 +64,20 @@
 	<ul>
 		<li><a href="#">Projects</a>
 			<ul>
-				<li><a href="#">Search</a></li>
-				<li><a href="#">Create</a></li>
+				<li><a href="./searchProjects.jsp">Search</a></li>
+				<li><a href="./createProject.jsp">Create</a></li>
 		</li>
 			</ul>
 		<li><a href="#">Teams</a>
 			<ul>
-				<li><a href="#">Search</a></li>
-				<li><a href="#">Create</a></li>
+				<li><a href="./searchTeam.jsp">Search</a></li>
+				<li><a href="./createTeam.jsp">Create</a></li>
 		</li>
 			</ul>
 		</li>
 		<li><a href="#">Users</a>
 			<ul>
-				<li><a href="#">Search</a></li>
+				<li><a href="./searchUser.jsp">Search</a></li>
 			</ul>
 		</li>
 		<li><a href="#">Schedule</a></li>

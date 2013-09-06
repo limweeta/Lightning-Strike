@@ -11,23 +11,20 @@
 %>
 <body>
 		<div id="welcome">Welcome, <%=fullName %>. You are a <%=userType %></div>
+		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
 	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
 	    
-	    <div id="div-1a">
-					<div class="login-area">
-						<div id="loginError" class="error"></div><br/>
-						<input type="button" id="createProject" name="createProject" value="Create Project" onclick="javascript:window.location='createProject.jsp'"/>
-					</div>
-				</div>
+	     <div data-role="header" data-theme="b">
+        <h1>Announcements</h1>
+    </div>
+    <div id="updates">
+       <iframe src="http://" style="border:1px #000000 solid;" name="updates" scrolling="yes" frameborder="1" marginheight="1000px" marginwidth="1000px" height="600px" width="1000px"></iframe>
+    </div>
+    <div data-role="footer" class="ui-bar" data-theme="b">
+    </div>
 				
-		<div id="div-1b">
-					<div class="login-area">
-						<div id="loginError" class="error"></div><br/>
-						<input type="button" id="loginBtn" name="loginBtn" value="SSO Login" onclick="./login.jsp;"/>
-					</div>
-				</div>
 </head>
 </body>
 </html>

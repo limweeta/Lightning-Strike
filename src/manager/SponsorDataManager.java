@@ -62,7 +62,7 @@ public class SponsorDataManager implements Serializable {
 	
 	public Sponsor retrieve(String username) throws Exception{
 		Sponsor sponsor = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.id where users.username= '" + username + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id where users.username= '" + username + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -87,7 +87,9 @@ public class SponsorDataManager implements Serializable {
 	
 	public void add(Sponsor sponsor){
 		
+		int userid = sponsor.getUserid();
 		int id = sponsor.getID();
+		
 		String username = sponsor.getUsername();
 		String fullName = sponsor.getFullName();
 		String contactNum = sponsor.getContactNum();
@@ -95,8 +97,8 @@ public class SponsorDataManager implements Serializable {
 		String type = sponsor.getType();
 		String coyName = sponsor.getCoyName();
 		String password = sponsor.getPassword();
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES ('" + id + "', '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`id`, `company_name`, `password`) VALUES ('" + id + "', '" + coyName + "', '" + password + "');");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + userid + ", '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`id`, `company_name`, `password`, `user_id`) VALUES (" + id + ", '" + coyName + "', '" + password + "', " + userid + ");");
 		
 		System.out.println("sponsor added successfully");
 	}

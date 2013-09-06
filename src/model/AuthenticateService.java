@@ -4,7 +4,7 @@ import manager.*;
 
 public class AuthenticateService {
 
-	private SponsorDataManager sponsorDM;
+	private SponsorDataManager sponsorDM = new SponsorDataManager();
 
 	public AuthenticateService(){
 		sponsorDM = new SponsorDataManager();

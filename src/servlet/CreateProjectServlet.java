@@ -31,7 +31,16 @@ public class CreateProjectServlet extends HttpServlet {
 		ProjectDataManager pdm = new ProjectDataManager();
 		
 		ArrayList<Project> projects = pdm.retrieveAll();
-		int id = projects.size() + 1;
+		int id = 0;
+		
+		for(int i=0; i < projects.size(); i++){
+			Project p = projects.get(i);
+			if(id < p.getId()){
+				id = p.getId();
+			}
+		}
+		
+		id++;
 		
 		String termID = request.getParameter("projectTerm");
 		String projName = request.getParameter("projectName");

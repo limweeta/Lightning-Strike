@@ -5,6 +5,11 @@
 	<head>
 	</br>
 	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+	<%
+		String fullName = (String)session.getAttribute("fullname");
+		String username = (String) session.getAttribute("username");
+	%>	
+	<div id="welcome">Welcome, <%=fullName %></div>
 	<%@include file="navbar.jsp"%>
 	<%
 	TeamDataManager tdm = new TeamDataManager();
@@ -90,7 +95,7 @@ for(int i = 0; i < teams.size(); i++){
 	
 %>
 	<tr class="<%=rowclass %>">
-			<td class="sorting_1"><%=name %></td>
+			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class=" "><%=desc %></td>
 			<td class="center "><%=teamLimit %></td>
 			<td class="center "><%=pm %></td>

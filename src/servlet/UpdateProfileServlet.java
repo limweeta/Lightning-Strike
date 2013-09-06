@@ -29,10 +29,21 @@ public class UpdateProfileServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
+		
 		UserDataManager udm = new UserDataManager();
 		ArrayList<User> users = udm.retrieveAll();
-		int id = users.size() + 1;
-		String username = (String) session.getAttribute("username");
+		int id = 0;
+		
+		for(int i=0; i < users.size(); i++){
+			User u = users.get(i);
+			if(id < u.getID()){
+				id = u.getID();
+			}
+		}
+		
+		id++;
+		
+		String username = request.getParameter("username");
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
 		String email = request.getParameter("email");
@@ -53,6 +64,6 @@ public class UpdateProfileServlet extends HttpServlet {
 					email, type, facultyType);
 			fdm.add(faculty);
 		}
-
+		response.sendRedirect("userProfile.jsp?id="+id);
 	}
 }

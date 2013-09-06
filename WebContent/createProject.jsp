@@ -45,11 +45,11 @@
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
     
-	<% 	
-		String fullName = (String)session.getAttribute("fullName");
+	<%
+		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
-	%>
-		<div id="welcome">Welcome, <%=fullName %></div>
+	%>	
+	<div id="welcome">Welcome, <%=fullName %></div>
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>

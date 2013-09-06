@@ -96,7 +96,7 @@ public class StudentDataManager implements Serializable {
 		String role = student.getRole();
 		int teamId	= student.getTeamId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + id + ", '" + username + "', '" + fullName + "', " + contactNum + ", '" + email + "', '" + type + "');");
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role`, `team_id`) VALUES ('" + id + "', '" + secondMajor + "', '" + role + "', '" + teamId + "');");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role`, `team_id`) VALUES ('" + id + "', '" + secondMajor + "', '" + role + "', " + teamId + ");");
 		System.out.println("student added successfully");
 	}
 		

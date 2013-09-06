@@ -36,9 +36,11 @@ public class AuthenticateServlet extends HttpServlet {
 				if(authSponsor!= null){
 					String fullName = authSponsor.getFullName();
 					String sponsorUsername	= authSponsor.getUsername();
+					String userType = authSponsor.getType();
 					HttpSession session = request.getSession();
-					session.setAttribute("fullName", fullName);
+					session.setAttribute("fullname", fullName);
 					session.setAttribute("username", sponsorUsername);
+					session.setAttribute("type", userType);
 					writer.print("true");
 					response.sendRedirect("mainPage.jsp");
 				} else {

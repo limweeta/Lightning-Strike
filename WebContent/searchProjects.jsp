@@ -4,6 +4,11 @@
 <html>
 	<head>
 	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+	<%
+		String fullName = (String)session.getAttribute("fullname");
+		String username = (String) session.getAttribute("username");
+	%>	
+	<div id="welcome">Welcome, <%=fullName %></div>
 	<%@include file="navbar.jsp"%>
 	<%
 	ProjectDataManager pdm = new ProjectDataManager();
