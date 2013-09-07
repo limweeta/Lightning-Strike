@@ -56,9 +56,6 @@
 		String fullName = (String)session.getAttribute("fullName");
 		String username = (String) session.getAttribute("username");
 		
-		if(username == null || username.isEmpty()){
-			response.sendRedirect("searchProjects.jsp");
-		}else{
 		
 	%>
 		
@@ -141,6 +138,8 @@
 	
 	reviewers = rev1 + ", " + rev2;
 	
+	int creatorId = reqProj.getCreatorId();
+	
 	%>
 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
@@ -157,23 +156,24 @@
             <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br>
             <font size="4" face="Courier">Company: <%=company %></font></br>
             <font size="4" face="Courier">Industry: <%=reqProj.getIndustry() %></font></br>
-            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br>
+            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br><br>
 		
 		<a href="#">Apply for Project</a></br></form>
 		<%	
-		
-if(username == null || username.isEmpty()){
-
-	}else{
-		%>
+		try{
+			if(username.equals(udm.retrieve(creatorId).getUsername())){
+				%>
 		<form method="post" action="deleteProject">
 			<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 		<input type=submit value="Delete">
 		</form>
-		<%
-	}
-		}
-%>
+				<%
+			
+			}
+		}catch(Exception e){}
+		
+		%>
+
 	
 	</body>
 

@@ -1,3 +1,6 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
 <style type="text/css">
 #welcome {
@@ -170,11 +173,27 @@ h1 {
 						id="contactNum" type="text" name="contactNum"></br> <font
 						size="4" face="Courier">Email:</font> <input id="email"
 						type="text" name="email"></br> </br> <font size="4" face="Courier">Type:</font>
-					<input type="text" id="type" name="type" value="<%=type%>"><br />
+						<select name="type" id="type">
+							<option value="Student">Student</option>
+							<option value="Faculty">Faculty</option>
+						</select>
+
+					<br />
 					<font size="4" face="Courier">Second Major:</font> <input
 						type="text" id="secondMajor" id="secondMajor" name="secondMajor">
-					<input type="hidden" id="role" name="role" value="role"> <input
-						type="hidden" id="team_id" name="team_id" value="team_id">
+					<select name="skills" id="skills" size="5">
+						<%
+						SkillDataManager skdm = new SkillDataManager();
+						ArrayList<Skill> skills = skdm.retrieveAll();
+						
+						for(int i = 0; i < skills.size(); i++){
+							Skill skill = skills.get(i);
+							%>
+							<option value="<%=skill.getId()%>"><%=skill.getSkillName() %></option>
+							<%
+						}
+						%>
+					</select>
 					</br>
 					</br> <input type="submit" id="updateProfile" name="updateProfile"
 						value="Update Profile" />

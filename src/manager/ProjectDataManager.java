@@ -33,9 +33,10 @@ public class ProjectDataManager implements Serializable {
 			String status		= 	array.get(9);
 			String industry		= 	array.get(10);
 			String termId 		= 	array.get(11);
+			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
 			
-			Project proj = new Project(id, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
+			Project proj = new Project(id, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 			projects.add(proj);
 		}
 		
@@ -66,9 +67,10 @@ public class ProjectDataManager implements Serializable {
 			String status		= 	array.get(9);
 			String industry		= 	array.get(10);
 			String termId 		= 	array.get(11);
+			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
 			
-			proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
+			proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 			
 		}
 		return proj;
@@ -87,10 +89,10 @@ public class ProjectDataManager implements Serializable {
 		String projDesc		= proj.getProjDesc();
 		String status		= proj.getStatus();
 		String industry 	= proj.getIndustry();
-		
+		int creatorId		= proj.getCreatorId();
 		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`projects` "
-				+ "VALUES ('" + id + "', " + coyId +", " + teamId + "," + sponsorId + ", " + supervisorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', '" + industry + "', '" + termId + "');");
+				+ "VALUES ('" + id + "', " + coyId +", " + teamId + "," + sponsorId + ", " + supervisorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', '" + industry + "', '" + termId + "', " + creatorId + ");");
 		System.out.println("Project added successfully");
 	}
 	
@@ -116,8 +118,9 @@ public class ProjectDataManager implements Serializable {
 			String status		= 	array.get(9);
 			String industry		= 	array.get(10);
 			String termId 		= 	array.get(11);
+			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
-			project = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
+			project = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 		}
 		
 		return project;
@@ -133,7 +136,7 @@ public class ProjectDataManager implements Serializable {
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
 
-			int retrievedId 				= 	Integer.parseInt(array.get(0));
+			int retrievedId 	= 	Integer.parseInt(array.get(0));
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
@@ -145,9 +148,10 @@ public class ProjectDataManager implements Serializable {
 			String status		= 	array.get(9);
 			String industry		= 	array.get(10);
 			String retrievedTermId 		= 	array.get(11);
+			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
 			
-			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId, creatorId);
 			projects.add(proj);
 		}
 		
@@ -176,9 +180,9 @@ public class ProjectDataManager implements Serializable {
 			String status		= 	array.get(9);
 			String retrievedIndustry		= 	array.get(10);
 			String termId 		= 	array.get(11);
+			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
-			
-			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 			projects.add(proj);
 		}
 		

@@ -51,7 +51,9 @@ public class UpdateProfileServlet extends HttpServlet {
 		String secondMajor = request.getParameter("secondMajor");
 		String role = "";
 		int teamID = 0;
-
+		
+		String[] skills = request.getParameterValues("skills");
+		
 		StudentDataManager sdm = new StudentDataManager();
 		FacultyDataManager fdm = new FacultyDataManager();
 		if (type.equals("Student")) {
@@ -59,11 +61,14 @@ public class UpdateProfileServlet extends HttpServlet {
 					email, type, secondMajor, role, teamID);
 			sdm.add(student);
 		} else {
-			String facultyType = "Staff";
+			String facultyType = "Faculty";
 			Faculty faculty = new Faculty(id, username, fullName, contactNum,
 					email, type, facultyType);
 			fdm.add(faculty);
 		}
+		
+		udm.addSkills(skills, id);
+		
 		response.sendRedirect("userProfile.jsp?id="+id);
 	}
 }

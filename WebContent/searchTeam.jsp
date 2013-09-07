@@ -82,7 +82,7 @@ for(int i = 0; i < teams.size(); i++){
 	int teamLimit = team.getTeamLimit();
 	int pmId = team.getPmId();
 	
-	String pm = udm.retrieve(pmId).getUsername();
+	String pm = udm.retrieve(pmId).getFullName();
 	
 	count++;
 	String rowclass = "";

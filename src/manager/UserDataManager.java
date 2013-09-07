@@ -85,9 +85,16 @@ public class UserDataManager implements Serializable {
 		String type = User.getType();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES ('" + id + "', '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
 		
-		System.out.println("User added successfully");
+		
 	}
 		
+	public void addSkills(String[] skills, int userId){
+		for(int i=0; i < skills.length; i++){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`user_skills` VALUES (" + userId + ", " + Integer.parseInt(skills[i])  + ");");
+		}
+	}
+	
+	
 	public void modify(User User){
 		
 	}

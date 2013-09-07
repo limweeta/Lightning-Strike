@@ -88,7 +88,7 @@ for(int i = 0; i < students.size(); i++){
 	
 %>
 	<tr class="<%=rowclass %>">
-			<td class="sorting_1"><%=name %></td>
+			<td class="sorting_1"><a href="userProfile.jsp?id=<%=student.getID()%>"><%=name %></td>
 			<td class=" "><%=fullname %></td>
 			<td class="center "><%=email %></td>
 	</tr>

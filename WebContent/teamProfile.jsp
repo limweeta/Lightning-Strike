@@ -105,6 +105,26 @@
             %>
             </font></br>
             <font size="4" face="Courier">Project: <%=projName %></font></br>	
+            <br>
+            Team Skills:
+            <%
+            SkillDataManager skdm = new SkillDataManager();
+            ArrayList<Integer> skillset = skdm.getUserSkills(members);
+            
+            for(int i = 0; i < skillset.size(); i++){
+            	int count = i + 1;
+            	int skillId = skillset.get(i);
+            	Skill skill = skdm.retrieve(skillId);
+            	%>
+            	<%=skill.getSkillName() %>
+            	<%
+            	if(count % 5 == 0){
+            		%>
+            		<br>
+            		<%
+            	}
+            }
+            %>
 		</div>
 		<a href="#">Request to Join</a></br>
 		<a href="#">Leave Team</a></br>

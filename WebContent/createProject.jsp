@@ -1,3 +1,6 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
 <style type="text/css">
 	#smulogo{
@@ -75,15 +78,23 @@
 						<textarea name="projectDescription" cols="97" rows="10"></textarea></br></br>
 						<font size="4" face="Courier">Project Status:</font></br>
 						<select name="projectStatus">
-						  <option value="open">Open</option>
-						  <option value="ongoing">Ongoing</option>
-						  <option value="closed">Closed</option>
+						  <option value="Open" selected>Open</option>
+						  <option value="Ongoing">Ongoing</option>
+						  <option value="Closed">Closed</option>
 						</select></br></br>
 						<font size="4" face="Courier">Industry Type:</font></br>
 						<select name="industryType">
-						  <option value="banking">Banking</option>
-						  <option value="IT">IT</option>
-						  <option value="Health">Health</option>
+						  <%
+						  IndustryDataManager idm = new IndustryDataManager();
+						  ArrayList<Industry> industries = idm.retrieveAll();
+						  
+						  for(int i = 0; i < industries.size(); i++){
+							  Industry ind = industries.get(i);
+							  %>
+							  <option value="<%=ind.getIndustryName()%>"><%=ind.getIndustryName() %></option>
+							  <%
+						  }
+						  %>
 						</select></br></br>
 						
 						<!-- Company name to have autocomplete in accordance to database -->
