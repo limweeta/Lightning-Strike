@@ -2,6 +2,32 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+<script type="text/javascript">
+function validateForm()
+{
+var projectName=document.forms["creatProj"]["projectName"].value;
+if (projectName==null || projectName=="")
+  {
+  alert("Project name must be filled out");
+  return false;
+  }
+
+var projectDescription = document.forms["details"]["projectDescription"].value;
+if (projectDescription==null || projectDescription=="")
+	{
+		alert("Project description must be filled out");
+		return false;
+	}
+
+var projectOrganization = document.forms["details"]["projectOrganization"].value;
+if (projectOrganization==null || projectOrganization=="")
+	{
+		alert("Project organization must be filled out");
+		return false;
+	}
+
+}
+</script>
 <style type="text/css">
 	#smulogo{
 	width: 600px;
@@ -64,7 +90,7 @@
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form action="createProject" method="post">
+					<form action="createProject" method="post" name="creatProj" onsubmit="return validateForm()">
 						<font size="4" face="Courier">Project Name:</font></br>
 						<input id="projectName" type="text" name="projectName"></br></br>	
 						<font size="4" face="Courier">Project Term:</font></br>

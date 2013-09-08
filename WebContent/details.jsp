@@ -2,6 +2,33 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+<script type="text/javascript">
+function validateForm()
+{
+var fullName=document.forms["details"]["fullName"].value;
+if (fullName==null || fullName=="")
+  {
+  alert("Full name must be filled out");
+  return false;
+  }
+
+var contact = document.forms["details"]["contact"].value;
+if(isNaN(contact) || contact.length != 8){
+	alert("Not a valid contact number");
+	  return false;
+}
+
+var email=document.forms["details"]["email"].value;
+var atpos=email.indexOf("@");
+var dotpos=email.lastIndexOf(".");
+if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+  {
+  alert("Not a valid e-mail address");
+  return false;
+  }
+}
+</script>
+
 <style type="text/css">
 #welcome {
 	font-size: 15px;
@@ -164,9 +191,9 @@ h1 {
 	<div id="content-container" class="shadow">
 		<div id="content">
 			<div class="updateProfile">
-				<form action="updateProfile" method="post">
+				<form action="updateProfile" method="post" onsubmit="return validateForm()" name="details">
 					<font size="4" face="Courier">Username:</font> <input type="text"
-						id="username" name="username" value="<%=username%>"><br />
+						id="username" name="username" value="<%=username%>" readonly="readonly"><br />
 					<font size="4" face="Courier">Full Name:</font> <input
 						id="fullName" type="text" name="fullName"></br>
 					</br> <font size="4" face="Courier">Contact Number:</font> <input

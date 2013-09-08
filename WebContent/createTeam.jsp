@@ -1,5 +1,23 @@
 <html>
+<script type="text/javascript">
+function validateForm()
+{
+var teamName=document.forms["createTeam"]["teamName"].value;
+if (teamName==null || teamName=="")
+  {
+  alert("Team name must be filled out");
+  return false;
+  }
 
+var teamDesc=document.forms["createTeam"]["teamDesc"].value;
+if (teamDesc==null || teamDesc=="")
+  {
+  alert("Team Description must be filled out");
+  return false;
+  }
+
+}
+</script>
 <style type="text/css">
 	#smulogo{
 	width: 600px;
@@ -62,7 +80,7 @@
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form action="createTeam">
+					<form action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
 						<font size="4" face="Courier">Team Name:</font></br>
 						<input id="teamName" type="text" name="teamName"></br></br>
 						<font size="4" face="Courier">Team Description:</font></br>
