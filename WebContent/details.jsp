@@ -207,8 +207,8 @@ h1 {
 
 					<br />
 					<font size="4" face="Courier">Second Major:</font> <input
-						type="text" id="secondMajor" id="secondMajor" name="secondMajor">
-					<select name="skills" id="skills" size="5">
+						type="text" id="secondMajor" id="secondMajor" name="secondMajor"><br>
+					<select name="skills" id="skills" size="5" multiple>
 						<%
 						SkillDataManager skdm = new SkillDataManager();
 						ArrayList<Skill> skills = skdm.retrieveAll();

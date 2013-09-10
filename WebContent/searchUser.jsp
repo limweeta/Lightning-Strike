@@ -3,14 +3,8 @@
 <%@ page import="java.util.*" %>
 <html>
 	<head>
-	</br>
-	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
-	<%
-		String fullName = (String)session.getAttribute("fullname");
-		String username = (String) session.getAttribute("username");
-	%>	
-	<div id="welcome">Welcome, <%=fullName %></div>
-	<%@include file="navbar.jsp"%>
+
+	<%@include file="template.jsp"%>
 	<%
 	StudentDataManager sdm = new StudentDataManager();
 	ArrayList<Student> students = sdm.retrieveAll();
@@ -38,11 +32,7 @@
 				$('#example').dataTable();
 			} );
 		</script>
-		</br>
-		<font id="welcome"></font>
-	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
-	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
-	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
+
 	</head>
 	<body id="dt_example">
 		<div id="container">

@@ -106,7 +106,7 @@
             </font></br>
             <font size="4" face="Courier">Project: <%=projName %></font></br>	
             <br>
-            Team Skills:
+            Team Skills:<br>
             <%
             SkillDataManager skdm = new SkillDataManager();
             ArrayList<Integer> skillset = skdm.getUserSkills(members);
@@ -128,6 +128,7 @@
 		</div>
 		<a href="#">Request to Join</a></br>
 		<a href="#">Leave Team</a></br>
+		<!-- add clause to check for pm to show delete button -->
 		<form method="post" action="deleteTeam">
 		<input type="hidden" name="teamId" value="<%=teamId %>">
 	<input type=submit value="Delete">

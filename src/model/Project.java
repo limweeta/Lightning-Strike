@@ -14,13 +14,13 @@ public class Project{
 	private String projName;
 	private String projDesc;
 	private String status;
-	private String industry;
+	private int industry;
 	private int creator_id;
   
 	public Project(){}
 	
 	//constructor
-	public Project(int id, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, String industry, String termId, int creator_id){
+	public Project(int id, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, int industry, String termId, int creator_id){
 		this.id				=	id;
 		this.termId 		=	termId;
 		this.coyId 			= 	coyId;
@@ -84,7 +84,7 @@ public class Project{
 		return status;
 	}
 	
-	public String getIndustry(){
+	public int getIndustry(){
 		return industry;
 	}
 	
@@ -129,7 +129,7 @@ public class Project{
 		this.status = status;
 	}
   
-	public void setIndustry(String industry){
+	public void setIndustry(int industry){
 		this.industry = industry;
 	}
 }

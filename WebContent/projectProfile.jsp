@@ -53,7 +53,7 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 	
-		String fullName = (String)session.getAttribute("fullName");
+		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
 		
 		
@@ -140,6 +140,8 @@
 	
 	int creatorId = reqProj.getCreatorId();
 	
+	IndustryDataManager idm = new IndustryDataManager();
+	Industry ind  = idm.retrieve(reqProj.getIndustry());
 	%>
 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
@@ -155,7 +157,7 @@
             <font size="4" face="Courier">Reviewer(s): <%=reviewers %></font></br>
             <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br>
             <font size="4" face="Courier">Company: <%=company %></font></br>
-            <font size="4" face="Courier">Industry: <%=reqProj.getIndustry() %></font></br>
+            <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br>
             <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br><br>
 		
 		<a href="#">Apply for Project</a></br></form>

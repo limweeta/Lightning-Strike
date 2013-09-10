@@ -31,7 +31,7 @@ public class ProjectDataManager implements Serializable {
 			String projName		= 	array.get(7);
 			String projDesc		= 	array.get(8);
 			String status		= 	array.get(9);
-			String industry		= 	array.get(10);
+			int industry		= 	Integer.parseInt(array.get(10));
 			String termId 		= 	array.get(11);
 			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
@@ -65,7 +65,7 @@ public class ProjectDataManager implements Serializable {
 			String projName		= 	array.get(7);
 			String projDesc		= 	array.get(8);
 			String status		= 	array.get(9);
-			String industry		= 	array.get(10);
+			int industry		= 	Integer.parseInt(array.get(10));
 			String termId 		= 	array.get(11);
 			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
@@ -88,11 +88,11 @@ public class ProjectDataManager implements Serializable {
 		String projName		= proj.getProjName();
 		String projDesc		= proj.getProjDesc();
 		String status		= proj.getStatus();
-		String industry 	= proj.getIndustry();
+		int industry 		= proj.getIndustry();
 		int creatorId		= proj.getCreatorId();
 		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`projects` "
-				+ "VALUES ('" + id + "', " + coyId +", " + teamId + "," + sponsorId + ", " + supervisorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', '" + industry + "', '" + termId + "', " + creatorId + ");");
+				+ "VALUES ('" + id + "', " + coyId +", " + teamId + "," + sponsorId + ", " + supervisorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', " + industry + ", '" + termId + "', " + creatorId + ");");
 		System.out.println("Project added successfully");
 	}
 	
@@ -116,7 +116,7 @@ public class ProjectDataManager implements Serializable {
 			String retrievedProjName		= 	array.get(7);
 			String projDesc		= 	array.get(8);
 			String status		= 	array.get(9);
-			String industry		= 	array.get(10);
+			int industry		= 	Integer.parseInt(array.get(10));
 			String termId 		= 	array.get(11);
 			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
@@ -146,7 +146,7 @@ public class ProjectDataManager implements Serializable {
 			String retrievedProjName		= 	array.get(7);
 			String projDesc		= 	array.get(8);
 			String status		= 	array.get(9);
-			String industry		= 	array.get(10);
+			int industry		= 	Integer.parseInt(array.get(10));
 			String retrievedTermId 		= 	array.get(11);
 			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
@@ -178,11 +178,11 @@ public class ProjectDataManager implements Serializable {
 			String projName		= 	array.get(7);
 			String projDesc		= 	array.get(8);
 			String status		= 	array.get(9);
-			String retrievedIndustry		= 	array.get(10);
+			int industry1		= 	Integer.parseInt(array.get(10));
 			String termId 		= 	array.get(11);
 			int creatorId 		= 	Integer.parseInt(array.get(12));
 			
-			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, supervisorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry1, termId, creatorId);
 			projects.add(proj);
 		}
 		
