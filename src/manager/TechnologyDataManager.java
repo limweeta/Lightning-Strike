@@ -32,7 +32,7 @@ public class TechnologyDataManager implements Serializable {
 	public ArrayList<String> retrieveByProjId(int projId) {
 		ArrayList<String> proj_tech = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
-				.executeMySQL("select", "SELECT techId FROM `is480-matching`.project_technologies WHERE projId = " + projId);
+				.executeMySQL("select", "SELECT technology_Id FROM `is480-matching`.project_technologies WHERE project_Id = " + projId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while (iterator.hasNext()) {
@@ -68,8 +68,7 @@ public class TechnologyDataManager implements Serializable {
 		int id = technology.getId();
 		String tech = technology.getTechName();
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`technologies` VALUES ("
-						+ id + ", '" + tech  + "');");
+				"INSERT INTO `is480-matching`.`technologies` VALUES ("	+ id + ", '" + tech  + "');");
 	}
 
 	public void modify(Technology technology) {

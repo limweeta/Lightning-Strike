@@ -74,7 +74,17 @@ public class CreateProjectServlet extends HttpServlet {
 			for(int j = 0; j < technologies.length; j++){
 				Technology tech = tdm.retrieve(Integer.parseInt(technologies[j]));
 				
-				pdm.addTech(id, tech.getId());
+				ArrayList<Technology> techs = tdm.retrieveAll();
+				int nextId = 0;
+				for(int i = 0; i < techs.size(); i++){
+					Technology tmpTech = techs.get(i);
+					if(nextId < tmpTech.getId()){
+						nextId = tmpTech.getId() + 1;
+					}
+				}
+				
+				
+				pdm.addTech(nextId, id, tech.getId());
 			}
 		}catch(Exception e){
 			System.out.println("No technology");
