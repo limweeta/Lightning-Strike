@@ -178,7 +178,7 @@ public class LoginServlet extends HttpServlet {
        "smu_groups",
        "smu_username"};
    
-   private static final String SECRET_KEY = "psastest2012";
+   private static final String SECRET_KEY = "mstest2012";
    
    public static String encode(String plain) {
        try {

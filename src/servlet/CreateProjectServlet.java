@@ -29,6 +29,7 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		
 		ProjectDataManager pdm = new ProjectDataManager();
+		TechnologyDataManager tdm = new TechnologyDataManager();
 		
 		ArrayList<Project> projects = pdm.retrieveAll();
 		int id = 0;
@@ -47,7 +48,8 @@ public class CreateProjectServlet extends HttpServlet {
 		String sponsor = request.getParameter("projectOrganization");
 		String projDesc = request.getParameter("projectDescription");
 		String projStatus = request.getParameter("projectStatus");
-		String industry = request.getParameter("industryType");
+		int industry = Integer.parseInt(request.getParameter("industryType"));
+		String[] technologies = request.getParameterValues("techType");
 		String status = request.getParameter("projectStatus");
 		
 		//if new sponsor, add to db
@@ -68,6 +70,15 @@ public class CreateProjectServlet extends HttpServlet {
 		Project proj = new Project(id, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
 		pdm.add(proj);
 		
+		try{
+			for(int j = 0; j < technologies.length; j++){
+				Technology tech = tdm.retrieve(Integer.parseInt(technologies[j]));
+				
+				pdm.addTech(id, tech.getId());
+			}
+		}catch(Exception e){
+			System.out.println("No technology");
+		}
 		response.sendRedirect("projectProfile.jsp?id="+id);
 	}
 }

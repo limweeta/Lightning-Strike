@@ -29,6 +29,14 @@
 								<input type="text" class="right rounded" name="coyName" id="coyName" />
 							</div>
 							<div class="field-container">
+								<label for='coyName' >Company Address:</label>
+								<input type="text" class="right rounded" name="coyAdd" id="coyAdd" />
+							</div>
+							<div class="field-container">
+								<label for='coyName' >Company Contact:</label>
+								<input type="text" class="right rounded" name="coyContact" id="coyContact" />
+							</div>
+							<div class="field-container">
 								<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />
 							</div>
 							<div class="field-container">

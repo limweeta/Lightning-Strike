@@ -47,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		SponsorDataManager sdm = new SponsorDataManager();
 		UserDataManager udm = new UserDataManager();
+		CompanyDataManager cdm = new CompanyDataManager();
 		
 		ArrayList<User> users = udm.retrieveAll();
 		int id = 0;
@@ -76,14 +77,17 @@ public class RegisterServlet extends HttpServlet {
 		String email	= request.getParameter("email");
 		String type		= request.getParameter("type");
 		String coyName	= request.getParameter("coyName");
+		int coyContact	= Integer.parseInt(request.getParameter("coyContact"));
+		String coyAdd	= request.getParameter("coyAdd");
 		String password	= request.getParameter("password");
 		
 		if(!username.trim().isEmpty() && !fullName.trim().isEmpty() && !contactNum.trim().isEmpty() && !email.trim().isEmpty() && !coyName.trim().isEmpty()&& !password.trim().isEmpty()) {
 			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, coyName, password, id);
+			Company company = new Company(id, coyName, coyAdd, coyContact);
 			try {
 				sdm.add(newSponsor);
+				cdm.add(company);
 				writer.print("Thank you for registering.");
-				response.sendRedirect("index.jsp");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

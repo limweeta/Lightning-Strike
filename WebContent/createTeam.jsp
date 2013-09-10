@@ -62,11 +62,20 @@ if (teamDesc==null || teamDesc=="")
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>  
-    
+    <script src="jQuery/jquery.autocomplete.js"></script>  
+    <script>
+    jQuery(function(){
+		$("#username").autocomplete("usernamedata.jsp");
+    });
+	</script>
 	<%
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
+		
+		if(fullName == null){
+			//response.sendRedirect("index.jsp");
+		}
+		
 	%>	
 	<div id="welcome">Welcome, <%=fullName %></div>
 		<%@include file="navbar.jsp"%>
@@ -94,9 +103,7 @@ if (teamDesc==null || teamDesc=="")
 						</select></br></br>
 						
 						<font size="4" face="Courier">Team Members:</font></br>
-						<script>
-					        $("#username").autocomplete("usernamedata.jsp");
-					    </script>
+						
 						
 						<input type= "text" id="username" name="username" value="<%=username%>" disabled>
 						<input type="hidden" id="username" name="username" value="<%=username%>">
@@ -105,7 +112,7 @@ if (teamDesc==null || teamDesc=="")
 						  <option value="projectManager">Project Manager</option>
 						</select></br>
 						
-						<input type= "text" id="username" name="username" value="username">
+						<input type= "text" id="username" name="username" placeholder="Enter username here">
 						<select value="memberRole" id="memberRole" name="memberRole">
 						  <option value="developer">Developer</option>
 						  <option value="designer">Designer</option>
@@ -114,7 +121,7 @@ if (teamDesc==null || teamDesc=="")
 						  <option value="qualityAssurance">Quality Assurance</option>
 						</select></br>
 						
-						<input type= "text" id="username" name="username" value="username">
+						<input type= "text" id="username" name="username" placeholder="Enter username here">
 						<select value="memberRole" id="memberRole" name="memberRole">
 						  <option value="developer">Developer</option>
 						  <option value="designer">Designer</option>
@@ -123,7 +130,7 @@ if (teamDesc==null || teamDesc=="")
 						  <option value="qualityAssurance">Quality Assurance</option>
 						</select></br>
 						
-						<input type= "text" id="username" name="username" value="username">
+						<input type= "text" id="username" name="username" placeholder="Enter username here">
 						<select value="memberRole" id="memberRole" name="memberRole">
 						  <option value="developer">Developer</option>
 						  <option value="designer">Designer</option>
@@ -132,7 +139,7 @@ if (teamDesc==null || teamDesc=="")
 						  <option value="qualityAssurance">Quality Assurance</option>
 						</select></br>
 						
-						<input type= "text" id="username" name="username" value="username">
+						<input type= "text" id="username" name="username" placeholder="Enter username here">
 						<select value="memberRole" id="memberRole" name="memberRole">
 						  <option value="developer">Developer</option>
 						  <option value="designer">Designer</option>

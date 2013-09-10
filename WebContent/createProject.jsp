@@ -117,7 +117,22 @@ if (projectOrganization==null || projectOrganization=="")
 						  for(int i = 0; i < industries.size(); i++){
 							  Industry ind = industries.get(i);
 							  %>
-							  <option value="<%=ind.getIndustryName()%>"><%=ind.getIndustryName() %></option>
+							  <option value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
+							  <%
+						  }
+						  %>
+						</select></br></br>
+						
+						<font size="4" face="Courier">Technology:</font></br>
+						<select name="techType">
+						  <%
+						  TechnologyDataManager tdm = new TechnologyDataManager();
+						  ArrayList<Technology> technologies = tdm.retrieveAll();
+						  
+						  for(int i = 0; i < technologies.size(); i++){
+							  Technology tech = technologies.get(i);
+							  %>
+							  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
 							  <%
 						  }
 						  %>

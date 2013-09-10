@@ -64,7 +64,7 @@
     <servlet-name>DeleteProjectServlet</servlet-name>
     <url-pattern>/deleteProject</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>DeleteTeamServlet</servlet-name>
     <servlet-class>servlet.DeleteTeamServlet</servlet-class>
   </servlet>

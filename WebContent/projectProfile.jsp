@@ -142,12 +142,16 @@
 	
 	IndustryDataManager idm = new IndustryDataManager();
 	Industry ind  = idm.retrieve(reqProj.getIndustry());
+	
+	TechnologyDataManager techdm = new TechnologyDataManager();
+	ArrayList<String> tech = techdm.retrieveByProjId(reqProj.getId());
+	
 	%>
 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
 			<font size="4" face="Courier">Project Description:</font></br>
 			 <textarea id="about" rows="10" cols="75" disabled>
-			 <%=reqProj.getProjDesc() %>
+			 <%=reqProj.getProjDesc().trim() %>
 			 </textarea>
         </div>
              </br>
@@ -158,6 +162,27 @@
             <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br>
             <font size="4" face="Courier">Company: <%=company %></font></br>
             <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br>
+            <font size="4" face="Courier">Technology: 
+            <%
+            if(tech.size() < 1){
+            	%>
+            	Not specified
+            	<%
+            }else{
+	            for(int i = 0; i< tech.size(); i++){
+	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
+	            %>
+	            <%=technology.getTechName() + " " %>
+	            <%
+	            	if((i+1)% 5 == 0){
+	            	%>
+	            	<br />
+	            	<%	
+	            	}
+	            }
+            }
+            %>
+            </font></br>
             <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br><br>
 		
 		<a href="#">Apply for Project</a></br></form>

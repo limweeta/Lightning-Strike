@@ -17,6 +17,11 @@
 	<div id="topbanner">
 	<div class="headercontainer">
 		<img id="banner" src="http://db.tt/mjn0dKYe">
+		<%
+			if(fullName == null){
+				fullName = "guest";
+			}
+		%>
 		<table id="profile">
 			<tr>
 				<td><div id="welcome">Welcome, <%=fullName %></div></td>
@@ -26,7 +31,13 @@
 		   	<tr>
 		   	<td></td>
 		   	<td></td>
+		   	<%
+			if(fullName == null){
+			%>
 		   	<td><a href="./index.jsp" id="profilelogout">Logout</a></td>
+		   	<%
+			}
+			%>
 		   	</tr>
 	   	</table>
 	</div>	

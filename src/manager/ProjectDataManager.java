@@ -219,6 +219,10 @@ public class ProjectDataManager implements Serializable {
 		return proj;
 	}
 	
+	public void addTech(int projid, int techid){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES (" + projid + ", " + techid + ");");
+	}
+	
 	public void modify(){
 		
 	}
