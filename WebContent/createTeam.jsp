@@ -68,7 +68,7 @@ if (teamDesc==null || teamDesc=="")
 						<font size="4" face="Courier">Team Name:</font></br>
 						<input id="teamName" type="text" name="teamName"></br></br>
 						<font size="4" face="Courier">Team Description:</font></br>
-						<input id="teamDesc" type="text" name="teamDesc"></br>
+						<textarea id="teamDesc" cols="97" rows="10" name="teamDesc"></textarea></br>
 						</br>
 						<font size="4" face="Courier">Team Limit:</font></br>
 						<select value="teamLimit" id="teamLimit" name="teamLimit">
@@ -78,8 +78,7 @@ if (teamDesc==null || teamDesc=="")
 						</select></br></br>
 						
 						<font size="4" face="Courier">Team Members:</font></br>
-						
-						
+	
 						<input type= "text" id="username" name="username" value="<%=username%>" disabled>
 						<input type="hidden" id="username" name="username" value="<%=username%>">
 						<input type="hidden" id="memberRole" name="memberRole" value="Project Manager">

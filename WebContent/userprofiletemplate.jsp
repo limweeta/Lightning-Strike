@@ -4,6 +4,21 @@
 <html>
 <style type="text/css">
 	@import "./css/template.css";
+	#username{
+		position:absolute;
+		left:20%;
+		top:55%;
+	}
+	#email{
+		position:absolute;
+		left:40%;
+		top:55%;
+	}
+	#contactno{
+		position:absolute;
+		left:20%;
+		top:63%;
+	}
 </style>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
@@ -13,6 +28,9 @@
 	<%
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
+		int id=Integer.parseInt((String)session.getAttribute("profileid"));
+		UserDataManager udm = new UserDataManager();
+		User u = udm.retrieve(id);
 	%>
 	<div id="topbanner">
 	<div class="headercontainer">
@@ -37,7 +55,7 @@
 			%>
 		   		<td>
 		   		<form action="logout" method="post">
-		   			<input type="submit" id="profilelogout" value="Logout">
+		   			<input type="submit" value="Logout">
 		   		</form>
 		   		</td>
 		   	<%
@@ -58,6 +76,12 @@
 	</div></br></br></br>
   </head>
 <body>
-	
+	<form id="userprofile">
+	<input type="text" id="username" value="<%=u.getFullName()%>">
+	<input type="text" id="contactno" value="<%=u.getContactNum()%>">
+	<input type="text" id="email" value="<%=u.getEmail()%>">
+	</br>
+	</form>
+</body>
 </body>
 </html>

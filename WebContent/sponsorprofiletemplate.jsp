@@ -4,6 +4,21 @@
 <html>
 <style type="text/css">
 	@import "./css/template.css";
+	#username{
+		position:absolute;
+		left:20%;
+		top:55%;
+	}
+	#email{
+		position:absolute;
+		left:40%;
+		top:55%;
+	}
+	#contactno{
+		position:absolute;
+		left:20%;
+		top:63%;
+	}
 </style>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
@@ -13,6 +28,10 @@
 	<%
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
+		int id=Integer.parseInt((String)session.getAttribute("profileid"));
+		//int iD = Integer.parseInt(id);
+		SponsorDataManager sdm = new SponsorDataManager();
+		Sponsor sponsor= sdm.retrieve(id);
 	%>
 	<div id="topbanner">
 	<div class="headercontainer">
@@ -58,6 +77,13 @@
 	</div></br></br></br>
   </head>
 <body>
-	
+	<form id="userprofile">
+	<input type="text" id="username" value="<%=sponsor.getFullName()%>">
+	<input type="text" id="contactno" value="<%=sponsor.getContactNum()%>">
+	<input type="text" id="email" value="<%=sponsor.getEmail()%>">
+	<font size="4" face="Courier">Company:</font></br>
+	<input type="text" id="secondMajor" value="<%=sponsor.getCoyName()%>"></br>
+	</br>
+	</form>
 </body>
 </html>

@@ -9,8 +9,8 @@
 		font-size:1.75em;
 	}
 	#teamName{
-		width:49.8em;
-		font-size:1em;
+		font-family: Impact;
+		font-size:1.5em;
 	}
 	#createTeam{
 		font-size:1em;
@@ -20,6 +20,11 @@
 	}
 	textarea{
 		resize: none;
+	}
+	#teamPic{
+		font-family:Impact;
+		font-size: 1em;
+		word-wrap:break-word;
 	}
 </style>
 	<head>
@@ -58,13 +63,16 @@
 	<%@ include file="template.jsp" %>
 	</head>
 	<body>
-		<div id="aboutus"></br></br>
+	<div id="teamName"><%=team.getTeamName() %></div></br>
+	<div id="teamPic">
+		<textarea id="teamPic" rows="7" cols="150" disabled>TEAM PICTURE</textarea>
+	</div>
+		<div id="aboutus"></br>
 			<font size="4" face="Courier">About Us:</font></br>
-			 <textarea id="about" rows="10" cols="75">
-			 <%=team.getTeamDesc() %>
+			 <textarea id="about" rows="10" cols="75"><%=team.getTeamDesc() %>
 			 </textarea> </br></br>
             <font size="4" face="Courier">Members:
-            
+            </br>
             <%
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
@@ -74,7 +82,7 @@
             }
             %>
             </font></br>
-            <font size="4" face="Courier">Project: <%=projName %></font></br>	
+            <font size="4" face="Courier">Project: <%=projName %></br>	
             <br>
             Team Skills:<br>
             <%
@@ -95,6 +103,7 @@
             	}
             }
             %>
+            </font>
 		</div>
 		<%if(username != null){ %>
 		<a href="#">Request to Join</a></br>

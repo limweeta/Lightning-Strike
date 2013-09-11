@@ -21,7 +21,7 @@
 		text-decoration: underline;
 	}
 	nav ul li a {
-		display: block; padding: 4px 35px;
+		display: block; padding: 1.5px 35px;
 		color: #000; text-decoration: none;
 	}
 	nav ul ul {
