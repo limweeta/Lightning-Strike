@@ -47,8 +47,16 @@ if (teamDesc==null || teamDesc=="")
  		 
 	<%@ include file="template.jsp" %>
 	<%	
+	UserDataManager udm = new UserDataManager();
+		String type = udm.retrieve(username).getType();
 		if(username == null){
 			response.sendRedirect("index.jsp");
+			//include error message to display
+		}
+		
+		if(!type.equalsIgnoreCase("Student")){
+			response.sendRedirect("index.jsp");
+			//include error message to display
 		}
 	%>
 	</head>
