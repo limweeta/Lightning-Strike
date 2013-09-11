@@ -44,13 +44,13 @@ if (teamDesc==null || teamDesc=="")
 		$("#username").autocomplete("usernamedata.jsp");
     });
 	</script>
-<%-- 	<%
-		if(fullName == null){
-			//response.sendRedirect("index.jsp");
-		}
-		
-	%>	 --%>
+ 		 
 	<%@ include file="template.jsp" %>
+	<%	
+		if(username == null){
+			response.sendRedirect("index.jsp");
+		}
+	%>
 	</head>
 	<body>
 		<div id="content-container" class="shadow">

@@ -219,7 +219,23 @@ public class ProjectDataManager implements Serializable {
 		return proj;
 	}
 	
-	public void addTech(int nextId, int projid, int techid){
+	public void addTech(int projid, int techid){
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		int nextId = 0;
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			int retrievedId 	= 	Integer.parseInt(array.get(0));
+			
+			if(nextId <= retrievedId){
+				nextId = retrievedId + 1;
+			}
+			
+		}
 		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES (" + nextId + ", " + projid + ", " + techid + ");");
 	}
 	
@@ -229,6 +245,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public void remove(int ID){
 		MySQLConnector.executeMySQL("delete", "delete from projects where id = " + ID + ";");
+		MySQLConnector.executeMySQL("delete", "delete from project_technologies where project_id = " + ID + ";");
 	}
 	
 	public void removeAll() {

@@ -29,8 +29,18 @@
 		<td></td></tr>
 		   	<tr>
 		   	<td></td>
+		   	<%
+		   	if (username == null){
+		   	%>
 		   	<td><a onclick="document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm';" id="ssologin">SSO Login</a></td>
 		   	<td><a onclick="JavaScript:newPopup('./login.jsp');" id="login">Login</a></td>
+		   	<%
+		   	}else{
+		   	%>
+		   	<!-- put profile picture here -->
+		   	<%
+		   	}
+		   	%>
 		   	</tr>
 	   	</table>
 	</div>	

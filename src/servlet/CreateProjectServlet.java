@@ -27,6 +27,8 @@ public class CreateProjectServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
+		HttpSession session = request.getSession();
+		UserDataManager udm = new UserDataManager();
 		
 		ProjectDataManager pdm = new ProjectDataManager();
 		TechnologyDataManager tdm = new TechnologyDataManager();
@@ -36,7 +38,7 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		for(int i=0; i < projects.size(); i++){
 			Project p = projects.get(i);
-			if(id < p.getId()){
+			if(id <= p.getId()){
 				id = p.getId();
 			}
 		}
@@ -45,12 +47,11 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		String termID = request.getParameter("projectTerm");
 		String projName = request.getParameter("projectName");
-		String sponsor = request.getParameter("projectOrganization");
+		String company = request.getParameter("projectOrganization");
 		String projDesc = request.getParameter("projectDescription");
-		String projStatus = request.getParameter("projectStatus");
 		int industry = Integer.parseInt(request.getParameter("industryType"));
 		String[] technologies = request.getParameterValues("techType");
-		String status = request.getParameter("projectStatus");
+		String status ="Open";
 		
 		//if new sponsor, add to db
 		
@@ -64,7 +65,13 @@ public class CreateProjectServlet extends HttpServlet {
 		int supervisor_id = 0;
 		int reviewer1_id = 0;
 		int reviewer2_id = 0;
-		int creator_id = 0;
+		int creator_id = 0; 
+		
+		try{
+			creator_id = udm.retrieve((String)session.getAttribute("username")).getID();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 		
 		Project proj = new Project(id, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
@@ -78,13 +85,13 @@ public class CreateProjectServlet extends HttpServlet {
 				int nextId = 0;
 				for(int i = 0; i < techs.size(); i++){
 					Technology tmpTech = techs.get(i);
-					if(nextId < tmpTech.getId()){
+					if(nextId <= tmpTech.getId()){
 						nextId = tmpTech.getId() + 1;
+						
 					}
+					
 				}
-				
-				
-				pdm.addTech(nextId, id, tech.getId());
+				pdm.addTech(id, tech.getId());
 			}
 		}catch(Exception e){
 			System.out.println("No technology");

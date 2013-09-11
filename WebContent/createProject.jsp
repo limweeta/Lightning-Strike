@@ -51,6 +51,11 @@ if (projectOrganization==null || projectOrganization=="")
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<%@ include file="template.jsp" %>
+	<%	
+		if(username == null){
+			response.sendRedirect("index.jsp");
+		}
+	%>
 	</head>
 	<body>
 			
@@ -71,10 +76,8 @@ if (projectOrganization==null || projectOrganization=="")
 						<font size="4" face="Courier">Project Description:</font></br>
 						<textarea name="projectDescription" cols="97" rows="10"></textarea></br></br>
 						<font size="4" face="Courier">Project Status:</font></br>
-						<select name="projectStatus">
+						<select name="projectStatus" disabled>
 						  <option value="Open" selected>Open</option>
-						  <option value="Ongoing">Ongoing</option>
-						  <option value="Closed">Closed</option>
 						</select></br></br>
 						<font size="4" face="Courier">Industry Type:</font></br>
 						<select name="industryType">
@@ -92,7 +95,7 @@ if (projectOrganization==null || projectOrganization=="")
 						</select></br></br>
 						
 						<font size="4" face="Courier">Technology:</font></br>
-						<select name="techType">
+						<select name="techType" size=5 multiple>
 						  <%
 						  TechnologyDataManager tdm = new TechnologyDataManager();
 						  ArrayList<Technology> technologies = tdm.retrieveAll();

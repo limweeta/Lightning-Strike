@@ -25,8 +25,7 @@
 	}
 	
 </style>
-<head>
-	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+<head>	
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
@@ -42,8 +41,17 @@
 	<%
 	int id = Integer.parseInt(request.getParameter("id"));
 	
+	//In case of Sponsor
+	SponsorDataManager sponsordm = new SponsorDataManager();
+	CompanyDataManager cdm = new CompanyDataManager();
+	
+	//For student
 	StudentDataManager sdm = new StudentDataManager();
 	Student student = sdm.retrieve(id);
+	
+	TeamDataManager tdm = new TeamDataManager();
+	
+	ProjectDataManager pdm = new ProjectDataManager();
 	
 	%>
 	<div class="container" id="userdetails">

@@ -1,196 +1,165 @@
 package servlet;
-import org.apache.catalina.util.Base64;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import manager.*;
 import model.*;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.spec.SecretKeySpec;
 
-import java.util.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
-import javax.servlet.http.*;
-import javax.servlet.*;
-
-
-@SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		
-		processSSORequest(request,response);
-		
-	}
+	/*********************************************************************************
+	 * change these final variable settings, and implement ur redirection in line 98
+	 ********************************************************************************/
+	private static final String SECRET_KEY = "mstest2012";
+	private static final String DOMAIN_NAME = "http://202.161.45.127";
+	// set this to true if doing local testing and your port number is not 80
+	private static final boolean INCLUDE_PORT = false;
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		
-		processSSORequest(request,response);
-		
-	}
+
+	private static final String[] keys = { "oauth_callback",
+			"oauth_consumer_key", "oauth_nonce", "oauth_signature_method",
+			"oauth_timestamp", "oauth_version", "smu_domain", "smu_fullname",
+			"smu_groups", "smu_username" };
 	
-	public void processSSORequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
 		String link = "";
 		
-		RequestDispatcher rd;
+		HttpSession session = request.getSession();
 		
+		//request.getSession().invalidate();
 		PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
+		response.setContentType("text/plain");
 
+		
+		String callbackUrl = DOMAIN_NAME + (INCLUDE_PORT?":" + request.getServerPort():"")
+				+ request.getRequestURI();
+		String uri = "POST&" + encode(callbackUrl) + "&";
+
+		String pairs = "";
+		for (int i = 0; i < keys.length - 1; i++) {
+			pairs += keys[i] + "=" + encode(request.getParameter(keys[i]))
+					+ "&";
+		}
+		// the last key-value pair doesnt need the trailing & character
+		pairs += keys[keys.length - 1] + "="
+				+ encode(request.getParameter(keys[keys.length - 1]));
+
+		uri += encode(pairs);
+
+		// initialize the Mac object
+		Mac mac = null;
 		try {
-			// if using non-default ports (other than 80 for http, 443 for https),
-			// it should be included in the callback url below
-			String callbackUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getRequestURI();
-			//System.out.println(callbackUrl);
-			String uri = "POST&" + encode(callbackUrl) + "&" ;
-	
-			String pairs = "";
-			for (int i = 0 ; i < keys.length-1 ; i++) {
-			    pairs += keys[i] + "=" + encode(request.getParameter(keys[i])) + "&";
-			}
-			//for-loop above stops before encoding the last key-value pair because
-			// the last key-value pair doesnt need the trailing & character 
-			pairs += keys[keys.length - 1] + "=" + encode(request.getParameter(keys[keys.length - 1]));
-	
-			uri += encode(pairs);
-			            
-			// initialize the Mac object
-			Mac mac;
-	
-				mac = Mac.getInstance("HmacSHA1");
+			mac = Mac.getInstance("HmacSHA1");
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
 
-			SecretKey secretKey = new SecretKeySpec( (SECRET_KEY + "&").getBytes(), mac.getAlgorithm() );
+		SecretKey secretKey = new SecretKeySpec((SECRET_KEY + "&").getBytes(),
+				mac.getAlgorithm());
+		try {
 			mac.init(secretKey);
-	
-			// generates the signature & retrieves server signature
-			String generatedSignature = Base64.encode(mac.doFinal(uri.getBytes())).trim();
-			String serverSignature = (request.getParameter("oauth_signature"));
-			    
-			// gets the time when the server generates the signature
-			long serverSignatureTime = Long.parseLong(request.getParameter("oauth_timestamp"));
-	
-			// gets the current time in seconds
-			long currentTime = System.currentTimeMillis() / 1000;
-	
-			// Checks the following:
-			// 1. the two signatures (locally generated and generated by server) matche
-			// 2. the difference between your local timestamp and 
-			// the incoming timestamp fall within an acceptable interval (e.g. 30 seconds). 
-			// You may adjust the allowance interval according to the time difference
-			// between your server and the API server.  In general, it is not recommended
-			// to set the interval more than 120 seconds (i.e. +/- 120 seconds)
-	
-			boolean check1 = serverSignature.equals(generatedSignature);
-			boolean check2 = (Math.abs(serverSignatureTime - currentTime) <= 30);
-			Calendar serverCal = Calendar.getInstance();
-			Calendar yourCal = Calendar.getInstance();
-			/*		System.out.println("Server timestamp: " + 
-					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(serverCal.setTimeInMillis(serverSignatureTime * 1000).getTime()));
-			System.out.println("Your timestamp: " + 
-					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(yourCal.setTimeInMillis(currentTime * 1000).getTime()));;
-	*/
-			// Use this after syncing your system time with the server time
-			// if(check1 && check2)  {
-	
-			// Use this for now to see if check1 works
-			if (check1) {
-				//Your app-specific code goes here
-				out.println("You have successfully logged in");
-			    session.setAttribute("username", request.getParameter("smu_username"));
-			    session.setAttribute("fullname", request.getParameter("smu_fullname"));
-				out.println("Session attributes have been set");
-				out.println(session.getAttribute("username"));
-				out.println(session.getAttribute("fullname"));
-				//response.sendRedirect("mainPage.jsp");
-				
-				boolean firstTime = false;
-				
-				String loginUser = request.getParameter("smu_username");
-				String type = "test";
-				try{
-					UserDataManager udm = new UserDataManager();
-					User u = udm.retrieve(loginUser);
-						
-					if(u == null){
-						link = "details.jsp";
-					}else{
-						if(u.getUsername().matches(".*\\d.*")){
-							type = "Student";	
-						}else{
-							type ="Faculty";
-						}
-						
-						link = "mainPage.jsp";
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+
+		// generates the signature & retrieves server signature
+		String generatedSignature = new String(Base64.encodeBase64(mac
+				.doFinal(uri.getBytes())), "UTF-8").trim();
+		String serverSignature = (request.getParameter("oauth_signature"));
+
+		// gets the time when the server generates the signature
+		long serverSignatureTime = Long.parseLong(request
+				.getParameter("oauth_timestamp"));
+
+		// gets the current time in seconds
+		long currentTime = System.currentTimeMillis() / 1000;
+
+		// ensure that the difference between your local timestamp and
+		// the incoming timestamp fall within an acceptable interval (e.g. 30
+		// seconds).
+		// You may adjust the allowance interval according to the time
+		// difference
+		// between your server and the API server. In general, it is not
+		// recommended
+		// to set the interval more than 120 seconds (i.e. +/- 120 seconds)
+		//System.out.println(serverSignature);
+		//System.out.println(generatedSignature);
+		//System.out.println(callbackUrl);
+		if (serverSignature.trim().equals(generatedSignature.trim())) {
+
+			String username = request.getParameter("smu_username");
+			/**************************************************
+			 * IF INSIDE THIS BLOCK, USER IS AUTHENTICATED
+			 * INSERT YOUR CODE TO BE PERFORMED WHEN AUTHENTICATED	
+			 *************************************************/
+			session.setAttribute("username", username);
+			session.setAttribute("fullname", request.getParameter("smu_fullname"));
+			
+			// response.sendRedirect("mainPage.jsp");
+			System.out.println("login success");
+			
+			//System.out.println(request.getParameter("smu_groups"));
+			String loginUser = request.getParameter("smu_username");
+			
+			String type = "test";
+			try {
+				UserDataManager udm = new UserDataManager();
+				User u = udm.retrieve(loginUser);
+				if (u == null) {
+					link = "details.jsp";
+				} else {
+					if (u.getUsername().matches(".*\\d.*")) {
+						type = "Student";
+					} else {
+						type = "Faculty";
 					}
-					
-					session.setAttribute("type", type);
-					
-				}catch(Exception e){
-					e.printStackTrace();
-					System.out.println("Invalid Login");
+					link = "mainPage.jsp";
 				}
-				
-			} else {
-			    out.println("There is an error in the login process. Please try again.");
+				//session.setAttribute("type", type);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Invalid Login");
 			}
 			
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-		    out.println("There is an error in the login process. Please try again.");
-		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
-		    out.println("There is an error in the login process. Please try again.");
-		} 
-		rd = request.getRequestDispatcher(link);
-		
+		}else{
+			System.out.println();
+		}
+		RequestDispatcher rd = request.getRequestDispatcher(link);
 		rd.forward(request, response);
-		
 	}
-	
-	// Go to http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480PSAS
-	// After logging in, you will be redirected to the callback URL: http://localhost:8080/is480-scheduling/login
-	// Create a servlet having a servlet-mapping of the callback URL. The servlet has to dispatch the request object to this page
 
-    // sorted in alphabetical order. ordering is important
-    // when generating the signature
-   private static final String[] keys =
-   {
-       "oauth_callback", 
-       "oauth_consumer_key",
-       "oauth_nonce",
-       "oauth_signature_method",
-       "oauth_timestamp",
-       "oauth_version",
-       "smu_domain",
-       "smu_fullname",
-       "smu_groups",
-       "smu_username"};
-   
-   private static final String SECRET_KEY = "mstest2012";
-   
-   public static String encode(String plain) {
-       try {
-       String encoded = URLEncoder.encode(plain, "UTF-8");
-       
-       return encoded.replace("*", "%2A")
-               .replace("+", "%20")
-               .replace("%7E", "~");
-       } catch (Exception e) {
-           e.printStackTrace(); // hopefully this wont happen
-       }
-       return "";
-   }
+	public static String encode(String plain) {
+		try {
+			String encoded = URLEncoder.encode(plain, "UTF-8");
+
+			return encoded.replace("*", "%2A").replace("+", "%20")
+					.replace("%7E", "~");
+		} catch (Exception e) {
+			e.printStackTrace(); // hopefully this wont happen
+		}
+		return "";
+	}
+
 }
-

@@ -53,9 +53,8 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 	
-		String fullName = (String)session.getAttribute("fullname");
+		String fullName = (String) session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
-		
 		
 	%>
 		
@@ -183,10 +182,13 @@
             }
             %>
             </font></br>
-            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br><br>
+            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
 		
+		<%if(username != null){ %>
 		<a href="#">Apply for Project</a></br></form>
-		<%	
+		<%
+		}
+		
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>

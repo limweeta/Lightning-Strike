@@ -20,7 +20,7 @@
 	}
 	
 	for(int j = 0; j < str.length; j++){
-		out.print(str[j] + "\n");
+		System.out.print(str[j] + "\n");
 	}
 	
 

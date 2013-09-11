@@ -26,18 +26,28 @@
 			<tr>
 				<td><div id="welcome">Welcome, <%=fullName %></div></td>
 				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
-				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>
+				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	
 		   	</tr>
-		   	<tr>
-		   	<td></td>
-		   	<td></td>
+		   	<tr> 
+			   	<td></td> 
+			   	<td></td>
 		   	<%
-			if(fullName == null){
+			if(!fullName.equals("guest")){
 			%>
-		   	<td><a href="./index.jsp" id="profilelogout">Logout</a></td>
+		   		<td>
+		   		<form action="logout" method="post">
+		   			<input type="submit" value="Logout">
+		   		</form>
+		   		</td>
 		   	<%
 			}
 			%>
+			   	
+			</tr> 
+			<tr>
+		   	<td></td>
+		   	<td></td>
+		   	
 		   	</tr>
 	   	</table>
 	</div>	

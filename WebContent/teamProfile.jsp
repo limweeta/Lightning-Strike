@@ -40,6 +40,8 @@
 			StudentDataManager sdm = new StudentDataManager();
 			ArrayList<Student> members = sdm.getTeamListFromTeamId(Integer.parseInt(teamId));
 			
+			UserDataManager udm = new UserDataManager();
+			
 			TeamDataManager tdm = new TeamDataManager();
 			Team team = tdm.retrieve(Integer.parseInt(teamId));
 			
@@ -94,13 +96,26 @@
             }
             %>
 		</div>
+		<%if(username != null){ %>
 		<a href="#">Request to Join</a></br>
 		<a href="#">Leave Team</a></br>
-		<!-- add clause to check for pm to show delete button -->
+		<% 
+		}
+			
+		try{
+			if(udm.retrieve(username).getID() == team.getPmId()){
+				%>
 		<form method="post" action="deleteTeam">
 		<input type="hidden" name="teamId" value="<%=teamId %>">
 	<input type=submit value="Delete">
 	</form>
+				<%
+			
+			}
+		}catch(Exception e){}
+		
+		%>
+		
 		
 		<%
 		}

@@ -70,7 +70,7 @@ public class CreateTeamServlet extends HttpServlet {
 			}catch(Exception e){
 				System.out.println("Invalid Login");
 			}
-			
+			System.out.println(teamMembers[i]);
 			String role = roles[i];
 			int id = u.getID();
 			sdm.updateStudent(id, teamid, role);
