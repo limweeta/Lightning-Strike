@@ -80,6 +80,30 @@ public class SkillDataManager implements Serializable {
 		return userSkills;
 	}
 	
+	public ArrayList<String> getUserSkills(User u){
+		ArrayList<String> userSkills = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from user_skills where user_id = " + u.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			int userId = Integer.parseInt(array.get(1));
+			int skillId = Integer.parseInt(array.get(2));
+			
+			Skill skill = null;
+			String skillName = "";
+			try{
+				skill = retrieve(skillId);
+				skillName = skill.getSkillName();
+				userSkills.add(skillName);
+			}catch(Exception e){}
+		}
+		return userSkills;
+	}
+	
 	public void modify(){
 		
 	}

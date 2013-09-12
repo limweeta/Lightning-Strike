@@ -35,6 +35,21 @@ public class TeamDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public int retrievebyStudent(int id) throws Exception{
+		int teamId = 0;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from students where id = " + id + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			teamId	= Integer.parseInt(array.get(0));
+			//retrievedTeam = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId);
+		}
+		return teamId;
+	}
+	
 	public Team retrieve(int id) throws Exception{
 		Team retrievedTeam = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = " + id + ";");

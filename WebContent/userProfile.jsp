@@ -20,9 +20,9 @@
 <body>
  
 </br></br></br>
-	<div id="profilepic2"><a href="./ViewProfile.html"><img src="http://db.tt/Cfe7G4Z5" width="100" height="100" /></a></div>
-	<a href="#">Edit Profile Picture</a>
-	</br></br></br>
+	<!-- <div id="profilepic2"><a href="./ViewProfile.html"><img src="http://db.tt/Cfe7G4Z5" width="100" height="100" /></a></div>
+	<a href="#">Edit Profile Picture</a> 
+	</br></br></br>-->
 	<%
 	int profileid = 0;
 	
@@ -33,8 +33,15 @@
 	}
 	
 	UserDataManager udm = new UserDataManager();
-	User u = udm.retrieve(profileid);
-	String userType = u.getType();
+	User u = null;
+	String userType = "";
+	try{
+		u = udm.retrieve(profileid);
+		userType = u.getType();
+	}catch(Exception e){
+		response.sendRedirect("searchUser.jsp");
+	}
+	
 	//In case of Sponsor
 	SponsorDataManager sponsordm = new SponsorDataManager();
 	CompanyDataManager cdm = new CompanyDataManager();
@@ -44,9 +51,34 @@
 	Student student = sdm.retrieve(profileid);
 	
 	TeamDataManager tdm = new TeamDataManager();
+	int teamId = 0;
+	
+	String teamName = "";
+	
+	try{
+		teamId = tdm.retrievebyStudent(u.getID());
+		teamName = tdm.retrieve(teamId).getTeamName();
+	}catch(Exception e){
+		teamName = "No team yet";
+	}
+	
 	
 	ProjectDataManager pdm = new ProjectDataManager();
+	ArrayList<Project> projArray = pdm.retrieveAll(); 
+	Project proj = null;
+	String projName = "";
+	int projId =0;
 	
+	try{
+		proj = pdm.getProjFromTeam(projArray, teamId);
+		projName = proj.getProjName();
+		projId = proj.getId();
+	}catch(Exception e){
+		projName = "No project yet";
+	}
+	
+	SkillDataManager skdm = new SkillDataManager();
+	ArrayList<String> userSkills = skdm.getUserSkills(u);
 	%>
 	<div class="container" id="userdetails">
 	<%-- <% if(userType.equals("Student")){%>
@@ -59,16 +91,39 @@
 	%> --%>
 	<form id="userprofile">
 	<font size="4" face="Courier">Name:</font>
-	<input type="text" id="username" value="<%=u.getFullName()%>"></br>
+	<%=u.getFullName()%></br>
 	<font size="4" face="Courier">Contact Number:</font>
-	<input type="text" id="contactno" value="<%=u.getContactNum()%>"></br>
+	<%=u.getContactNum()%></br>
 	<font size="4" face="Courier">Email:</font>
-	<input type="text" id="email" value="<%=u.getEmail()%>"></br>
+	<%=u.getEmail()%></br>
 	<h1>About Me:</h1>
 	<!-- if user is a student -->
 	<%if(userType.equals("Student")){%>
-	<font size="4" face="Courier">Second Major:</font></br>
-	<input type="text" id="email" value="<%=student.getSecondMajor()%>">
+	<font size="4" face="Courier">Second Major:</font> <%=student.getSecondMajor()%>
+	<br /><br />
+	<font size="4" face="Courier">Skills:</font><br />
+	<%
+	if(userSkills.size() < 1){
+		%>
+		No skills recorded
+		<%
+	}else{
+		int count = 0;
+		for(int i  = 0; i < userSkills.size(); i++){
+			count = i + 1;
+			out.print(userSkills.get(i) + " | ");
+			
+			if(count % 3 == 0){
+				%>
+				<br />
+				<%
+			}
+		}
+	}
+	%>
+	<br /><br />
+	<font size="4" face="Courier">Team: <a href="teamProfile.jsp?id=<%=teamId%>"><%=teamName%></a></font><br /><br />
+	<font size="4" face="Courier">Project: <a href="projectProfile.jsp?id=<%=projId%>"><%=projName%></a></font>
 	</br>
 	<%} %>
 	</form>

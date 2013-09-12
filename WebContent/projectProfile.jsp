@@ -4,30 +4,7 @@
 <html>
 
 <style type="text/css">
-	#smulogo{
-	width: 600px;
-    height: 200px;
-	}
-   	#welcome{
-   		font-size: 15px;
-   		font-family:Courier;
-   	}
-   	#profilepic{
-      	position:fixed;
-    	top:15px;
-    	right:15px;
-   	}
-   	#profilelogout{
-   		position:fixed;
-   		top:80px;
-   		right:20px;
-   	}
-   	#notifications{
-    	position:fixed;
-    	top:15px;
-    	right:80px;
-   	}
-	h1{
+/* 	h1{
 		font-family:Impact;
 		font-size:1.75em;
 	}
@@ -40,18 +17,19 @@
 	}
 	#teamLimit{
 		width:5em;
-	}
+	}*/
 	textarea{
 		resize: none;
-	}
+		font-size: 1em;
+	} 
 </style>
-	<head>
-	<img src="http://db.tt/mjn0dKYe" id="smulogo"/>
+<head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>  
-    
+    <script src="js/jquery.autocomplete.js"></script> 
+    	<%@ include file="template.jsp" %> 
+<%--     
 	<% 	
 		String fullName = (String) session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
@@ -63,11 +41,16 @@
 		<%@include file="navbar.jsp"%>
 	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
 	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
-	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div>
+	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div> --%>
+
 	</head>
 	<body>
 	<%
 	int reqId = Integer.parseInt(request.getParameter("id"));
+	
+	if(reqId == 0){
+		response.sendRedirect("searchProjects.jsp");
+	}else{
 	
 	TeamDataManager tdm = new TeamDataManager();
 	ArrayList<Team> teams = tdm.retrieveAll();
@@ -149,18 +132,17 @@
 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
 			<font size="4" face="Courier">Project Description:</font></br>
-			 <textarea id="about" rows="10" cols="75" disabled>
-			 <%=reqProj.getProjDesc().trim() %>
+			 <textarea id="about" rows="10" cols="75" disabled><%=reqProj.getProjDesc().trim() %>
 			 </textarea>
         </div>
              </br>
-            <font size="4" face="Courier">Sponsor: <%=sponsorName %></font></br>
-            <font size="4" face="Courier">Team: <%=projTeamName %></font></br> 	
-            <font size="4" face="Courier">Supervisor: <%=supervisor %></font></br>
-            <font size="4" face="Courier">Reviewer(s): <%=reviewers %></font></br>
-            <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br>
-            <font size="4" face="Courier">Company: <%=company %></font></br>
-            <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br>
+            <font size="4" face="Courier">Sponsor: <%=sponsorName %></font></br></br>
+            <font size="4" face="Courier">Team: <%=projTeamName %></font></br></br>
+            <font size="4" face="Courier">Supervisor: <%=supervisor %></font></br></br>
+            <font size="4" face="Courier">Reviewer(s): <%=reviewers %></font></br></br>
+            <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br></br>
+            <font size="4" face="Courier">Company: <%=company %></font></br></br>
+            <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br></br>
             <font size="4" face="Courier">Technology: 
             <%
             if(tech.size() < 1){
@@ -171,17 +153,17 @@
 	            for(int i = 0; i< tech.size(); i++){
 	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
 	            %>
-	            <%=technology.getTechName() + " " %>
+	            <%=technology.getTechName() + " | " %>
 	            <%
 	            	if((i+1)% 5 == 0){
 	            	%>
-	            	<br />
+	            	</br>
 	            	<%	
 	            	}
 	            }
             }
             %>
-            </font></br>
+            </font></br></br>
             <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
 		
 		<%if(username != null){ %>
@@ -197,10 +179,9 @@
 		<input type=submit value="Delete">
 		</form>
 				<%
-			
 			}
 		}catch(Exception e){}
-		
+	}
 		%>
 
 	

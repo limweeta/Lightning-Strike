@@ -52,9 +52,10 @@
 			
 			Project teamProj = pdm.getProjFromTeam(projs, Integer.parseInt(teamId));
 			String projName = "";
-			
+			int projId = 0;
 			try{
 				projName = teamProj.getProjName();
+				projId = teamProj.getId();
 			}catch(Exception e){
 				projName = "No Project Yet";
 			}
@@ -77,12 +78,12 @@
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<%=student.getFullName() %><br>
+            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a><br>
             	<%
             }
             %>
             </font></br>
-            <font size="4" face="Courier">Project: <%=projName %></br>	
+            <font size="4" face="Courier">Project: <a href="projectProfile.jsp?id=<%=projId%>"><%=projName %></a></br>	
             <br>
             Team Skills:<br>
             <%
@@ -94,9 +95,9 @@
             	int skillId = skillset.get(i);
             	Skill skill = skdm.retrieve(skillId);
             	%>
-            	<%=skill.getSkillName() %>
+            	<%=skill.getSkillName() + " | " %>
             	<%
-            	if(count % 5 == 0){
+            	if(count % 3 == 0){
             		%>
             		<br>
             		<%
