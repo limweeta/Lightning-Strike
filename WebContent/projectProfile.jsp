@@ -65,10 +65,12 @@
 	System.out.println(reqProj.getTeamId());
 	Team projTeam = null; 
 	String projTeamName = "";
+	int projTeamId = 0;
 	
 	try{
 		projTeam = tdm.retrieve(reqProj.getTeamId());
 		projTeamName = projTeam.getTeamName();
+		projTeamId = projTeam.getId();
 	}catch(Exception e){
 		projTeamName = "No Team Yet";
 	}
@@ -76,10 +78,12 @@
 	User projSponsor = null;
 	String company = "";
 	String sponsorName = "";
+	int sponsorId = 0;
 	try{
 		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
 		company = sdm.retrieve(reqProj.getSponsorId()).getCoyName();
 		sponsorName = projSponsor.getFullName();
+		sponsorId = projSponsor.getID();
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
 		company = "Not Applicable";
@@ -170,14 +174,20 @@
 		<a href="#">Apply for Project</a></br></form>
 		<%
 		}
-		
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>
-		<form method="post" action="deleteProject">
-			<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-		<input type=submit value="Delete">
-		</form>
+     <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
+					
+			<form method="post" action="updateProject">
+				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+			<input type=submit value="Update">
+			</form>	
+					
+			<form method="post" action="deleteProject">
+				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+			<input type=submit value="Delete">
+			</form>
 				<%
 			}
 		}catch(Exception e){}

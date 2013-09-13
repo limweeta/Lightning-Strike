@@ -133,7 +133,20 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
-	public void modify(Student student){
+	public void modify(User user, Student student, String[] skills){
+		MySQLConnector.executeMySQL("update", "UPDATE users SET "
+				+ "contact_num = " + user.getContactNum() + " "
+				+ "WHERE id = " + user.getID());
+		
+		MySQLConnector.executeMySQL("update", "UPDATE students SET "
+				+ "second_major = " + student.getSecondMajor() + " "
+				+ "WHERE id = " + user.getID());
+		
+		//CLEAR ALL USER_SKILL DATA IN DB
+		MySQLConnector.executeMySQL("delete", "DELETE FROM user_skills WHERE user_id = " + user.getID());
+		
+		UserDataManager udm = new UserDataManager();
+		udm.addSkills(skills, user.getID());
 		
 	}
 	

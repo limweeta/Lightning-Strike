@@ -34,7 +34,7 @@
 		   	if (username == null){
 		   	%>
 		   	<td><a onclick="document.location.href='http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm';" id="ssologin">SSO Login</a></td>
-		   	<td><a onclick="./login.jsp" id="login">Login</a></td>
+		   	<td><a href="./login.jsp" id="login">Login</a></td>
 		   	<%
 		   	}else{
 		   	%>

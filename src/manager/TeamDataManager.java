@@ -108,7 +108,32 @@ public class TeamDataManager implements Serializable {
 		//System.out.println("Updated Projects table");
 	}
 	
-	public void modify(){
+	public void modify(Team team){
+		MySQLConnector.executeMySQL("update", "UPDATE teams SET "
+				+ "team_name = '" + team.getTeamName() + "', "
+				+ "team_description = '" + team.getTeamDesc() + "', "
+				+ "team_limit = " + team.getTeamLimit() + ", "
+				+ "pm_id = " + team.getPmId() + " "
+				+ "WHERE id = " + team.getId());
+	}
+	
+	public void modifyStudents(Team team, String[] members, String[] roles){
+		//CLEAR ALL CURRENT TEAM MEMBERS INFO
+		for(int i = 0; i < members.length; i++){
+			MySQLConnector.executeMySQL("update", "UPDATE students SET "
+					+ "role = '', "
+					+ "team_id = 0 "
+					+ "WHERE id = " + Integer.parseInt(members[i]));
+		}
+		
+		
+		//UPDATE WITH NEW MEMBERS AND ROLES
+		for(int i = 0; i < members.length; i++){
+			MySQLConnector.executeMySQL("update", "UPDATE students SET "
+					+ "role = " + Integer.parseInt(roles[i]) + ", "
+					+ "team_id = " + team.getId() + ", "
+					+ "WHERE id = " + Integer.parseInt(members[i]));
+		}
 		
 	}
 	

@@ -97,6 +97,14 @@ public class Project{
 		this.creator_id = creator_id;
 	}
 	
+	public void setCoyId(int coyId){
+		this.coyId = coyId;
+	}
+	
+	public void setTeamId(int teamId){
+		this.teamId = teamId;
+	}
+	
 	public void setTermId(String termId){
 		this.termId = termId;
 	}

@@ -239,7 +239,60 @@ public class ProjectDataManager implements Serializable {
 		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES (" + nextId + ", " + projid + ", " + techid + ");");
 	}
 	
-	public void modify(){
+	public void modify(Project p){
+		int coyId = p.getCoyId();
+		int teamId = p.getTeamId();
+		int sponsorId = p.getSponsorId();
+		int supervisorId = p.getSupervisorId();
+		int rev1Id = p.getReviewer1Id();
+		int rev2Id = p.getReviewer2Id();
+		
+		String projName = p.getProjName();
+		String projDesc = p.getProjDesc();
+		String projStatus = p.getStatus();
+		
+		int industryId = p.getIndustry();
+		String termId = p.getTermId();
+		
+		MySQLConnector.executeMySQL("update", "UPDATE projects SET "
+				+ "company_id = " + coyId + ", "
+				+ "team_id = " + teamId + ", "
+				+ "sponsor_id = " + sponsorId + ", "
+				+ "supervisor_id = " + supervisorId + ", "
+				+ "reviewer1Id = " + rev1Id + ", "
+				+ "reviewer2Id = " + rev2Id + ", "
+				+ "project_name = '" + projName + "', "
+				+ "project_description = '" + projDesc + "', "
+				+ "status = '" + projStatus + "', "
+				+ "industry_id = " + industryId + ", "
+				+ "termId = '" + termId + "' "
+				+ "WHERE id = " + p.getId());
+	}
+	
+	public void modifyTechnology(Project p, String[] techArray){
+		MySQLConnector.executeMySQL("delete", "delete from project_technologies where project_id = " + p.getId() + ";");
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		int nextId = 0;
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			int retrievedId 	= 	Integer.parseInt(array.get(0));
+			
+			if(nextId <= retrievedId){
+				nextId = retrievedId + 1;
+			}
+			
+		}
+		
+		for(int i = 0; i < techArray.length; i++){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES(" + nextId +", " + p.getId() + ", " + Integer.parseInt(techArray[i]));
+			nextId++;
+		}
 		
 	}
 	
