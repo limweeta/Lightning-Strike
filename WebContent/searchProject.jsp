@@ -76,7 +76,14 @@
 			Project proj = projects.get(i);
 			int id = proj.getId();
 			String name = proj.getProjName();
-			String desc = proj.getProjDesc();
+			String desc = "";
+			
+			try{
+				desc = proj.getProjDesc();
+			}catch(Exception e){
+				desc = "None";
+			}
+			
 			int sponsorid = proj.getSponsorId();
 			String term = proj.getTermId();
 			count++;

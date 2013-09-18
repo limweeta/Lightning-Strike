@@ -3,7 +3,6 @@
 <%@ page import="java.util.*" %>
 <html>
 	<head>
-
 	<%@include file="template.jsp"%>
 	<%
 	StudentDataManager sdm = new StudentDataManager();
@@ -32,7 +31,6 @@
 				$('#example').dataTable();
 			} );
 		</script>
-
 	</head>
 	<body id="dt_example">
 		<div id="container">

@@ -19,12 +19,10 @@
 	nav ul li:hover a{
 		font-color: #fff;
 		text-decoration: underline;
-		font-family: Helvetica;
 	}
 	nav ul li a {
-		display: block; padding: 6px 35px;
+		display: block; padding: 2px 35px;
 		color: #000; text-decoration: none;
-		text-family: Helvetica;
 	}
 	nav ul ul {
 		background: #FAF260; border-radius: 0px; padding: 0px;
@@ -37,10 +35,8 @@
 	nav ul ul li a{
 		color: #000;
 		text-decoration: underline;
-		font-family: Helvetica;
 	}	
 	nav ul ul li:hover a{
 		background: #FAF260;
 		text-decoration: none;
-		font-family: Helvetica;
 	}

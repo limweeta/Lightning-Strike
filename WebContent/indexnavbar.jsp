@@ -1,6 +1,6 @@
 <html>
 <style type="text/css" > 	
-	@import "./css/navbar.css";
+	@import "./css/indexnavbar.css";
 </style>
 <div class="nav">
 <nav>
