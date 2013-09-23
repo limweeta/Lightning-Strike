@@ -47,7 +47,7 @@
 	</div>	
 	</div>
 	<div class="navcontainer">
-		<%@include file="indexnavbar.jsp"%>
+		<%@include file="navbar2.jsp"%>
 	</div></br></br>
   </head>
 <body>

@@ -54,7 +54,7 @@
 	</div>	
 	</div>
 	<div class="navcontainer">
-		<%@include file="navbar.jsp"%>
+		<%@include file="navbar2.jsp"%>
 	</div></br></br></br>
   </head>
 <body>
