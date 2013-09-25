@@ -65,66 +65,86 @@ if (teamDesc==null || teamDesc=="")
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
-						<font size="4" face="Courier">Team Name:</font></br>
-						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Team Description:</font></br>
-						<textarea id="teamDesc" cols="97" rows="10" name="teamDesc"></textarea></br>
-						</br>
-						<font size="4" face="Courier">Team Limit:</font></br>
-						<select value="teamLimit" id="teamLimit" name="teamLimit">
-						  <option value="4">4</option>
-						  <option value="5">5</option>
-						  <option value="6">6</option>
-						</select></br></br>
+					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
+						<fieldset>
 						
-						<font size="4" face="Courier">Team Members:</font></br>
-	
-						<input type= "text" id="username" name="username" value="<%=username%>" disabled>
-						<input type="hidden" id="username" name="username" value="<%=username%>">
-						<input type="hidden" id="memberRole" name="memberRole" value="Project Manager">
-						<select value="memberRole" id="memberRole" name="memberRole" disabled>
-						  <option value="projectManager">Project Manager</option>
-						</select></br>
+						<!-- Form Name -->
+						<legend>Create Team</legend>
 						
-						<input type= "text" id="username" name="username" placeholder="Enter username here">
-						<select value="memberRole" id="memberRole" name="memberRole">
-						  <option value="developer">Developer</option>
-						  <option value="designer">Designer</option>
-						  <option value="analyst">Analyst</option>
-						  <option value="databaseArchitect">Database Architect</option>
-						  <option value="qualityAssurance">Quality Assurance</option>
-						</select></br>
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="teamname">Team Name</label>
+						  <div class="controls">
+						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large">
+						    
+						  </div>
+						</div>
 						
-						<input type= "text" id="username" name="username" placeholder="Enter username here">
-						<select value="memberRole" id="memberRole" name="memberRole">
-						  <option value="developer">Developer</option>
-						  <option value="designer">Designer</option>
-						  <option value="analyst">Analyst</option>
-						  <option value="databaseArchitect">Database Architect</option>
-						  <option value="qualityAssurance">Quality Assurance</option>
-						</select></br>
+						<!-- Textarea -->
+						<div class="control-group">
+						  <label class="control-label" for="teamdescription">Team Description</label>
+						  <div class="controls">                     
+						    <textarea id="teamdescription" name="teamdescription"></textarea>
+						  </div>
+						</div>
 						
-						<input type= "text" id="username" name="username" placeholder="Enter username here">
-						<select value="memberRole" id="memberRole" name="memberRole">
-						  <option value="developer">Developer</option>
-						  <option value="designer">Designer</option>
-						  <option value="analyst">Analyst</option>
-						  <option value="databaseArchitect">Database Architect</option>
-						  <option value="qualityAssurance">Quality Assurance</option>
-						</select></br>
+						<!-- Select Basic -->
+						<div class="control-group">
+						  <label class="control-label" for="teamlimit">Team Limit</label>
+						  <div class="controls">
+						    <select id="teamlimit" name="teamlimit" class="input-large">
+						      <option>4</option>
+						      <option>5</option>
+						      <option>6</option>
+						    </select>
+						  </div>
+						</div>
 						
-						<input type= "text" id="username" name="username" placeholder="Enter username here">
-						<select value="memberRole" id="memberRole" name="memberRole">
-						  <option value="developer">Developer</option>
-						  <option value="designer">Designer</option>
-						  <option value="analyst">Analyst</option>
-						  <option value="databaseArchitect">Database Architect</option>
-						  <option value="qualityAssurance">Quality Assurance</option>
-						</select></br>
-						</br>
-						<input type="submit" id="createTeam" name="createTeam" value="Create Team"/>
-					</form>
+						<label class="control-label" for="teammembers">Team Members:</label>
+						
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="projectmanager">Project Manager</label>
+						  <div class="controls">
+						    <input id="projectmanager" name="projectmanager" type="text" placeholder="<%=username%>" class="input-large" disabled>
+						    <input type="hidden" id="username" name="username" value="<%=username%>">
+						  </div>
+						</div>
+						
+						<!-- Button Drop Down -->
+						<div class="control-group">
+						  <label class="control-label" for="member1">Member</label>
+						  <div class="controls">
+						    <div class="input-append">
+						      <input id="member1" name="member1" class="input-large" placeholder="User Name" type="text">
+						      <div class="btn-group">
+						        <button class="btn dropdown-toggle" data-toggle="dropdown">
+						          Member Role
+						          <span class="caret"></span>
+						        </button>
+						        <ul class="dropdown-menu">
+						          <li><a href="#">Developer</a></li>
+						          <li><a href="#">Designer</a></li>
+						          <li><a href="#">Analyst</a></li>
+						          <li><a href="#">Database Architect</a></li>
+						          <li><a href="#">Quality Assurance</a></li>
+						        </ul>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Button -->
+						<div class="control-group">
+						  <label class="control-label" for="createteam"></label>
+						  <div class="controls">
+						    <button id="createteam" name="createteam" class="btn btn-success">Create Team</button>
+						  </div>
+						</div>
+						
+						</fieldset>
+						</form>
+					
 					<br/>
 				</div>
 			</div>

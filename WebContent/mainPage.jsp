@@ -2,9 +2,13 @@
 <style type="text/css" title="currentStyle">
 	@import "./css/style.css";
 </style>
+<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
+	
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="./js/bootstrap.js"></script>
+
 <body>
-<%@include file="template.jsp"%>
-<h1>Announcements</h1></br>
-<iframe src="http://" scrolling="yes" height=400px; width=600px;></iframe>
+<%@include file="maintemplate.jsp"%>
+
 </body>
 </html>

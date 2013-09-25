@@ -17,7 +17,7 @@
 	<div id="topbanner">
 	<div class="headercontainer">
 		<a href="./index.jsp">
-		<img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a>
+		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
 		<%
 			if(fullName == null){
 				fullName = "guest";
@@ -55,8 +55,6 @@
 	</div>
 	<div class="navcontainer">
 		<%@include file="navbar2.jsp"%>
-	</div></br></br></br>
+	</div></br></br>
   </head>
-<body>
-</body>
 </html>

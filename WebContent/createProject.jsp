@@ -49,7 +49,10 @@ if (projectOrganization==null || projectOrganization=="")
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
-    
+    <link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
+	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="./js/bootstrap.js"></script>
 	<%@ include file="template.jsp" %>
 	<%	
 		if(username == null){
@@ -63,74 +66,114 @@ if (projectOrganization==null || projectOrganization=="")
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form action="createProject" method="post" name="creatProj" onsubmit="return validateForm()">
-						<font size="4" face="Courier">Project Name:</font></br>
-						<input id="projectName" type="text" name="projectName"></br></br>	
-						<font size="4" face="Courier">Project Term:</font></br>
-						<select name="projectTerm">
-						  <option value="2013/2014T1">2013/2014 T1</option>
-						  <option value="2013/2014T2">2013/2014 T2</option>
-						  <option value="2012/2013T1">2012/2013 T1</option>
-						  <option value="2012/2013T2">2012/2013 T2</option>
-						</select></br></br>
-						<font size="4" face="Courier">Project Description:</font></br>
-						<textarea name="projectDescription" cols="97" rows="10"></textarea></br></br>
-						<font size="4" face="Courier">Project Status:</font></br>
-						<select name="projectStatus" disabled>
-						  <option value="Open" selected>Open</option>
-						</select></br></br>
-						<font size="4" face="Courier">Industry Type:</font></br>
-						<select name="industryType">
-						  <%
-						  IndustryDataManager idm = new IndustryDataManager();
-						  ArrayList<Industry> industries = idm.retrieveAll();
-						  
-						  for(int i = 0; i < industries.size(); i++){
-							  Industry ind = industries.get(i);
-							  %>
-							  <option value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
-							  <%
-						  }
-						  %>
-						</select></br></br>
+					<form class="form-horizontal" action="createProject" onsubmit="return validateForm()">
+						<fieldset>
 						
-						<font size="4" face="Courier">Technology:</font></br>
-						<select name="techType" size=5 multiple>
-						  <%
-						  TechnologyDataManager tdm = new TechnologyDataManager();
-						  ArrayList<Technology> technologies = tdm.retrieveAll();
-						  
-						  for(int i = 0; i < technologies.size(); i++){
-							  Technology tech = technologies.get(i);
-							  %>
-							  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
-							  <%
-						  }
-						  %>
-						</select></br></br>
+						<!-- Form Name -->
+						<legend>Create Project</legend>
 						
-						<!-- Company name to have autocomplete in accordance to database -->
-						<!-- include hidden field for id -->
-						<font size="4" face="Courier">Project Organization:</font></br>
-						<input id="projectOrganization" type="text" name="projectOrganization"></br></br>
-					<!-- 
-						<font size="4" face="Courier">Contact Details: </font></br>
-						<font size="4" face="Courier">Contact Name: </font>&nbsp;&nbsp;
-						<input type="text" name="contactName">
-						<font size="4" face="Courier">Contact Number: </font>&nbsp;&nbsp;<input type="text" name="contactNumber"></br></br>
-						<font size="4" face="Courier">Team Name:</font></br>
-						 -->
-						<!-- Team name to be extracted from session -->
-						<!-- include hidden field for id -->
-						<!-- Team name field to be uneditable -->
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="projectname">Project Name</label>
+						  <div class="controls">
+						    <input id="projectname" name="projectname" type="text" placeholder="Project Name" class="input-large">
+						    
+						  </div>
+						</div>
+						
+						<!-- Select Basic -->
+						<div class="control-group">
+						  <label class="control-label" for="projectterm">Project Term</label>
+						  <div class="controls">
+						    <select id="projectterm" name="projectterm" class="input-large">
+						      <option>2013/2014 T1</option>
+						      <option>2013/2014 T2</option>
+						      <option>2014/2015 T1</option>
+						      <option>2014/2015 T2</option>
+						    </select>
+						  </div>
+						</div>
+						
+						<!-- Textarea -->
+						<div class="control-group">
+						  <label class="control-label" for="projectdescription">Project Description</label>
+						  <div class="controls">                     
+						    <textarea id="projectdescription" name="projectdescription"></textarea>
+						  </div>
+						</div>
+						
+						<!-- Select Basic -->
+						<div class="control-group">
+						  <label class="control-label" for="projectstatus">Project Status</label>
+						  <div class="controls">
+						    <select id="projectstatus" name="projectstatus" class="input-large" disabled>
+						      <option>Open</option>
+						      <option>Closed</option>
+						      <option>Completed</option>
+						    </select>
+						  </div>
+						</div>
+						
+						<!-- Select Basic -->
+						<div class="control-group">
+						  <label class="control-label" for="industrytype">Industry Type</label>
+						  <div class="controls">
+						    <select id="industrytype" name="industrytype" class="input-large">
+								 <%
+								  IndustryDataManager idm = new IndustryDataManager();
+								  ArrayList<Industry> industries = idm.retrieveAll();
+								  
+								  for(int i = 0; i < industries.size(); i++){
+									  Industry ind = industries.get(i);
+									  %>
+									  <option value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
+									  <%
+								  }
+								  %>
+						    </select>
+						  </div>
+						</div>
+						
+						<!-- Select Multiple -->
+						<div class="control-group">
+						  <label class="control-label" for="technology">Technology</label>
+						  <div class="controls">
+						    <select id="technology" name="technology" class="input-large" multiple="multiple">
+						    <%
+							  TechnologyDataManager tdm = new TechnologyDataManager();
+							  ArrayList<Technology> technologies = tdm.retrieveAll();
+							  
+							  for(int i = 0; i < technologies.size(); i++){
+								  Technology tech = technologies.get(i);
+								  %>
+								  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
+								  <%
+							  }
+							  %>
+							    </select>
+						  </div>
+						</div>
+						
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="organization">Project Organization</label>
+						  <div class="controls">
+						    <input id="organization" name="organization" type="text" placeholder="Project Organization" class="input-large">
+						    
+						  </div>
+						</div>
+						
+						<!-- Button -->
+						<div class="control-group">
+						  <label class="control-label" for="createproject"></label>
+						  <div class="controls">
+						    <button id="createproject" name="createproject" class="btn btn-success">Create Project</button>
+						  </div>
+						</div>
+						
+						</fieldset>
+						</form>
 					
-					 <!--  
-						<input id="teamName" type="text" name="teamName"></br></br>
-						<font size="4" face="Courier">Project Diagrams:</font></br>
-						<textarea id="projectDiagrams" cols="97" rows="10" disabled></textarea></br>
-						</br>-->
-						<input id="createProject" type="submit" value="Create Project"> 
-					</form>
 					<br/>
 				</div>
 			</div>

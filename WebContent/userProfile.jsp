@@ -89,7 +89,7 @@
 			<%@include file="userprofiletemplate.jsp" %>
 	<%}
 	%> --%>
-	<form id="userprofile">
+<%-- 	<form id="userprofile">
 	<font size="4" face="Courier">Name:</font>
 	<%=u.getFullName()%></br>
 	<font size="4" face="Courier">Contact Number:</font>
@@ -126,7 +126,109 @@
 	<font size="4" face="Courier">Project: <a href="projectProfile.jsp?id=<%=projId%>"><%=projName%></a></font>
 	</br>
 	<%} %>
+	</form> --%>
+	<div class="span9 well">
+	<div class="row">
+	<form class="form-horizontal">
+		<fieldset>
+		
+		<!-- Form Name -->
+		<legend>User Profile</legend>
+		
+			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
+			</div>
+		<div class="span8">
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="fullname">Name</label>
+		  <div class="controls">
+		    <input id="fullname" name="fullname" type="text" placeholder="<%=u.getFullName()%>" class="input-large">
+		    
+		  </div>
+		</div>
+		<!-- </div></br> --></br>
+		<!-- <div class="span3"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="contactno">Contact</label>
+		  <div class="controls">
+		    <input id="contactno" name="contactno" type="text" placeholder="<%=u.getContactNum()%>" class="input-large">
+		  </div>
+		</div>
+		<!-- </div> --></br>
+		<!-- <div class="span4"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="email">Email</label>
+		  <div class="controls">
+		    <input id="email" name="email" type="text" placeholder="<%=u.getEmail()%>" class="input-xlarge">
+		    
+		  </div>
+		</div>
+		<%if(userType.equals("Student")){%>
+		<!-- </div> --></br>
+		<!-- <div class="span5"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="secondmajor">Second Major</label>
+		  <div class="controls">
+		    <input id="secondmajor" name="secondmajor" type="text" placeholder="<%=student.getSecondMajor()%>" class="input-large">
+		    
+		  </div>
+		</div>
+		<!-- Textarea -->
+		<div class="control-group">
+		  <label class="control-label" for="skills">Skills</label>
+		  <div class="controls">                     
+		    <textarea id="skills" name="skills"><%
+				if(userSkills.size() < 1){
+					%>
+					No skills recorded
+					<%
+				}else{
+					int count = 0;
+					for(int i  = 0; i < userSkills.size(); i++){
+						count = i + 1;
+						out.print(userSkills.get(i) + " | ");
+						
+						if(count % 3 == 0){
+							%>
+							<br />
+							<%
+						}
+					}
+				}
+				%>
+			</textarea>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="team"></label>
+		  <div class="controls">
+		  	<a href="teamProfile.jsp?id=<%=teamId%>"><span class="label label-info"><%=teamName%></span></a>
+		  </div>
+		</div></br>
+		<div class="control-group">
+		  <label class="control-label" for="project"></label>
+		  <div class="controls">
+		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
+		  </div>
+		</div>
+		<%} %>
+		<!-- </div> --></br>
+		<!-- <div class="span7"> -->
+		<!-- Button -->
+		<div class="control-group">
+		  <label class="control-label" for="editprofile"></label>
+		  <div class="controls">
+		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
+		  </div>
+		</div>
+		</div></br>
+		</fieldset>
 	</form>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

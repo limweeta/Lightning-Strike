@@ -4,21 +4,6 @@
 <html>
 <style type="text/css">
 	@import "./css/template.css";
-	#username{
-		position:absolute;
-		left:20%;
-		top:55%;
-	}
-	#email{
-		position:absolute;
-		left:40%;
-		top:55%;
-	}
-	#contactno{
-		position:absolute;
-		left:20%;
-		top:63%;
-	}
 </style>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
@@ -28,13 +13,11 @@
 	<%
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
-		String id=(String)session.getAttribute("profileid");
-		int iD = Integer.parseInt(id);
-		SponsorDataManager sdm = new SponsorDataManager();
-		Sponsor sponsor= sdm.retrieve(iD);
 	%>
-<div id="topbanner">
+	<div id="topbanner">
 	<div class="headercontainer">
+		<a href="./index.jsp">
+		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
 		<%
 			if(fullName == null){
 				fullName = "guest";
@@ -72,16 +55,16 @@
 	</div>
 	<div class="navcontainer">
 		<%@include file="navbar2.jsp"%>
-	</div></br></br></br>
+	</div></br></br>
   </head>
 <body>
- 	<form id="userprofile">
-	<input type="text" id="username" value="<%=sponsor.getFullName()%>">
-	<input type="text" id="contactno" value="<%=sponsor.getContactNum()%>">
-	<input type="text" id="email" value="<%=sponsor.getEmail()%>">
-	<font size="4" face="Courier">Company:</font></br>
-	<input type="text" id="companyname" value="<%=sponsor.getCoyName()%>"></br>
-	</br>
-	</form> 
+		<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Announcements</h3>
+		</div>
+		<div class="panel-body">
+			
+		</div>
+	</div>
 </body>
 </html>

@@ -61,20 +61,20 @@
 		margin: 0px auto;
 		background-position: center;
 	} */
-	#topbanner{
-		background-image: url('http://db.tt/CdVfGnjY');
-		background-repeat: repeat-x;
-		position: relative;
-		width: 100%;
-	}
+/* 	#topbanner{ */
+/* 		background-image: url('http://db.tt/CdVfGnjY'); */
+/* 		background-repeat: repeat-x; */
+/* 		position: relative; */
+/* 		width: 100%; */
+/* 	} */
 	.headercontainer{
 		position: relative;
 		width:98%;
 		margin-left: 1%;
 		margin-right: 1%;
 	}
-	.navcontainer{
+/* 	.navcontainer{
 		background-image: url('http://db.tt/1qE4OBxi');
 		margin-top:-0.5%;
 		height: 6%;
-	}
+	} */
