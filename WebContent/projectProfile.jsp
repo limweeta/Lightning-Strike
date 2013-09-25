@@ -142,8 +142,61 @@
              </br>
             <font size="4" face="Courier">Sponsor: <%=sponsorName %></font></br></br>
             <font size="4" face="Courier">Team: <%=projTeamName %></font></br></br>
-            <font size="4" face="Courier">Supervisor: <%=supervisor %></font></br></br>
-            <font size="4" face="Courier">Reviewer(s): <%=reviewers %></font></br></br>
+            <font size="4" face="Courier">Supervisor: </font>
+            <%
+	            if(supervisor.equalsIgnoreCase("No Supervisor Yet")){ //TO-DO:check for admin status
+	            	%>
+	            	<form method=post action="/assignSupervisor">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignSup">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else{
+	            	out.print(supervisor);
+	            }
+            %>
+            </br></br>
+            <font size="4" face="Courier">Reviewer(s): 
+            <%
+            if(projTeam != null){
+	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="text" name="assignRev2">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
+	            	out.print(rev1);
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
+	            	out.print(rev2);
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else{
+	            	out.println(rev1 + ", " + rev2);
+	            }
+            }
+            %>
+         	</font></br></br>
             <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br></br>
             <font size="4" face="Courier">Company: <%=company %></font></br></br>
             <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br></br>

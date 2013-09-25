@@ -81,6 +81,23 @@
     <url-pattern>/updateProfile</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>AssignSupervisorServlet</servlet-name>
+    <servlet-class>servlet.AssignSupervisorServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AssignSupervisorServlet</servlet-name>
+    <url-pattern>/assignSupervisor</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AssignReviewerServlet</servlet-name>
+    <servlet-class>servlet.AssignReviewerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AssignReviewerServlet</servlet-name>
+    <url-pattern>/assignReviewer</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>servlet.LogoutServlet</servlet-class>
   </servlet>
