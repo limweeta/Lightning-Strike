@@ -45,6 +45,7 @@ public class RegisterServlet extends HttpServlet {
 		
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
+		
 		SponsorDataManager sdm = new SponsorDataManager();
 		UserDataManager udm = new UserDataManager();
 		CompanyDataManager cdm = new CompanyDataManager();
@@ -72,26 +73,31 @@ public class RegisterServlet extends HttpServlet {
 		sponsorid++;
 		
 		String username = request.getParameter("userName");
+		System.out.println(username);
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
 		String email	= request.getParameter("email");
-		String type		= request.getParameter("type");
+		String type		= "Sponsor";
 		String coyName	= request.getParameter("coyName");
-		int coyContact	= Integer.parseInt(request.getParameter("coyContact"));
+		String cContact	= request.getParameter("coyContact");
+		int coyContact = Integer.parseInt(cContact);
 		String coyAdd	= request.getParameter("coyAdd");
 		String password	= request.getParameter("password");
 		
-		if(!username.trim().isEmpty() && !fullName.trim().isEmpty() && !contactNum.trim().isEmpty() && !email.trim().isEmpty() && !coyName.trim().isEmpty()&& !password.trim().isEmpty()) {
-			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, coyName, password, id);
-			Company company = new Company(id, coyName, coyAdd, coyContact);
-			try {
-				sdm.add(newSponsor);
-				cdm.add(company);
-				writer.print("Thank you for registering.");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} 
+		
+		
+		Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, coyName, password, id);
+		Company company = new Company(id, coyName, coyAdd, coyContact);
+		try {
+			sdm.add(newSponsor);
+			cdm.add(company);
+			System.out.println("Thank you for registering.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		
+		//response.sendRedirect("index.jsp");
 	}
 }
 

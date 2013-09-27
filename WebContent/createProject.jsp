@@ -54,15 +54,13 @@ if (projectOrganization==null || projectOrganization=="")
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
 	<%@ include file="template.jsp" %>
-	<%	
+<%-- 	<%	
 		if(username == null){
 			response.sendRedirect("index.jsp");
 		}
-	%>
+	%> --%>
 	</head>
 	<body>
-			
-		</br></br></br>
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">

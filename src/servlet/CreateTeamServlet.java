@@ -44,9 +44,9 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		PrintWriter writer = response.getWriter();
 		
-		String teamName = request.getParameter("teamName");
-		String teamDesc = request.getParameter("teamDesc");
-		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
+		String teamName = request.getParameter("teamname");
+		String teamDesc = request.getParameter("teamdesc");
+		int teamLimit = Integer.parseInt(request.getParameter("teamlimit"));
 		
 		String[] teamMembers = request.getParameterValues("username");
 		String[] roles = request.getParameterValues("memberRole");

@@ -45,8 +45,8 @@ if (teamDesc==null || teamDesc=="")
     });
 	</script>
  		 
-	<%@ include file="template.jsp" %>
-	<%	
+	<%@ include file="template.jsp" %> </br>	
+	<%-- <%	
 	UserDataManager udm = new UserDataManager();
 		String type = "";
 		
@@ -59,10 +59,10 @@ if (teamDesc==null || teamDesc=="")
 		}
 		
 		
-	%>
+	%> --%>
 	</head>
 	<body>
-		<div id="content-container" class="shadow">
+		<div id="content-container" >
 			<div id="content">
 				<div class="createTeam">
 					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
@@ -82,9 +82,9 @@ if (teamDesc==null || teamDesc=="")
 						
 						<!-- Textarea -->
 						<div class="control-group">
-						  <label class="control-label" for="teamdescription">Team Description</label>
+						  <label class="control-label" for="teamdesc">Team Description</label>
 						  <div class="controls">                     
-						    <textarea id="teamdescription" name="teamdescription"></textarea>
+						    <textarea id="teamdesc" name="teamdesc"></textarea>
 						  </div>
 						</div>
 						
@@ -107,7 +107,7 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="projectmanager">Project Manager</label>
 						  <div class="controls">
 						    <input id="projectmanager" name="projectmanager" type="text" placeholder="<%=username%>" class="input-large" disabled>
-						    <input type="hidden" id="username" name="username" value="<%=username%>">
+						    <input type="hidden" id="projectmanager" name="username" value="<%=username%>">
 						  </div>
 						</div>
 						

@@ -45,12 +45,12 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		id++;
 		
-		String termID = request.getParameter("projectTerm");
-		String projName = request.getParameter("projectName");
-		String company = request.getParameter("projectOrganization");
-		String projDesc = request.getParameter("projectDescription");
-		int industry = Integer.parseInt(request.getParameter("industryType"));
-		String[] technologies = request.getParameterValues("techType");
+		String termID = request.getParameter("projectterm");
+		String projName = request.getParameter("projectname");
+		String company = request.getParameter("organization");
+		String projDesc = request.getParameter("projectdescription");
+		int industry = Integer.parseInt(request.getParameter("industrytype"));
+		String[] technologies = request.getParameterValues("technology");
 		String status ="Open";
 		
 		//if new sponsor, add to db

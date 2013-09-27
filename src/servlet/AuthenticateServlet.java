@@ -28,6 +28,8 @@ public class AuthenticateServlet extends HttpServlet {
 		String username = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
+		System.out.println(username +"," + password);
+		
 		if(!username.trim().isEmpty() && !password.trim().isEmpty()) {
 			AuthenticateService authService = new AuthenticateService();
 			Sponsor authSponsor;

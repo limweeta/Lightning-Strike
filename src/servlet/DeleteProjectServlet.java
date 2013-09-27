@@ -33,7 +33,7 @@ public class DeleteProjectServlet extends HttpServlet {
 		
 		pdm.remove(projID);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("searchProjects.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("searchProject.jsp");
 		rd.forward(request, response);
 	}
 }

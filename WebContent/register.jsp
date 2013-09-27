@@ -1,12 +1,12 @@
 <html>
 	<head>
-		<title>SMU480 Matching System</title>
+		<title>SMU IS480 Matching System</title>
 	</head>
 	<body>	
 	<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="login-area">
-					<form name="loginFrm" id="loginFrm" action="register">
+					<form name="loginFrm" id="loginFrm" action="register" method="post">
 						<fieldset class="login-fieldset">
 							<div class="field-container">
 								<label for="userName" >Username:</label>

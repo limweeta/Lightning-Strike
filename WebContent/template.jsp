@@ -14,9 +14,7 @@
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
 	%>
-	<div id="topbanner">
 	<div class="headercontainer">
-		<a href="./index.jsp">
 		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
 		<%
 			if(fullName == null){
@@ -40,21 +38,26 @@
 		   			<input type="submit" id="profilelogout" value="Logout">
 		   		</form>
 		   		</td>
-		   	<%
-			}
-			%>
-			   	
 			</tr> 
 			<tr>
 		   	<td></td>
 		   	<td></td>
 		   	
 		   	</tr>
-	   	</table>
-	</div>	
+	   	</table>	
 	</div>
 	<div class="navcontainer">
-		<%@include file="navbar2.jsp"%>
-	</div></br></br>
+		<%@include file="navbar3.jsp"%>
+	</div>
+	 	<%
+			}else{
+		%>
+			<div class="navcontainer">
+			<%@include file="navbar2.jsp"%>
+			</div>
+		<%
+			}
+		%>
+	</br></br>
   </head>
 </html>

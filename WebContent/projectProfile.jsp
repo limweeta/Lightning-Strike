@@ -144,6 +144,7 @@
             <font size="4" face="Courier">Team: <%=projTeamName %></font></br></br>
             <font size="4" face="Courier">Supervisor: </font>
             <%
+            if(projTeam != null){
 	            if(supervisor.equalsIgnoreCase("No Supervisor Yet")){ //TO-DO:check for admin status
 	            	%>
 	            	<form method=post action="/assignSupervisor">
@@ -156,6 +157,7 @@
 	            }else{
 	            	out.print(supervisor);
 	            }
+            }
             %>
             </br></br>
             <font size="4" face="Courier">Reviewer(s): 
