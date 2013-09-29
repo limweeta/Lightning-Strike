@@ -98,6 +98,22 @@
     <url-pattern>/assignReviewer</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>UpdateProjectServlet</servlet-name>
+    <servlet-class>servlet.UpdateProjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateProjectServlet</servlet-name>
+    <url-pattern>/updateProject</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>UpdateTeamServlet</servlet-name>
+    <servlet-class>servlet.UpdateTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateTeamServlet</servlet-name>
+    <url-pattern>/updateTeam</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>servlet.LogoutServlet</servlet-class>
   </servlet>

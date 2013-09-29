@@ -44,11 +44,11 @@ public class UpdateProfileServlet extends HttpServlet {
 		id++;
 		
 		String username = request.getParameter("username");
-		String fullName = request.getParameter("fullName");
-		String contactNum = request.getParameter("contactNum");
+		String fullName = request.getParameter("fullname");
+		String contactNum = request.getParameter("contactno");
 		String email = request.getParameter("email");
 		String type = request.getParameter("type");
-		String secondMajor = request.getParameter("secondMajor");
+		String secondMajor = request.getParameter("secondmajor");
 		String role = "";
 		int teamID = 0;
 		

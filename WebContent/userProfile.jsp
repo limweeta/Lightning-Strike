@@ -129,7 +129,7 @@
 	</form> --%>
 	<div class="span9 well">
 	<div class="row">
-	<form class="form-horizontal">
+	<form action="updateProfile" class="form-horizontal">
 		<fieldset>
 		
 		<!-- Form Name -->

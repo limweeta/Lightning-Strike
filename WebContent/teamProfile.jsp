@@ -64,29 +64,50 @@
 	<%@ include file="template.jsp" %>
 	</head>
 	<body>
-	<div id="teamName"><%=team.getTeamName() %></div></br>
-	<div id="teamPic">
-		<textarea id="teamPic" rows="7" cols="150" disabled>TEAM PICTURE</textarea>
-	</div>
-		<div id="aboutus"></br>
-			<font size="4" face="Courier">About Us:</font></br>
-			 <textarea id="about" rows="10" cols="75"><%=team.getTeamDesc() %>
-			 </textarea> </br></br>
-            <font size="4" face="Courier">Members:
-            </br>
-            <%
+	<div class="span9 well">
+	<div class="row">
+	<form action="updateProfile" class="form-horizontal">
+		<fieldset>
+		
+		<!-- Form Name -->
+		<legend><%=team.getTeamName() %></legend>
+		
+			<div class="span1">
+				<img width=500px; height=150px; src="https://db.tt/T1ASL5ed">
+			</div></br>
+		<div class="span8">
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="fullname">About Us</label>
+		  <div class="controls">
+		    <textarea id="teamDesc"><%=team.getTeamDesc() %></textarea>
+		  </div>
+		</div>
+		<!-- </div></br> --></br>
+		<!-- <div class="span3"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="members">Members</label>
+		  <div class="controls">
+		   <%
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a><br>
+            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a></br>
             	<%
             }
             %>
-            </font></br>
-            <font size="4" face="Courier">Project: <a href="projectProfile.jsp?id=<%=projId%>"><%=projName %></a></br>	
-            <br>
-            Team Skills:<br>
-            <%
+		  </div>
+		</div></br>
+		<div class="control-group">
+		  <label class="control-label" for="team">Project</label>
+		  <div class="controls">
+		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName %></span></a>
+		  </div>
+		</div></br>
+		<label class="control-label" for="teamskills">Team Skills</label>
+		<div class="span1 well">
+		    <%
             SkillDataManager skdm = new SkillDataManager();
             ArrayList<Integer> skillset = skdm.getUserSkills(members);
             
@@ -104,32 +125,60 @@
             	}
             }
             %>
-            </font>
-		</div>
+		</div></br>
+		
 		<%if(username != null){ %>
-		<a href="#">Request to Join</a></br>
-		<a href="#">Leave Team</a></br>
+		<div class="control-group">
+		  <label class="control-label" for="request"></label>
+		  <div class="controls">
+		  	<a href="#"><span class="label label-info">Request to Join</span></a>
+		  </div>
+		</div></br>
+		<div class="control-group">
+		  <label class="control-label" for="leave"></label>
+		  <div class="controls">
+		  	<a href="#"><span class="label label-info">Leave Team</span></a>
+		  </div>
+		</div></br>
 		<% 
 		}
 			
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
 				%>
-		<form method="post" action="deleteTeam">
-		<input type="hidden" name="teamId" value="<%=teamId %>">
-	<input type=submit value="Delete">
-	</form>
+				<form method="post" action="deleteTeam">
+					<input type="hidden" name="teamId" value="<%=teamId %>">
+					<div class="control-group">
+					  <label class="control-label" for="delete"></label>
+					  <div class="controls">
+					    <button id="delete" name="delete" class="btn btn-warning">Delete Team</button>
+					  </div>
+					</div>
+				</form>
 				<%
 			
-			}
-		}catch(Exception e){}
-		
+				}
+			}catch(Exception e){}
+			
 		%>
-		
 		
 		<%
 		}
 		%>
+		<!-- </div> --></br>
+		<!-- <div class="span7"> -->
+		<!-- Button -->
+		<div class="control-group">
+		  <label class="control-label" for="editprofile"></label>
+		  <div class="controls">
+		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
+		  </div>
+		</div>
+		</div></br>
+		</fieldset>
+	</form>
+	</div>
+	</div>
 	</body>
 
 </html>

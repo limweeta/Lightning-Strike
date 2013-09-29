@@ -28,7 +28,7 @@
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script> 
-    	<%@ include file="profileTemplate.jsp" %> 
+    	<%@ include file="template.jsp" %> 
 <%--     
 	<% 	
 		String fullName = (String) session.getAttribute("fullname");
@@ -133,7 +133,7 @@
 	ArrayList<String> tech = techdm.retrieveByProjId(reqProj.getId());
 	
 	%>
-		<h1><%=reqProj.getProjName() %></h1>
+<%-- 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
 			<font size="4" face="Courier">Project Description:</font></br>
 			 <textarea id="about" rows="10" cols="75" disabled><%=reqProj.getProjDesc().trim() %>
@@ -243,12 +243,211 @@
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 			<input type=submit value="Delete">
 			</form>
-				<%
+				<% --%>
 			}
 		}catch(Exception e){}
 	}
 		%>
+	
+	<div class="span9 well">
+	<div class="row">
+	<form action="updateProject" class="form-horizontal">
+		<fieldset>
+		
+		<!-- Form Name -->
+		<legend>Project Profile</legend>
+		
+			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
+			</div>
+		<div class="span8">
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="projectDesc">Project Description</label>
+		  <div class="controls">
+		    <textarea id="projectDesc" name="skills"><%=reqProj.getProjDesc().trim() %></textarea>
+		  </div>
+		</div>
+		<!-- </div></br> -->
+		<!-- <div class="span3"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="sponsor">Sponsor</label>
+		  <div class="controls">
+		    <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large">
+		  </div>
+		</div>
+		<!-- </div> -->
+		<!-- <div class="span4"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="team">Team</label>
+		  <div class="controls">
+		    <input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-xlarge">
+		  </div>
+		</div>
+		<!-- </div> -->
+		<!-- <div class="span5"> -->
+		<!-- Text input-->
+		<div class="control-group">
+		  <label class="control-label" for="supervisor">Supervisor</label>
+		  <div class="controls">
+		    <input id="supervisor" name="supervisor" type="text" placeholder="<%
+            if(projTeam != null){
+	            if(supervisor.equalsIgnoreCase("No Supervisor Yet")){ //TO-DO:check for admin status
+	            	%>
+	            	<form method=post action="/assignSupervisor">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignSup">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else{
+	            	out.print(supervisor);
+	            }
+            }
+            %>" class="input-large">
+		    
+		  </div>
+		</div>
+		<!-- Textarea -->
+		<div class="control-group">
+		  <label class="control-label" for="reviewer">Reviewer(s)</label>
+		  <div class="controls">                     
+		    <textarea id="reviewer" name="reviewer"><%
+            if(projTeam != null){
+	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="text" name="assignRev2">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
+	            	out.print(rev1);
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
+	            	out.print(rev2);
+	            	%>
+	            	<form method=post action="/assignReviewer">
+	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            	<input type=hidden name="projId" value="<%=reqId%>">
+	            	<input type="text" name="assignRev1">
+	            	<input type="submit" value="Assign">
+	            	</form>
+	            	<%
+	            }else{
+	            	out.println(rev1 + ", " + rev2);
+	            }
+            }
+            %>
+			</textarea>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="term">Term</label>
+		  <div class="controls">
+		  	<input id="team" name="team" type="text" placeholder=" <%=reqProj.getTermId() %>" class="input-xlarge">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="company">Company</label>
+		  <div class="controls">
+		  	<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="industry">Industry</label>
+		  <div class="controls">
+		  	<input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="technology">Technology</label>
+		  <div class="controls">
+		    <textarea id="technology" name="technology"> 
+		    <%
+            if(tech.size() < 1){
+            	%>
+            	Not specified
+            	<%
+            }else{
+	            for(int i = 0; i< tech.size(); i++){
+	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
+	            %>
+	            <%=technology.getTechName() + " | " %>
+	            <%
+	            	if((i+1)% 5 == 0){
+	            	%>
+	            	</br>
+	            	<%	
+	            	}
+	            }
+            }
+            %></textarea>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="status">Status</label>
+		  <div class="controls">
+		  	<span class="label label-info"><%=reqProj.getStatus() %></span></a>
+		  </div>
+		</div>
+		<%if(username != null){ %>
+		<div class="control-group">
+		  <label class="control-label" for="applyproject"></label>
+		  <div class="controls">
+		  	<a href="#"><span class="label label-info">Apply for Project</span></a>
+		  </div>
+		</div>
+		<%
+		}
+		try{
+			if(username.equals(udm.retrieve(creatorId).getUsername())){
+				%>
+     <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
+					
+			<form method="post" action="updateProject">
+				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+			<input type=submit value="Update">
+			</form>	
+					
+			<form method="post" action="deleteProject">
+				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+			<input type=submit value="Delete">
+			</form>
+						<%
+			}
+		}catch(Exception e){}
+		}
+		%>
+		<!-- </div> -->
+		<!-- <div class="span7"> -->
+		<!-- Button -->
+		<div class="control-group">
+		  <label class="control-label" for="editprofile"></label>
+		  <div class="controls">
+		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
+		  </div>
+		</div>
+		</div></br>
 
+		</fieldset>
+	</form>
+	
+	</div>
+	</div>
+	
 	
 	</body>
 

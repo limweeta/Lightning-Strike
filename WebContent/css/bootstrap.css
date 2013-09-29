@@ -305,11 +305,11 @@ a:focus {
 }
 
 .span9 {
-  width: 700px;
+  width: 900px;
 }
 
 .span8 {
-  width: 620px;
+  width: 700px;
 }
 
 .span7 {
@@ -337,7 +337,7 @@ a:focus {
 }
 
 .span1 {
-  width: 60px;
+  width: 200px;
 }
 
 .offset12 {
@@ -1112,7 +1112,8 @@ textarea,
 }
 
 textarea {
-  height: auto;
+  height: 200px;
+  width: 300px;
 }
 
 textarea,
@@ -2210,7 +2211,7 @@ table th[class*="span"],
 }
 
 .table td.span8,
-.table th.span8 {
+.table th. {
   float: none;
   width: 604px;
   margin-left: 0;
