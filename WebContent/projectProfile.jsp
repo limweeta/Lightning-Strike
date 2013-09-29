@@ -391,6 +391,7 @@
             %></textarea>
 		  </div>
 		</div>
+		
 		<div class="control-group">
 		  <label class="control-label" for="status">Status</label>
 		  <div class="controls">
@@ -413,12 +414,26 @@
 					
 			<form method="post" action="updateProject">
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-			<input type=submit value="Update">
+				<!-- Button -->
+				<div class="control-group">
+				  <label class="control-label" for="updateproject"></label>
+				  <div class="controls">
+				    <button id="updateproject" name="updateproject" class="btn btn-success">Update</button>
+				  </div>
+				</div>
+				</div>
 			</form>	
 					
-			<form method="post" action="deleteProject">
+			<form method="post" action="deleteProject"  >
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-			<input type=submit value="Delete">
+				<!-- Button -->
+				<div class="control-group">
+				  <label class="control-label" for="delete"></label>
+				  <div class="controls">
+				    <button id="delete" name="delete" class="btn btn-warning">Delete</button>
+				  </div>
+				</div>
+				</div>
 			</form>
 						<%
 			}

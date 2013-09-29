@@ -131,24 +131,23 @@ if (projectOrganization==null || projectOrganization=="")
 						    </select>
 						  </div>
 						</div>
-						
-						<!-- Select Multiple -->
+						<!-- Select Basic -->
 						<div class="control-group">
-						  <label class="control-label" for="technology">Technology</label>
+						  <label class="control-label" for="industrytype">Industry Type</label>
 						  <div class="controls">
-						    <select id="technology" name="technology" class="input-large" multiple="multiple">
-						    <%
-							  TechnologyDataManager tdm = new TechnologyDataManager();
-							  ArrayList<Technology> technologies = tdm.retrieveAll();
-							  
-							  for(int i = 0; i < technologies.size(); i++){
-								  Technology tech = technologies.get(i);
+						    <select id="industrytype" name="industrytype" class="input-large">
+								 <%
+								  TechnologyDataManager tdm = new TechnologyDataManager();
+								  ArrayList<Technology> technologies = tdm.retrieveAll();
+								  
+								  for(int i = 0; i < technologies.size(); i++){
+									  Technology tech = technologies.get(i);
+									  %>
+									  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
+									  <%
+								  }
 								  %>
-								  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
-								  <%
-							  }
-							  %>
-							    </select>
+						    </select>
 						  </div>
 						</div>
 						

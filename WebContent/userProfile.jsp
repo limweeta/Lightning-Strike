@@ -203,13 +203,13 @@
 		  </div>
 		</div>
 		<div class="control-group">
-		  <label class="control-label" for="team"></label>
+		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
 		  	<a href="teamProfile.jsp?id=<%=teamId%>"><span class="label label-info"><%=teamName%></span></a>
 		  </div>
 		</div></br>
 		<div class="control-group">
-		  <label class="control-label" for="project"></label>
+		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
