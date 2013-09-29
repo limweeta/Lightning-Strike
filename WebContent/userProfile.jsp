@@ -162,7 +162,7 @@
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
 		    <input id="email" name="email" type="text" placeholder="<%=u.getEmail()%>" class="input-xlarge">
-		    
+		    <input type="hidden" name="type" value="<%=userType%>">
 		  </div>
 		</div>
 		<%if(userType.equals("Student")){%>

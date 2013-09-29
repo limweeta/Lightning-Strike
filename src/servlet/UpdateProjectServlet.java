@@ -30,12 +30,53 @@ public class UpdateProjectServlet extends HttpServlet {
 		ProjectDataManager pdm = new ProjectDataManager();
 		
 		int projID = Integer.parseInt(request.getParameter("projId"));
-		int companyId = Integer.parseInt(request.getParameter("companyId"));
-		int projTeamId = Integer.parseInt(request.getParameter("projTeamId"));
-		int sponsorId = Integer.parseInt(request.getParameter("sponsorId"));
-		int supervisorId = Integer.parseInt(request.getParameter("supervisorId"));
-		int reviewer1Id = Integer.parseInt(request.getParameter("reviewer1Id"));
-		int reviewer2Id = Integer.parseInt(request.getParameter("reviewer2Id"));
+		int companyId = 0;
+		
+		try{
+			companyId = Integer.parseInt(request.getParameter("companyId"));
+		}catch(Exception e){
+			companyId = 0;
+		}
+		int projTeamId = 0;
+		
+		try{
+			projTeamId = Integer.parseInt(request.getParameter("projTeamId"));
+		}catch(Exception e){
+			projTeamId = 0;
+		}
+		
+		int sponsorId = 0;
+		
+		
+		try{
+			sponsorId=Integer.parseInt(request.getParameter("sponsorId"));
+		}catch(Exception e){
+			sponsorId = 0;
+		}
+		
+		int supervisorId = 0;
+		
+		try{
+			supervisorId = Integer.parseInt(request.getParameter("supervisorId"));
+		}catch(Exception e){
+			supervisorId = 0;
+		}
+		
+		int reviewer1Id = 0;
+		
+		try{
+			reviewer1Id =  Integer.parseInt(request.getParameter("reviewer1Id"));
+		}catch(Exception e){
+			reviewer1Id = 0;
+		}
+		
+		int reviewer2Id = 0; 
+		try{
+			reviewer2Id = Integer.parseInt(request.getParameter("reviewer2Id"));
+		}catch(Exception e){
+			reviewer2Id = 0;
+		}
+		
 		
 		String projName = request.getParameter("projName");
 		String projDesc = request.getParameter("projDesc");

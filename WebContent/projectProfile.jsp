@@ -132,6 +132,7 @@
 	TechnologyDataManager techdm = new TechnologyDataManager();
 	ArrayList<String> tech = techdm.retrieveByProjId(reqProj.getId());
 	
+	
 	%>
 <%-- 		<h1><%=reqProj.getProjName() %></h1>
 		<div id="projectdescription">
@@ -244,11 +245,7 @@
 			<input type=submit value="Delete">
 			</form>
 				<% --%>
-			}
-		}catch(Exception e){}
-	}
-		%>
-	
+		
 	<div class="span9 well">
 	<div class="row">
 	<form action="updateProject" class="form-horizontal">
@@ -256,7 +253,7 @@
 		
 		<!-- Form Name -->
 		<legend>Project Profile</legend>
-		
+		<%=reqId %>
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
 		<div class="span8">
@@ -274,6 +271,7 @@
 		  <label class="control-label" for="sponsor">Sponsor</label>
 		  <div class="controls">
 		    <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large">
+		    <input type=hidden name="projId" value="<%=reqId%>">
 		  </div>
 		</div>
 		<!-- </div> -->
@@ -297,7 +295,6 @@
 	            	%>
 	            	<form method=post action="/assignSupervisor">
 	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
 	            	<input type="text" name="assignSup">
 	            	<input type="submit" value="Assign">
 	            	</form>
@@ -320,7 +317,6 @@
 	            	%>
 	            	<form method=post action="/assignReviewer">
 	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
 	            	<input type="text" name="assignRev1">
 	            	<input type="text" name="assignRev2">
 	            	<input type="submit" value="Assign">
@@ -331,7 +327,6 @@
 	            	%>
 	            	<form method=post action="/assignReviewer">
 	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
 	            	<input type="text" name="assignRev1">
 	            	<input type="submit" value="Assign">
 	            	</form>
@@ -341,7 +336,6 @@
 	            	%>
 	            	<form method=post action="/assignReviewer">
 	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
 	            	<input type="text" name="assignRev1">
 	            	<input type="submit" value="Assign">
 	            	</form>
