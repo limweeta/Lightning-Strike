@@ -133,9 +133,9 @@ if (projectOrganization==null || projectOrganization=="")
 						</div>
 						<!-- Select Basic -->
 						<div class="control-group">
-						  <label class="control-label" for="industrytype">Industry Type</label>
+						  <label class="control-label" for="technology">Technology</label>
 						  <div class="controls">
-						    <select id="industrytype" name="industrytype" class="input-large">
+						    <select id="technology" name="technology" class="input-large">
 								 <%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  ArrayList<Technology> technologies = tdm.retrieveAll();

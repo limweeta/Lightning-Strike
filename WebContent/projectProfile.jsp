@@ -253,7 +253,7 @@
 		
 		<!-- Form Name -->
 		<legend>Project Profile</legend>
-		<%=reqId %>
+<%-- 		<%=reqId %> --%>
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
 		<div class="span8">
@@ -351,7 +351,14 @@
 		<div class="control-group">
 		  <label class="control-label" for="term">Term</label>
 		  <div class="controls">
-		  	<input id="team" name="team" type="text" placeholder=" <%=reqProj.getTermId() %>" class="input-xlarge">
+		  	<select id="term" name="term" class="input-large">
+		    	  <option><%=reqProj.getTermId() %></option>
+		    	  <option>2013/2014 T1</option>
+			      <option>2013/2014 T2</option>
+			      <option>2014/2015 T1</option>
+			      <option>2014/2015 T2</option>
+		    </select> 
+		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=reqProj.getTermId() %>" class="input-xlarge"> --%>
 		  </div>
 		</div>
 		<div class="control-group">
@@ -363,23 +370,37 @@
 		<div class="control-group">
 		  <label class="control-label" for="industry">Industry</label>
 		  <div class="controls">
-		  	<input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge">
+		    <select id="industry" name="industry" class="input-large">
+		    	<option><%=ind.getIndustryName() %></option>
+		    	 <%
+					  ArrayList<Industry> industries = idm.retrieveAll();
+					  
+					  for(int i = 0; i < industries.size(); i++){
+						  Industry ind2 = industries.get(i);
+						  %>
+						  <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>
+						  <%
+				  }
+				  %>
+		    </select> 
+		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		  </div>
 		</div>
+
 		<div class="control-group">
 		  <label class="control-label" for="technology">Technology</label>
 		  <div class="controls">
-		    <textarea id="technology" name="technology"> 
-		    <%
+		    <select id="technology" name="technology" class="input-xlarge" multiple="multiple">
+		      	<%
             if(tech.size() < 1){
             	%>
-            	Not specified
+            	<option selected>Not specified</option>
             	<%
             }else{
 	            for(int i = 0; i< tech.size(); i++){
 	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
 	            %>
-	            <%=technology.getTechName() + " | " %>
+	            <option selected><%=technology.getTechName()%></option>
 	            <%
 	            	if((i+1)% 5 == 0){
 	            	%>
@@ -388,10 +409,20 @@
 	            	}
 	            }
             }
-            %></textarea>
+            %>
+            <%
+				  ArrayList<Technology> technologies = techdm.retrieveAll();
+				  
+				  for(int i = 0; i < technologies.size(); i++){
+					  Technology tech2 = technologies.get(i);
+					  %>
+					  <option value="<%=tech2.getId()%>"><%=tech2.getTechName() %></option>
+					  <%
+			  }
+			  %>
+		    </select>
 		  </div>
 		</div>
-		
 		<div class="control-group">
 		  <label class="control-label" for="status">Status</label>
 		  <div class="controls">
