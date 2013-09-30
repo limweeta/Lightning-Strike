@@ -37,7 +37,7 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h1>Search Teams</h1>
+				<h1>Search Teams <p style="float:right"><input type=button value="Match me to a team!" /></p></h1>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->

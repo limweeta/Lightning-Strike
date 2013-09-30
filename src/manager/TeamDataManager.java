@@ -33,6 +33,79 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public boolean emptySlots(Team team){
+		boolean result = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
+		
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		int numOfStudents = 0;
+		
+		while (iterator.hasNext()){
+			numOfStudents++;
+		}
+		
+		if(numOfStudents < team.getTeamLimit()){
+			result = true;
+		}else{
+			result = false;
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Integer> retrieveTeamSkills(Team team){
+		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + team.getId() + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId	= Integer.parseInt(array.get(0));
+			
+			teamSkills.add(skillId);
+			
+		}
+		return teamSkills;
+	}
+	
+	public ArrayList<Integer> retrieveTeamPreferredTechnology(Team team){
+		ArrayList<Integer> teamPreferredTech = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select technology_id from team_preferred_technology where team_id = " + team.getId() + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int techId	= Integer.parseInt(array.get(0));
+			
+			teamPreferredTech.add(techId);
+			
+		}
+		return teamPreferredTech;
+	}
+	
+	public ArrayList<Integer> retrieveTeamPreferredIndustry(Team team){
+		ArrayList<Integer> teamPreferredIndustry = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select industry_id from industry where team_id = " + team.getId() + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int industryId	= Integer.parseInt(array.get(0));
+			
+			teamPreferredIndustry.add(industryId);
+			
+		}
+		return teamPreferredIndustry;
+	}
+	
 	// check for conflicting objects
 	
 	public int retrievebyStudent(int id) throws Exception{

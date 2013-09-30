@@ -38,7 +38,7 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h1>Search Projects</h1>
+				<h1>Search Projects <p style="float:right;"><input type=button value="Match my team to a project!" /></p></h1> 
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
