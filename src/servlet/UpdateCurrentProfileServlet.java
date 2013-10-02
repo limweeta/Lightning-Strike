@@ -33,8 +33,8 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		String contact = request.getParameter("contactNum");
-		String secondMajor = request.getParameter("secondMajor");
+		String contact = request.getParameter("contactno");
+		String secondMajor = request.getParameter("secondmajor");
 		
 		String[] skills = request.getParameterValues("skills");
 		
@@ -53,7 +53,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 			
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("searchUser.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("userProfile.jsp?id="+userId);
 		rd.forward(request, response);
 	}
 }

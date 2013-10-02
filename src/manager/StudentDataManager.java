@@ -139,7 +139,7 @@ public class StudentDataManager implements Serializable {
 				+ "WHERE id = " + user.getID());
 		
 		MySQLConnector.executeMySQL("update", "UPDATE students SET "
-				+ "second_major = " + student.getSecondMajor() + " "
+				+ "second_major = '" + student.getSecondMajor() + "' "
 				+ "WHERE id = " + user.getID());
 		
 		//CLEAR ALL USER_SKILL DATA IN DB

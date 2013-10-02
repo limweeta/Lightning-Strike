@@ -259,13 +259,13 @@ public class ProjectDataManager implements Serializable {
 				+ "team_id = " + teamId + ", "
 				+ "sponsor_id = " + sponsorId + ", "
 				+ "supervisor_id = " + supervisorId + ", "
-				+ "reviewer1Id = " + rev1Id + ", "
-				+ "reviewer2Id = " + rev2Id + ", "
+				+ "reviewer1_id = " + rev1Id + ", "
+				+ "reviewer2_id = " + rev2Id + ", "
 				+ "project_name = '" + projName + "', "
 				+ "project_description = '" + projDesc + "', "
 				+ "status = '" + projStatus + "', "
 				+ "industry_id = " + industryId + ", "
-				+ "termId = '" + termId + "' "
+				+ "term_id = '" + termId + "' "
 				+ "WHERE id = " + p.getId());
 	}
 	
@@ -290,7 +290,7 @@ public class ProjectDataManager implements Serializable {
 		}
 		
 		for(int i = 0; i < techArray.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES(" + nextId +", " + p.getId() + ", " + Integer.parseInt(techArray[i]));
+			MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES(" + nextId +", " + p.getId() + ", " + Integer.parseInt(techArray[i]) + ")");
 			nextId++;
 		}
 		

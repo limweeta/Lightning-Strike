@@ -79,13 +79,13 @@ public class UpdateProjectServlet extends HttpServlet {
 		
 		
 		String projName = request.getParameter("projName");
-		String projDesc = request.getParameter("projDesc");
+		String projDesc = request.getParameter("projectDesc");
 		String projStatus = request.getParameter("projStatus");
 		
 		String[] technologies = request.getParameterValues("technology");
 		
-		int industryId = Integer.parseInt(request.getParameter("industryId"));
-		String termId = request.getParameter("termId");
+		int industryId = Integer.parseInt(request.getParameter("industry"));
+		String termId = request.getParameter("term");
 		
 		Project updateProj = null;
 		
@@ -112,7 +112,7 @@ public class UpdateProjectServlet extends HttpServlet {
 			
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("searchProjects.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("projectProfile.jsp?id="+projID);
 		rd.forward(request, response);
 	}
 }

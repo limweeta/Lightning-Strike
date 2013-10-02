@@ -89,8 +89,22 @@ public class UserDataManager implements Serializable {
 	}
 		
 	public void addSkills(String[] skills, int userId){
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.`user_skills`");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		int max = 0;
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			if(id > max){
+				max = id;
+			}
+		}
 		for(int i=0; i < skills.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`user_skills` VALUES (" + userId + ", " + Integer.parseInt(skills[i])  + ");");
+			max++;
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`user_skills` VALUES (" + max + ", " + userId + ", " + Integer.parseInt(skills[i])  + ");");
 		}
 	}
 	
