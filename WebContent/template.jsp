@@ -5,17 +5,16 @@
 <style type="text/css">
 	@import "./css/template.css";
 </style>
-<head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>  
+    <script src="js/jquery.autocomplete.js"></script> 
+<head>
+ 
 	<%
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
 	%>
-	<div class="headercontainer">
-		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
 		<%
 			if(fullName == null){
 				fullName = "guest";
@@ -44,8 +43,9 @@
 		   	<td></td>
 		   	
 		   	</tr>
-	   	</table>	
-	</div>
+	   	</table>
+	   	<%} %>
+	<%if(!fullName.equals("guest")){ %>
 	<div class="navcontainer">
 		<%@include file="navbar3.jsp"%>
 	</div>

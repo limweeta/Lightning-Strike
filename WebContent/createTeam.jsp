@@ -37,14 +37,14 @@ if (teamDesc==null || teamDesc=="")
 	<head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="jQuery/jquery.autocomplete.js"></script>  
-    <script>
-    jQuery(function(){
-		$("#teamname").autocomplete("usernamedata.jsp");
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" />
+    <script src="jquery/jquery.autocomplete.js" />
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	$(" #country ").autocomplete("usernamedata.jsp");
     });
 	</script>
- 		 
+ 	<input type="text" id="country" name="country"/>	 
 	<%@ include file="template.jsp" %> </br>	
 	<%
 	UserDataManager udm = new UserDataManager();

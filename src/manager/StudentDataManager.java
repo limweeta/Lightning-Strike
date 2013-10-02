@@ -36,6 +36,24 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
+	public List<String> getData(String query) {
+        String std = null;
+        try{
+        	query = query.toLowerCase();
+        }catch(Exception e){
+        	query = "";
+        }
+        ArrayList<Student> students = retrieveAll();
+        List<String> matched = new ArrayList<String>();
+        for(int i=0; i < students.size(); i++) {
+        	std = students.get(i).getUsername().toLowerCase();
+            if(std.startsWith(query)) {
+                matched.add(students.get(i).getUsername());
+            }
+        }
+        return matched;
+    }
+	
 	public Student retrieve(int id) throws Exception{
 		Student student = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id where users.id = '" + id + "';");
