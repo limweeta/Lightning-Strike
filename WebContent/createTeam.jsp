@@ -2,14 +2,14 @@
 <script type="text/javascript">
 function validateForm()
 {
-var teamName=document.forms["createTeam"]["teamName"].value;
+var teamName=document.forms["createTeam"]["teamname"].value;
 if (teamName==null || teamName=="")
   {
   alert("Team name must be filled out");
   return false;
   }
 
-var teamDesc=document.forms["createTeam"]["teamDesc"].value;
+var teamDesc=document.forms["createTeam"]["teamdesc"].value;
 if (teamDesc==null || teamDesc=="")
   {
   alert("Team Description must be filled out");
@@ -41,25 +41,20 @@ if (teamDesc==null || teamDesc=="")
     <script src="jQuery/jquery.autocomplete.js"></script>  
     <script>
     jQuery(function(){
-		$("#username").autocomplete("usernamedata.jsp");
+		$("#teamname").autocomplete("usernamedata.jsp");
     });
 	</script>
  		 
 	<%@ include file="template.jsp" %> </br>	
-	<%-- <%	
+	<%
 	UserDataManager udm = new UserDataManager();
 		String type = "";
-		
 		try{
 			type = udm.retrieve(username).getType();
 		}catch(Exception e){
-			
 				response.sendRedirect("index.jsp");
-			
 		}
-		
-		
-	%> --%>
+	%>
 	</head>
 	<body>
 		<div id="content-container" >
@@ -107,30 +102,77 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="projectmanager">Project Manager</label>
 						  <div class="controls">
 						    <input id="projectmanager" name="projectmanager" type="text" placeholder="<%=username%>" class="input-large" disabled>
-						    <input type="hidden" id="projectmanager" name="username" value="<%=username%>">
+						    <input type="hidden" id="username" name="username" value="<%=username%>">
+						  	<input type="hidden" name="memberRole" value="Project Manager" />
 						  </div>
 						</div>
 						
-						<!-- Button Drop Down -->
+						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="member1">Member</label>
+						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <div class="input-append">
-						      <input id="member1" name="member1" class="input-large" placeholder="User Name" type="text">
-						      <div class="btn-group">
-						        <button class="btn dropdown-toggle" data-toggle="dropdown">
-						          Member Role
-						          <span class="caret"></span>
-						        </button>
-						        <ul class="dropdown-menu">
-						          <li><a href="#">Developer</a></li>
-						          <li><a href="#">Designer</a></li>
-						          <li><a href="#">Analyst</a></li>
-						          <li><a href="#">Database Architect</a></li>
-						          <li><a href="#">Quality Assurance</a></li>
-						        </ul>
-						      </div>
-						    </div>
+						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						  </div>
+						  <label class="control-label" for="selectbasic">Role</label>
+						  <div class="controls">
+						    <select id="memberRole" name="memberRole" class="input-large">
+						      <option>Developer</option>
+						      <option>Designer</option>
+						      <option>Analyst</option>
+						      <option>Database Architect</option>
+						      <option>Quality Assurance</option>
+						    </select>
+						  </div>
+						</div>
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="textinput">Member</label>
+						  <div class="controls">
+						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						  </div>
+						  <label class="control-label" for="selectbasic">Role</label>
+						  <div class="controls">
+						    <select id="memberRole" name="memberRole" class="input-large">
+						      <option>Developer</option>
+						      <option>Designer</option>
+						      <option>Analyst</option>
+						      <option>Database Architect</option>
+						      <option>Quality Assurance</option>
+						    </select>
+						  </div>
+						</div>
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="textinput">Member</label>
+						  <div class="controls">
+						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						  </div>
+						  <label class="control-label" for="selectbasic">Role</label>
+						  <div class="controls">
+						    <select id="memberRole" name="memberRole" class="input-large">
+						      <option>Developer</option>
+						      <option>Designer</option>
+						      <option>Analyst</option>
+						      <option>Database Architect</option>
+						      <option>Quality Assurance</option>
+						    </select>
+						  </div>
+						</div>
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="textinput">Member</label>
+						  <div class="controls">
+						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						  </div>
+						  <label class="control-label" for="selectbasic">Role</label>
+						  <div class="controls">
+						    <select id="memberRole" name="memberRole" class="input-large">
+						      <option>Developer</option>
+						      <option>Designer</option>
+						      <option>Analyst</option>
+						      <option>Database Architect</option>
+						      <option>Quality Assurance</option>
+						    </select>
 						  </div>
 						</div>
 						

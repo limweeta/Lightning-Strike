@@ -78,6 +78,7 @@
 	}
 	
 	SkillDataManager skdm = new SkillDataManager();
+	ArrayList<Skill> allSkills = skdm.retrieveAll();
 	ArrayList<String> userSkills = skdm.getUserSkills(u);
 	%>
 	<div class="container" id="userdetails">
@@ -129,7 +130,8 @@
 	</form> --%>
 	<div class="span9 well">
 	<div class="row">
-	<form action="updateProfile" class="form-horizontal">
+	<form action="updateCurrentProfile" method="post" class="form-horizontal">
+		<input type="hidden" name="userId" value="<%=u.getID()%>">
 		<fieldset>
 		
 		<!-- Form Name -->
@@ -142,7 +144,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
 		  <div class="controls">
-		    <input id="fullname" name="fullname" type="text" placeholder="<%=u.getFullName()%>" class="input-large">
+		    <input id="fullname" name="fullname" type="text" readonly="readonly" value="<%=u.getFullName()%>" class="input-large">
 		    
 		  </div>
 		</div>
@@ -152,7 +154,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="contactno">Contact</label>
 		  <div class="controls">
-		    <input id="contactno" name="contactno" type="text" placeholder="<%=u.getContactNum()%>" class="input-large">
+		    <input id="contactno" name="contactno" type="text" value="<%=u.getContactNum()%>" class="input-large">
 		  </div>
 		</div>
 		<!-- </div> --></br>
@@ -161,7 +163,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
-		    <input id="email" name="email" type="text" placeholder="<%=u.getEmail()%>" class="input-xlarge">
+		    <input id="email" name="email" type="text" value="<%=u.getEmail()%>" readonly="readonly" class="input-xlarge">
 		    <input type="hidden" name="type" value="<%=userType%>">
 		  </div>
 		</div>
@@ -172,34 +174,55 @@
 		<div class="control-group">
 		  <label class="control-label" for="secondmajor">Second Major</label>
 		  <div class="controls">
-		    <input id="secondmajor" name="secondmajor" type="text" placeholder="<%=student.getSecondMajor()%>" class="input-large">
+		    <input id="secondmajor" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large">
 		    
 		  </div>
 		</div>
-		<!-- Textarea -->
 		<div class="control-group">
 		  <label class="control-label" for="skills">Skills</label>
-		  <div class="controls">                     
-		    <textarea id="skills" name="skills"><%
-				if(userSkills.size() < 1){
-					%>
-					No skills recorded
-					<%
-				}else{
-					int count = 0;
-					for(int i  = 0; i < userSkills.size(); i++){
-						count = i + 1;
-						out.print(userSkills.get(i) + " | ");
-						
-						if(count % 3 == 0){
-							%>
-							<br />
-							<%
-						}
-					}
-				}
+		  <div class="controls">
+		  <table border=0 width="100%">
+		  	<tr>
+		    <%
+		    int count = 0;
+			boolean checked = false;
+			for(int i = 0; i < allSkills.size(); i++){
+				checked = false;
 				%>
-			</textarea>
+				<td>
+				<%
+				Skill hasSkill = allSkills.get(i);
+				count++;
+				for(int j  = 0; j < userSkills.size(); j++){
+					if(hasSkill.getSkillName().trim().equals(userSkills.get(j).trim())){
+						checked=true;
+					}
+					%>
+					<%
+				}
+				if(checked){
+				%>
+				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked" />
+						<%=allSkills.get(i).getSkillName() %>
+				</td>
+				<%
+				}else{
+					%>
+				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" />
+						<%=allSkills.get(i).getSkillName() %>
+				</td>	
+					<%
+				}
+				if(count % 3 == 0){
+					%>
+					</tr><tr>
+					<%
+				}
+			}
+			%>
+			</tr>
+			</table>
+		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		  </div>
 		</div>
 		<div class="control-group">

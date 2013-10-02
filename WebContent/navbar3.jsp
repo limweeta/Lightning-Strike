@@ -31,8 +31,8 @@
 		      
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchTeam">Search</a></li>
-		          	<li><a href="./createTeam">Create</a></li>
+               		<li><a href="./searchTeam.jsp">Search</a></li>
+		          	<li><a href="./createTeam.jsp">Create</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>

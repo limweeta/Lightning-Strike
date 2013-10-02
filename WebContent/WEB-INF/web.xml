@@ -80,6 +80,16 @@
     <servlet-name>UpdateProfileServlet</servlet-name>
     <url-pattern>/updateProfile</url-pattern>
   </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>UpdateCurrentProfileServlet</servlet-name>
+    <servlet-class>servlet.UpdateCurrentProfileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateCurrentProfileServlet</servlet-name>
+    <url-pattern>/updateCurrentProfile</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>AssignSupervisorServlet</servlet-name>
     <servlet-class>servlet.AssignSupervisorServlet</servlet-class>

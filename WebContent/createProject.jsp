@@ -135,7 +135,7 @@ if (projectOrganization==null || projectOrganization=="")
 						<div class="control-group">
 						  <label class="control-label" for="technology">Technology</label>
 						  <div class="controls">
-						    <select id="technology" name="technology" class="input-large">
+						    <select id="technology" multiple="multiple" size=5 name="technology" class="input-large">
 								 <%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  ArrayList<Technology> technologies = tdm.retrieveAll();
@@ -151,7 +151,7 @@ if (projectOrganization==null || projectOrganization=="")
 						  </div>
 						</div>
 						
-						<!-- Text input-->
+						<!-- 
 						<div class="control-group">
 						  <label class="control-label" for="organization">Project Organization</label>
 						  <div class="controls">
@@ -159,7 +159,7 @@ if (projectOrganization==null || projectOrganization=="")
 						    
 						  </div>
 						</div>
-						
+						-->
 						<!-- Button -->
 						<div class="control-group">
 						  <label class="control-label" for="createproject"></label>

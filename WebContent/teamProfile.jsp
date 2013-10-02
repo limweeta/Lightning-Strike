@@ -142,28 +142,6 @@
 		</div></br>
 		<% 
 		}
-			
-		try{
-			if(udm.retrieve(username).getID() == team.getPmId()){
-				%>
-				<form method="post" action="deleteTeam">
-					<input type="hidden" name="teamId" value="<%=teamId %>">
-					<div class="control-group">
-					  <label class="control-label" for="delete"></label>
-					  <div class="controls">
-					    <button id="delete" name="delete" class="btn btn-warning">Delete Team</button>
-					  </div>
-					</div>
-				</form>
-				<%
-			
-				}
-			}catch(Exception e){}
-			
-		%>
-		
-		<%
-		}
 		%>
 		<!-- </div> --></br>
 		<!-- <div class="span7"> -->
@@ -174,9 +152,31 @@
 		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
 		  </div>
 		</div>
+		</form>
+	
+		<%
+		try{
+			if(udm.retrieve(username).getID() == team.getPmId()){
+				%>
+				<form method="post" action="deleteTeam">
+					<input type="hidden" name="teamId" value="<%=teamId %>">
+					<div class="control-group">
+					  <label class="control-label" for="delete"></label>
+					  <div class="controls">
+					    <input type="submit" id="delete" name="delete" class="btn btn-warning" value="Delete Team" />
+					  </div>
+					</div>
+				</form>
+				<%
+			
+				}
+			}catch(Exception e){}
+			
+		}
+		%>
+		
 		</div></br>
 		</fieldset>
-	</form>
 	</div>
 	</div>
 	</body>

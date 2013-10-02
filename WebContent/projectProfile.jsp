@@ -252,7 +252,7 @@
 		<fieldset>
 		
 		<!-- Form Name -->
-		<legend>Project Profile</legend>
+		<legend>Project Profile </legend>
 <%-- 		<%=reqId %> --%>
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
@@ -261,7 +261,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="projectDesc">Project Description</label>
 		  <div class="controls">
-		    <textarea id="projectDesc" name="skills"><%=reqProj.getProjDesc().trim() %></textarea>
+		    <textarea id="projectDesc" name="projectDesc"><%=reqProj.getProjDesc().trim()%></textarea>
 		  </div>
 		</div>
 		<!-- </div></br> -->
@@ -371,7 +371,7 @@
 		  <label class="control-label" for="industry">Industry</label>
 		  <div class="controls">
 		    <select id="industry" name="industry" class="input-large">
-		    	<option><%=ind.getIndustryName() %></option>
+		    	<option  value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
 		    	 <%
 					  ArrayList<Industry> industries = idm.retrieveAll();
 					  
@@ -400,7 +400,7 @@
 	            for(int i = 0; i< tech.size(); i++){
 	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
 	            %>
-	            <option selected><%=technology.getTechName()%></option>
+	            <option><%=technology.getTechName()%></option>
 	            <%
 	            	if((i+1)% 5 == 0){
 	            	%>
@@ -423,10 +423,12 @@
 		    </select>
 		  </div>
 		</div>
+		<input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">
 		<div class="control-group">
 		  <label class="control-label" for="status">Status</label>
 		  <div class="controls">
 		  	<span class="label label-info"><%=reqProj.getStatus() %></span></a>
+		  	<input type="hidden" name="projStatus" value="<%=reqProj.getStatus() %>">
 		  </div>
 		</div>
 		<%if(username != null){ %>
