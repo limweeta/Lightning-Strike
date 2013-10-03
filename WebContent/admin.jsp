@@ -27,18 +27,18 @@
 						<div class="span8">
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="teamId">Team ID</label>
+						  <label class="control-label" for="teamId">Team Name</label>
 						  <div class="controls">
-						    <input id="teamId" name="teamId" type="text" class="input-large">
+						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div></br> --></br>
 						<!-- <div class="span3"> -->
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projId">Project ID</label>
+						  <label class="control-label" for="projName">Project Name</label>
 						  <div class="controls">
-						    <input id="projId" name="projId" type="text" class="input-large">
+						    <input id="projName" name="projName" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div> --></br>
@@ -85,18 +85,18 @@
 						<div class="span8">
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="teamId">Team ID</label>
+						  <label class="control-label" for="teamId">Team Name</label>
 						  <div class="controls">
-						    <input id="teamId" name="teamId" type="text" class="input-large">
+						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div></br> --></br>
 						<!-- <div class="span3"> -->
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projId">Project ID</label>
+						  <label class="control-label" for="projId">Project Name</label>
 						  <div class="controls">
-						    <input id="projId" name="projId" type="text" class="input-large">
+						    <input id="projName" name="projName" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div> --></br>
@@ -105,14 +105,14 @@
 						<div class="control-group">
 						  <label class="control-label" for="assignSup">Supervisor</label>
 						  <div class="controls">
-						    <input id="assignRev1" name="assignRev1" type="text" class="input-large">
+						    <input id="assignRev1" name="assignSup" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div> --></br>
 						<!-- Button -->
 						<div class="control-group">
 						  <div class="controls">
-						    <button id="assignReviewer" name="assignReviewer" class="btn btn-success">Assign</button>
+						    <button id="assignSupervisor" name="assignSupervisor" class="btn btn-success">Assign</button>
 						  </div>
 						</div>
 						</div></br>

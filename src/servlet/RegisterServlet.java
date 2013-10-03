@@ -91,13 +91,13 @@ public class RegisterServlet extends HttpServlet {
 		try {
 			sdm.add(newSponsor);
 			cdm.add(company);
-			System.out.println("Thank you for registering.");
+			//System.out.println("Thank you for registering.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	
 		
-		//response.sendRedirect("index.jsp");
+		response.sendRedirect("index.jsp");
 	}
 }
 

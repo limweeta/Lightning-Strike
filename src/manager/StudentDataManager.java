@@ -36,23 +36,27 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
-	public List<String> getData(String query) {
-        String std = null;
-        try{
-        	query = query.toLowerCase();
-        }catch(Exception e){
-        	query = "";
-        }
-        ArrayList<Student> students = retrieveAll();
-        List<String> matched = new ArrayList<String>();
-        for(int i=0; i < students.size(); i++) {
-        	std = students.get(i).getUsername().toLowerCase();
-            if(std.startsWith(query)) {
-                matched.add(students.get(i).getUsername());
-            }
-        }
-        return matched;
-    }
+	public boolean hasTeam(User std) {
+		boolean hasTeam = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.students WHERE id = " + std.getID() + " ;");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id 				= Integer.parseInt(array.get(0));
+			String secondMajor 	= array.get(1);
+			String role 	= array.get(2);
+			int teamId 	= Integer.parseInt(array.get(3));
+			
+			if(teamId != 0){
+				hasTeam = true;
+			}
+		}
+		
+		return hasTeam;
+	}
 	
 	public Student retrieve(int id) throws Exception{
 		Student student = null;

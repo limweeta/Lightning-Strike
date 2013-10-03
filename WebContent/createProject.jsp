@@ -54,11 +54,11 @@ if (projectOrganization==null || projectOrganization=="")
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
 	<%@ include file="template.jsp" %>
-<%-- 	<%	
+	<%	
 		if(username == null){
 			response.sendRedirect("index.jsp");
 		}
-	%> --%>
+	%> 
 	</head>
 	<body>
 		<div id="content-container" class="shadow">
@@ -151,15 +151,23 @@ if (projectOrganization==null || projectOrganization=="")
 						  </div>
 						</div>
 						
-						<!-- 
+						<%
+						SponsorDataManager spdm = new SponsorDataManager();
+						Sponsor sponsor = null;
+						
+						try{
+							sponsor = spdm.retrieve(username);
+						%>
 						<div class="control-group">
 						  <label class="control-label" for="organization">Project Organization</label>
 						  <div class="controls">
-						    <input id="organization" name="organization" type="text" placeholder="Project Organization" class="input-large">
-						    
+						    <input id="organization" name="coyName" type="text" value="<%=sponsor.getCoyName() %>" class="input-large" disabled="disabled">
+						    <input type="hidden" name="organization" value="<%=sponsor.getID()%>">
 						  </div>
 						</div>
-						-->
+						<%
+						}catch(Exception e){}
+						%>
 						<!-- Button -->
 						<div class="control-group">
 						  <label class="control-label" for="createproject"></label>

@@ -51,6 +51,9 @@ public class CreateTeamServlet extends HttpServlet {
 		String[] teamMembers = request.getParameterValues("username");
 		String[] roles = request.getParameterValues("memberRole");
 		
+		String[] prefIndustry = request.getParameterValues("industry");
+		String[] prefTech = request.getParameterValues("technology");
+		
 		String projectManager = teamMembers[0];
 		
 		int pmid = 0;
@@ -75,7 +78,7 @@ public class CreateTeamServlet extends HttpServlet {
 			int id = u.getID();
 			sdm.updateStudent(id, teamid, role);
 		}
-		tdm.add(team);
+		tdm.add(team, prefIndustry, prefTech);
 		response.sendRedirect("teamProfile.jsp?id="+teamid);
 		
 	}

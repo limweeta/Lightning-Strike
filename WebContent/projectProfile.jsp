@@ -23,19 +23,31 @@
 		font-size: 1em;
 	} 
 </style>
+
 <head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script> 
-    	<%@ include file="template.jsp" %> 
-<%--     
+    	<%@include file="template.jsp" %> 
+    	<%
+			UserDataManager udm = new UserDataManager();
+    		User user = null;
+			String type = "";
+			try{
+				type = udm.retrieve(username).getType();
+				user = udm.retrieve(username);	
+			}catch(Exception e){
+				type= "";
+			}
+		%>
+<%--  
 	<% 	
 		String fullName = (String) session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
 		
 	%>
-		
+   		
 	<div id="welcome">Welcome, <%=fullName %></div>
 		
 		<%@include file="navbar.jsp"%>
@@ -49,12 +61,13 @@
 	int reqId = Integer.parseInt(request.getParameter("id"));
 	
 	if(reqId == 0){
-		response.sendRedirect("searchProjects.jsp");
+		response.sendRedirect("searchProject.jsp");
 	}else{
+	
+	
 	
 	TeamDataManager tdm = new TeamDataManager();
 	ArrayList<Team> teams = tdm.retrieveAll();
-	UserDataManager udm = new UserDataManager();
 	ArrayList<User> users = udm.retrieveAll();
 	
 	ProjectDataManager pdm = new ProjectDataManager();
@@ -259,9 +272,50 @@
 		<div class="span8">
 		<!-- Text input-->
 		<div class="control-group">
+		  <label class="control-label" for="projectname">Project Name</label>
+		  <div class="controls">
+		  <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
+			 		<input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" />
+			  <%
+				}else{
+					%>
+					<input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" readonly="readonly" />
+					<%
+				}
+		  }else{
+			  %>
+			  <input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" readonly="readonly" />
+			  <%
+		  }
+		  %>
+		    
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="control-group">
 		  <label class="control-label" for="projectDesc">Project Description</label>
 		  <div class="controls">
-		    <textarea id="projectDesc" name="projectDesc"><%=reqProj.getProjDesc().trim()%></textarea>
+		   <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
+		    <textarea id="projectDesc" name="projectDesc"><% out.print(reqProj.getProjDesc()); %></textarea>
+		     <%
+				}else{
+					%>
+				 <textarea id="projectDesc" name="projectDesc" readonly="readonly"><% out.print(reqProj.getProjDesc()); %></textarea>
+					<%
+				}
+		  }else{
+			  %>
+			  <textarea id="projectDesc" name="projectDesc" readonly="readonly"><% out.print(reqProj.getProjDesc()); %></textarea>
+			  <%
+		  }
+		  %>
 		  </div>
 		</div>
 		<!-- </div></br> -->
@@ -270,8 +324,24 @@
 		<div class="control-group">
 		  <label class="control-label" for="sponsor">Sponsor</label>
 		  <div class="controls">
+		  <input type=hidden name="projId" value="<%=reqId%>">
+		   <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
 		    <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large">
-		    <input type=hidden name="projId" value="<%=reqId%>">
+		     <%
+				}else{
+					%>
+				  <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large" readonly="readonly">
+					<%
+				}
+		  }else{
+			  %>
+			   <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large" readonly="readonly">
+			  <%
+		  }
+		  %>
 		  </div>
 		</div>
 		<!-- </div> -->
@@ -280,7 +350,23 @@
 		<div class="control-group">
 		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
+		    <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
 		    <input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-xlarge">
+		     <%
+				}else{
+					%>
+			<input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-xlarge" readonly="readonly">
+					<%
+				}
+		  }else{
+			  %>
+			<input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-xlarge" readonly="readonly">
+			  <%
+		  }
+		  %>
 		  </div>
 		</div>
 		<!-- </div> -->
@@ -289,63 +375,75 @@
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Supervisor</label>
 		  <div class="controls">
-		    <input id="supervisor" name="supervisor" type="text" placeholder="<%
+		  <form method=post action="/assignSupervisor">
+		 
+		    <%
             if(projTeam != null){
-	            if(supervisor.equalsIgnoreCase("No Supervisor Yet")){ //TO-DO:check for admin status
+            	%>
+            	 <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+            	<%
+	            if(supervisor.equalsIgnoreCase("No Supervisor Yet") && type.equals("admin")){ //TO-DO:check for admin status
 	            	%>
-	            	<form method=post action="/assignSupervisor">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type="text" name="assignSup">
+	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large">
 	            	<input type="submit" value="Assign">
-	            	</form>
 	            	<%
 	            }else{
-	            	out.print(supervisor);
+	            	%>
+	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large" disabled="disabled" />
+	            	<%
 	            }
+            }else{
+            	%>
+            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large" disabled="disabled" />
+            	<%
             }
-            %>" class="input-large">
-		    
+            %>
+		    </form>
 		  </div>
 		</div>
 		<!-- Textarea -->
 		<div class="control-group">
 		  <label class="control-label" for="reviewer">Reviewer(s)</label>
-		  <div class="controls">                     
-		    <textarea id="reviewer" name="reviewer"><%
+		  <div class="controls">   
+		  <form method=post action="/assignReviewer">    
+		  <%
             if(projTeam != null){
-	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
+            	%>
+            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">   
+            	<% 
+	            if(rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){ //TO-DO: check for admin status
 	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type="text" name="assignRev1">
-	            	<input type="text" name="assignRev2">
+	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br />
+	            	<input type="text" name="assignRev2" placeholder="<%=rev2%>"><br />
 	            	<input type="submit" value="Assign">
-	            	</form>
+	            	
 	            	<%
-	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
-	            	out.print(rev1);
+	            }else if(!rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){
 	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type="text" name="assignRev1">
+	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br />
 	            	<input type="submit" value="Assign">
-	            	</form>
+	            	
 	            	<%
-	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
-	            	out.print(rev2);
+	            }else if(rev1.isEmpty() && !rev2.isEmpty() && type.equals("admin")){
 	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type="text" name="assignRev1">
+	            	<input type="text" name="assignRev1" placeholder="<%=rev2%>"><br />
 	            	<input type="submit" value="Assign">
-	            	</form>
+	            	
 	            	<%
 	            }else{
-	            	out.println(rev1 + ", " + rev2);
+	            	%>
+	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br /><br />
+	            	<input type="text" name="assignRev2" placeholder="<%=rev2%>">
+	            	<%
 	            }
+            }else{
+            	%>
+            	<input type="text" name="assignRev1" placeholder="<%=rev1%>" readonly="readonly"> <br />
+            	<input type="text" name="assignRev2" placeholder="<%=rev2%>" readonly="readonly"> <br />
+            	<%
             }
             %>
-			</textarea>
+			</form>
 		  </div>
 		</div>
 		<div class="control-group">
@@ -364,25 +462,114 @@
 		<div class="control-group">
 		  <label class="control-label" for="company">Company</label>
 		  <div class="controls">
+		   <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
 		  	<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge">
+		  	 <%
+				}else{
+					%>
+			<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
+					<%
+				}
+		  }else{
+			  %>
+			<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
+			  <%
+		  }
+		  %>
 		  </div>
 		</div>
 		<div class="control-group">
 		  <label class="control-label" for="industry">Industry</label>
 		  <div class="controls">
+		   <%
+		  if(user != null){
+				if(user.getID() == reqProj.getCreatorId()){
+			  %>
 		    <select id="industry" name="industry" class="input-large">
-		    	<option  value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
 		    	 <%
 					  ArrayList<Industry> industries = idm.retrieveAll();
-					  
+					  boolean specified = false;
 					  for(int i = 0; i < industries.size(); i++){
 						  Industry ind2 = industries.get(i);
+						  if(reqProj.getIndustry() == ind2.getIndustryId()){
+							  specified = true;
 						  %>
-						  <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>
+						  <option value="<%=ind2.getIndustryId()%>" selected><%=ind2.getIndustryName() %></option>
 						  <%
+						  }else{
+							 %>
+						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
+							 <% 
+						  }
 				  }
+					  if(!specified){
+						  %>
+						   <option value="0" selected>Not Specified</option>	
+						  <%
+					  }
 				  %>
-		    </select> 
+		    </select>
+			<%
+				}else{
+					%>
+			 <select id="industry" name="industry" class="input-large" disabled="disabled">
+		    	 <%
+					  ArrayList<Industry> industries = idm.retrieveAll();
+					  boolean specified = false;
+					  for(int i = 0; i < industries.size(); i++){
+						  Industry ind2 = industries.get(i);
+						  if(reqProj.getIndustry() == ind2.getIndustryId()){
+							  specified = true;
+						  %>
+						  <option value="<%=ind2.getIndustryId()%>" selected><%=ind2.getIndustryName() %></option>
+						  <%
+						  }else{
+							 %>
+						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
+							 <% 
+						  }
+				  }
+					  if(!specified){
+						  %>
+						   <option value="0" selected>Not Specified</option>	
+						  <%
+					  }
+				  %>
+		    </select>
+					<%
+				}
+		  }else{
+			  %>
+			 <select id="industry" name="industry" class="input-large" disabled="disabled">
+		    	<%
+					  ArrayList<Industry> industries = idm.retrieveAll();
+					  boolean specified = false;
+					  for(int i = 0; i < industries.size(); i++){
+						  Industry ind2 = industries.get(i);
+						  if(reqProj.getIndustry() == ind2.getIndustryId()){
+							  specified = true;
+						  %>
+						  <option value="<%=ind2.getIndustryId()%>" selected><%=ind2.getIndustryName() %></option>
+						  <%
+						  }else{
+							 %>
+						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
+							 <% 
+						  }
+				  }
+					  if(!specified){
+						  %>
+						   <option value="0" selected>Not Specified</option>	
+						  <%
+					  }
+				  %>
+		    </select>
+			  <%
+		  }
+		  %>
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		  </div>
 		</div>

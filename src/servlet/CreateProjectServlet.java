@@ -68,6 +68,12 @@ public class CreateProjectServlet extends HttpServlet {
 		int creator_id = 0; 
 		
 		try{
+			company_id = Integer.parseInt(company);
+		}catch(Exception e){
+			company_id = 0;
+		}
+		
+		try{
 			creator_id = udm.retrieve((String)session.getAttribute("username")).getID();
 		}catch(Exception e){
 			e.printStackTrace();
