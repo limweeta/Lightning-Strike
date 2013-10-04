@@ -2,14 +2,14 @@ package model;
 
 public class Student extends User{
 	private String secondMajor;
-	private String role;
+	private int role;
 	private int teamId;
 	
   
 	public Student(){}
 	
 	//constructor
-	public Student(int id, String username, String fullName, String contactNum, String email, String type, String secondMajor,String role, int teamId){
+	public Student(int id, String username, String fullName, String contactNum, String email, String type, String secondMajor,int role, int teamId){
 		super(id, username, fullName, contactNum, email, type);
 		this.secondMajor 	= 	secondMajor;
 		this.role 			= 	role;
@@ -26,7 +26,7 @@ public class Student extends User{
 		return secondMajor;
 	}
 	
-	public String getRole(){
+	public int getRole(){
 		return role;
 	}
 	
@@ -39,7 +39,7 @@ public class Student extends User{
 		this.secondMajor = secondMajor;
 	}
 	
-	public void setRole(String role){
+	public void setRole(int role){
 		this.role = role;
 	}
 	

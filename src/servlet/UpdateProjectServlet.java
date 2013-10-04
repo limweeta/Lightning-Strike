@@ -53,15 +53,7 @@ public class UpdateProjectServlet extends HttpServlet {
 		}catch(Exception e){
 			sponsorId = 0;
 		}
-		
-		int supervisorId = 0;
-		
-		try{
-			supervisorId = Integer.parseInt(request.getParameter("supervisorId"));
-		}catch(Exception e){
-			supervisorId = 0;
-		}
-		
+
 		int reviewer1Id = 0;
 		
 		try{
@@ -83,9 +75,9 @@ public class UpdateProjectServlet extends HttpServlet {
 		String projStatus = request.getParameter("projStatus");
 		
 		String[] technologies = request.getParameterValues("technology");
-		
+		System.out.println("Industry ID is: " + request.getParameter("industry"));
 		int industryId = Integer.parseInt(request.getParameter("industry"));
-		String termId = request.getParameter("term");
+		int termId = Integer.parseInt(request.getParameter("term"));
 		
 		Project updateProj = null;
 		
@@ -95,7 +87,6 @@ public class UpdateProjectServlet extends HttpServlet {
 			//UPDATE VALUES HERE
 			updateProj.setCoyId(companyId);
 			updateProj.setTeamId(projTeamId);
-			updateProj.setSupervisorId(supervisorId);
 			updateProj.setSponsorId(sponsorId);
 			updateProj.setReviewer1Id(reviewer1Id);
 			updateProj.setReviewer2Id(reviewer2Id);

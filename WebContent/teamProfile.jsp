@@ -49,8 +49,10 @@
 			
 			TeamDataManager tdm = new TeamDataManager();
 			Team team = tdm.retrieve(Integer.parseInt(teamId));
+			TechnologyDataManager techdm = new TechnologyDataManager();
 			
-			Project teamProj = pdm.getProjFromTeam(projs, Integer.parseInt(teamId));
+			
+			Project teamProj = pdm.getProjFromTeam(Integer.parseInt(teamId));
 			String projName = "";
 			int projId = 0;
 			try{
@@ -66,12 +68,12 @@
 	<body>
 	<div class="span9 well">
 	<div class="row">
-	<form action="updateProfile" class="form-horizontal">
+	<form action="updateTeam" class="form-horizontal">
 		<fieldset>
 		
 		<!-- Form Name -->
 		<legend><%=team.getTeamName() %></legend>
-		
+		<input type="hidden" name="teamId" value="<%=teamId %>">
 			<div class="span1">
 				<img width=500px; height=150px; src="https://db.tt/T1ASL5ed">
 			</div></br>
@@ -89,11 +91,25 @@
 		<div class="control-group">
 		  <label class="control-label" for="members">Members</label>
 		  <div class="controls">
+		  <!-- add control to edit if it's the pm -->
 		   <%
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a></br>
+            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a>
+            	| 
+            	<%
+            	RoleDataManager rdm = new RoleDataManager();
+            	int roleId = student.getRole();
+            	Role r = rdm.retrieve(roleId);
+            	%>
+            	<%=r.getRoleName() %> | 
+				<form action="removeMember" method="post">
+				<input type="hidden" name="userId" value="<%=student.getID()%>">
+				<input type="hidden" name="teamId" value="<%=teamId%>">
+				<input type="submit" value="Remove from Team" />
+				</form>
+            	</br>
             	<%
             }
             %>
@@ -125,7 +141,104 @@
             	}
             }
             %>
-		</div></br>
+		</div></div>
+		
+		<div class="control-group">
+		  <label class="control-label" for="technology">Preferred Technology</label>
+		  <div class="controls">
+		  <table border=0 width="100%">
+		  	<tr>
+		    <%
+		    ArrayList<Technology> allTech = techdm.retrieveAll();
+		    int count = 0;
+			boolean checked = false;
+			for(int i = 0; i < allTech.size(); i++){
+				checked = false;
+				%>
+				<td>
+				<%
+				Technology hasTech = allTech.get(i);
+				count++;
+				for(int j  = 0; j < allTech.size(); j++){
+					if(techdm.hasPrefTech(Integer.parseInt(teamId), hasTech.getId())){
+						checked=true;
+					}
+					%>
+					<%
+				}
+				if(checked){
+				%>
+				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked" />
+						<%=allTech.get(i).getTechName() %>
+				</td>
+				<%
+				}else{
+					%>
+				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" />
+						<%=allTech.get(i).getTechName() %>
+				</td>	
+					<%
+				}
+				if(count % 3 == 0){
+					%>
+					</tr><tr>
+					<%
+				}
+			}
+			%>
+			</tr>
+			</table>
+		  </div>
+		</div><br />
+		
+		<div class="control-group">
+		  <label class="control-label" for="industry">Preferred Industry</label>
+		  <div class="controls">
+		  <table border=0 width="100%">
+		  	<tr>
+		    <%
+		    IndustryDataManager idm = new IndustryDataManager();
+		    ArrayList<Industry> allInd = idm.retrieveAll();
+		    count = 0;
+			checked = false;
+			for(int i = 0; i < allInd.size(); i++){
+				checked = false;
+				%>
+				<td>
+				<%
+				Industry hasInd = allInd.get(i);
+				count++;
+				for(int j  = 0; j < allInd.size(); j++){
+					if(idm.hasPrefInd(Integer.parseInt(teamId), hasInd.getIndustryId())){
+						checked=true;
+					}
+					%>
+					<%
+				}
+				if(checked){
+				%>
+				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" checked="checked" />
+						<%=allInd.get(i).getIndustryName() %>
+				</td>
+				<%
+				}else{
+					%>
+				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" />
+						<%=allInd.get(i).getIndustryName() %>
+				</td>	
+					<%
+				}
+				if(count % 3 == 0){
+					%>
+					</tr><tr>
+					<%
+				}
+			}
+			%>
+			</tr>
+			</table>
+		  </div>
+		</div><br />
 		
 		<%if(username != null){ %>
 		<div class="control-group">

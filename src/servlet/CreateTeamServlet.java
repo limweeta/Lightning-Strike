@@ -28,7 +28,6 @@ public class CreateTeamServlet extends HttpServlet {
 		StudentDataManager sdm = new StudentDataManager();
 		
 		UserDataManager udm = new UserDataManager();
-		ArrayList<User> users = udm.retrieveAll();
 		
 		TeamDataManager tdm = new TeamDataManager();
 		ArrayList<Team> teams = tdm.retrieveAll();
@@ -42,29 +41,29 @@ public class CreateTeamServlet extends HttpServlet {
 		}
 		teamid = largestId + 1;
 		
-		PrintWriter writer = response.getWriter();
-		
 		String teamName = request.getParameter("teamname");
 		String teamDesc = request.getParameter("teamdesc");
 		int teamLimit = Integer.parseInt(request.getParameter("teamlimit"));
 		
 		String[] teamMembers = request.getParameterValues("username");
 		String[] roles = request.getParameterValues("memberRole");
-		
+		for(int i = 0; i < roles.length; i++){
+			System.out.println(roles[i]);
+		}
 		String[] prefIndustry = request.getParameterValues("industry");
 		String[] prefTech = request.getParameterValues("technology");
 		
 		String projectManager = teamMembers[0];
 		
 		int pmid = 0;
-		
+		int supId = 0;
 		try{
 			pmid = udm.retrieve(projectManager).getID();
 		}catch(Exception e){
 			System.out.println("Invalid PM");
 		}
 		
-		Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid);
+		Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid, supId);
 		
 		for(int i = 0; i < teamMembers.length; i++){
 			User u = null; 
@@ -73,7 +72,7 @@ public class CreateTeamServlet extends HttpServlet {
 			}catch(Exception e){
 				System.out.println("Invalid Login");
 			}
-			System.out.println(teamMembers[i]);
+			
 			String role = roles[i];
 			int id = u.getID();
 			sdm.updateStudent(id, teamid, role);

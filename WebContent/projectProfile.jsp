@@ -65,13 +65,15 @@
 	}else{
 	
 	
-	
+	TermDataManager termdm = new TermDataManager();
 	TeamDataManager tdm = new TeamDataManager();
-	ArrayList<Team> teams = tdm.retrieveAll();
-	ArrayList<User> users = udm.retrieveAll();
-	
 	ProjectDataManager pdm = new ProjectDataManager();
 	SponsorDataManager sdm = new SponsorDataManager();
+	CompanyDataManager cdm = new CompanyDataManager();
+	
+	ArrayList<Team> teams = tdm.retrieveAll();
+	ArrayList<User> users = udm.retrieveAll();
+	ArrayList<Term> terms = termdm.retrieveAll();
 	
 	Project reqProj = pdm.retrieve(reqId);
 	String reqProjName = reqProj.getProjName();
@@ -79,22 +81,40 @@
 	Team projTeam = null; 
 	String projTeamName = "";
 	int projTeamId = 0;
+	String strTerm = "";
+	String supervisor = "";
+	
+	Term term = null;
+	try{
+		term = termdm.retrieve(reqProj.getTermId());
+		strTerm = term.getAcadYear() + " " + term.getSem();
+	}catch(Exception e){
+		
+	}
+	Company coy = null;
 	
 	try{
 		projTeam = tdm.retrieve(reqProj.getTeamId());
 		projTeamName = projTeam.getTeamName();
 		projTeamId = projTeam.getId();
+		supervisor = udm.retrieve(projTeam.getSupId()).getFullName();
+		
 	}catch(Exception e){
 		projTeamName = "No Team Yet";
+		supervisor = "No Supervisor Yet";
 	}
 	
+
 	User projSponsor = null;
 	String company = "";
 	String sponsorName = "";
 	int sponsorId = 0;
+	
 	try{
 		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
-		company = sdm.retrieve(reqProj.getSponsorId()).getCoyName();
+		
+		company = cdm.retrieve(Integer.parseInt(company)).getCoyName();
+		
 		sponsorName = projSponsor.getFullName();
 		sponsorId = projSponsor.getID();
 	}catch(Exception e){
@@ -102,13 +122,6 @@
 		company = "Not Applicable";
 	}
 	
-	String supervisor = "";
-	
-	try{
-		supervisor = udm.retrieve(reqProj.getSupervisorId()).getFullName();
-	}catch(Exception e){
-		supervisor = "No Supervisor Yet";
-	}
 
 	String projManager = "";
 	
@@ -270,6 +283,7 @@
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
 		<div class="span8">
+		<form method="post" action="updateProject">
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -447,14 +461,24 @@
 		  </div>
 		</div>
 		<div class="control-group">
-		  <label class="control-label" for="term">Term</label>
+		  <label class="control-label" for="term">Term <% System.out.println("Term ID is: " + term.getId()); %></label>
 		  <div class="controls">
 		  	<select id="term" name="term" class="input-large">
-		    	  <option><%=reqProj.getTermId() %></option>
-		    	  <option>2013/2014 T1</option>
-			      <option>2013/2014 T2</option>
-			      <option>2014/2015 T1</option>
-			      <option>2014/2015 T2</option>
+		    	  <%
+		    	  for(int i = 0; i < terms.size(); i++){
+		    		Term showTerm = terms.get(i); 
+		    		
+		    		if(term.getId() == showTerm.getId()){
+		    	%>
+		    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+		    	 <%
+		    		}else{
+		    	%>
+		    	<option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>	
+		    	<% 
+		    		}
+		    	  }
+		    	 %>
 		    </select> 
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=reqProj.getTermId() %>" class="input-xlarge"> --%>
 		  </div>
@@ -466,16 +490,17 @@
 		  if(user != null){
 				if(user.getID() == reqProj.getCreatorId()){
 			  %>
-		  	<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge">
+		  	<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-xlarge">
+		  	
 		  	 <%
 				}else{
 					%>
-			<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
+			<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
 					<%
 				}
 		  }else{
 			  %>
-			<input id="team" name="team" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
+			<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-xlarge" readonly="readonly">
 			  <%
 		  }
 		  %>
@@ -515,7 +540,7 @@
 			<%
 				}else{
 					%>
-			 <select id="industry" name="industry" class="input-large" disabled="disabled">
+			 <select id="industry" name="industry" class="input-large" readonly="readonly">
 		    	 <%
 					  ArrayList<Industry> industries = idm.retrieveAll();
 					  boolean specified = false;
@@ -543,7 +568,7 @@
 				}
 		  }else{
 			  %>
-			 <select id="industry" name="industry" class="input-large" disabled="disabled">
+			 <select id="industry" name="industry" class="input-large" readonly="readonly">
 		    	<%
 					  ArrayList<Industry> industries = idm.retrieveAll();
 					  boolean specified = false;
@@ -584,28 +609,23 @@
             	<option selected>Not specified</option>
             	<%
             }else{
-	            for(int i = 0; i< tech.size(); i++){
-	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
-	            %>
-	            <option><%=technology.getTechName()%></option>
-	            <%
-	            	if((i+1)% 5 == 0){
-	            	%>
-	            	</br>
-	            	<%	
-	            	}
-	            }
-            }
-            %>
-            <%
-				  ArrayList<Technology> technologies = techdm.retrieveAll();
+            	ArrayList<Technology> technologies = techdm.retrieveAll();
 				  
-				  for(int i = 0; i < technologies.size(); i++){
-					  Technology tech2 = technologies.get(i);
-					  %>
-					  <option value="<%=tech2.getId()%>"><%=tech2.getTechName() %></option>
-					  <%
-			  }
+			  for(int i = 0; i < technologies.size(); i++){
+				  Technology tech2 = technologies.get(i);
+				 
+					if(techdm.hasTech(tech, tech2)){
+				  %>
+				  <option value="<%=tech2.getId()%>" selected><%=tech2.getTechName() %></option>
+				  <%
+					}else{
+						%>
+				<option value="<%=tech2.getId()%>" ><%=tech2.getTechName() %></option>
+						<%
+					}
+		  		}
+            }
+				System.out.println(tech.size());  
 			  %>
 		    </select>
 		  </div>
@@ -632,13 +652,13 @@
 				%>
      <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
 					
-			<form method="post" action="updateProject">
+			
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
 				<div class="control-group">
 				  <label class="control-label" for="updateproject"></label>
 				  <div class="controls">
-				    <button id="updateproject" name="updateproject" class="btn btn-success">Update</button>
+				    <input type="submit" value="Update" class="btn btn-success">
 				  </div>
 				</div>
 				</div>
@@ -662,13 +682,7 @@
 		%>
 		<!-- </div> -->
 		<!-- <div class="span7"> -->
-		<!-- Button -->
-		<div class="control-group">
-		  <label class="control-label" for="editprofile"></label>
-		  <div class="controls">
-		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
-		  </div>
-		</div>
+		
 		</div></br>
 
 		</fieldset>

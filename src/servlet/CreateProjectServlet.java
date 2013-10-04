@@ -45,7 +45,7 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		id++;
 		
-		String termID = request.getParameter("projectterm");
+		int termID = Integer.parseInt(request.getParameter("term"));
 		String projName = request.getParameter("projectname");
 		String company = request.getParameter("organization");
 		String projDesc = request.getParameter("projectdescription");
@@ -62,7 +62,6 @@ public class CreateProjectServlet extends HttpServlet {
 		int company_id = 0;
 		int team_id = 0;
 		int sponsor_id = 0;
-		int supervisor_id = 0;
 		int reviewer1_id = 0;
 		int reviewer2_id = 0;
 		int creator_id = 0; 
@@ -80,7 +79,7 @@ public class CreateProjectServlet extends HttpServlet {
 		}
 		
 		
-		Project proj = new Project(id, company_id, team_id, sponsor_id, supervisor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
+		Project proj = new Project(id, company_id, team_id, sponsor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
 		pdm.add(proj);
 		
 		try{

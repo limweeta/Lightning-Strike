@@ -35,7 +35,7 @@ public class AssignSupervisorServlet extends HttpServlet {
 		int projId = Integer.parseInt(request.getParameter("projId"));
 		
 		UserDataManager udm = new UserDataManager();
-
+		TeamDataManager tdm = new TeamDataManager();
 		ProjectDataManager pdm = new ProjectDataManager();
 		
 		int supId = 0;
@@ -44,9 +44,9 @@ public class AssignSupervisorServlet extends HttpServlet {
 		try{
 			u = udm.retrieve(supUser);
 			supId = u.getID();
-			Project p = pdm.retrieve(projId);
-			p.setSupervisorId(supId);
-			pdm.modify(p);
+			Team team = tdm.retrieve(teamId);
+			team.setSupId(supId);
+			tdm.modify(team);
 		}catch(Exception e){
 			
 		}

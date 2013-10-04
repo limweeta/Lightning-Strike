@@ -8,16 +8,18 @@ public class Team{
 	private String teamDesc;
 	private int teamLimit;
 	private int	pmId;
+	private int supId;
 	
 	public Team(){}
 	
 	//constructor
-	public Team (int id, String teamName, String teamDesc, int teamLimit, int pmId){
+	public Team (int id, String teamName, String teamDesc, int teamLimit, int pmId, int supId){
 		this.id 		= 	id;
 		this.teamName 	= 	teamName;
 		this.teamDesc 	= 	teamDesc;
 		this.teamLimit	=	teamLimit;
 		this.pmId		=	pmId;
+		this.supId 		= 	supId;
 	}
 	
 	//getter
@@ -41,6 +43,10 @@ public class Team{
 		return pmId;
 	}
 	
+	public int getSupId(){
+		return supId;
+	}
+	
 	//setter
 	public void setId(int id){
 		this.id = id;
@@ -61,4 +67,9 @@ public class Team{
 	public void setPmId(int id){
 		this.pmId = id;
 	}
+	
+	public void setSupId(int supId){
+		this.supId 	= 	supId;
+	}
+	
 }

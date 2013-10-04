@@ -83,12 +83,19 @@ if (projectOrganization==null || projectOrganization=="")
 						<div class="control-group">
 						  <label class="control-label" for="projectterm">Project Term</label>
 						  <div class="controls">
-						    <select id="projectterm" name="projectterm" class="input-large">
-						      <option>2013/2014 T1</option>
-						      <option>2013/2014 T2</option>
-						      <option>2014/2015 T1</option>
-						      <option>2014/2015 T2</option>
-						    </select>
+						   <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveAll();
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    	  }
+						    	 %>
+						    </select> 
 						  </div>
 						</div>
 						
@@ -158,13 +165,16 @@ if (projectOrganization==null || projectOrganization=="")
 						try{
 							sponsor = spdm.retrieve(username);
 						%>
+						<!--  
 						<div class="control-group">
 						  <label class="control-label" for="organization">Project Organization</label>
 						  <div class="controls">
-						    <input id="organization" name="coyName" type="text" value="<%=sponsor.getCoyName() %>" class="input-large" disabled="disabled">
-						    <input type="hidden" name="organization" value="<%=sponsor.getID()%>">
+						    <input id="organization" name="coyName" type="text" value="<%=sponsor.getCoyName() %>" class="input-large" disabled="disabled" />
+						    <input type="hidden" name="organization" value="<%=sponsor.getID()%>" />
 						  </div>
 						</div>
+						<br />
+						-->
 						<%
 						}catch(Exception e){}
 						%>

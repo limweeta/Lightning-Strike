@@ -36,10 +36,7 @@ public class CompanyDataManager implements Serializable {
 	public Company retrieve(int id) throws Exception {
 		Company company = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
-				.executeMySQL(
-						"select",
-						"SELECT * FROM `is480-matching`.users inner join `is480-matching`.companies on users.id=companies.id where users.id = '"
-								+ id + "';");
+				.executeMySQL("select","SELECT * FROM `is480-matching`.companies where companies.id = " + id + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while (iterator.hasNext()) {

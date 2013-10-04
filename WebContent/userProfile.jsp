@@ -70,7 +70,7 @@
 	int projId =0;
 	
 	try{
-		proj = pdm.getProjFromTeam(projArray, teamId);
+		proj = pdm.getProjFromTeam(teamId);
 		projName = proj.getProjName();
 		projId = proj.getId();
 	}catch(Exception e){
@@ -82,52 +82,7 @@
 	ArrayList<String> userSkills = skdm.getUserSkills(u);
 	%>
 	<div class="container" id="userdetails">
-	<%-- <% if(userType.equals("Student")){%>
-			<%@include file="studentprofiletemplate.jsp" %>	
-	<%}else if(userType.equals("Sponsor")){%>
-			<%@include file="sponsorprofiletemplate.jsp" %>
-	<%}else{%>
-			<%@include file="userprofiletemplate.jsp" %>
-	<%}
-	%> --%>
-<%-- 	<form id="userprofile">
-	<font size="4" face="Courier">Name:</font>
-	<%=u.getFullName()%></br>
-	<font size="4" face="Courier">Contact Number:</font>
-	<%=u.getContactNum()%></br>
-	<font size="4" face="Courier">Email:</font>
-	<%=u.getEmail()%></br>
-	<h1>About Me:</h1>
-	<!-- if user is a student -->
-	<%if(userType.equals("Student")){%>
-	<font size="4" face="Courier">Second Major:</font> <%=student.getSecondMajor()%>
-	<br /><br />
-	<font size="4" face="Courier">Skills:</font><br />
-	<%
-	if(userSkills.size() < 1){
-		%>
-		No skills recorded
-		<%
-	}else{
-		int count = 0;
-		for(int i  = 0; i < userSkills.size(); i++){
-			count = i + 1;
-			out.print(userSkills.get(i) + " | ");
-			
-			if(count % 3 == 0){
-				%>
-				<br />
-				<%
-			}
-		}
-	}
-	%>
-	<br /><br />
-	<font size="4" face="Courier">Team: <a href="teamProfile.jsp?id=<%=teamId%>"><%=teamName%></a></font><br /><br />
-	<font size="4" face="Courier">Project: <a href="projectProfile.jsp?id=<%=projId%>"><%=projName%></a></font>
-	</br>
-	<%} %>
-	</form> --%>
+	
 	<div class="span9 well">
 	<div class="row">
 	<form action="updateCurrentProfile" method="post" class="form-horizontal">

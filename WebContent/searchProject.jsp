@@ -85,7 +85,7 @@
 			}
 			
 			int sponsorid = proj.getSponsorId();
-			String term = proj.getTermId();
+			int term = proj.getTermId();
 			count++;
 			String rowclass = "";
 			

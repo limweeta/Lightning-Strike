@@ -47,6 +47,8 @@ if (teamDesc==null || teamDesc=="")
 	 
 	<%@ include file="template.jsp" %> </br>	
 	<%
+	RoleDataManager rdm = new RoleDataManager();
+	ArrayList<Role> roles = rdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
 	StudentDataManager sdm = new StudentDataManager();
 	boolean hasTeam = false;
@@ -108,7 +110,7 @@ if (teamDesc==null || teamDesc=="")
 						  <div class="controls">
 						    <input id="projectmanager" name="projectmanager" type="text" placeholder="<%=username%>" class="input-large" disabled>
 						    <input type="hidden" id="username" name="username" value="<%=username%>">
-						  	<input type="hidden" name="memberRole" value="Project Manager" />
+						  	<input type="hidden" name="memberRole" value="1" />
 						  </div>
 						</div>
 						
@@ -121,11 +123,14 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <option>Developer</option>
-						      <option>Designer</option>
-						      <option>Analyst</option>
-						      <option>Database Architect</option>
-						      <option>Quality Assurance</option>
+						     <%
+						     for(int i = 0; i < roles.size(); i++){
+						    	 Role role = roles.get(i);
+						    	 %>
+						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
+						    	 <% 
+						     }
+						     %>
 						    </select>
 						  </div>
 						</div>
@@ -138,11 +143,14 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <option>Developer</option>
-						      <option>Designer</option>
-						      <option>Analyst</option>
-						      <option>Database Architect</option>
-						      <option>Quality Assurance</option>
+						       <%
+						     for(int i = 0; i < roles.size(); i++){
+						    	 Role role = roles.get(i);
+						    	 %>
+						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
+						    	 <% 
+						     }
+						     %>
 						    </select>
 						  </div>
 						</div>
@@ -155,11 +163,14 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <option>Developer</option>
-						      <option>Designer</option>
-						      <option>Analyst</option>
-						      <option>Database Architect</option>
-						      <option>Quality Assurance</option>
+						       <%
+						     for(int i = 0; i < roles.size(); i++){
+						    	 Role role = roles.get(i);
+						    	 %>
+						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
+						    	 <% 
+						     }
+						     %>
 						    </select>
 						  </div>
 						</div>
@@ -172,11 +183,18 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <option>Developer</option>
-						      <option>Designer</option>
-						      <option>Analyst</option>
-						      <option>Database Architect</option>
-						      <option>Quality Assurance</option>
+						    <!-- CREATE ROLE MANAGER AND MODEL CLASS -->
+						    <!-- CHANGE ROLE TO ROLE_ID AND STRING TO INT IN STUDENT CLASS -->
+						    <!-- UPDATE REFERENCES IN STUDENT DATA MANAGER OR WHICHEVER SERVLET HAS RED X -->
+						     <!-- RETRIEVE ALL ROLES AND DISPLAY IN A LOOP HERE -->
+						      <%
+						     for(int i = 0; i < roles.size(); i++){
+						    	 Role role = roles.get(i);
+						    	 %>
+						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
+						    	 <% 
+						     }
+						     %>
 						    </select>
 						  </div>
 						</div>

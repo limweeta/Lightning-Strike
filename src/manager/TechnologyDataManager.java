@@ -28,7 +28,32 @@ public class TechnologyDataManager implements Serializable {
 		}
 		return technologies;
 	}
-
+	
+	public boolean hasTech(ArrayList<String> tech, Technology techCheck){
+		boolean hasTech = false;
+			for(int i = 0; i < tech.size(); i++){
+				if(techCheck.getId() == Integer.parseInt(tech.get(i))){
+					hasTech = true;
+				}
+			}
+		return hasTech;
+	}
+	
+	public boolean hasPrefTech(int teamId, int techId) {
+		boolean hasTech = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT technology_Id FROM `is480-matching`.team_preferred_technology WHERE technology_id =" + techId + " AND team_id = " + teamId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			
+			hasTech = true;
+		}
+		return hasTech;
+	} 
+	
 	public ArrayList<String> retrieveByProjId(int projId) {
 		ArrayList<String> proj_tech = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector

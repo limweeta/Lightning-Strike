@@ -58,7 +58,7 @@ public class AnnouncementDataManager implements Serializable {
 				+ " VALUES ('" + timestamp + "', '" + ann + "');");
 	}
 
-	public void modify(Company company) {
+	public void modify(Announcement announcement) {
 	}
 
 	public void remove(int ID) {

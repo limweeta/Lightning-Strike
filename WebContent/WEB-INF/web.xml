@@ -48,6 +48,16 @@
     <servlet-name>SearchTeamServlet</servlet-name>
     <url-pattern>/searchTeam</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>UpdateTeamServlet</servlet-name>
+    <servlet-class>servlet.UpdateTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateTeamServlet</servlet-name>
+    <url-pattern>/updateTeam</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>servlet.RegisterServlet</servlet-class>
@@ -115,14 +125,14 @@
     <servlet-name>UpdateProjectServlet</servlet-name>
     <url-pattern>/updateProject</url-pattern>
   </servlet-mapping>
-    <servlet>
-    <servlet-name>UpdateTeamServlet</servlet-name>
-    <servlet-class>servlet.UpdateTeamServlet</servlet-class>
+   <servlet>
+    <servlet-name>RemoveTeamMemberServlet</servlet-name>
+    <servlet-class>servlet.RemoveTeamMemberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UpdateTeamServlet</servlet-name>
-    <url-pattern>/updateTeam</url-pattern>
-  </servlet-mapping>
+    <servlet-name>RemoveTeamMemberServlet</servlet-name>
+    <url-pattern>/removeMember</url-pattern>
+  </servlet-mapping>   
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>servlet.LogoutServlet</servlet-class>

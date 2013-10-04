@@ -25,8 +25,9 @@ public class TeamDataManager implements Serializable {
 			String teamDesc = array.get(2);
 			int teamLimit	= Integer.parseInt(array.get(3));
 			int pmId		= Integer.parseInt(array.get(4));
+			int supId 		= Integer.parseInt(array.get(5));
 			
-			Team team = new Team(id, teamName, teamDesc,teamLimit, pmId);
+			Team team = new Team(id, teamName, teamDesc,teamLimit, pmId, supId);
 			teams.add(team);
 		}
 		
@@ -137,8 +138,9 @@ public class TeamDataManager implements Serializable {
 			String teamDesc = array.get(2);
 			int teamLimit	= Integer.parseInt(array.get(3));
 			int pmId		= Integer.parseInt(array.get(4));
+			int supId		= Integer.parseInt(array.get(5));
 			
-			retrievedTeam = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId);
+			retrievedTeam = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId, supId);
 		}
 		return retrievedTeam;
 	}
@@ -149,9 +151,10 @@ public class TeamDataManager implements Serializable {
 		String teamDesc	=	team.getTeamDesc();
 		int teamLimit	=	team.getTeamLimit();
 		int pmId		=	team.getPmId();
+		int supId		=	team.getSupId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`teams` "
-				+ "(`id`, `team_name`, `team_description`, `team_limit`, `pm_id`) "
-				+ "VALUES (" + teamId + ", '" + teamName + "', '" + teamDesc +"', " + teamLimit + ", " + pmId + ");");
+				+ "(`id`, `team_name`, `team_description`, `team_limit`, `pm_id`, `supervisor_id`) "
+				+ "VALUES (" + teamId + ", '" + teamName + "', '" + teamDesc +"', " + teamLimit + ", " + pmId + ", " + supId + ");");
 		
 		for(int i = 0; i < prefIndustry.length; i++){
 			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
@@ -167,21 +170,6 @@ public class TeamDataManager implements Serializable {
 		
 	}
 		
-	public Team getTeamFromList(ArrayList<Team> array, int teamId){
-		
-		Team team = null;
-		
-		for(int i = 0; i < array.size(); i++){
-			Team tmpTeam = array.get(i);
-			if(tmpTeam.getId() == teamId){
-				team = tmpTeam;
-				break;
-			}
-		}
-		
-		return team;
-		
-	}
 	
 	public void updateTeamTechIfTeamDeleted(int teamId){
 		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + teamId);
@@ -208,7 +196,8 @@ public class TeamDataManager implements Serializable {
 				+ "team_name = '" + team.getTeamName() + "', "
 				+ "team_description = '" + team.getTeamDesc() + "', "
 				+ "team_limit = " + team.getTeamLimit() + ", "
-				+ "pm_id = " + team.getPmId() + " "
+				+ "pm_id = " + team.getPmId() + ", "
+				+ "supervisor_id = " + team.getSupId() + " "
 				+ "WHERE id = " + team.getId());
 	}
 	
@@ -230,6 +219,10 @@ public class TeamDataManager implements Serializable {
 					+ "WHERE id = " + Integer.parseInt(members[i]));
 		}
 		
+	}
+	
+	public void removeMember(int userId){
+		MySQLConnector.executeMySQL("UPDATE", "UPDATE students SET team_id = 0, role_id = 0 WHERE id = " + userId);
 	}
 	
 	public void remove(int ID){

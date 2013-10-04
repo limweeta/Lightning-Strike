@@ -4,11 +4,10 @@ import javax.persistence.Id;
 
 public class Project{
 	@Id private int id;
-	private String termId;
+	private int termId;
 	private int coyId;
 	private int teamId;
 	private int sponsorId;
-	private int supervisorId;
 	private int reviewer1Id;
 	private int reviewer2Id;
 	private String projName;
@@ -20,13 +19,12 @@ public class Project{
 	public Project(){}
 	
 	//constructor
-	public Project(int id, int coyId, int teamId, int sponsorId, int supervisorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, int industry, String termId, int creator_id){
+	public Project(int id, int coyId, int teamId, int sponsorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, int industry, int termId, int creator_id){
 		this.id				=	id;
 		this.termId 		=	termId;
 		this.coyId 			= 	coyId;
 		this.teamId			= 	teamId;
 		this.sponsorId 		=	sponsorId;
-		this.supervisorId	=	supervisorId;
 		this.reviewer1Id	=	reviewer1Id;
 		this.reviewer2Id	=	reviewer2Id;
 		this.projName		=	projName;
@@ -44,7 +42,7 @@ public class Project{
 		return creator_id;
 	}
 	
-	public String getTermId(){
+	public int getTermId(){
 		return termId;
 	}
   
@@ -58,10 +56,6 @@ public class Project{
   
 	public int getSponsorId(){
 		return sponsorId;
-	}
-  
-	public int getSupervisorId(){
-		return supervisorId;
 	}
 	
 	public int getReviewer1Id(){
@@ -105,18 +99,14 @@ public class Project{
 		this.teamId = teamId;
 	}
 	
-	public void setTermId(String termId){
+	public void setTermId(int termId){
 		this.termId = termId;
 	}
   
 	public void setSponsorId(int sponsorId){
 		this.sponsorId = sponsorId;
 	}
-  
-	public void setSupervisorId(int supervisorId){
-		this.supervisorId = supervisorId;
-	}
-  
+ 
 	public void setReviewer1Id(int id){
 		this.reviewer1Id = id;
 	}

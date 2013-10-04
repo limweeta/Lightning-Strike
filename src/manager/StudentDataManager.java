@@ -26,7 +26,7 @@ public class StudentDataManager implements Serializable {
 			String email 		= array.get(4);
 			String type			= array.get(5);
 			String secondMajor 	= array.get(7);
-			String role 		= array.get(8);
+			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
 			
 			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamId);
@@ -74,7 +74,7 @@ public class StudentDataManager implements Serializable {
 			String email 		= array.get(4);
 			String type			= array.get(5);
 			String secondMajor 	= array.get(7);
-			String role 		= array.get(8);
+			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
 			
 			student = new Student(retrievedId, username, fullName, contactNum, email, type, secondMajor, role, teamId);
@@ -98,7 +98,7 @@ public class StudentDataManager implements Serializable {
 			String email 		= array.get(4);
 			String type			= array.get(5);
 			String secondMajor 	= array.get(7);
-			String role 		= array.get(8);
+			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
 			
 			student = new Student(id, retrievedUsername, fullName, contactNum, email, type, secondMajor, role, teamId);
@@ -115,17 +115,17 @@ public class StudentDataManager implements Serializable {
 		String email = student.getEmail();
 		String type = student.getType();
 		String secondMajor = student.getSecondMajor();
-		String role = student.getRole();
+		int role = student.getRole();
 		int teamId	= student.getTeamId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + id + ", '" + username + "', '" + fullName + "', " + contactNum + ", '" + email + "', '" + type + "');");
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role`, `team_id`) VALUES ('" + id + "', '" + secondMajor + "', '" + role + "', " + teamId + ");");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role`, `team_id`) VALUES ('" + id + "', '" + secondMajor + "', " + role + ", " + teamId + ");");
 		System.out.println("student added successfully");
 	}
 		
 	public void updateStudent(int id,int teamId, String role){
 		
 		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `team_id`=" + teamId + " WHERE `id`=" + id );
-		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `role`='" + role + "' WHERE `id`=" + id);
+		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `role_id`=" + Integer.parseInt(role) + " WHERE `id`=" + id);
 		//fix this statement.
 	}
 	
@@ -145,12 +145,19 @@ public class StudentDataManager implements Serializable {
 			String email 		= array.get(4);
 			String type			= array.get(5);
 			String secondMajor 	= array.get(7);
-			String role 		= array.get(8);
+			int role 			= Integer.parseInt(array.get(8));
 			int teamid 			= Integer.parseInt(array.get(9));
 			
 			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamid);
 			students.add(student);
 		}
+		
+		Collections.sort(students, new Comparator<Student>() {
+	        @Override public int compare(Student s1, Student s2) {
+	            	return s1.getRole() - s2.getRole();
+	        }
+		});
+		
 		
 		return students;
 	}

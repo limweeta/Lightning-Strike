@@ -30,6 +30,22 @@ public class IndustryDataManager implements Serializable {
 		return industries;
 	}
 	
+	public boolean hasPrefInd(int teamId, int indId) {
+		boolean hasInd = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT industry_Id FROM `is480-matching`.team_preferred_industry WHERE industry_id =" + indId + " AND team_id = " + teamId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			
+			hasInd = true;
+		}
+		return hasInd;
+	} 
+	
+	
 	// check for conflicting objects
 	
 	public Industry retrieve(int id) throws Exception{

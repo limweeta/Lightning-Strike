@@ -28,7 +28,6 @@ public class UpdateTeamServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		
 		TeamDataManager tdm = new TeamDataManager();
-		StudentDataManager sdm = new StudentDataManager();
 		
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
 		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
@@ -39,8 +38,7 @@ public class UpdateTeamServlet extends HttpServlet {
 		String[] members = request.getParameterValues("members");
 		String[] roles = request.getParameterValues("roles");
 		
-		int industryId = Integer.parseInt(request.getParameter("industryId"));
-		String termId = request.getParameter("termId");
+		int supId = Integer.parseInt(request.getParameter("supId"));
 		
 		Team updateTeam = null;
 		
@@ -52,6 +50,7 @@ public class UpdateTeamServlet extends HttpServlet {
 			updateTeam.setTeamDesc(teamDesc);
 			updateTeam.setTeamLimit(teamLimit);
 			updateTeam.setPmId(pmId);
+			updateTeam.setSupId(supId);
 			
 			//UPDATE SQL
 			tdm.modify(updateTeam);

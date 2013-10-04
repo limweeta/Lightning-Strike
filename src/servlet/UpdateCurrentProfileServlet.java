@@ -29,7 +29,6 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		UserDataManager udm = new UserDataManager();
 		StudentDataManager sdm =  new StudentDataManager();
-		SkillDataManager skdm = new SkillDataManager();
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
