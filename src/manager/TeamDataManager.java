@@ -92,7 +92,7 @@ public class TeamDataManager implements Serializable {
 	
 	public ArrayList<Integer> retrieveTeamPreferredIndustry(Team team){
 		ArrayList<Integer> teamPreferredIndustry = new ArrayList<Integer>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select industry_id from industry where team_id = " + team.getId() + ";");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select industry_id from team_preferred_industry where team_id = " + team.getId() + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

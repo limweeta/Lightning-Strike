@@ -47,9 +47,7 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		String[] teamMembers = request.getParameterValues("username");
 		String[] roles = request.getParameterValues("memberRole");
-		for(int i = 0; i < roles.length; i++){
-			System.out.println(roles[i]);
-		}
+		
 		String[] prefIndustry = request.getParameterValues("industry");
 		String[] prefTech = request.getParameterValues("technology");
 		
@@ -69,13 +67,11 @@ public class CreateTeamServlet extends HttpServlet {
 			User u = null; 
 			try{
 				u = udm.retrieve(teamMembers[i]);
-			}catch(Exception e){
-				System.out.println("Invalid Login");
-			}
-			
-			String role = roles[i];
-			int id = u.getID();
-			sdm.updateStudent(id, teamid, role);
+				
+				String role = roles[i];
+				int id = u.getID();
+				sdm.updateStudent(id, teamid, role);
+			}catch(Exception e){}
 		}
 		tdm.add(team, prefIndustry, prefTech);
 		response.sendRedirect("teamProfile.jsp?id="+teamid);

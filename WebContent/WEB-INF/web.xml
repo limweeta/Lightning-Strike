@@ -132,7 +132,17 @@
   <servlet-mapping>
     <servlet-name>RemoveTeamMemberServlet</servlet-name>
     <url-pattern>/removeMember</url-pattern>
-  </servlet-mapping>   
+  </servlet-mapping> 
+  
+  <servlet>
+    <servlet-name>MatchToProjectServlet</servlet-name>
+    <servlet-class>servlet.MatchToProjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MatchToProjectServlet</servlet-name>
+    <url-pattern>/matchProj</url-pattern>
+  </servlet-mapping>
+    
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>servlet.LogoutServlet</servlet-class>

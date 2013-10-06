@@ -2,21 +2,29 @@
 <script type="text/javascript">
 function validateForm()
 {
+var alertMsg;
+boolean error = false;
 var teamName=document.forms["createTeam"]["teamname"].value;
 if (teamName==null || teamName=="")
   {
-  alert("Team name must be filled out");
-  return false;
+  alertMsg = "Team name must be filled out. \n";
+  error = true;
   }
 
 var teamDesc=document.forms["createTeam"]["teamdesc"].value;
 if (teamDesc==null || teamDesc=="")
   {
-  alert("Team Description must be filled out");
-  return false;
+  alertMsg = "Team Description must be filled out. \n";
+  error = true;
   }
+  
+ if(error){
+	 alert(alertMsg);
+	 return true;
+ }
 
 }
+
 </script>
 <style type="text/css">
 	h1{
@@ -54,9 +62,11 @@ if (teamDesc==null || teamDesc=="")
 	boolean hasTeam = false;
 		String type = "";
 		try{
+			
 			type = udm.retrieve(username).getType();
 			if(sdm.hasTeam(udm.retrieve(username))){
 				hasTeam = true;
+				
 			}
 		}catch(Exception e){
 				response.sendRedirect("index.jsp");
@@ -94,8 +104,8 @@ if (teamDesc==null || teamDesc=="")
 						<div class="control-group">
 						  <label class="control-label" for="teamlimit">Team Limit</label>
 						  <div class="controls">
-						    <select id="teamlimit" name="teamlimit" class="input-large">
-						      <option>4</option>
+						    <select id="teamlimit" name="teamlimit" class="input-large" onchange="javascript: showHide();">
+						      <option selected>4</option>
 						      <option>5</option>
 						      <option>6</option>
 						    </select>
@@ -115,7 +125,7 @@ if (teamDesc==null || teamDesc=="")
 						</div>
 						
 						<!-- Text input-->
-						<div class="control-group">
+						<div id="mem2" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
 						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
@@ -126,16 +136,18 @@ if (teamDesc==null || teamDesc=="")
 						     <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
+						    	 if(role.getId() != 1){
 						    	 %>
 						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
-						    	 <% 
+						    	 <%
+						    	 }
 						     }
 						     %>
 						    </select>
 						  </div>
 						</div>
 						<!-- Text input-->
-						<div class="control-group">
+						<div id="mem3" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
 						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
@@ -146,16 +158,18 @@ if (teamDesc==null || teamDesc=="")
 						       <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
+						    	 if(role.getId() != 1){
 						    	 %>
 						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
 						    	 <% 
+						    	 }
 						     }
 						     %>
 						    </select>
 						  </div>
 						</div>
 						<!-- Text input-->
-						<div class="control-group">
+						<div id="mem4" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
 						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
@@ -166,16 +180,18 @@ if (teamDesc==null || teamDesc=="")
 						       <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
+						    	 if(role.getId() != 1){
 						    	 %>
 						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
 						    	 <% 
+						    	 }
 						     }
 						     %>
 						    </select>
 						  </div>
 						</div>
 						<!-- Text input-->
-						<div class="control-group">
+						<div id="mem5" class="control-group" style="display: none">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
 						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
@@ -183,16 +199,37 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						    <!-- CREATE ROLE MANAGER AND MODEL CLASS -->
-						    <!-- CHANGE ROLE TO ROLE_ID AND STRING TO INT IN STUDENT CLASS -->
-						    <!-- UPDATE REFERENCES IN STUDENT DATA MANAGER OR WHICHEVER SERVLET HAS RED X -->
-						     <!-- RETRIEVE ALL ROLES AND DISPLAY IN A LOOP HERE -->
 						      <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
+						    	 if(role.getId() != 1){
 						    	 %>
 						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
 						    	 <% 
+						    	 }
+						     }
+						     %>
+						    </select>
+						  </div>
+						</div>
+						
+						<!-- Text input-->
+						<div id="mem6" class="control-group" style="display:none">
+						  <label class="control-label" for="textinput">Member</label>
+						  <div class="controls">
+						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						  </div>
+						  <label class="control-label" for="selectbasic">Role</label>
+						  <div class="controls">
+						    <select id="memberRole" name="memberRole" class="input-large">
+						      <%
+						     for(int i = 0; i < roles.size(); i++){
+						    	 Role role = roles.get(i);
+						    	 if(role.getId() != 1){
+						    	 %>
+						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
+						    	 <% 
+						    	 }
 						     }
 						     %>
 						    </select>
@@ -258,7 +295,7 @@ if (teamDesc==null || teamDesc=="")
 						  <label class="control-label" for="createteam"></label>
 						  <div class="controls">
 						  	<%
-								if(!hasTeam){
+								if(hasTeam){
 							%>
 						    <button id="createteam" name="createteam" class="btn btn-success" disabled="disabled">Create Team</button><br />
 						    <font size=-1 color="red"><i>You already have a team</i></font>

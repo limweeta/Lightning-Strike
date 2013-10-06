@@ -88,6 +88,238 @@ public class ProjectDataManager implements Serializable {
 		return proj;
 	}
 	
+	public boolean isEligibleForApplication(int teamId){
+		boolean hasProj = false;
+		boolean hasApplied = false;
+		
+		boolean isEligible = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from applied_projects where team_id = " + teamId + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			hasApplied = true;
+		}
+		
+		map = MySQLConnector.executeMySQL("select", "select * from projects where team_id = " + teamId + ";");
+		keySet = map.keySet();
+		iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			hasProj = true;
+		}
+		
+		if(hasProj || hasApplied){
+			isEligible = false;
+		}else{
+			isEligible = true;
+		}
+		
+		return isEligible;
+	}
+	
+	public ArrayList<Project> matchByIndustry(ArrayList<Integer> preferredIndustry){
+		ArrayList<Project> projects = new ArrayList<Project>();
+		
+		for(int i = 0; i < preferredIndustry.size(); i++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int id 				= 	Integer.parseInt(array.get(0));
+				int coyId 			= 	Integer.parseInt(array.get(1));
+				int teamId 			= 	Integer.parseInt(array.get(2));
+				int sponsorId 		= 	Integer.parseInt(array.get(3));
+				int reviewer1Id		=	Integer.parseInt(array.get(4));
+				int reviewer2Id		=	Integer.parseInt(array.get(5));
+				String projName		= 	array.get(6);
+				String projDesc		= 	array.get(7);
+				String status		= 	array.get(8);
+				int industry		= 	Integer.parseInt(array.get(9));
+				int termId 		= 	Integer.parseInt(array.get(10));
+				int creatorId 		= 	Integer.parseInt(array.get(11));
+				
+				
+				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				projects.add(proj);
+			}
+		}
+		
+		return projects;            
+	}
+	
+	public ArrayList<Project> matchBySkill(ArrayList<Integer> teamSkill){
+		ArrayList<Integer> projectId = new ArrayList<Integer>();
+		ArrayList<Project> projects = new ArrayList<Project>();
+		
+		for(int i = 0; i < teamSkill.size(); i++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE skill_id = " + teamSkill.get(i));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int projid 			= 	Integer.parseInt(array.get(1));
+				
+				projectId.add(projid);
+			}
+		}
+		
+		projectId = new ArrayList<Integer>(new HashSet<Integer>(projectId));
+		
+		for(int j = 0; j < projectId.size(); j++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE team_id = 0 AND id = " + projectId.get(j));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int id 				= 	Integer.parseInt(array.get(0));
+				int coyId 			= 	Integer.parseInt(array.get(1));
+				int teamId 			= 	Integer.parseInt(array.get(2));
+				int sponsorId 		= 	Integer.parseInt(array.get(3));
+				int reviewer1Id		=	Integer.parseInt(array.get(4));
+				int reviewer2Id		=	Integer.parseInt(array.get(5));
+				String projName		= 	array.get(6);
+				String projDesc		= 	array.get(7);
+				String status		= 	array.get(8);
+				int industry		= 	Integer.parseInt(array.get(9));
+				int termId 			= 	Integer.parseInt(array.get(10));
+				int creatorId 		= 	Integer.parseInt(array.get(11));
+				
+				
+				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				projects.add(proj);
+			}
+		}
+		
+		return projects;            
+	}
+	
+	public ArrayList<Project> matchByTechnology(ArrayList<Integer> preferredTechnologies){
+		ArrayList<Integer> projectId = new ArrayList<Integer>();
+		ArrayList<Project> projects = new ArrayList<Project>();
+		
+		for(int i = 0; i < preferredTechnologies.size(); i++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE technology_id = " + preferredTechnologies.get(i));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int projid 			= 	Integer.parseInt(array.get(1));
+				
+				projectId.add(projid);
+			}
+		}
+		
+		projectId = new ArrayList<Integer>(new HashSet<Integer>(projectId));
+		
+		for(int j = 0; j < projectId.size(); j++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE team_id = 0 AND id = " + projectId.get(j));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int id 				= 	Integer.parseInt(array.get(0));
+				int coyId 			= 	Integer.parseInt(array.get(1));
+				int teamId 			= 	Integer.parseInt(array.get(2));
+				int sponsorId 		= 	Integer.parseInt(array.get(3));
+				int reviewer1Id		=	Integer.parseInt(array.get(4));
+				int reviewer2Id		=	Integer.parseInt(array.get(5));
+				String projName		= 	array.get(6);
+				String projDesc		= 	array.get(7);
+				String status		= 	array.get(8);
+				int industry		= 	Integer.parseInt(array.get(9));
+				int termId 			= 	Integer.parseInt(array.get(10));
+				int creatorId 		= 	Integer.parseInt(array.get(11));
+				
+				
+				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				projects.add(proj);
+			}
+		}
+		
+		return projects;            
+	}
+	
+	public ArrayList<Project> mergedMatchedProjects(ArrayList<Project> preferredIndustry, ArrayList<Project> teamSkill, ArrayList<Project> preferredTechnologies){
+		ArrayList<Project> projects = new ArrayList<Project>();
+		
+		ArrayList<Integer> prefIndId = new ArrayList<Integer>();
+		
+		for(int i = 0; i < preferredIndustry.size(); i++){
+			int id = preferredIndustry.get(i).getId();
+			prefIndId.add(id);
+		}
+		
+		ArrayList<Integer> prefSkillId = new ArrayList<Integer>();
+		
+		for(int i = 0; i < teamSkill.size(); i++){
+			int id = teamSkill.get(i).getId();
+			prefSkillId.add(id);
+		}
+		
+		ArrayList<Integer> prefTechId = new ArrayList<Integer>();
+		
+		for(int i = 0; i < preferredTechnologies.size(); i++){
+			int id = preferredTechnologies.get(i).getId();
+			prefTechId.add(id);
+		}		
+		
+		ArrayList<Integer> combinedProjId = new ArrayList<Integer>();
+		
+		combinedProjId.addAll(prefIndId);
+		combinedProjId.addAll(prefSkillId);
+		combinedProjId.addAll(prefTechId);
+		
+		combinedProjId = new ArrayList<Integer>(new HashSet<Integer>(combinedProjId));
+		
+		for(int i = 0; i < combinedProjId.size(); i++){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND id = " + combinedProjId.get(i));
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+	
+				int id 				= 	Integer.parseInt(array.get(0));
+				int coyId 			= 	Integer.parseInt(array.get(1));
+				int teamId 			= 	Integer.parseInt(array.get(2));
+				int sponsorId 		= 	Integer.parseInt(array.get(3));
+				int reviewer1Id		=	Integer.parseInt(array.get(4));
+				int reviewer2Id		=	Integer.parseInt(array.get(5));
+				String projName		= 	array.get(6);
+				String projDesc		= 	array.get(7);
+				String status		= 	array.get(8);
+				int industry		= 	Integer.parseInt(array.get(9));
+				int termId 		= 	Integer.parseInt(array.get(10));
+				int creatorId 		= 	Integer.parseInt(array.get(11));
+				
+				
+				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				projects.add(proj);
+			}
+		}
+		
+		return projects;
+	}
+	
 	public void add(Project proj){
 		int id 				= proj.getId();
 		int termId			= proj.getTermId();
@@ -195,6 +427,12 @@ public class ProjectDataManager implements Serializable {
 		}
 		
 		return projects;
+	}
+	
+	public void applyProj(int teamId, int projId){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`applied_projects` "
+					+ "(`project_id`, `team_id`) "
+					+ "VALUES (" + projId + ", " + teamId + ");");
 	}
 	
 	public void addPreferredSkills(int projid, String[] prefSkill){

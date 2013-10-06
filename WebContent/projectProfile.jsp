@@ -41,19 +41,6 @@
 				type= "";
 			}
 		%>
-<%--  
-	<% 	
-		String fullName = (String) session.getAttribute("fullname");
-		String username = (String) session.getAttribute("username");
-		
-	%>
-   		
-	<div id="welcome">Welcome, <%=fullName %></div>
-		
-		<%@include file="navbar.jsp"%>
-	    <div id="profilepic"><a href="#"><img src="http://db.tt/Cfe7G4Z5" width="50" height="50" /></a></div>
-	    <div id="profilelogout"><a href="./index.jsp">Logout</a></div>
-	    <div id="notifications"><a href="#"><img src="http://db.tt/YtzsJnpm" width="30" height="20" /></a></div> --%>
 
 	</head>
 	<body>
@@ -64,9 +51,14 @@
 		response.sendRedirect("searchProject.jsp");
 	}else{
 	
+	StudentDataManager stdm = new StudentDataManager();	
 	
-	TermDataManager termdm = new TermDataManager();
-	TeamDataManager tdm = new TeamDataManager();
+	String sessionUsername = (String) session.getAttribute("username");
+	User sessionUser = udm.retrieve(sessionUsername);
+	int userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
+	
+	TermDataManager 	termdm = new TermDataManager();
+	TeamDataManager 	tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
 	SponsorDataManager sdm = new SponsorDataManager();
 	CompanyDataManager cdm = new CompanyDataManager();
@@ -113,9 +105,11 @@
 	try{
 		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
 		
-		company = cdm.retrieve(Integer.parseInt(company)).getCoyName();
+		//company = cdm.retrieve(Integer.parseInt(company)).getCoyName();
 		
 		sponsorName = projSponsor.getFullName();
+		SponsorDataManager spdm = new SponsorDataManager();
+		company = cdm.retrieve(Integer.parseInt(spdm.retrieve(projSponsor.getID()).getCoyName())).getCoyName();
 		sponsorId = projSponsor.getID();
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
@@ -160,117 +154,6 @@
 	
 	
 	%>
-<%-- 		<h1><%=reqProj.getProjName() %></h1>
-		<div id="projectdescription">
-			<font size="4" face="Courier">Project Description:</font></br>
-			 <textarea id="about" rows="10" cols="75" disabled><%=reqProj.getProjDesc().trim() %>
-			 </textarea>
-        </div>
-             </br>
-            <font size="4" face="Courier">Sponsor: <%=sponsorName %></font></br></br>
-            <font size="4" face="Courier">Team: <%=projTeamName %></font></br></br>
-            <font size="4" face="Courier">Supervisor: </font>
-            <%
-            if(projTeam != null){
-	            if(supervisor.equalsIgnoreCase("No Supervisor Yet")){ //TO-DO:check for admin status
-	            	%>
-	            	<form method=post action="/assignSupervisor">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
-	            	<input type="text" name="assignSup">
-	            	<input type="submit" value="Assign">
-	            	</form>
-	            	<%
-	            }else{
-	            	out.print(supervisor);
-	            }
-            }
-            %>
-            </br></br>
-            <font size="4" face="Courier">Reviewer(s): 
-            <%
-            if(projTeam != null){
-	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
-	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
-	            	<input type="text" name="assignRev1">
-	            	<input type="text" name="assignRev2">
-	            	<input type="submit" value="Assign">
-	            	</form>
-	            	<%
-	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
-	            	out.print(rev1);
-	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
-	            	<input type="text" name="assignRev1">
-	            	<input type="submit" value="Assign">
-	            	</form>
-	            	<%
-	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
-	            	out.print(rev2);
-	            	%>
-	            	<form method=post action="/assignReviewer">
-	            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">
-	            	<input type=hidden name="projId" value="<%=reqId%>">
-	            	<input type="text" name="assignRev1">
-	            	<input type="submit" value="Assign">
-	            	</form>
-	            	<%
-	            }else{
-	            	out.println(rev1 + ", " + rev2);
-	            }
-            }
-            %>
-         	</font></br></br>
-            <font size="4" face="Courier">Term: <%=reqProj.getTermId() %></font></br></br>
-            <font size="4" face="Courier">Company: <%=company %></font></br></br>
-            <font size="4" face="Courier">Industry: <%=ind.getIndustryName() %></font></br></br>
-            <font size="4" face="Courier">Technology: 
-            <%
-            if(tech.size() < 1){
-            	%>
-            	Not specified
-            	<%
-            }else{
-	            for(int i = 0; i< tech.size(); i++){
-	            	Technology technology = techdm.retrieve(Integer.parseInt(tech.get(i)));
-	            %>
-	            <%=technology.getTechName() + " | " %>
-	            <%
-	            	if((i+1)% 5 == 0){
-	            	%>
-	            	</br>
-	            	<%	
-	            	}
-	            }
-            }
-            %>
-            </font></br></br>
-            <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
-		
-		<%if(username != null){ %>
-		<a href="#">Apply for Project</a></br></form>
-		<%
-		}
-		try{
-			if(username.equals(udm.retrieve(creatorId).getUsername())){
-				%>
-     <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
-					
-			<form method="post" action="updateProject">
-				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-			<input type=submit value="Update">
-			</form>	
-					
-			<form method="post" action="deleteProject">
-				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-			<input type=submit value="Delete">
-			</form>
-				<% --%>
 		
 	<div class="span9 well">
 	<div class="row">
@@ -279,7 +162,7 @@
 		
 		<!-- Form Name -->
 		<legend>Project Profile </legend>
-<%-- 		<%=reqId %> --%>
+
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
 		<div class="span8">
@@ -317,16 +200,16 @@
 		  if(user != null){
 				if(user.getID() == reqProj.getCreatorId()){
 			  %>
-		    <textarea id="projectDesc" name="projectDesc"><% out.print(reqProj.getProjDesc()); %></textarea>
+		    <textarea id="projectDesc" name="projectDesc"><%=reqProj.getProjDesc() %></textarea>
 		     <%
 				}else{
 					%>
-				 <textarea id="projectDesc" name="projectDesc" readonly="readonly"><% out.print(reqProj.getProjDesc()); %></textarea>
+				 <textarea id="projectDesc" name="projectDesc" readonly="readonly"><%=reqProj.getProjDesc() %></textarea>
 					<%
 				}
 		  }else{
 			  %>
-			  <textarea id="projectDesc" name="projectDesc" readonly="readonly"><% out.print(reqProj.getProjDesc()); %></textarea>
+			  <textarea id="projectDesc" name="projectDesc" readonly="readonly"><%=reqProj.getProjDesc() %></textarea>
 			  <%
 		  }
 		  %>
@@ -595,7 +478,7 @@
 			  <%
 		  }
 		  %>
-		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
+		  
 		  </div>
 		</div>
 
@@ -642,7 +525,11 @@
 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
 		  <div class="controls">
-		  	<a href="#"><span class="label label-info">Apply for Project</span></a>
+		  <form action="applyProj" method="post">
+		  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
+		  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
+		  	<button id="delete" name="delete" class="btn btn-warning">Apply for Project</button>
+		  </form>
 		  </div>
 		</div>
 		<%
@@ -675,13 +562,11 @@
 				</div>
 				</div>
 			</form>
-						<%
+		<%
 			}
 		}catch(Exception e){}
 		}
 		%>
-		<!-- </div> -->
-		<!-- <div class="span7"> -->
 		
 		</div></br>
 
