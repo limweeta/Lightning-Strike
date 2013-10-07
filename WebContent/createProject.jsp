@@ -164,12 +164,15 @@ if (projectOrganization==null || projectOrganization=="")
 						
 						try{
 							sponsor = spdm.retrieve(username);
+							
+							CompanyDataManager cdm = new CompanyDataManager();
+							Company coy = cdm.retrieve(sponsor.getID());
 						%>
 						<!--  
 						<div class="control-group">
 						  <label class="control-label" for="organization">Project Organization</label>
 						  <div class="controls">
-						    <input id="organization" name="coyName" type="text" value="<%=sponsor.getCoyName() %>" class="input-large" disabled="disabled" />
+						    <input id="organization" name="coyName" type="text" value="<%=coy.getCoyName() %>" class="input-large" disabled="disabled" />
 						    <input type="hidden" name="organization" value="<%=sponsor.getID()%>" />
 						  </div>
 						</div>

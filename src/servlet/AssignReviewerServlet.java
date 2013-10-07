@@ -33,7 +33,6 @@ public class AssignReviewerServlet extends HttpServlet {
 		String rev1User = request.getParameter("assignRev1");
 		String rev2User = request.getParameter("assignRev2");
 		
-		int teamId = Integer.parseInt(request.getParameter("teamId"));
 		int projId = Integer.parseInt(request.getParameter("projId"));
 		
 		UserDataManager udm = new UserDataManager();
@@ -45,12 +44,12 @@ public class AssignReviewerServlet extends HttpServlet {
 		User u = null;
 		
 		try{
-			u = udm.retrieve(rev1User);
+			u = udm.retrieveByFullName(rev1User);
 			rev1Id = u.getID();
 			p = pdm.retrieve(projId);
 			p.setReviewer1Id(rev1Id);
 			
-			u = udm.retrieve(rev2User);
+			u = udm.retrieveByFullName(rev2User);
 			rev2Id = u.getID();
 			p = pdm.retrieve(projId);
 			p.setReviewer2Id(rev2Id);

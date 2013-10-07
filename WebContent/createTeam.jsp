@@ -1,31 +1,4 @@
 <html>
-<script type="text/javascript">
-function validateForm()
-{
-var alertMsg;
-boolean error = false;
-var teamName=document.forms["createTeam"]["teamname"].value;
-if (teamName==null || teamName=="")
-  {
-  alertMsg = "Team name must be filled out. \n";
-  error = true;
-  }
-
-var teamDesc=document.forms["createTeam"]["teamdesc"].value;
-if (teamDesc==null || teamDesc=="")
-  {
-  alertMsg = "Team Description must be filled out. \n";
-  error = true;
-  }
-  
- if(error){
-	 alert(alertMsg);
-	 return true;
- }
-
-}
-
-</script>
 <style type="text/css">
 	h1{
 		font-family:Impact;
@@ -42,23 +15,53 @@ if (teamDesc==null || teamDesc=="")
 		width:5em;
 	}
 </style>
+
 	<head>
-	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" />
-    <script src="jquery/jquery.autocomplete.js" />
+	<%@ include file="template.jsp" %> </br>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+  StudentDataManager sdm = new StudentDataManager();
+  ArrayList<String> usernameList = sdm.retrieveUsernameList();
+  %>
     <script type="text/javascript">
-    $(document).ready(function(){
-    	$(" #teamname ").autocomplete("usernamedata.jsp");
-    });
-	</script>
-	 
-	<%@ include file="template.jsp" %> </br>	
+    $(function() {
+        var studentNameList = [
+                <%
+                for(int i = 0; i < usernameList.size(); i++){
+                	out.println("\""+usernameList.get(i)+"\",");
+                }
+                %>
+                               ];
+        
+        $( "#username2" ).autocomplete({
+          source: studentNameList
+        });
+        
+        $( "#username3" ).autocomplete({
+            source: studentNameList
+          });
+        
+        $( "#username4" ).autocomplete({
+            source: studentNameList
+          });
+        
+        $( "#username5" ).autocomplete({
+            source: studentNameList
+          });
+        
+        $( "#username6" ).autocomplete({
+            source: studentNameList
+          });
+        
+      });
+	</script>	
 	<%
 	RoleDataManager rdm = new RoleDataManager();
 	ArrayList<Role> roles = rdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
-	StudentDataManager sdm = new StudentDataManager();
+	
 	boolean hasTeam = false;
 		String type = "";
 		try{
@@ -73,6 +76,7 @@ if (teamDesc==null || teamDesc=="")
 		}
 	%>
 	</head>
+
 	<body>
 		<div id="content-container" >
 			<div id="content">
@@ -128,7 +132,7 @@ if (teamDesc==null || teamDesc=="")
 						<div id="mem2" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username2" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -150,7 +154,7 @@ if (teamDesc==null || teamDesc=="")
 						<div id="mem3" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username3" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -172,7 +176,7 @@ if (teamDesc==null || teamDesc=="")
 						<div id="mem4" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username4" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -194,7 +198,7 @@ if (teamDesc==null || teamDesc=="")
 						<div id="mem5" class="control-group" style="display: none">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username5" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -217,7 +221,7 @@ if (teamDesc==null || teamDesc=="")
 						<div id="mem6" class="control-group" style="display:none">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username6" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">

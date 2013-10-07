@@ -28,8 +28,9 @@ public class StudentDataManager implements Serializable {
 			String secondMajor 	= array.get(7);
 			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));
 			
-			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamId);
+			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamId, prefRole);
 			students.add(student);
 		}
 		
@@ -58,6 +59,29 @@ public class StudentDataManager implements Serializable {
 		return hasTeam;
 	}
 	
+	public ArrayList<String> retrieveUsernameList() throws Exception{
+		ArrayList<String> nameList = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String username 	= array.get(1);
+			
+			nameList.add(username);
+		}
+		
+		Collections.sort(nameList, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareTo(s2);
+	        }
+		});
+		
+		return nameList;
+	}
+	
 	public Student retrieve(int id) throws Exception{
 		Student student = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id where users.id = '" + id + "';");
@@ -76,8 +100,9 @@ public class StudentDataManager implements Serializable {
 			String secondMajor 	= array.get(7);
 			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));
 			
-			student = new Student(retrievedId, username, fullName, contactNum, email, type, secondMajor, role, teamId);
+			student = new Student(retrievedId, username, fullName, contactNum, email, type, secondMajor, role, teamId, prefRole);
 		}
 		return student;
 	}
@@ -100,8 +125,9 @@ public class StudentDataManager implements Serializable {
 			String secondMajor 	= array.get(7);
 			int role 			= Integer.parseInt(array.get(8));
 			int teamId 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));		
 			
-			student = new Student(id, retrievedUsername, fullName, contactNum, email, type, secondMajor, role, teamId);
+			student = new Student(id, retrievedUsername, fullName, contactNum, email, type, secondMajor, role, teamId, prefRole);
 		}
 		return student;
 	}
@@ -117,8 +143,10 @@ public class StudentDataManager implements Serializable {
 		String secondMajor = student.getSecondMajor();
 		int role = student.getRole();
 		int teamId	= student.getTeamId();
+		int preferredRole = student.getPreferredRole();
+		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + id + ", '" + username + "', '" + fullName + "', " + contactNum + ", '" + email + "', '" + type + "');");
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role`, `team_id`) VALUES ('" + id + "', '" + secondMajor + "', " + role + ", " + teamId + ");");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role_id`, `team_id`, `preferred_role_id`) VALUES ('" + id + "', '" + secondMajor + "', " + role + ", " + teamId + ", " + preferredRole + ");");
 		System.out.println("student added successfully");
 	}
 		
@@ -147,8 +175,9 @@ public class StudentDataManager implements Serializable {
 			String secondMajor 	= array.get(7);
 			int role 			= Integer.parseInt(array.get(8));
 			int teamid 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));
 			
-			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamid);
+			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamid, prefRole);
 			students.add(student);
 		}
 		

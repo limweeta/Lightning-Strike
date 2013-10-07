@@ -36,13 +36,12 @@ public class AssignSupervisorServlet extends HttpServlet {
 		
 		UserDataManager udm = new UserDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		ProjectDataManager pdm = new ProjectDataManager();
 		
 		int supId = 0;
 		User u = null;
 		
 		try{
-			u = udm.retrieve(supUser);
+			u = udm.retrieveByFullName(supUser);
 			supId = u.getID();
 			Team team = tdm.retrieve(teamId);
 			team.setSupId(supId);

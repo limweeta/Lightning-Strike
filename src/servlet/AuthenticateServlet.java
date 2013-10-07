@@ -38,11 +38,11 @@ public class AuthenticateServlet extends HttpServlet {
 				if(authSponsor!= null){
 					String fullName = authSponsor.getFullName();
 					String sponsorUsername	= authSponsor.getUsername();
-					String userType = authSponsor.getType();
+					//String userType = authSponsor.getType();
 					HttpSession session = request.getSession();
 					session.setAttribute("fullname", fullName);
 					session.setAttribute("username", sponsorUsername);
-					session.setAttribute("type", userType);
+					session.setAttribute("type", "Sponsor");
 					writer.print("true");
 					response.sendRedirect("mainPage.jsp");
 				} else {

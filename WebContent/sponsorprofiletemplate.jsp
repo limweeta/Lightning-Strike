@@ -75,12 +75,15 @@
 	</div></br></br></br>
   </head>
 <body>
+<%
+CompanyDataManager cdm = new CompanyDataManager();
+%>
  	<form id="userprofile">
 	<input type="text" id="username" value="<%=sponsor.getFullName()%>">
-	<input type="text" id="contactno" value="<%=sponsor.getContactNum()%>">
+	<input type="text" id="contactno" value="<%=sponsor.getContactNum()%>"> 
 	<input type="text" id="email" value="<%=sponsor.getEmail()%>">
 	<font size="4" face="Courier">Company:</font></br>
-	<input type="text" id="companyname" value="<%=sponsor.getCoyName()%>"></br>
+	<input type="text" id="companyname" value="<%=cdm.retrieve(sponsor.getCoyId()).getCoyName()%>"></br>
 	</br>
 	</form> 
 </body>

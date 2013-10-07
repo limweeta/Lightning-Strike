@@ -84,13 +84,14 @@ public class RegisterServlet extends HttpServlet {
 		String coyAdd	= request.getParameter("coyAdd");
 		String password	= request.getParameter("password");
 		
-		
-		
-		Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, coyName, password, id);
-		Company company = new Company(id, coyName, coyAdd, coyContact);
 		try {
-			sdm.add(newSponsor);
+			
+			Company company = new Company(id, coyName, coyAdd, coyContact);
 			cdm.add(company);
+			
+			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);
+			sdm.add(newSponsor);
+			
 			//System.out.println("Thank you for registering.");
 		} catch (Exception e) {
 			e.printStackTrace();

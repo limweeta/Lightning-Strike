@@ -66,6 +66,7 @@
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
 int count = 0;
+CompanyDataManager cdm = new CompanyDataManager();
 for(int i = 0; i < matchedProjs.size(); i++){
 	Project project = matchedProjs.get(i);
 	String name = project.getProjName();
@@ -77,7 +78,7 @@ for(int i = 0; i < matchedProjs.size(); i++){
 	String strTerm = term.getAcadYear() + " T" + term.getSem();
 	
 	SponsorDataManager spdm = new SponsorDataManager();
-	String sponsor = spdm.retrieve(sponsorId).getCoyName();
+	String sponsor = cdm.retrieve(spdm.retrieve(sponsorId).getCoyId()).getCoyName();
 	
 	count++;
 	String rowclass = "";

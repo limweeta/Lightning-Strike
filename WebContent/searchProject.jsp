@@ -9,6 +9,8 @@
 	ArrayList<Project> projects = pdm.retrieveAll();
 	SponsorDataManager sdm = new SponsorDataManager();
 	ArrayList<Sponsor> sponsors = sdm.retrieveAll();
+	
+	CompanyDataManager cdm = new CompanyDataManager();
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -97,10 +99,8 @@
 			if(sponsorid == 0){
 				sponsor = "Not Available";
 			}else{
-				sponsor =  sdm.retrieve(sponsorid).getCoyName();
 				SponsorDataManager spdm = new SponsorDataManager();
-				CompanyDataManager cdm = new CompanyDataManager();
-				sponsor = cdm.retrieve(Integer.parseInt(sdm.retrieve(sponsorid).getCoyName())).getCoyName();
+				sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
 				
 			}
 			

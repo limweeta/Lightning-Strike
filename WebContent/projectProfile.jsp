@@ -25,13 +25,39 @@
 </style>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script> 
     	<%@include file="template.jsp" %> 
+    		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+	  UserDataManager udm = new UserDataManager();
+	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
+  %>
+  <script type="text/javascript">
+    $(function() {
+        var facultyNameList = [
+                <%
+                for(int i = 0; i < facultyNameList.size(); i++){
+                	out.println("\""+facultyNameList.get(i)+"\",");
+                }
+                %>
+                               ];
+        
+        $( "#assignSup" ).autocomplete({
+          source: facultyNameList
+        });
+        
+        $( "#assignRev1" ).autocomplete({
+            source: facultyNameList
+          });
+        
+        $( "#assignRev2" ).autocomplete({
+            source: facultyNameList
+          });
+        
+      });
+	</script>	
     	<%
-			UserDataManager udm = new UserDataManager();
     		User user = null;
 			String type = "";
 			try{
@@ -109,7 +135,7 @@
 		
 		sponsorName = projSponsor.getFullName();
 		SponsorDataManager spdm = new SponsorDataManager();
-		company = cdm.retrieve(Integer.parseInt(spdm.retrieve(projSponsor.getID()).getCoyName())).getCoyName();
+		company = cdm.retrieve(spdm.retrieve(projSponsor.getID()).getCoyId()).getCoyName();
 		sponsorId = projSponsor.getID();
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
@@ -278,6 +304,7 @@
             if(projTeam != null){
             	%>
             	 <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+            	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<%
 	            if(supervisor.equalsIgnoreCase("No Supervisor Yet") && type.equals("admin")){ //TO-DO:check for admin status
 	            	%>
@@ -302,41 +329,43 @@
 		<div class="control-group">
 		  <label class="control-label" for="reviewer">Reviewer(s)</label>
 		  <div class="controls">   
-		  <form method=post action="/assignReviewer">    
+		  <form method=post action="assignReviewer">    
 		  <%
             if(projTeam != null){
-            	%>
-            	<input type=hidden name="teamId" value="<%=projTeam.getId()%>">   
+            	%>   
+            	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<% 
 	            if(rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){ //TO-DO: check for admin status
 	            	%>
-	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br />
-	            	<input type="text" name="assignRev2" placeholder="<%=rev2%>"><br />
+	            	<input type="text" id="assignRev1" name="assignRev1" placeholder="<%=rev1%>"><br /><br />
+	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="<%=rev2%>"><br /><br />
 	            	<input type="submit" value="Assign">
 	            	
 	            	<%
 	            }else if(!rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){
 	            	%>
-	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br />
+	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>"><br /><br />
+	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned"><br /><br />
 	            	<input type="submit" value="Assign">
 	            	
 	            	<%
 	            }else if(rev1.isEmpty() && !rev2.isEmpty() && type.equals("admin")){
 	            	%>
-	            	<input type="text" name="assignRev1" placeholder="<%=rev2%>"><br />
+	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev2%>"><br /><br />
+	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned"><br /><br />
 	            	<input type="submit" value="Assign">
 	            	
 	            	<%
 	            }else{
 	            	%>
-	            	<input type="text" name="assignRev1" placeholder="<%=rev1%>"><br /><br />
-	            	<input type="text" name="assignRev2" placeholder="<%=rev2%>">
+	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>"><br /><br />
+	            	<input type="text" id="assignRev2" name="assignRev2" value="<%=rev2%>"><br />
 	            	<%
 	            }
             }else{
             	%>
-            	<input type="text" name="assignRev1" placeholder="<%=rev1%>" readonly="readonly"> <br />
-            	<input type="text" name="assignRev2" placeholder="<%=rev2%>" readonly="readonly"> <br />
+            	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly"> <br /><br />
+            	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly"> <br /><br />
             	<%
             }
             %>
@@ -363,8 +392,8 @@
 		    	  }
 		    	 %>
 		    </select> 
-		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=reqProj.getTermId() %>" class="input-xlarge"> --%>
-		  </div>
+		  
+		    </div>
 		</div>
 		<div class="control-group">
 		  <label class="control-label" for="company">Company</label>

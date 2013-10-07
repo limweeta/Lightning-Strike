@@ -34,7 +34,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		String contact = request.getParameter("contactno");
 		String secondMajor = request.getParameter("secondmajor");
-		
+		int prefRole = Integer.parseInt(request.getParameter("preferredRole"));
 		String[] skills = request.getParameterValues("skills");
 		
 		User user = null;
@@ -45,6 +45,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 			//UPDATE VALUES HERE
 			user.setContactNum(contact);
 			student.setSecondMajor(secondMajor);
+			student.setPreferredRole(prefRole);
 			
 			//UPDATE SQL
 			sdm.modify(user, student, skills);

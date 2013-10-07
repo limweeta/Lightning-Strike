@@ -25,11 +25,11 @@ public class SponsorDataManager implements Serializable {
 			String contactNum = array.get(3);
 			String email = array.get(4);
 			String type = array.get(5);
-			String coyName = array.get(7);
+			int coyId = Integer.parseInt(array.get(7));
 			String password = array.get(8);
 			int userid = Integer.parseInt(array.get(9));
 			
-			Sponsor sponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyName, password, userid);
+			Sponsor sponsor = new Sponsor(id, username, fullName, contactNum, email, type, coyId, password, userid);
 			sponsors.add(sponsor);
 		}
 		
@@ -51,11 +51,11 @@ public class SponsorDataManager implements Serializable {
 			String contactNum = array.get(3);
 			String email = array.get(4);
 			String type = array.get(5);
-			String coyName = array.get(7);
+			int coyId = Integer.parseInt(array.get(7));
 			String password = array.get(8);
 			int userid = Integer.parseInt(array.get(9));
 			
-		sponsor = new Sponsor(retrievedId, username, fullName, contactNum, email, type, coyName, password, userid);
+		sponsor = new Sponsor(retrievedId, username, fullName, contactNum, email, type, coyId, password, userid);
 		}
 		return sponsor;
 	}
@@ -75,12 +75,12 @@ public class SponsorDataManager implements Serializable {
 			String contactNum = array.get(3);
 			String email = array.get(4);
 			String type = array.get(5);
-			String coyName = array.get(7);
+			int coyId = Integer.parseInt(array.get(7));
 			String password = array.get(8);
 			int userid = Integer.parseInt(array.get(9));
 
 			
-		sponsor = new Sponsor(id, retrievedUsername, fullName, contactNum, email, type, coyName, password, userid);
+		sponsor = new Sponsor(id, retrievedUsername, fullName, contactNum, email, type, coyId, password, userid);
 		}
 		return sponsor;
 	}
@@ -95,10 +95,10 @@ public class SponsorDataManager implements Serializable {
 		String contactNum = sponsor.getContactNum();
 		String email = sponsor.getEmail();
 		String type = sponsor.getType();
-		String coyName = sponsor.getCoyName();
+		int coyId = sponsor.getCoyId();
 		String password = sponsor.getPassword();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + userid + ", '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`id`, `company_name`, `password`, `user_id`) VALUES (" + id + ", '" + coyName + "', '" + password + "', " + userid + ");");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`sponsors` (`id`, `company_id`, `password`, `user_id`) VALUES (" + id + ", " + coyId + ", '" + password + "', " + userid + ");");
 		
 		System.out.println("sponsor added successfully");
 	}

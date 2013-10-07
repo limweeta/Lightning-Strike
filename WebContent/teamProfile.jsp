@@ -102,6 +102,7 @@
             	RoleDataManager rdm = new RoleDataManager();
             	int roleId = student.getRole();
             	Role r = rdm.retrieve(roleId);
+            	
             	%>
             	<%=r.getRoleName() %> | 
 				<form action="removeMember" method="post">

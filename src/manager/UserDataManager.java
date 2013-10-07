@@ -33,6 +33,22 @@ public class UserDataManager implements Serializable {
 		return Users;
 	}
 	
+	public ArrayList<String> retrieveFacultyFullname() throws Exception{
+		ArrayList<String> facultyNameList = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.type LIKE 'Faculty' OR users.type LIKE 'admin';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String fullName = array.get(2);
+			
+			facultyNameList.add(fullName);
+		}
+		return facultyNameList;
+	}
+	
 	public User retrieve(int id) throws Exception{
 		User User = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.id= " + id + ";");
@@ -71,6 +87,27 @@ public class UserDataManager implements Serializable {
 			String type = array.get(5);
 			
 		User = new User(id, retrievedUsername, fullName, contactNum, email, type);
+		}
+		return User;
+	}
+	
+	public User retrieveByFullName(String fullName) throws Exception{
+		User User = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.full_name LIKE '" + fullName + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String retrievedUsername = array.get(1);
+			String full_Name = array.get(2);
+			String contactNum = array.get(3);
+			String email = array.get(4);
+			String type = array.get(5);
+			
+		User = new User(id, retrievedUsername, full_Name, contactNum, email, type);
 		}
 		return User;
 	}
