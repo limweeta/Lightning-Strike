@@ -13,6 +13,82 @@
         <li><a href="#orange" data-toggle="tab">Assign Supervisor</a></li>
         <li><a href="#yellow" data-toggle="tab">Suspend User</a></li>
     </ul>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+	  UserDataManager udm = new UserDataManager();
+	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
+	  
+	  StudentDataManager sdm = new StudentDataManager();
+	  ArrayList<String> usernameList = sdm.retrieveUsernameList();
+	  
+	  TeamDataManager tdm = new TeamDataManager();
+	  ArrayList<String> teamNameList = tdm.retrieveTeamNames();
+	  
+	  ProjectDataManager pdm = new ProjectDataManager();
+	  ArrayList<String> projectNameList = pdm.retrieveProjName();
+  %>
+  <script type="text/javascript">
+    $(function() {
+    	var studentNameList = [
+    	                       <%
+    	                       for(int i = 0; i < usernameList.size(); i++){
+    	                       	out.println("\""+usernameList.get(i)+"\",");
+    	                       }
+    	                       %>
+    	                                      ];
+    	
+        var facultyNameList = [
+                <%
+                for(int i = 0; i < facultyNameList.size(); i++){
+                	out.println("\""+facultyNameList.get(i)+"\",");
+                }
+                %>
+                               ];
+        
+        var teamNameList = [
+                               <%
+                               for(int i = 0; i < teamNameList.size(); i++){
+                               	out.println("\""+teamNameList.get(i)+"\",");
+                               }
+                               %>
+                                              ];
+        
+        var projectNameList = [
+                            <%
+                            for(int i = 0; i < projectNameList.size(); i++){
+                            	out.println("\""+projectNameList.get(i)+"\",");
+                            }
+                            %>
+                                           ];
+        
+        $( "#userName" ).autocomplete({
+            source: studentNameList
+          });
+        
+        $( "#projName" ).autocomplete({
+            source: projectNameList
+          });
+        
+        $( "#teamName" ).autocomplete({
+            source: teamNameList
+          });
+        
+        $( "#assignSup" ).autocomplete({
+          source: facultyNameList
+        });
+        
+        $( "#assignRev1" ).autocomplete({
+            source: facultyNameList
+          });
+        
+        $( "#assignRev2" ).autocomplete({
+            source: facultyNameList
+          });
+        
+      });
+	</script>	
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="red">
             <h1>Assign Reviewers</h1>
@@ -25,13 +101,13 @@
 						<legend>Assign Reviewers</legend>
 					
 						<div class="span8">
-						<!-- Text input-->
+						<!-- Text input--><!-- 
 						<div class="control-group">
 						  <label class="control-label" for="teamId">Team Name</label>
 						  <div class="controls">
 						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
-						</div>
+						</div> -->
 						<!-- </div></br> --></br>
 						<!-- <div class="span3"> -->
 						<!-- Text input-->
@@ -90,22 +166,22 @@
 						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
 						</div>
-						<!-- </div></br> --></br>
+						<!-- </div></br> -->
 						<!-- <div class="span3"> -->
-						<!-- Text input-->
+						<!-- Text input--><!-- 
 						<div class="control-group">
 						  <label class="control-label" for="projId">Project Name</label>
 						  <div class="controls">
 						    <input id="projName" name="projName" type="text" class="input-large">
 						  </div>
-						</div>
+						</div> -->
 						<!-- </div> --></br>
 						<!-- <div class="span4"> -->
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="assignSup">Supervisor</label>
 						  <div class="controls">
-						    <input id="assignRev1" name="assignSup" type="text" class="input-large">
+						    <input id="assignSup" name="assignSup" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div> --></br>

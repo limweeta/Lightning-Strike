@@ -30,14 +30,22 @@ public class AssignReviewerServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		String rev1User = request.getParameter("assignRev1");
-		String rev2User = request.getParameter("assignRev2");
-		
-		int projId = Integer.parseInt(request.getParameter("projId"));
-		
 		UserDataManager udm = new UserDataManager();
 
 		ProjectDataManager pdm = new ProjectDataManager();
+		
+		String rev1User = request.getParameter("assignRev1");
+		String rev2User = request.getParameter("assignRev2");
+		
+		int projId = 0;
+		String projName = request.getParameter("projName");
+		
+		try{
+			projId = Integer.parseInt(request.getParameter("projId"));
+		}catch(Exception e){
+			projId = pdm.retrieveProjectsByName(projName).getId();
+		}
+		
 		Project p = null;
 		int rev1Id = 0;
 		int rev2Id = 0;
@@ -51,6 +59,7 @@ public class AssignReviewerServlet extends HttpServlet {
 			
 			u = udm.retrieveByFullName(rev2User);
 			rev2Id = u.getID();
+			
 			p = pdm.retrieve(projId);
 			p.setReviewer2Id(rev2Id);
 		}catch(Exception e){

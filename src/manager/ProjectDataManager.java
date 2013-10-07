@@ -44,6 +44,24 @@ public class ProjectDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public ArrayList<String> retrieveProjName() {
+		ArrayList<String> projects = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			String projName		= 	array.get(6);
+			
+			projects.add(projName);
+		}
+		
+		return projects;
+	}
+	
 	public Project getProjFromTeam(int teamId){
 		Project proj = null;
 		ArrayList<Project> allProjs = retrieveAll();
@@ -363,6 +381,35 @@ public class ProjectDataManager implements Serializable {
 			int creatorId 		= 	Integer.parseInt(array.get(11));
 			
 			project = new Project(retrievedId, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId, creatorId);
+		}
+		
+		return project;
+	}
+	
+	public Project retrieveProjectsByTeam(int teamId){
+		Project project = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project where team_id = " + teamId + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			int retrievedId 	= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId2 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			int reviewer1Id		=	Integer.parseInt(array.get(4));
+			int reviewer2Id		=	Integer.parseInt(array.get(5));
+			String retrievedProjName		= 	array.get(6);
+			String projDesc		= 	array.get(7);
+			String status		= 	array.get(8);
+			int industry		= 	Integer.parseInt(array.get(9));
+			int termId 			= 	Integer.parseInt(array.get(10));
+			int creatorId 		= 	Integer.parseInt(array.get(11));
+			
+			project = new Project(retrievedId, coyId, teamId2, sponsorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId, creatorId);
 		}
 		
 		return project;

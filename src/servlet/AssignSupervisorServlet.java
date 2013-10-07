@@ -29,13 +29,25 @@ public class AssignSupervisorServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		
-		String supUser = request.getParameter("assignSup");
-		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		int projId = Integer.parseInt(request.getParameter("projId"));
-		
+
 		UserDataManager udm = new UserDataManager();
 		TeamDataManager tdm = new TeamDataManager();
+		ProjectDataManager pdm = new ProjectDataManager();
+		
+		String supUser = request.getParameter("assignSup");
+		String teamName = request.getParameter("teamName");
+		
+		int teamId = 0; 
+		int projId = 0;
+		
+		try{
+			teamId = Integer.parseInt(request.getParameter("teamId"));
+		}catch(Exception e){
+			teamId = tdm.retrieveTeamByName(teamName).getId();
+			projId = pdm.retrieveProjectsByTeam(teamId).getId();
+		}
+		
+		
 		
 		int supId = 0;
 		User u = null;

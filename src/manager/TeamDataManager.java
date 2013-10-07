@@ -34,6 +34,23 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public ArrayList<String> retrieveTeamNames() {
+		ArrayList<String> teams = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String teamName = array.get(1);
+			
+			teams.add(teamName);
+		}
+		
+		return teams;
+	}
+	
 	public boolean emptySlots(Team team){
 		boolean result = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
@@ -54,6 +71,28 @@ public class TeamDataManager implements Serializable {
 		}
 		
 		return result;
+	}
+	
+	public Team retrieveTeamByName(String teamName){
+		Team team = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from teams WHERE teams.team_Name LIKE '" + teamName + "'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName2 = array.get(1);
+			String teamDesc = array.get(2);
+			int teamLimit	= Integer.parseInt(array.get(3));
+			int pmId		= Integer.parseInt(array.get(4));
+			int supId 		= Integer.parseInt(array.get(5));
+			
+			team = new Team(id, teamName2, teamDesc,teamLimit, pmId, supId);
+			
+		}
+		return team;
 	}
 	
 	public ArrayList<Integer> retrieveTeamSkills(Team team){
