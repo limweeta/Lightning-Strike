@@ -124,7 +124,28 @@ public class UserDataManager implements Serializable {
 		
 		
 	}
+	
+	public boolean isSuspended(String username){
+		boolean isSuspended = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.suspended_list WHERE username LIKE '%" + username + "%'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
 		
+		while (iterator.hasNext()){
+			isSuspended = true;
+		}
+		return isSuspended;
+	}
+	
+	public void suspend(User User){
+		
+		String username = User.getUsername();
+		
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`suspend_list` (`username`) VALUES ('" + username + "');");
+		
+		
+	}
+	
 	public void addSkills(String[] skills, int userId){
 		
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.`user_skills`");

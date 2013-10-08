@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import model.*;
+import manager.*;
 
 @SuppressWarnings("serial")
 public class AuthenticateServlet extends HttpServlet {
@@ -28,7 +29,7 @@ public class AuthenticateServlet extends HttpServlet {
 		String username = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
-		System.out.println(username +"," + password);
+		UserDataManager udm = new UserDataManager();
 		
 		if(!username.trim().isEmpty() && !password.trim().isEmpty()) {
 			AuthenticateService authService = new AuthenticateService();
@@ -36,15 +37,22 @@ public class AuthenticateServlet extends HttpServlet {
 			try {
 				authSponsor = authService.authenticateSponsor(username, password);
 				if(authSponsor!= null){
+					
 					String fullName = authSponsor.getFullName();
 					String sponsorUsername	= authSponsor.getUsername();
 					//String userType = authSponsor.getType();
 					HttpSession session = request.getSession();
-					session.setAttribute("fullname", fullName);
-					session.setAttribute("username", sponsorUsername);
-					session.setAttribute("type", "Sponsor");
-					writer.print("true");
-					response.sendRedirect("mainPage.jsp");
+					if(!udm.isSuspended(sponsorUsername)){
+						
+						session.setAttribute("fullname", fullName);
+						session.setAttribute("username", sponsorUsername);
+						session.setAttribute("type", "Sponsor");
+						
+						response.sendRedirect("mainPage.jsp");
+					}else{
+						session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
+						response.sendRedirect("index.jsp");
+					}
 				} else {
 					writer.print("false1");
 				}

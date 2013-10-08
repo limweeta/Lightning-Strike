@@ -114,35 +114,37 @@ public class LoginServlet extends HttpServlet {
 			 * IF INSIDE THIS BLOCK, USER IS AUTHENTICATED
 			 * INSERT YOUR CODE TO BE PERFORMED WHEN AUTHENTICATED	
 			 *************************************************/
-			session.setAttribute("username", username);
-			session.setAttribute("fullname", request.getParameter("smu_fullname"));
+			UserDataManager udm = new UserDataManager();
 			
-			// response.sendRedirect("mainPage.jsp");
-			System.out.println("login success");
+			if(!udm.isSuspended(username)){
+				session.setAttribute("username", username);
+				session.setAttribute("fullname", request.getParameter("smu_fullname"));
 			
-			//System.out.println(request.getParameter("smu_groups"));
-			String loginUser = request.getParameter("smu_username");
-			
-			String type = "test";
-			try {
-				UserDataManager udm = new UserDataManager();
-				User u = udm.retrieve(loginUser);
-				if (u == null) {
-					link = "details.jsp";
-				} else {
-					if (u.getUsername().matches(".*\\d.*")) {
-						type = "Student";
+				String loginUser = request.getParameter("smu_username");
+				
+				String type = "test";
+				try {
+					
+					User u = udm.retrieve(loginUser);
+					if (u == null) {
+						link = "details.jsp";
 					} else {
-						type = "Faculty";
+						if (u.getUsername().matches(".*\\d.*")) {
+							type = "Student";
+						} else {
+							type = "Faculty";
+						}
+						link = "mainPage.jsp";
 					}
-					link = "mainPage.jsp";
+					//session.setAttribute("type", type);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Invalid Login");
 				}
-				//session.setAttribute("type", type);
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("Invalid Login");
+			}else{
+				session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
+				response.sendRedirect("index.jsp");
 			}
-			
 		}else{
 			System.out.println();
 		}
