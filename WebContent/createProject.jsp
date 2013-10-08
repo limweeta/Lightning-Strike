@@ -27,7 +27,22 @@ if (projectOrganization==null || projectOrganization=="")
 	}
 
 }
+
+function toggleTech(source) {
+	  checkboxes = document.getElementsByName('technology');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+	    checkboxes[i].checked = source.checked;
+	  }
+	}
+	
+function toggleSkill(source) {
+	  checkboxes = document.getElementsByName('skill');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+	    checkboxes[i].checked = source.checked;
+	  }
+	}
 </script>
+
 <style type="text/css">
 	h1{
 		font-family:Impact;
@@ -141,8 +156,10 @@ if (projectOrganization==null || projectOrganization=="")
 						<!-- Select Basic -->
 						<div class="control-group">
 						  <label class="control-label" for="technology">Technology</label>
+						  
 						  <div class="controls">
-						    <select id="technology" multiple="multiple" size=5 name="technology" class="input-large">
+						    <table border=0>
+						   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
 								 <%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  ArrayList<Technology> technologies = tdm.retrieveAll();
@@ -150,11 +167,48 @@ if (projectOrganization==null || projectOrganization=="")
 								  for(int i = 0; i < technologies.size(); i++){
 									  Technology tech = technologies.get(i);
 									  %>
-									  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
+								<td style="padding: 1px">
+									<input type="checkbox" id="technology" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %></option>
+								</td>
 									  <%
+									  if((i+1) % 3 == 0){
+										  %>
+										  </tr><tr>
+										  <%
+									  }
 								  }
 								  %>
-						    </select>
+							 </tr>
+						    </table>
+						  </div>
+						</div>
+						
+						<div class="control-group">
+						  <label class="control-label" for="technology">Preferred Skills</label>
+						  
+						  <div class="controls">
+						    <table border=0>
+						   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleSkill(this)" />Select All</td></tr><tr>
+								 <%
+								  SkillDataManager skdm = new SkillDataManager();
+								  ArrayList<Skill> skills = skdm.retrieveAll();
+								  
+								  for(int i = 0; i < skills.size(); i++){
+									  Skill skill = skills.get(i);
+									  %>
+								<td style="padding: 1px">
+									<input type="checkbox" id="skill" name="skill" value="<%=skill.getId()%>">&nbsp;<%=skill.getSkillName() %></option>
+								</td>
+									  <%
+									  if((i+1) % 3 == 0){
+										  %>
+										  </tr><tr>
+										  <%
+									  }
+								  }
+								  %>
+							 </tr>
+						    </table>
 						  </div>
 						</div>
 						

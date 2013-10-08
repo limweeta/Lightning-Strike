@@ -100,7 +100,7 @@
 				sponsor = "Not Available";
 			}else{
 				SponsorDataManager spdm = new SponsorDataManager();
-				sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
+				//sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
 				
 			}
 			

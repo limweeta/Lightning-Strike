@@ -56,6 +56,13 @@
           });
         
       });
+    
+    function toggleTech(source) {
+  	  checkboxes = document.getElementsByName('technology');
+  	  for(var i=0, n=checkboxes.length;i<n;i++) {
+  	    checkboxes[i].checked = source.checked;
+  	  }
+  	}
 	</script>	
     	<%
     		User user = null;
@@ -81,7 +88,13 @@
 	
 	String sessionUsername = (String) session.getAttribute("username");
 	User sessionUser = udm.retrieve(sessionUsername);
-	int userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
+	int userTeamId = 0;
+	
+	try{
+		userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
+	}catch(Exception e){
+		userTeamId = 0;
+	}
 	
 	TermDataManager 	termdm = new TermDataManager();
 	TeamDataManager 	tdm = new TeamDataManager();
@@ -514,32 +527,36 @@
 		<div class="control-group">
 		  <label class="control-label" for="technology">Technology</label>
 		  <div class="controls">
-		    <select id="technology" name="technology" class="input-xlarge" multiple="multiple">
-		      	<%
-            if(tech.size() < 1){
-            	%>
-            	<option selected>Not specified</option>
-            	<%
-            }else{
-            	ArrayList<Technology> technologies = techdm.retrieveAll();
-				  
-			  for(int i = 0; i < technologies.size(); i++){
-				  Technology tech2 = technologies.get(i);
-				 
-					if(techdm.hasTech(tech, tech2)){
-				  %>
-				  <option value="<%=tech2.getId()%>" selected><%=tech2.getTechName() %></option>
-				  <%
-					}else{
-						%>
-				<option value="<%=tech2.getId()%>" ><%=tech2.getTechName() %></option>
-						<%
-					}
-		  		}
-            }
-				System.out.println(tech.size());  
-			  %>
-		    </select>
+		     <table border=0>
+			   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
+					 <%
+					  ArrayList<Technology> technologies = techdm.retrieveAll();
+					  
+					  for(int i = 0; i < technologies.size(); i++){
+						  Technology tech2 = technologies.get(i);
+						  
+						  if(techdm.hasTech(tech, tech2)){
+						  %>
+					<td style="padding: 1px">
+						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<%=tech2.getTechName() %></option>
+					</td>
+						  <%
+						  }else{
+						  %>
+					<td style="padding: 1px">
+						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>">&nbsp;<%=tech2.getTechName() %></option>
+					</td>
+						  <%  
+						  }
+						  if((i+1) % 3 == 0){
+							  %>
+							  </tr><tr>
+							  <%
+						  }
+					  }
+					  %>
+				 </tr>
+			    </table>
 		  </div>
 		</div>
 		<input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">

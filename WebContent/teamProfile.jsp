@@ -65,6 +65,21 @@
 		
 	<%@ include file="template.jsp" %>
 	</head>
+	<script type="text/javascript">
+	function toggleTech(source) {
+		  checkboxes = document.getElementsByName('technology');
+		  for(var i=0, n=checkboxes.length;i<n;i++) {
+		    checkboxes[i].checked = source.checked;
+		  }
+		}
+		
+	function toggleInd(source) {
+		  checkboxes = document.getElementsByName('industry');
+		  for(var i=0, n=checkboxes.length;i<n;i++) {
+		    checkboxes[i].checked = source.checked;
+		  }
+		}
+	</script>
 	<body>
 	<div class="span9 well">
 	<div class="row">
@@ -104,13 +119,13 @@
             	Role r = rdm.retrieve(roleId);
             	
             	%>
-            	<%=r.getRoleName() %> | 
+            	<%=r.getRoleName() %> <br />
 				<form action="removeMember" method="post">
 				<input type="hidden" name="userId" value="<%=student.getID()%>">
 				<input type="hidden" name="teamId" value="<%=teamId%>">
 				<input type="submit" value="Remove from Team" />
 				</form>
-            	</br>
+            	<br />
             	<%
             }
             %>
@@ -148,7 +163,7 @@
 		  <label class="control-label" for="technology">Preferred Technology</label>
 		  <div class="controls">
 		  <table border=0 width="100%">
-		  	<tr>
+		  	<tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
 		    <%
 		    ArrayList<Technology> allTech = techdm.retrieveAll();
 		    int count = 0;
@@ -196,7 +211,7 @@
 		  <label class="control-label" for="industry">Preferred Industry</label>
 		  <div class="controls">
 		  <table border=0 width="100%">
-		  	<tr>
+		  	<tr><td colspan=3 align=center><input type="checkbox" onclick="toggleInd(this)" />Select All</td></tr><tr>
 		    <%
 		    IndustryDataManager idm = new IndustryDataManager();
 		    ArrayList<Industry> allInd = idm.retrieveAll();

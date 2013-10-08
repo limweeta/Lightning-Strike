@@ -51,6 +51,7 @@ public class CreateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectdescription");
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
+		String[] skills = request.getParameterValues("skill");
 		String status ="Open";
 		
 		//if new sponsor, add to db
@@ -81,6 +82,8 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		Project proj = new Project(id, company_id, team_id, sponsor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
 		pdm.add(proj);
+		
+		pdm.addPreferredSkills(id, skills);
 		
 		try{
 			for(int j = 0; j < technologies.length; j++){
