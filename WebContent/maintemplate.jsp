@@ -58,6 +58,10 @@
 	</div></br></br>
   </head>
 <body>
+<%
+String message = (String) session.getAttribute("message");
+%>
+<font color=red><i><%=message %></i></font>
 		<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">Announcements</h3>

@@ -45,6 +45,7 @@ public class RegisterServlet extends HttpServlet {
 		
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		SponsorDataManager sdm = new SponsorDataManager();
 		UserDataManager udm = new UserDataManager();
@@ -73,7 +74,7 @@ public class RegisterServlet extends HttpServlet {
 		sponsorid++;
 		
 		String username = request.getParameter("userName");
-		System.out.println(username);
+		
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
 		String email	= request.getParameter("email");
@@ -92,7 +93,7 @@ public class RegisterServlet extends HttpServlet {
 			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);
 			sdm.add(newSponsor);
 			
-			//System.out.println("Thank you for registering.");
+			session.setAttribute("message", "Account successfully created");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
