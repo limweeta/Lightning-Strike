@@ -73,6 +73,46 @@ public class TeamDataManager implements Serializable {
 		return result;
 	}
 	
+	public boolean emptyPosition(Team team, Student std){
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select role_id from students WHERE team_id = " + team.getId());
+		
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		boolean teamHasRole = false;
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int roleId = Integer.parseInt(array.get(0));
+			
+			if(std.getPreferredRole() == roleId){
+				teamHasRole = true;
+			}
+		}
+		
+		
+		return teamHasRole;
+	}
+	
+	public ArrayList<Team> retrieveEligibleTeams(Student std) {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		ArrayList<Team> allTeams = retrieveAll();
+		
+		
+		for(int i = 0; i < allTeams.size(); i++){
+			Team t = allTeams.get(i);
+			
+			//Check for empty slots and none of the student's preferredrole
+			if(emptySlots(t) && !emptyPosition(t, std)){
+				teams.add(t);
+			}
+		}
+		
+		return teams;
+	}
+	
+	
 	public Team retrieveTeamByName(String teamName){
 		Team team = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from teams WHERE teams.team_Name LIKE '" + teamName + "'");
@@ -107,6 +147,30 @@ public class TeamDataManager implements Serializable {
 			int skillId	= Integer.parseInt(array.get(0));
 			
 			teamSkills.add(skillId);
+			
+		}
+		return teamSkills;
+	}
+	
+	public ArrayList<String> retrieveTeamSkillName(Team team){
+		ArrayList<String> teamSkills = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + team.getId() + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		SkillDataManager skdm = new SkillDataManager();
+		
+		Skill skill = null;
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId	= Integer.parseInt(array.get(0));
+			
+			try{
+				skill = skdm.retrieve(skillId);
+			}catch(Exception e){}
+			
+			teamSkills.add(skill.getSkillName());
 			
 		}
 		return teamSkills;

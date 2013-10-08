@@ -135,6 +135,15 @@
   </servlet-mapping> 
   
   <servlet>
+    <servlet-name>MatchToTeamServlet</servlet-name>
+    <servlet-class>servlet.MatchToTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MatchToTeamServlet</servlet-name>
+    <url-pattern>/matchTeam</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>MatchToProjectServlet</servlet-name>
     <servlet-class>servlet.MatchToProjectServlet</servlet-class>
   </servlet>
@@ -142,6 +151,8 @@
     <servlet-name>MatchToProjectServlet</servlet-name>
     <url-pattern>/matchProj</url-pattern>
   </servlet-mapping>
+  
+  
     
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>

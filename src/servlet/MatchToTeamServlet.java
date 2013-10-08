@@ -31,7 +31,7 @@ public class MatchToTeamServlet extends HttpServlet {
 		RequestDispatcher rd;
 		//GET USER DETAILS
 		String username = (String) session.getAttribute("username");
-		String destPage = "";
+		String destPage = "showMatchTeams.jsp";
 		
 		UserDataManager udm = new UserDataManager();
 		StudentDataManager sdm =  new StudentDataManager();
@@ -44,26 +44,16 @@ public class MatchToTeamServlet extends HttpServlet {
 		//GET ALL TEAM DETAILS
 		TeamDataManager tdm = new TeamDataManager();
 		ArrayList<Team> teams = tdm.retrieveAll();
-		ArrayList<Team> emptySlotTeam = new ArrayList<Team>();
+		ArrayList<Team> eligibleTeams = new ArrayList<Team>();
 		
 		try{
 			user = udm.retrieve(username);
 			std = sdm.retrieve(username);
 			skills = skdm.getUserSkills(user);
 			
-			//BASIC CHECK - EMPTY SLOTS
-			for(int i = 0; i < teams.size(); i++){
-				Team tmpTeam = null;
-				tmpTeam = teams.get(i);
-				
-				boolean hasSlot = tdm.emptySlots(tmpTeam);
-				
-				if(hasSlot){
-					emptySlotTeam.add(tmpTeam);
-				}
-				
-			}
-			
+			//BASIC CHECK - EMPTY SLOTS & Preferred Role not taken
+			eligibleTeams = tdm.retrieveEligibleTeams(std);
+			request.setAttribute("matchedTeams", eligibleTeams);
 		}catch(Exception e){
 			destPage = "error.jsp";
 		}finally{

@@ -127,7 +127,7 @@ public class UserDataManager implements Serializable {
 	
 	public boolean isSuspended(String username){
 		boolean isSuspended = false;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.suspended_list WHERE username LIKE '%" + username + "%'");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "'");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

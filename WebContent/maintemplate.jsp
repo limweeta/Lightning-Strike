@@ -60,6 +60,9 @@
 <body>
 <%
 String message = (String) session.getAttribute("message");
+if(message == null){
+	message = "";
+}
 %>
 <font color=red><i><%=message %></i></font>
 		<div class="panel panel-primary">

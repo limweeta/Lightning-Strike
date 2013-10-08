@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		String link = "";
+		String link = "index.jsp";
 		
 		HttpSession session = request.getSession();
 		
@@ -143,7 +143,6 @@ public class LoginServlet extends HttpServlet {
 				}
 			}else{
 				session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
-				response.sendRedirect("index.jsp");
 			}
 		}else{
 			System.out.println();
