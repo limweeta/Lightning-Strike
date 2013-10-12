@@ -208,6 +208,15 @@ public class StudentDataManager implements Serializable {
 		
 	}
 	
+	public void modify(Student student){
+		MySQLConnector.executeMySQL("update", "UPDATE students SET "
+				+ "second_major = '" + student.getSecondMajor() + "', "
+				+ "team_id = " + student.getTeamId() + ", "
+				+ "role_id = " + student.getRole() + " "
+				+ "WHERE id = " + student.getID());
+	
+	}
+	
 	public void remove(int ID){
 		
 	}

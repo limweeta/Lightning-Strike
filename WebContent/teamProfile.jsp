@@ -34,6 +34,7 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 
+		
 		String teamId = request.getParameter("id");
 		
 		if(teamId == null || teamId.isEmpty()){
@@ -61,7 +62,17 @@
 			}catch(Exception e){
 				projName = "No Project Yet";
 			}
-	%>
+
+		   	String sessionUsername = (String) session.getAttribute("username");
+		  	User sessUser = null;
+			int sessUserId = 0;
+			try{
+				 sessUser =  udm.retrieve(sessionUsername);
+				 sessUserId = sessUser.getID();
+			}catch(Exception e){
+				sessUserId = 0;
+			}
+%>
 		
 	<%@ include file="template.jsp" %>
 	</head>
@@ -97,7 +108,11 @@
 		<div class="control-group">
 		  <label class="control-label" for="fullname">About Us</label>
 		  <div class="controls">
+		  <%if(sessUserId == team.getPmId()){ %>
 		    <textarea id="teamDesc" name="teamDesc"><%=team.getTeamDesc() %></textarea>
+		  <%}else{ %>
+		  	<textarea id="teamDesc" name="teamDesc" readonly="readonly"><%=team.getTeamDesc() %></textarea>
+		  <%}%>
 		  </div>
 		</div>
 		<!-- </div></br> --></br>
@@ -118,12 +133,18 @@
             	Role r = rdm.retrieve(roleId);
             	%>
             	<%=r.getRoleName() %> <br />
+	            	<%
+	            		if(sessUserId == team.getPmId()){
+	            	%>
 				<form action="removeMember" method="post">
 				<input type="hidden" name="userId" value="<%=student.getID()%>">
 				<input type="hidden" name="teamId" value="<%=teamId%>">
-				<input type="submit" value="Remove from Team" />
+				<input type="submit" value="Remove from Team" onclick="return confirm('Are you sure you want to remove <%=student.getFullName() %> from this team?');return false;" />
 				<br />
 				</form>
+					<%
+	            		}
+					%>
             	<%
             }
             %>
@@ -138,7 +159,18 @@
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Supervisor</label>
 		  <div class="controls">
-		  	<a href="#"><span class="label label-info">Supervisor Name</span></a>
+		  	<a href="#"><span class="label label-info">
+			<%
+			int supId = team.getSupId(); 
+			String supervisorName = "";
+			
+			  try{
+				  supervisorName = udm.retrieve(supId).getFullName();
+			  }catch(Exception e){
+				  supervisorName = "No supervisor yet";
+			  }
+			%><%=supervisorName %>
+			</span></a>
 		  </div>
 		</div></br>
 		
@@ -273,12 +305,6 @@
 		  <label class="control-label" for="request"></label>
 		  <div class="controls">
 		  	<a href="#"><span class="label label-info">Request to Join</span></a>
-		  </div>
-		</div></br>
-		<div class="control-group">
-		  <label class="control-label" for="leave"></label>
-		  <div class="controls">
-		  	<a href="#"><span class="label label-info">Leave Team</span></a>
 		  </div>
 		</div></br>
 		<% 

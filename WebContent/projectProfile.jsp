@@ -344,25 +344,25 @@
 		  <div class="controls">   
 		  <form method="post" action="assignReviewer">    
 		  <%
-            if(projTeam != null){
+            if(projTeam != null && type.equals("admin")){
             	%>   
             	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<% 
-	            if(rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){ //TO-DO: check for admin status
+	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
 	            	%>
 	            	<input type="text" id="assignRev1" name="assignRev1" placeholder="<%=rev1%>"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="<%=rev2%>"><br /><br />
 	            	<input type="submit" value="Assign">
 	            	
 	            	<%
-	            }else if(!rev1.isEmpty() && rev2.isEmpty() && type.equals("admin")){
+	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
 	            	%>
 	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned"><br /><br />
 	            	<input type="submit" value="Assign">
 	            	
 	            	<%
-	            }else if(rev1.isEmpty() && !rev2.isEmpty() && type.equals("admin")){
+	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
 	            	%>
 	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev2%>"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned"><br /><br />
@@ -373,6 +373,7 @@
 	            	%>
 	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" value="<%=rev2%>"><br />
+	            	<input type="submit" value="Assign">
 	            	<%
 	            }
             }else{
@@ -386,7 +387,7 @@
 		  </div>
 		</div>
 		<div class="control-group">
-		  <label class="control-label" for="term">Term <% System.out.println("Term ID is: " + term.getId()); %></label>
+		  <label class="control-label" for="term">Term</label>
 		  <div class="controls">
 		  	<select id="term" name="term" class="input-large">
 		    	  <%

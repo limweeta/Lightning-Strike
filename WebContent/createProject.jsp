@@ -73,6 +73,18 @@ function toggleSkill(source) {
 		if(username == null){
 			response.sendRedirect("index.jsp");
 		}
+	
+	UserDataManager udm = new UserDataManager();
+	ProjectDataManager pdm = new ProjectDataManager();
+	User u = udm.retrieve(username);
+	
+	boolean hasProj = false;
+	
+	try{
+		hasProj = pdm.hasProj(u);
+	}catch(Exception e){
+		hasProj = false;
+	}
 	%> 
 	</head>
 	<body>
@@ -235,14 +247,26 @@ function toggleSkill(source) {
 						<%
 						}catch(Exception e){}
 						%>
+						
 						<!-- Button -->
 						<div class="control-group">
 						  <label class="control-label" for="createproject"></label>
 						  <div class="controls">
-						    <input type="submit" id="createproject" Value="Create" class="btn btn-success">
-						    
-					  </div>
-						  </div>
+						  <%
+							if(hasProj){
+						  %>
+						    <input type="submit" id="createproject" Value="Create" class="btn btn-success" disabled="disabled"><br />
+						    <font color=red size=-1><i>You are already undertaking a project</i></font>
+						  <%
+							}else{
+								%>
+							<input type="submit" id="createproject" Value="Create" class="btn btn-success" />
+								<%
+							}
+						  %>
+					 	  </div>
+						</div>
+						
 						</div>
 						
 						</fieldset>

@@ -44,12 +44,22 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		response.setContentType("text/plain");
-		TeamDataManager tdm = new TeamDataManager();
+		
+		StudentDataManager stdm = new StudentDataManager();
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		String teamId = request.getParameter("teamId");
+		System.out.println(userId);
 		
-		tdm.removeMember(userId);
+		try{
+			Student std = stdm.retrieve(userId);
+			std.setRole(0);
+			std.setTeamId(0);
+			
+			stdm.modify(std);
+		}catch(Exception e){
+			
+		} 
 		
 		response.sendRedirect("teamProfile.jsp?id="+teamId);
 	}

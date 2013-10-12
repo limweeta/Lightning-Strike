@@ -11,10 +11,10 @@
 
 </style>
 <%
-String sessionUser = (String) session.getAttribute("username");
+String sessionUsername = (String) session.getAttribute("username");
 
-if(sessionUser == null || sessionUser.isEmpty()){
-	sessionUser = "";
+if(sessionUsername == null || sessionUsername.isEmpty()){
+	sessionUsername = "";
 }
 %>
 <head>	
@@ -125,7 +125,13 @@ if(sessionUser == null || sessionUser.isEmpty()){
 		<div class="control-group">
 		  <label class="control-label" for="contactno">Contact</label>
 		  <div class="controls">
-		    <input id="contactno" name="contactno" type="text" value="<%=u.getContactNum()%>" class="input-large">
+			<%
+				if(sessionUsername.equals(u.getUsername())){
+			%>
+		    	<input id="contactno" name="contactno" type="text" value="<%=u.getContactNum()%>" class="input-large">
+		    <%}else{ %>
+		    	<input id="contactno" name="contactno" type="text" value="<%=u.getContactNum()%>" class="input-large" readonly="readonly">
+		    <%} %>
 		  </div>
 		</div>
 		<!-- </div> --></br>
@@ -145,8 +151,13 @@ if(sessionUser == null || sessionUser.isEmpty()){
 		<div class="control-group">
 		  <label class="control-label" for="secondmajor">Second Major</label>
 		  <div class="controls">
+		  	<%
+				if(sessionUsername.equals(u.getUsername())){
+			%>
 		    <input id="secondmajor" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large">
-		    
+		     <%}else{ %>
+		     <input id="secondmajor" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large" readonly="readonly">
+		    <%} %>
 		  </div>
 		</div>
 		
@@ -218,7 +229,7 @@ if(sessionUser == null || sessionUser.isEmpty()){
 		<!-- <div class="span7"> -->
 		<!-- Button -->
 		<%
-		if(sessionUser.equals(u.getUsername())){
+		if(sessionUsername.equals(u.getUsername())){
 		%>
 		<div class="control-group">
 		  <label class="control-label" for="editprofile"></label>

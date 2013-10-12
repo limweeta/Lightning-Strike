@@ -44,6 +44,31 @@ public class ProjectDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public boolean hasProj(User std) {
+		StudentDataManager stdm = new StudentDataManager();
+		Student student = null;
+		
+		boolean hasProj = false;
+		
+		try{
+			student = stdm.retrieve(std.getID());
+			
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE team_id = " + student.getTeamId() + " ;");
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			while (iterator.hasNext()){
+				hasProj = true;
+				break;
+			}
+			
+			
+		}catch(Exception e){
+			hasProj = false;
+		}
+		
+		return hasProj;
+	}
 	public ArrayList<String> retrieveProjName() {
 		ArrayList<String> projects = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects");
@@ -66,13 +91,16 @@ public class ProjectDataManager implements Serializable {
 		Project proj = null;
 		ArrayList<Project> allProjs = retrieveAll();
 		
-		for(int i = 0; i < allProjs.size(); i++){
-			Project p = allProjs.get(i);
-			if(p.getTeamId() == teamId){
-				proj = p;
+		if(teamId == 0){
+			proj = null;
+		}else{
+			for(int i = 0; i < allProjs.size(); i++){
+				Project p = allProjs.get(i);
+				if(p.getTeamId() == teamId){
+					proj = p;
+				}
 			}
 		}
-		
 		return proj;
 	}
 	
