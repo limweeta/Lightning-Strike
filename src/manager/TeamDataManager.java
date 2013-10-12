@@ -112,7 +112,6 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
-	
 	public Team retrieveTeamByName(String teamName){
 		Team team = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE teams.team_Name LIKE '" + teamName + "'");
@@ -228,6 +227,20 @@ public class TeamDataManager implements Serializable {
 	}
 	
 	// check for conflicting objects
+	
+	public boolean isTeamNameTaken(String teamName){
+		boolean isTaken = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE team_name LIKE '" + teamName + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			isTaken = true;
+		}
+		
+		return isTaken;
+	}
 	
 	public int retrievebyStudent(int id) throws Exception{
 		int teamId = 0;

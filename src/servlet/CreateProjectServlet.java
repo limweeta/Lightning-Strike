@@ -52,13 +52,9 @@ public class CreateProjectServlet extends HttpServlet {
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
 		String[] skills = request.getParameterValues("skill");
-		String status ="Open";
+		String status = "Open";
 		
-		//if new sponsor, add to db
-		
-		//extract teamid or sponsorid from session
-		// ifelse statement to identify team_id and sponsor_id 
-		// if faculty, default below.
+		boolean isNameTaken = pdm.isProjNameTaken(projName);
 		
 		int company_id = 0;
 		int team_id = 0;
@@ -79,31 +75,36 @@ public class CreateProjectServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
-		Project proj = new Project(id, company_id, team_id, sponsor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
-		pdm.add(proj);
-		
-		pdm.addPreferredSkills(id, skills);
-		
-		try{
-			for(int j = 0; j < technologies.length; j++){
-				Technology tech = tdm.retrieve(Integer.parseInt(technologies[j]));
-				
-				ArrayList<Technology> techs = tdm.retrieveAll();
-				int nextId = 0;
-				for(int i = 0; i < techs.size(); i++){
-					Technology tmpTech = techs.get(i);
-					if(nextId <= tmpTech.getId()){
-						nextId = tmpTech.getId() + 1;
+		if(isNameTaken || projName.isEmpty()){
+			session.setAttribute("message", "Project name cannot be empty or is already taken. Please try another name");
+			response.sendRedirect("createProject.jsp");
+		}else{
+			
+			Project proj = new Project(id, company_id, team_id, sponsor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
+			pdm.add(proj);
+			
+			pdm.addPreferredSkills(id, skills);
+			
+			try{
+				for(int j = 0; j < technologies.length; j++){
+					Technology tech = tdm.retrieve(Integer.parseInt(technologies[j]));
+					
+					ArrayList<Technology> techs = tdm.retrieveAll();
+					int nextId = 0;
+					for(int i = 0; i < techs.size(); i++){
+						Technology tmpTech = techs.get(i);
+						if(nextId <= tmpTech.getId()){
+							nextId = tmpTech.getId() + 1;
+							
+						}
 						
 					}
-					
+					pdm.addTech(id, tech.getId());
 				}
-				pdm.addTech(id, tech.getId());
+			}catch(Exception e){
+				//System.out.println("No technology");
 			}
-		}catch(Exception e){
-			System.out.println("No technology");
+			response.sendRedirect("projectProfile.jsp?id="+id);
 		}
-		response.sendRedirect("projectProfile.jsp?id="+id);
 	}
 }

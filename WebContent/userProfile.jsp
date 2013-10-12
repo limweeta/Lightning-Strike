@@ -104,7 +104,15 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	<form action="updateCurrentProfile" method="post" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=u.getID()%>">
 		<fieldset>
-		
+		<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+			<font size=-1 color="red"><i><%=message %></i></font>
+			<%
+			session.removeValue("message");
+			} %>
 		<!-- Form Name -->
 		<legend>User Profile</legend>
 		

@@ -75,7 +75,7 @@ public class UpdateProjectServlet extends HttpServlet {
 		String projStatus = request.getParameter("projStatus");
 		
 		String[] technologies = request.getParameterValues("technology");
-		System.out.println("Industry ID is: " + request.getParameter("industry"));
+		//System.out.println("Industry ID is: " + request.getParameter("industry"));
 		int industryId = Integer.parseInt(request.getParameter("industry"));
 		int termId = Integer.parseInt(request.getParameter("term"));
 		

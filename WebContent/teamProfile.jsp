@@ -94,7 +94,15 @@
 	</script>
 	<body>
 	<div class="span9 well">
-					<img width=500px; height=150px; src="https://db.tt/T1ASL5ed">
+				<% String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+				%>
+						<font size=-1 color="red"><i><%=message %></i></font>
+						<%
+						session.removeValue("message");
+						} %>
 	<div class="row">
 	<form action="updateTeam" class="form-horizontal" method=post>
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
@@ -249,11 +257,11 @@
 		</br>
 		 
 		
-		  <label class="control-label" for="industry">Preferred Industry</label>
+		  <label class="control-label" for="prefindustry">Preferred Industry</label>
 		 
 		  	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Industry<b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
-	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
+	     		<li><input type="checkbox" onclick="toggleInd(this)" />Select All</li>
 		    <%
 		    IndustryDataManager idm = new IndustryDataManager();
 		    ArrayList<Industry> allInd = idm.retrieveAll();

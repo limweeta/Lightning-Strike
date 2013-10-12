@@ -116,11 +116,15 @@ public class LoginServlet extends HttpServlet {
 			 *************************************************/
 			UserDataManager udm = new UserDataManager();
 			
-			if(!udm.isSuspended(username)){
+			
 				session.setAttribute("username", username);
 				session.setAttribute("fullname", request.getParameter("smu_fullname"));
 			
 				String loginUser = request.getParameter("smu_username");
+				
+				if(udm.isSuspended(username)){
+					session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
+				}
 				
 				String type = "test";
 				try {
@@ -143,9 +147,7 @@ public class LoginServlet extends HttpServlet {
 					e.printStackTrace();
 					System.out.println("Invalid Login");
 				}
-			}else{
-				session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
-			}
+			
 		}else{
 			System.out.println();
 		}

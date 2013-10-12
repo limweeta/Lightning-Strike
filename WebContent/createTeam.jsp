@@ -83,7 +83,15 @@
 				<div class="createTeam">
 					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
 						<fieldset>
-						
+						<% String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+						%>
+						<font size=-1 color="red"><i><%=message %></i></font>
+						<%
+						session.removeValue("message");
+						} %>
 						<!-- Form Name -->
 						<legend>Create Team</legend>
 						

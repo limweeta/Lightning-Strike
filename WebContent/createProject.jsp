@@ -2,27 +2,26 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+<%
+UserDataManager udm = new UserDataManager();
+ProjectDataManager pdm = new ProjectDataManager();
+
+ArrayList<String> projNameList = pdm.retrieveProjName();
+%>
 <script type="text/javascript">
 function validateForm()
 {
-var projectName=document.forms["creatProj"]["projectName"].value;
+var projectName=document.forms["createProj"]["projectname"].value;
 if (projectName==null || projectName=="")
   {
   alert("Project name must be filled out");
   return false;
   }
 
-var projectDescription = document.forms["details"]["projectDescription"].value;
+var projectDescription = document.forms["createProj"]["projectdescription"].value;
 if (projectDescription==null || projectDescription=="")
 	{
 		alert("Project description must be filled out");
-		return false;
-	}
-
-var projectOrganization = document.forms["details"]["projectOrganization"].value;
-if (projectOrganization==null || projectOrganization=="")
-	{
-		alert("Project organization must be filled out");
 		return false;
 	}
 
@@ -41,6 +40,8 @@ function toggleSkill(source) {
 	    checkboxes[i].checked = source.checked;
 	  }
 	}
+	
+
 </script>
 
 <style type="text/css">
@@ -74,8 +75,6 @@ function toggleSkill(source) {
 			response.sendRedirect("index.jsp");
 		}
 	
-	UserDataManager udm = new UserDataManager();
-	ProjectDataManager pdm = new ProjectDataManager();
 	User u = udm.retrieve(username);
 	
 	boolean hasProj = false;
@@ -91,9 +90,17 @@ function toggleSkill(source) {
 		<div id="content-container" class="shadow">
 			<div id="content">
 				<div class="createTeam">
-					<form class="form-horizontal" action="createProject" onsubmit="return validateForm()">
+					<form class="form-horizontal" method=post action="createProject" onsubmit="return validateForm()">
 						<fieldset>
-						
+						<% String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+						%>
+						<font size=-1 color="red"><i><%=message %></i></font>
+						<%
+						session.removeValue("message");
+						} %>
 						<!-- Form Name -->
 						<legend>Create Project</legend>
 						
@@ -101,7 +108,7 @@ function toggleSkill(source) {
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Project Name</label>
 						  <div class="controls">
-						    <input id="projectname" name="projectname" type="text" placeholder="Project Name" class="input-large">
+						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-large">
 						    
 						  </div>
 						</div>

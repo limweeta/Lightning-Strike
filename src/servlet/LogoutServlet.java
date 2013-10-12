@@ -25,7 +25,6 @@ public class LogoutServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		
 		request.getSession().invalidate();
-		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		
 		rd.forward(request, response);

@@ -198,7 +198,15 @@
 	<div class="row">
 	<form action="updateProject" method="post" class="form-horizontal">
 		<fieldset>
-		
+		<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+			<font size=-1 color="red"><i><%=message %></i></font>
+			<%
+			session.removeValue("message");
+			} %>
 		<!-- Form Name -->
 		<legend>Project Profile</legend>
 
@@ -389,6 +397,10 @@
 		<div class="control-group">
 		  <label class="control-label" for="term">Term</label>
 		  <div class="controls">
+		  <%
+		try{
+		  if(username.equals(udm.retrieve(creatorId).getUsername())){
+		  %>
 		  	<select id="term" name="term" class="input-large">
 		    	  <%
 		    	  for(int i = 0; i < terms.size(); i++){
@@ -406,7 +418,14 @@
 		    	  }
 		    	 %>
 		    </select> 
-		  
+		 <%
+			}else{
+		 %>
+		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
+		 <%
+			}
+		}catch(Exception e){out.println("Error here");}
+		 %> 
 		    </div>
 		</div>
 		<div class="control-group">

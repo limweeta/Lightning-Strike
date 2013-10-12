@@ -44,6 +44,20 @@ public class ProjectDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public boolean isProjNameTaken(String projName){
+		boolean isTaken = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE project_name LIKE '" + projName + "' ;");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if(iterator.hasNext()){
+			isTaken = true;
+		}
+		
+		return isTaken;
+	}
+	
 	public boolean hasProj(User std) {
 		StudentDataManager stdm = new StudentDataManager();
 		Student student = null;
@@ -53,15 +67,18 @@ public class ProjectDataManager implements Serializable {
 		try{
 			student = stdm.retrieve(std.getID());
 			
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE team_id = " + student.getTeamId() + " ;");
-			Set<String> keySet = map.keySet();
-			Iterator<String> iterator = keySet.iterator();
+			if(student.getTeamId() ==  0){
+				hasProj = false;
+			}else{
 			
-			while (iterator.hasNext()){
-				hasProj = true;
-				break;
+				HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE team_id = " + student.getTeamId() + " ;");
+				Set<String> keySet = map.keySet();
+				Iterator<String> iterator = keySet.iterator();
+				
+				if(iterator.hasNext()){
+					hasProj = true;
+				}
 			}
-			
 			
 		}catch(Exception e){
 			hasProj = false;
