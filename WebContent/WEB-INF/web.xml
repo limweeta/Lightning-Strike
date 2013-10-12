@@ -152,7 +152,14 @@
     <url-pattern>/matchProj</url-pattern>
   </servlet-mapping>
   
-  
+  <servlet>
+    <servlet-name>SuspendUserServlet</servlet-name>
+    <servlet-class>servlet.SuspendUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SuspendUserServlet</servlet-name>
+    <url-pattern>/suspendUser</url-pattern>
+  </servlet-mapping>
     
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>

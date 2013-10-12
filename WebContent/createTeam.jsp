@@ -306,7 +306,7 @@
 						    <%
 								}else{
 									%> 
-							<button id="createteam" name="createteam" class="btn btn-success">Create Team</button>
+							<input type="submit" id="createteam" value="Create Team" class="btn btn-success">
 									<%
 								}
 						    %>

@@ -79,25 +79,25 @@
 		    checkboxes[i].checked = source.checked;
 		  }
 		}
+	
 	</script>
 	<body>
 	<div class="span9 well">
+					<img width=500px; height=150px; src="https://db.tt/T1ASL5ed">
 	<div class="row">
-	<form action="updateTeam" class="form-horizontal">
-		<fieldset>
-		
+	<form action="updateTeam" class="form-horizontal" method=post>
+		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
 		<legend><%=team.getTeamName() %></legend>
 		<input type="hidden" name="teamId" value="<%=teamId %>">
-			<div class="span1">
-				<img width=500px; height=150px; src="https://db.tt/T1ASL5ed">
-			</div></br>
-		<div class="span8">
+		<input type="hidden" name="teamName" value="<%=team.getTeamName() %>">
+		<div class="span9">
 		<!-- Text input-->
+		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
 		<div class="control-group">
 		  <label class="control-label" for="fullname">About Us</label>
 		  <div class="controls">
-		    <textarea id="teamDesc"><%=team.getTeamDesc() %></textarea>
+		    <textarea id="teamDesc" name="teamDesc"><%=team.getTeamDesc() %></textarea>
 		  </div>
 		</div>
 		<!-- </div></br> --></br>
@@ -111,32 +111,37 @@
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a>
-            	| 
+            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> &nbsp;| 
             	<%
             	RoleDataManager rdm = new RoleDataManager();
             	int roleId = student.getRole();
             	Role r = rdm.retrieve(roleId);
-            	
             	%>
             	<%=r.getRoleName() %> <br />
 				<form action="removeMember" method="post">
 				<input type="hidden" name="userId" value="<%=student.getID()%>">
 				<input type="hidden" name="teamId" value="<%=teamId%>">
 				<input type="submit" value="Remove from Team" />
+				<br />
 				</form>
-            	<br />
             	<%
             }
             %>
 		  </div>
 		</div></br>
 		<div class="control-group">
-		  <label class="control-label" for="team">Project</label>
+		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName %></span></a>
 		  </div>
 		</div></br>
+		<div class="control-group">
+		  <label class="control-label" for="supervisor">Supervisor</label>
+		  <div class="controls">
+		  	<a href="#"><span class="label label-info">Supervisor Name</span></a>
+		  </div>
+		</div></br>
+		
 		<label class="control-label" for="teamskills">Team Skills</label>
 		<div class="span1 well">
 		    <%
@@ -152,18 +157,20 @@
             	<%
             	if(count % 3 == 0){
             		%>
-            		<br>
+            		</br>
             		<%
             	}
             }
             %>
-		</div></div>
+           
+		</div>
+		</br></br></br></br></br></br></br></br></br>
 		
-		<div class="control-group">
 		  <label class="control-label" for="technology">Preferred Technology</label>
-		  <div class="controls">
-		  <table border=0 width="100%">
-		  	<tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
+		
+		 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Technology<b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
 		    <%
 		    ArrayList<Technology> allTech = techdm.retrieveAll();
 		    int count = 0;
@@ -171,7 +178,7 @@
 			for(int i = 0; i < allTech.size(); i++){
 				checked = false;
 				%>
-				<td>
+				
 				<%
 				Technology hasTech = allTech.get(i);
 				count++;
@@ -184,34 +191,37 @@
 				}
 				if(checked){
 				%>
+				<li>
 				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked" />
 						<%=allTech.get(i).getTechName() %>
-				</td>
+				</li>
 				<%
 				}else{
 					%>
+				<li>
 				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" />
 						<%=allTech.get(i).getTechName() %>
-				</td>	
+				</li>	
 					<%
 				}
 				if(count % 3 == 0){
 					%>
-					</tr><tr>
+				
 					<%
-				}
-			}
+				}%>
+				
+			<%}
 			%>
-			</tr>
-			</table>
-		  </div>
-		</div><br />
+			</ul>
+			</li>
+		</br>
+		 
 		
-		<div class="control-group">
 		  <label class="control-label" for="industry">Preferred Industry</label>
-		  <div class="controls">
-		  <table border=0 width="100%">
-		  	<tr><td colspan=3 align=center><input type="checkbox" onclick="toggleInd(this)" />Select All</td></tr><tr>
+		 
+		  	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Industry<b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
 		    <%
 		    IndustryDataManager idm = new IndustryDataManager();
 		    ArrayList<Industry> allInd = idm.retrieveAll();
@@ -220,7 +230,7 @@
 			for(int i = 0; i < allInd.size(); i++){
 				checked = false;
 				%>
-				<td>
+				
 				<%
 				Industry hasInd = allInd.get(i);
 				count++;
@@ -233,28 +243,30 @@
 				}
 				if(checked){
 				%>
+				<li>
 				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" checked="checked" />
 						<%=allInd.get(i).getIndustryName() %>
-				</td>
+				</li>
 				<%
 				}else{
 					%>
+				<li>
 				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" />
 						<%=allInd.get(i).getIndustryName() %>
-				</td>	
+				</li>	
 					<%
 				}
 				if(count % 3 == 0){
 					%>
-					</tr><tr>
+				
 					<%
-				}
-			}
+				}%>
+				
+			<% }
 			%>
-			</tr>
-			</table>
-		  </div>
-		</div><br />
+			</ul>
+			</li>
+		</br>
 		
 		<%if(username != null){ %>
 		<div class="control-group">
@@ -272,17 +284,24 @@
 		<% 
 		}
 		%>
-		<!-- </div> --></br>
-		<!-- <div class="span7"> -->
-		<!-- Button -->
+		</br>
+		<%
+		try{
+			if(udm.retrieve(username).getID() == team.getPmId()){
+				%>
 		<div class="control-group">
-		  <label class="control-label" for="editprofile"></label>
+		  <label class="control-label" for="updateTeam"></label>
 		  <div class="controls">
-		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
+		    <input type="submit" id="updateTeam" name="Save Profile" class="btn btn-success">
 		  </div>
 		</div>
+		
+			<%
+			
+				}
+			}catch(Exception e){}
+		%></div>
 		</form>
-	
 		<%
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
@@ -292,22 +311,28 @@
 					<div class="control-group">
 					  <label class="control-label" for="delete"></label>
 					  <div class="controls">
-					    <input type="submit" id="delete" name="delete" class="btn btn-warning" value="Delete Team" />
+					   <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this team?');return false;" class="btn btn-danger">
+					 <!--    <div id = "alert_placeholder"></div>
+						<script>
+						bootstrap_alert = function() {}
+						bootstrap_alert.warning = function(message) {
+						            $('#alert_placeholder').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
+						        }
+						
+						$('#delete').on('click', function() {
+						            bootstrap_alert.warning('Team has been deleted!');
+						});
+						</script> -->
 					  </div>
 					</div>
 				</form>
 				<%
-			
 				}
 			}catch(Exception e){}
-			
 		}
 		%>
-		
-		</div></br>
-		</fieldset>
-	</div>
-	</div>
+		</div>
+		</div>
 	</body>
 
 </html>

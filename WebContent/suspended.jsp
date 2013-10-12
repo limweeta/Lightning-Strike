@@ -69,32 +69,9 @@ if(message == null || message.isEmpty()){
 session.setAttribute("message", "");
 %>
 		<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title">Announcements</h3>
+		<div class="panel-heading">Suspended Users</h3>
 		</div>
 		<div class="panel-body">
-			<table>
-				<th>Number</th>
-				<th>Date/Time</th>
-				<th>Announcement</th>
-				
-				<%
-				AnnouncementDataManager adm = new AnnouncementDataManager();
-				ArrayList<Announcement> announcements = adm.retrieveAll();
-				
-				for(int i=0; i < announcements.size(); i++){
-					Announcement ann = announcements.get(i);
-					%>
-					<tr>
-						<td><%=i+1 %></td>
-						<td><%=ann.getTimestamp() %></td>
-						<td><%=ann.getAnnouncement() %></td>
-					</tr>
-					<%
-				}
-				%>
-				
-			</table>
 			
 		</div>
 	</div>

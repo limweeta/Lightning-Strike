@@ -39,7 +39,7 @@
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
-			<h1>All Projects</h1>
+			
 			<div id="demo">
 <div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
 	<thead>

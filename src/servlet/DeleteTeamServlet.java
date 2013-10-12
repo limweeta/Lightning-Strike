@@ -33,6 +33,8 @@ public class DeleteTeamServlet extends HttpServlet {
 		
 		tdm.updateStudentsIfTeamDeleted(teamId); //Update Students Table
 		tdm.updateProjectIfTeamDeleted(teamId);	//Update Project Table
+		tdm.updateTeamIndustryIfTeamDeleted(teamId);
+		tdm.updateTeamTechIfTeamDeleted(teamId);
 		
 		tdm.remove(teamId);
 		

@@ -40,7 +40,8 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h1>Search Projects <p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p></h1> 
+				<h1>Search Projects </h1>
+				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
@@ -49,8 +50,7 @@
 		
 		if(reqId == null || reqId.isEmpty()){
 		%>
-			
-			<h1>All Projects</h1>
+	
 			<div id="demo">
 <div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
 	<thead>
@@ -100,7 +100,7 @@
 				sponsor = "Not Available";
 			}else{
 				SponsorDataManager spdm = new SponsorDataManager();
-				//sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
+				sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
 				
 			}
 			

@@ -34,7 +34,13 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		String contact = request.getParameter("contactno");
 		String secondMajor = request.getParameter("secondmajor");
-		int prefRole = Integer.parseInt(request.getParameter("preferredRole"));
+		int prefRole = 0;
+		
+		try{
+			Integer.parseInt(request.getParameter("preferredRole"));
+		}catch(Exception e){
+			prefRole = 0;
+		}
 		String[] skills = request.getParameterValues("skills");
 		
 		User user = null;

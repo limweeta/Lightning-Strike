@@ -239,7 +239,9 @@ function toggleSkill(source) {
 						<div class="control-group">
 						  <label class="control-label" for="createproject"></label>
 						  <div class="controls">
-						    <button id="createproject" name="createproject" class="btn btn-success">Create Project</button>
+						    <input type="submit" id="createproject" Value="Create" class="btn btn-success">
+						    
+					  </div>
 						  </div>
 						</div>
 						

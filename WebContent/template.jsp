@@ -22,27 +22,28 @@
 		%>
 		<table id="profile">
 			<tr>
-				<td><div id="welcome">Welcome, <%=fullName %></div></td>
-				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
-				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	
-		   	</tr>
-		   	<tr> 
-			   	<td></td> 
-			   	<td></td>
+				<%-- <td><div id="welcome">Welcome, <%=fullName %></div></td> --%>
+				
 		   	<%
 			if(!fullName.equals("guest")){
 			%>
-		   		<td>
+			<!-- <td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
+			<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	
+		   	</tr>
+		   	<tr> 
+			   	<td></td> 
+			   	<td></td> -->
+		   		<td>	
 		   		<form action="logout" method="post">
 		   			<input type="submit" id="profilelogout" value="Logout">
 		   		</form>
 		   		</td>
 			</tr> 
-			<tr>
+			<!-- <tr>
 		   	<td></td>
 		   	<td></td>
 		   	
-		   	</tr>
+		   	</tr> -->
 	   	</table>
 	   	<%} %>
 	<%if(!fullName.equals("guest")){ %>

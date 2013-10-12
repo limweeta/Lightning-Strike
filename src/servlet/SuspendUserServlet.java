@@ -29,8 +29,8 @@ public class SuspendUserServlet extends HttpServlet {
 		
 		UserDataManager udm = new UserDataManager();
 		
-		String username = request.getParameter("userName");
-		
+		String username = request.getParameter("username");
+		System.out.println("********************" + username);
 		User u = null;
 		
 		try{
@@ -40,6 +40,7 @@ public class SuspendUserServlet extends HttpServlet {
 			
 		}catch(Exception e){
 			//INSERT ERROR MESSAGE
+			e.printStackTrace();
 		}
 		
 		response.sendRedirect("admin.jsp");

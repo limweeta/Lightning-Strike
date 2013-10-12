@@ -37,11 +37,12 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h1>Search Teams <p style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p></h1>
+				<h1>Search Teams </h1>
+				<p style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
-			<h1>All Teams</h1>
+			
 			<div id="demo">
 <div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
 	<thead>
@@ -67,7 +68,7 @@ int count = 0;
 for(int i = 0; i < teams.size(); i++){
 	Team team = teams.get(i);
 	String name = team.getTeamName();
-	String desc = team.getTeamDesc();;
+	String desc = team.getTeamDesc();
 	int teamLimit = team.getTeamLimit();
 	int pmId = team.getPmId();
 	

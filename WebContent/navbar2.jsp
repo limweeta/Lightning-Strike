@@ -26,6 +26,8 @@
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp">Search</a></li>
 		          <li><a href="./createProject.jsp">Create</a></li>
+		          <li><a href="#">My Project</a></li>
+		          <li><a href="#">Match to Project</a></li>
 		          </ul>
 		        </li>
 		      
@@ -33,11 +35,14 @@
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp">Search</a></li>
 		          	<li><a href="./createTeam.jsp">Create</a></li>
+		          	<li><a href="#">My Team</a></li>
+		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
+               		<li><a href="#">My Profile</a></li>
                	</ul>
                </li>
                <li><a href="#" >Schedule</a></li>
@@ -47,7 +52,7 @@
 	          <li class="dropdown">
 	            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-	              	<form action="register" method="post" accept-charset="UTF-8">
+	              	<form action="register" method="post" onSubmit ="window.location.href = './registerSuccess.jsp';" accept-charset="UTF-8">
 					  <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" />
 					  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" />
 					  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" />

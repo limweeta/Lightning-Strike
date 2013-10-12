@@ -51,6 +51,9 @@ public class CreateTeamServlet extends HttpServlet {
 		String[] prefIndustry = request.getParameterValues("industry");
 		String[] prefTech = request.getParameterValues("technology");
 		
+		System.out.println(prefIndustry.length);
+		System.out.println(prefTech.length);
+		
 		String projectManager = teamMembers[0];
 		
 		int pmid = 0;
@@ -58,7 +61,7 @@ public class CreateTeamServlet extends HttpServlet {
 		try{
 			pmid = udm.retrieve(projectManager).getID();
 		}catch(Exception e){
-			System.out.println("Invalid PM");
+			//System.out.println("Invalid PM");
 		}
 		
 		Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid, supId);

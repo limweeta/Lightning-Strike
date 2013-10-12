@@ -72,7 +72,7 @@ public class FacultyDataManager implements Serializable {
 		MySQLConnector
 				.executeMySQL(
 						"insert",
-						"INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_number`, `email`, `type`) VALUES ("
+						"INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES ("
 								+ id + ", '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
 		MySQLConnector.executeMySQL("insert",
 				"INSERT INTO `is480-matching`.`faculties` (`id`, `faculty_Type`) VALUES ("

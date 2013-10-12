@@ -359,7 +359,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public Project retrieveProjectsByName(String projName){
 		Project project = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project where project_name = '" + projName + "';");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects where project_name = '" + projName + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -388,7 +388,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public Project retrieveProjectsByTeam(int teamId){
 		Project project = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project where team_id = " + teamId + ";");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects where team_id = " + teamId + ";");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

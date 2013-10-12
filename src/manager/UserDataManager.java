@@ -141,7 +141,7 @@ public class UserDataManager implements Serializable {
 		
 		String username = User.getUsername();
 		
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`suspend_list` (`username`) VALUES ('" + username + "');");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`suspended_list` (`username`) VALUES ('" + username + "');");
 		
 		
 	}

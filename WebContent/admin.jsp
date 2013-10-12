@@ -5,7 +5,14 @@
 </head>
 <body>
 <div class="container">
+ <%
+ String userType = (String) session.getAttribute("type");
  
+ if(userType != "admin"){
+	 session.setAttribute("message", "You are not authorized to view that page");
+	 response.sendRedirect("index.jsp");
+ }
+ %>
 <!-------->
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -202,7 +209,7 @@
             <h1>Suspend User</h1>
             <div class="span9 well">
 					<div class="row">
-					<form action="#" method="post" class="form-horizontal">
+					<form action="suspendUser" method="post" class="form-horizontal">
 						<fieldset>
 						
 						<!-- Form Name -->
@@ -213,13 +220,13 @@
 						<div class="control-group">
 						  <label class="control-label" for="userName">User Name</label>
 						  <div class="controls">
-						    <input id="userName" name="userName" type="text" class="input-large">
+						    <input id="username" name="username" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- Button -->
 						<div class="control-group">
 						  <div class="controls">
-						    <button id="suspendUser" name="suspendUser" class="btn btn-warning">Suspend</button>
+						    <input type="submit" value="Suspend User" class="btn btn-warning">
 						  </div>
 						</div>
 						</div></br>
@@ -227,6 +234,16 @@
 					</form>
 					</div>
 					</div>
+        </div>
+         <div class="tab-pane" id="suspended">
+            <h1>Suspended Users</h1>
+            <div class="span9 well">
+				<div class="panel-heading">Suspended Users</h3>
+				</div>
+				<div class="panel-body">
+					
+				</div>	
+			</div>
         </div>
     </div>
 </div>

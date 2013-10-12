@@ -10,11 +10,21 @@
 	}
 
 </style>
+<%
+String sessionUser = (String) session.getAttribute("username");
+
+if(sessionUser == null || sessionUser.isEmpty()){
+	sessionUser = "";
+}
+%>
 <head>	
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
+    <script src="./js/bootstrap.js"></script>
+    <link type="text/css" href="./css/bootstrap-responsive.css" rel="stylesheet">
 	<%@include file="template.jsp" %>
 </head>
 <body>
@@ -59,6 +69,7 @@
 		teamId = tdm.retrievebyStudent(u.getID());
 		teamName = tdm.retrieve(teamId).getTeamName();
 	}catch(Exception e){
+		teamId = 0;
 		teamName = "No team yet";
 	}
 	
@@ -69,13 +80,18 @@
 	String projName = "";
 	int projId =0;
 	
-	try{
-		proj = pdm.getProjFromTeam(teamId);
-		projName = proj.getProjName();
-		projId = proj.getId();
-	}catch(Exception e){
+	if(teamId != 0){
+		try{
+			proj = pdm.getProjFromTeam(teamId);
+			projName = proj.getProjName();
+			projId = proj.getId();
+		}catch(Exception e){
+			projName = "No project yet";
+		}
+	}else{
 		projName = "No project yet";
 	}
+	
 	
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<Skill> allSkills = skdm.retrieveAll();
@@ -84,7 +100,7 @@
 	<div class="container" id="userdetails">
 	
 	<div class="span9 well">
-	<div class="row">
+<!-- 	<div class="row"> -->
 	<form action="updateCurrentProfile" method="post" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=u.getID()%>">
 		<fieldset>
@@ -133,18 +149,19 @@
 		    
 		  </div>
 		</div>
-		<div class="control-group">
+		
 		  <label class="control-label" for="skills">Skills</label>
-		  <div class="controls">
-		  <table border=0 width="100%">
-		  	<tr>
-		    <%
+		  
+		  <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Skills<b class="caret"></b></a>
+	      	<ul class="dropdown-menu">
+	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
+		 <%
 		    int count = 0;
 			boolean checked = false;
 			for(int i = 0; i < allSkills.size(); i++){
 				checked = false;
 				%>
-				<td>
+				<!-- <script>var tab = [</script> -->
 				<%
 				Skill hasSkill = allSkills.get(i);
 				count++;
@@ -157,29 +174,33 @@
 				}
 				if(checked){
 				%>
+				<li>
 				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked" />
 						<%=allSkills.get(i).getSkillName() %>
-				</td>
+				</li>
+				<%--  <script>{ id: "<%=i%>", label: "<%=allSkills.get(i).getSkillName() %>", isChecked: true },</script> --%>
 				<%
 				}else{
 					%>
+				<li>
 				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" />
 						<%=allSkills.get(i).getSkillName() %>
-				</td>	
+				</li>	
+				<%-- <script>{ id: "<%=i%>", label: "<%=allSkills.get(i).getSkillName() %>", isChecked: false },</script> --%>
 					<%
 				}
 				if(count % 3 == 0){
 					%>
-					</tr><tr>
+					
 					<%
-				}
-			}
+				}%>
+				
+			<%}
 			%>
-			</tr>
-			</table>
+			</ul>
+				</li>
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
-		  </div>
-		</div>
+		 </br> 
 		<div class="control-group">
 		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
@@ -196,16 +217,22 @@
 		<!-- </div> --></br>
 		<!-- <div class="span7"> -->
 		<!-- Button -->
+		<%
+		if(sessionUser.equals(u.getUsername())){
+		%>
 		<div class="control-group">
 		  <label class="control-label" for="editprofile"></label>
 		  <div class="controls">
-		    <button id="editprofile" name="editprofile" class="btn btn-success">Save Profile</button>
+		    <input type="submit" id="editprofile" value="Save Profile" class="btn btn-success">
 		  </div>
 		</div>
+		<%
+		}
+		%>
 		</div></br>
 		</fieldset>
 	</form>
-	</div>
+<!-- 	</div> -->
 	</div>
 	</div>
 </body>

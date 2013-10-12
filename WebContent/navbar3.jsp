@@ -26,6 +26,8 @@
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp">Search</a></li>
 		          <li><a href="./createProject.jsp">Create</a></li>
+		          <li><a href="#">My Project</a></li>
+		          <li><a href="#">Match to Project</a></li>
 		          </ul>
 		        </li>
 		      
@@ -33,11 +35,14 @@
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp">Search</a></li>
 		          	<li><a href="./createTeam.jsp">Create</a></li>
+		          	<li><a href="#">My Team</a></li>
+		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
+               		<li><a href="#">My Profile</a></li>
                	</ul>
                </li>
                <li><a href="#" >Schedule</a></li>

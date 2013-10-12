@@ -29,7 +29,7 @@ public class MySQLConnector {
 			connection = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/is480-matching", "root",
 					"lightningstrike480");
-			System.out.println("Connection success");
+			//System.out.println("Connection success");
 			// Creating a statement object
 			Statement stmt = connection.createStatement();
 			if (executeType.equals("select")) {

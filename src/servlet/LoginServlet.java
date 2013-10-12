@@ -127,6 +127,8 @@ public class LoginServlet extends HttpServlet {
 					
 					User u = udm.retrieve(loginUser);
 					if (u == null) {
+						
+						
 						link = "details.jsp";
 					} else {
 						if (u.getUsername().matches(".*\\d.*")) {
@@ -136,7 +138,7 @@ public class LoginServlet extends HttpServlet {
 						}
 						link = "mainPage.jsp";
 					}
-					//session.setAttribute("type", type);
+					session.setAttribute("type", type);
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("Invalid Login");

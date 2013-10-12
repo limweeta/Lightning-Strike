@@ -115,7 +115,7 @@ public class TeamDataManager implements Serializable {
 	
 	public Team retrieveTeamByName(String teamName){
 		Team team = null;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from teams WHERE teams.team_Name LIKE '" + teamName + "'");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE teams.team_Name LIKE '" + teamName + "'");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

@@ -38,8 +38,13 @@ public class UpdateTeamServlet extends HttpServlet {
 		String[] members = request.getParameterValues("members");
 		String[] roles = request.getParameterValues("roles");
 		
-		int supId = Integer.parseInt(request.getParameter("supId"));
-		
+		int supId = 0;
+		try{
+			supId = Integer.parseInt(request.getParameter("supId"));
+		}catch(Exception e){
+			supId = 0;
+		}
+			
 		Team updateTeam = null;
 		
 		try{
@@ -59,7 +64,7 @@ public class UpdateTeamServlet extends HttpServlet {
 			
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("searchTeams.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("teamProfile.jsp?id="+teamId);
 		rd.forward(request, response);
 	}
 }

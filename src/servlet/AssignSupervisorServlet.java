@@ -38,13 +38,12 @@ public class AssignSupervisorServlet extends HttpServlet {
 		String teamName = request.getParameter("teamName");
 		
 		int teamId = 0; 
-		int projId = 0;
 		
 		try{
 			teamId = Integer.parseInt(request.getParameter("teamId"));
 		}catch(Exception e){
 			teamId = tdm.retrieveTeamByName(teamName).getId();
-			projId = pdm.retrieveProjectsByTeam(teamId).getId();
+			
 		}
 		
 		
@@ -61,6 +60,6 @@ public class AssignSupervisorServlet extends HttpServlet {
 		}catch(Exception e){
 			
 		}
-		response.sendRedirect("projectProfile.jsp?id="+projId);
+		response.sendRedirect("teamProfile.jsp?id="+teamId);
 	}
 }

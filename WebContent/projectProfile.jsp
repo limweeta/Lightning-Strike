@@ -194,18 +194,18 @@
 	
 	%>
 		
-	<div class="span9 well">
+	<div class="span11 well">
 	<div class="row">
-	<form action="updateProject" class="form-horizontal">
+	<form action="updateProject" method="post" class="form-horizontal">
 		<fieldset>
 		
 		<!-- Form Name -->
-		<legend>Project Profile </legend>
+		<legend>Project Profile</legend>
 
 			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
 			</div>
-		<div class="span8">
-		<form method="post" action="updateProject">
+		<div class="span10">
+<!-- 		<form method="post" action="updateProject"> -->
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -311,7 +311,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Supervisor</label>
 		  <div class="controls">
-		  <form method=post action="/assignSupervisor">
+		  <form method="post" action="assignSupervisor">
 		 
 		    <%
             if(projTeam != null){
@@ -342,7 +342,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="reviewer">Reviewer(s)</label>
 		  <div class="controls">   
-		  <form method=post action="assignReviewer">    
+		  <form method="post" action="assignReviewer">    
 		  <%
             if(projTeam != null){
             	%>   
@@ -524,11 +524,12 @@
 		  </div>
 		</div>
 
-		<div class="control-group">
+		
 		  <label class="control-label" for="technology">Technology</label>
-		  <div class="controls">
-		     <table border=0>
-			   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
+			 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Technology<b class="caret"></b></a>
+	               	<ul class="dropdown-menu">
+	               		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
+	               
 					 <%
 					  ArrayList<Technology> technologies = techdm.retrieveAll();
 					  
@@ -537,28 +538,27 @@
 						  
 						  if(techdm.hasTech(tech, tech2)){
 						  %>
-					<td style="padding: 1px">
+					<li>
 						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<%=tech2.getTechName() %></option>
-					</td>
+					</li>
 						  <%
 						  }else{
 						  %>
-					<td style="padding: 1px">
+					<li>
 						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>">&nbsp;<%=tech2.getTechName() %></option>
-					</td>
+					</li>
 						  <%  
 						  }
 						  if((i+1) % 3 == 0){
 							  %>
-							  </tr><tr>
+							 
 							  <%
 						  }
 					  }
 					  %>
-				 </tr>
-			    </table>
-		  </div>
-		</div>
+					</ul>
+				 </li>
+		
 		<input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">
 		<div class="control-group">
 		  <label class="control-label" for="status">Status</label>
@@ -574,7 +574,7 @@
 		  <form action="applyProj" method="post">
 		  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
 		  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
-		  	<button id="delete" name="delete" class="btn btn-warning">Apply for Project</button>
+		  	<button type="button" id="apply" name="apply" class="btn btn-warning">Apply for Project</button>
 		  </form>
 		  </div>
 		</div>
@@ -583,29 +583,36 @@
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>
-     <font size="4" face="Courier">Project Status: <%=reqProj.getStatus() %></font></br> <br>
-					
-			
+				
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
 				<div class="control-group">
-				  <label class="control-label" for="updateproject"></label>
 				  <div class="controls">
-				    <input type="submit" value="Update" class="btn btn-success">
+				    <input type="submit" id="update" value="Update" class="btn btn-success">
 				  </div>
 				</div>
 				</div>
+				</fieldset>
 			</form>	
-					
-			<form method="post" action="deleteProject"  >
+			</br>		
+			<form method="post" action="deleteProject" >
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
 				<div class="control-group">
-				  <label class="control-label" for="delete"></label>
 				  <div class="controls">
-				    <button id="delete" name="delete" class="btn btn-warning">Delete</button>
+				    <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this project?');return false;" class="btn btn-danger">
+				    <!--  <div id = "alert_placeholder"></div>
+					<script>
+					bootstrap_alert = function() {}
+					bootstrap_alert.warning = function(message) {
+					            $('#alert_placeholder').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
+					        }
+					
+					$('#delete').on('click', function() {
+					            bootstrap_alert.warning('Project has been deleted!');
+					});
+					</script>-->​
 				  </div>
-				</div>
 				</div>
 			</form>
 		<%
@@ -614,15 +621,9 @@
 		}
 		%>
 		
-		</div></br>
+	</div>
+	</div>
 
-		</fieldset>
-	</form>
-	
-	</div>
-	</div>
-	
-	
 	</body>
 
 </html>

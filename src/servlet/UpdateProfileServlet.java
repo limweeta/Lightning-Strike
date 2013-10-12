@@ -47,9 +47,9 @@ public class UpdateProfileServlet extends HttpServlet {
 		String fullName = request.getParameter("fullname");
 		String contactNum = request.getParameter("contactno");
 		String email = request.getParameter("email");
-		String type = request.getParameter("type");
-		String secondMajor = request.getParameter("secondmajor");
-		int preferredRole = Integer.parseInt("preferredRole");
+		String type = "Student"; //to be changed later
+		String secondMajor = request.getParameter("secondMajor");
+		int preferredRole = Integer.parseInt(request.getParameter("prefRole"));
 		int role = 0;
 		int teamID = 0;
 		
