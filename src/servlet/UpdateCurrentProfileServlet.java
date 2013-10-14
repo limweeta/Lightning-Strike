@@ -26,7 +26,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		UserDataManager udm = new UserDataManager();
 		StudentDataManager sdm =  new StudentDataManager();
 		
@@ -55,6 +55,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 			
 			//UPDATE SQL
 			sdm.modify(user, student, skills);
+			session.setAttribute("message", "Profile Updated");
 		}catch(Exception e){
 			
 		}

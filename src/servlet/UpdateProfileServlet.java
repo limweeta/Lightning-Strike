@@ -75,7 +75,7 @@ public class UpdateProfileServlet extends HttpServlet {
 						email, type, facultyType);
 				fdm.add(faculty);
 			}
-			
+			session.setAttribute("message", "Profile Updated");
 			response.sendRedirect("userProfile.jsp?id="+id);
 		}
 	}
