@@ -35,6 +35,7 @@ public class DeleteTeamServlet extends HttpServlet {
 		tdm.updateProjectIfTeamDeleted(teamId);	//Update Project Table
 		tdm.updateTeamIndustryIfTeamDeleted(teamId);
 		tdm.updateTeamTechIfTeamDeleted(teamId);
+		tdm.deleteAppliedProjsIfTeamDeleted(teamId);
 		
 		tdm.remove(teamId);
 		

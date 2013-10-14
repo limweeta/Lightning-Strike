@@ -326,7 +326,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="updateTeam"></label>
 		  <div class="controls">
-		    <input type="submit" id="updateTeam" name="Save Profile" class="btn btn-success">
+		    <input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
 		  </div>
 		</div>
 		

@@ -28,7 +28,7 @@ if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
   }
 }
 
-function toggleTech(source) {
+function toggleSkill(source) {
 	  checkboxes = document.getElementsByName('skills');
 	  for(var i=0, n=checkboxes.length;i<n;i++) {
 	    checkboxes[i].checked = source.checked;
@@ -46,21 +46,34 @@ function toggleTech(source) {
 		<div id="content">
 			<div class="updateProfile">
 				<form action="updateProfile" method="post" onsubmit="return validateForm()" name="details">
+				<fieldset>
+			<% 
+				String message = (String) session.getAttribute("message"); 
+				if(message == null || message.isEmpty()){
+					message = "";
+				}else{
+			%>
+			<font size=-1 color="red"><i><%=message %></i></font>
+			<%
+			session.removeValue("message");
+				} 
+			%>
 					<font size="4" face="Courier">Username:</font> <input type="text"
 						id="username" name="username" value="<%=username%>" readonly="readonly"><br />
 					<font size="4" face="Courier">Full Name:</font> <input
-						id="fullName" type="text" name="fullname"></br>
-					</br> <font size="4" face="Courier">Contact Number:</font> <input
-						id="contactno" type="text" name="contactno"></br> <font
-						size="4" face="Courier">Email:</font> <input id="email"
-						type="text" name="email"></br> </br> <font size="4" face="Courier">Type:</font>
+						id="fullName" type="text" value="<%=fullName%>" readonly="readonly"></br>
+					</br> <font size="4" face="Courier">Contact Number:</font> 
+					<input id="contactno" type="text" name="contactno"></br> 
+					<font size="4" face="Courier">Email:</font> 
+					<input id="email" type="text" name="email" value="<%=username + "@smu.edu.sg" %>" readonly="readonly"></br> </br> 
+					<font size="4" face="Courier">Type:</font>
 						<input type=text value="<%=type %>" name="type" readonly="readonly" />
 					
 					<br />
 					<font size="4" face="Courier">Second Major:</font> 
 					<input type="text" id="secondMajor" id="secondMajor" name="secondMajor"><br>
 						Skills: 
-					<input type=checkbox onclick="toggle(this)" />Select All<br />
+					<input type=checkbox onclick="toggleSkill(this)" />Select All<br />
 						<%
 						SkillDataManager skdm = new SkillDataManager();
 						ArrayList<Skill> skills = skdm.retrieveAll();

@@ -55,20 +55,28 @@ public class UpdateProfileServlet extends HttpServlet {
 		
 		String[] skills = request.getParameterValues("skills");
 		
-		StudentDataManager sdm = new StudentDataManager();
-		FacultyDataManager fdm = new FacultyDataManager();
-		if (type.equals("Student")) {
-			Student student = new Student(id, username, fullName, contactNum,email, type, secondMajor, role, teamID, preferredRole);
-			sdm.add(student);
-		} else {
-			String facultyType = "Faculty";
-			Faculty faculty = new Faculty(id, username, fullName, contactNum,
-					email, type, facultyType);
-			fdm.add(faculty);
+		char firstNum = contactNum.charAt(0);
+		
+		if(firstNum != '9' || firstNum != '8' || contactNum.length() != 8){
+			session.setAttribute("message", "Please enter a valid phone number");
+			response.sendRedirect("details.jsp");
+		}else{
+			StudentDataManager sdm = new StudentDataManager();
+			FacultyDataManager fdm = new FacultyDataManager();
+			if (type.equals("Student")) {
+				Student student = new Student(id, username, fullName, contactNum,email, type, secondMajor, role, teamID, preferredRole);
+				sdm.add(student);
+	
+				udm.addSkills(skills, id);
+				
+			} else {
+				String facultyType = "Faculty";
+				Faculty faculty = new Faculty(id, username, fullName, contactNum,
+						email, type, facultyType);
+				fdm.add(faculty);
+			}
+			
+			response.sendRedirect("userProfile.jsp?id="+id);
 		}
-		
-		udm.addSkills(skills, id);
-		
-		response.sendRedirect("userProfile.jsp?id="+id);
 	}
 }

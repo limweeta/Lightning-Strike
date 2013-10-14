@@ -90,17 +90,21 @@
 	User sessionUser = udm.retrieve(sessionUsername);
 	int userTeamId = 0;
 	
-	try{
-		userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
-	}catch(Exception e){
-		userTeamId = 0;
-	}
-	
 	TermDataManager 	termdm = new TermDataManager();
 	TeamDataManager 	tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
 	SponsorDataManager sdm = new SponsorDataManager();
 	CompanyDataManager cdm = new CompanyDataManager();
+	
+	boolean eligibleToApply = false;
+	
+	try{
+		userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
+		eligibleToApply = pdm.isEligibleForApplication(userTeamId);
+	}catch(Exception e){
+		userTeamId = 0;
+		eligibleToApply = false;
+	}
 	
 	ArrayList<Team> teams = tdm.retrieveAll();
 	ArrayList<User> users = udm.retrieveAll();
@@ -108,7 +112,7 @@
 	
 	Project reqProj = pdm.retrieve(reqId);
 	String reqProjName = reqProj.getProjName();
-	System.out.println(reqProj.getTeamId());
+	
 	Team projTeam = null; 
 	String projTeamName = "";
 	int projTeamId = 0;
@@ -587,19 +591,27 @@
 		  	<input type="hidden" name="projStatus" value="<%=reqProj.getStatus() %>">
 		  </div>
 		</div>
-		<%if(username != null){ %>
+		
 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
 		  <div class="controls">
 		  <form action="applyProj" method="post">
 		  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
 		  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
-		  	<button type="button" id="apply" name="apply" class="btn btn-warning">Apply for Project</button>
+		  	<%if(eligibleToApply){ %>
+		  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
+		  	<%
+		  	}else{
+		  		%>
+		  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled"><br />
+		 <font color=red size=-1><i>You cannot apply for this project. You need to have a team to apply, or you could have already applied for another</i></font>
+		  		<%
+		  	}
+		  	%>
 		  </form>
 		  </div>
 		</div>
 		<%
-		}
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>

@@ -75,6 +75,8 @@ public class RegisterServlet extends HttpServlet {
 		
 		String username = request.getParameter("userName");
 		
+		//TO VALIDATE WHEN JAVAMAIL.JAR HAS BEEN ADDED
+		
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
 		String email	= request.getParameter("email");
@@ -84,6 +86,15 @@ public class RegisterServlet extends HttpServlet {
 		int coyContact = Integer.parseInt(cContact);
 		String coyAdd	= request.getParameter("coyAdd");
 		String password	= request.getParameter("password");
+		
+		
+		char firstNum = contactNum.charAt(0);
+		char firstCoyNum = cContact.charAt(0);
+		
+		if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
+				|| (firstCoyNum != '9' || firstCoyNum != '8' || cContact.length() != 8) ){
+			
+		}
 		
 		try {
 			

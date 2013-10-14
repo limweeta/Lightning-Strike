@@ -53,6 +53,9 @@ public class CreateTeamServlet extends HttpServlet {
 		String[] prefIndustry = request.getParameterValues("industry");
 		String[] prefTech = request.getParameterValues("technology");
 		
+		int numOfActiveMembers = 0;
+		
+		
 		boolean isNameTaken = tdm.isTeamNameTaken(teamName);
 		
 		boolean[] invalidMembers =new boolean[teamMembers.length];
@@ -61,8 +64,14 @@ public class CreateTeamServlet extends HttpServlet {
 			try{
 				Student st = sdm.retrieve(teamMembers[i]);
 				invalidMembers[i] = sdm.hasTeam(st);
-				
-			}catch(Exception e){}
+			}catch(Exception e){
+				invalidMembers[i] = true;
+			}
+			
+			if(!teamMembers[i].isEmpty()){
+				numOfActiveMembers++;
+			}
+			
 		}
 		
 		String[] teamMemberClone = teamMembers.clone();
@@ -80,7 +89,7 @@ public class CreateTeamServlet extends HttpServlet {
 		for(int i = 0; i < teamMembers.length; i++){
 			int memCount = 0;
 			for(int j = 0; j < teamMemberClone.length; j++){
-				if(teamMembers[i].equals(teamMemberClone[j])){
+				if(teamMembers[i].equals(teamMemberClone[j]) && !teamMemberClone[i].isEmpty()){
 					memCount++;
 				}
 			}
@@ -91,13 +100,16 @@ public class CreateTeamServlet extends HttpServlet {
 			}
 		}
 		
+		System.out.println(teamMembers.length);
+		System.out.println(numOfInvalidMembers);
+		
 		if(isNameTaken || teamName.isEmpty()){
 			session.setAttribute("message", "Team name cannot be empty or is already taken. Please try another name");
 			response.sendRedirect("createTeam.jsp");
-		}else if(sameMember || numOfInvalidMembers > 0){
+		}else if(sameMember || (numOfInvalidMembers > 0 && numOfInvalidMembers != 5)){
 			session.setAttribute("message", "There was an error with one or more of your team member selection. Please try again");
 			response.sendRedirect("createTeam.jsp");
-		}else if(teamLimit < teamMembers.length){
+		}else if(teamLimit < numOfActiveMembers){
 			session.setAttribute("message", "The number of members exceed your team limit. Please try again");
 			response.sendRedirect("createTeam.jsp");
 		}else{

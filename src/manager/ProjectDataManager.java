@@ -157,26 +157,34 @@ public class ProjectDataManager implements Serializable {
 		
 		boolean isEligible = false;
 		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from applied_projects where team_id = " + teamId + ";");
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		while (iterator.hasNext()){
-			hasApplied = true;
-		}
-		
-		map = MySQLConnector.executeMySQL("select", "select * from projects where team_id = " + teamId + ";");
-		keySet = map.keySet();
-		iterator = keySet.iterator();
-		
-		while (iterator.hasNext()){
-			hasProj = true;
-		}
-		
-		if(hasProj || hasApplied){
+		if(teamId == 0){
 			isEligible = false;
 		}else{
-			isEligible = true;
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from applied_projects where team_id = " + teamId + ";");
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if(iterator.hasNext()){
+				hasApplied = true;
+			}
+			
+			map = MySQLConnector.executeMySQL("select", "select * from projects where team_id = " + teamId + ";");
+			keySet = map.keySet();
+			iterator = keySet.iterator();
+			
+			if(teamId == 0){
+				hasProj = false;
+			}else{
+				if(iterator.hasNext()){
+					hasProj = true;
+				}
+			}
+			
+			if(hasProj || hasApplied){
+				isEligible = false;
+			}else{
+				isEligible = true;
+			}
 		}
 		
 		return isEligible;

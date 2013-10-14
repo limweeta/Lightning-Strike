@@ -126,20 +126,21 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
 				}
 				
-				String type = "test";
+				String type = "Student";
 				try {
 					
 					User u = udm.retrieve(loginUser);
+					
+					if (username.matches(".*\\d.*")) {
+						type = "Student";
+					} else {
+						type = "Faculty";
+					}
+					
 					if (u == null) {
-						
-						
 						link = "details.jsp";
 					} else {
-						if (u.getUsername().matches(".*\\d.*")) {
-							type = "Student";
-						} else {
-							type = "Faculty";
-						}
+						
 						link = "mainPage.jsp";
 					}
 					session.setAttribute("type", type);

@@ -302,7 +302,11 @@ public class TeamDataManager implements Serializable {
 		}
 		
 	}
-		
+	
+	public void deleteAppliedProjsIfTeamDeleted(int teamId){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM applied_projects WHERE team_id = " + teamId);
+		//System.out.println("Updated Student table");
+	}
 	
 	public void updateTeamTechIfTeamDeleted(int teamId){
 		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + teamId);

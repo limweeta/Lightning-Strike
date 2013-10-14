@@ -45,8 +45,11 @@ public class ApplyProjectServlet extends HttpServlet {
 			
 			eligibleToApply = pdm.isEligibleForApplication(teamId);
 			
-			if(eligibleToApply){
+			if(teamId == 0){
+				session.setAttribute("message", "You must have a team before you can apply for a project");
+			}else if(eligibleToApply){
 				pdm.applyProj(teamId, projId);
+				session.setAttribute("message", "You have successfully applied for the project");
 			}
 		}catch(Exception e){}
 		
