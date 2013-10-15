@@ -191,9 +191,9 @@ public class ProjectDataManager implements Serializable {
 		return isEligible;
 	}
 	
-	public ArrayList<Project> matchByIndustry(ArrayList<Integer> preferredIndustry){
-		ArrayList<Project> projects = new ArrayList<Project>();
-		
+	public ArrayList<ProjectScore> matchByIndustry(ArrayList<Integer> preferredIndustry){
+		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
+		double score = 0.0;
 		for(int i = 0; i < preferredIndustry.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
 			Set<String> keySet = map.keySet();
@@ -213,21 +213,25 @@ public class ProjectDataManager implements Serializable {
 				String projDesc		= 	array.get(7);
 				String status		= 	array.get(8);
 				int industry		= 	Integer.parseInt(array.get(9));
-				int termId 		= 	Integer.parseInt(array.get(10));
+				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
+				score += (1.0/preferredIndustry.size()) * 100;
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				projects.add(proj);
+				ProjectScore ps = new ProjectScore(proj, score);
+				projects.add(ps);
 			}
 		}
 		
 		return projects;            
 	}
 	
-	public ArrayList<Project> matchBySkill(ArrayList<Integer> teamSkill){
+	public ArrayList<ProjectScore> matchBySkill(ArrayList<Integer> teamSkill){
 		ArrayList<Integer> projectId = new ArrayList<Integer>();
-		ArrayList<Project> projects = new ArrayList<Project>();
+		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
+		
+		double score = 0.0;
 		
 		for(int i = 0; i < teamSkill.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE skill_id = " + teamSkill.get(i));
@@ -268,18 +272,23 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
+				score = teamSkill.size() - numOfSkillNotCovered(teamSkill, id) / totalNumOfSkill(id) * 100.0;
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				projects.add(proj);
+				ProjectScore ps = new ProjectScore(proj, score);
+				projects.add(ps);
 			}
 		}
 		
 		return projects;            
 	}
 	
-	public ArrayList<Project> matchByTechnology(ArrayList<Integer> preferredTechnologies){
+	public ArrayList<ProjectScore> matchByTechnology(ArrayList<Integer> preferredTechnologies){
 		ArrayList<Integer> projectId = new ArrayList<Integer>();
-		ArrayList<Project> projects = new ArrayList<Project>();
+		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
+		
+		double score = 0.0;
+		
 		
 		for(int i = 0; i < preferredTechnologies.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE technology_id = " + preferredTechnologies.get(i));
@@ -296,6 +305,7 @@ public class ProjectDataManager implements Serializable {
 			}
 		}
 		
+		//TO GET RID OF DUPLICATES
 		projectId = new ArrayList<Integer>(new HashSet<Integer>(projectId));
 		
 		for(int j = 0; j < projectId.size(); j++){
@@ -320,72 +330,40 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
+				score = (preferredTechnologies.size() - numOfTechNotCovered(preferredTechnologies, id)) / totalNumOfTech(id) * 100.0;
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				projects.add(proj);
+				ProjectScore ps = new ProjectScore(proj, score);
+				projects.add(ps);
 			}
 		}
 		
 		return projects;            
 	}
 	
-	public ArrayList<Project> mergedMatchedProjects(ArrayList<Project> preferredIndustry, ArrayList<Project> teamSkill, ArrayList<Project> preferredTechnologies){
-		ArrayList<Project> projects = new ArrayList<Project>();
+	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> teamSkill, ArrayList<ProjectScore> preferredTechnologies){
+		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
+		ArrayList<ProjectScore> finalProjects = new ArrayList<ProjectScore>();
 		
-		ArrayList<Integer> prefIndId = new ArrayList<Integer>();
+		projects.addAll(preferredIndustry);
+		projects.addAll(teamSkill);
+		projects.addAll(preferredTechnologies);
 		
-		for(int i = 0; i < preferredIndustry.size(); i++){
-			int id = preferredIndustry.get(i).getId();
-			prefIndId.add(id);
-		}
-		
-		ArrayList<Integer> prefSkillId = new ArrayList<Integer>();
-		
-		for(int i = 0; i < teamSkill.size(); i++){
-			int id = teamSkill.get(i).getId();
-			prefSkillId.add(id);
-		}
-		
-		ArrayList<Integer> prefTechId = new ArrayList<Integer>();
-		
-		for(int i = 0; i < preferredTechnologies.size(); i++){
-			int id = preferredTechnologies.get(i).getId();
-			prefTechId.add(id);
-		}		
-		
-		ArrayList<Integer> combinedProjId = new ArrayList<Integer>();
-		
-		combinedProjId.addAll(prefIndId);
-		combinedProjId.addAll(prefSkillId);
-		combinedProjId.addAll(prefTechId);
-		
-		combinedProjId = new ArrayList<Integer>(new HashSet<Integer>(combinedProjId));
-		
-		for(int i = 0; i < combinedProjId.size(); i++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND id = " + combinedProjId.get(i));
-			Set<String> keySet = map.keySet();
-			Iterator<String> iterator = keySet.iterator();
-			
-			while (iterator.hasNext()){
-				String key = iterator.next();
-				ArrayList<String> array = map.get(key);	
-	
-				int id 				= 	Integer.parseInt(array.get(0));
-				int coyId 			= 	Integer.parseInt(array.get(1));
-				int teamId 			= 	Integer.parseInt(array.get(2));
-				int sponsorId 		= 	Integer.parseInt(array.get(3));
-				int reviewer1Id		=	Integer.parseInt(array.get(4));
-				int reviewer2Id		=	Integer.parseInt(array.get(5));
-				String projName		= 	array.get(6);
-				String projDesc		= 	array.get(7);
-				String status		= 	array.get(8);
-				int industry		= 	Integer.parseInt(array.get(9));
-				int termId 		= 	Integer.parseInt(array.get(10));
-				int creatorId 		= 	Integer.parseInt(array.get(11));
+		for(int i  = 0; i < projects.size(); i++){
+			if(!finalProjects.contains(projects.get(i))){
+				finalProjects.add(projects.get(i));
+			}else{
+				//add score
+				ProjectScore ps = projects.get(i);
+				for(int j = 0; j < finalProjects.size(); j++){
+					ProjectScore finalPs = finalProjects.get(j);
+					
+					if(ps.getProject().getId() == finalPs.getProject().getId()){
+						finalPs.setScore(finalPs.getScore() + ps.getScore());
+					}
+					
+				}
 				
-				
-				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				projects.add(proj);
 			}
 		}
 		
@@ -542,6 +520,90 @@ public class ProjectDataManager implements Serializable {
 					+ "(`project_id`, `skill_id`) "
 					+ "VALUES (" + projid + ", " + Integer.parseInt(prefSkill[i]) + ");");
 		}
+	}
+	
+	public int numOfSkillNotCovered(ArrayList<Integer> teamSkill, int projId){
+		int numOfSkillCovered = 0;
+		int totalSkill = 0;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skill WHERE project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			totalSkill++;
+			int retrievedSkillId 	= 	Integer.parseInt(array.get(2));
+			
+			for(int i = 0; i< teamSkill.size(); i++){
+				if(retrievedSkillId == teamSkill.get(i)){
+					numOfSkillCovered++;
+				}
+			}
+			
+			
+		}
+		return totalSkill - numOfSkillCovered;
+	}
+	
+	public int totalNumOfSkill(int projId){
+		int totalSkill = 0;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skill WHERE project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			totalSkill++;
+			int retrievedProjId 	= 	Integer.parseInt(array.get(1));
+			
+		}
+		return totalSkill;
+	}
+	
+	public int numOfTechNotCovered(ArrayList<Integer> preferredTechnologies, int projId){
+		int numOfTechCovered = 0;
+		int totalTech = 0;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			totalTech++;
+			int retrievedTechId 	= 	Integer.parseInt(array.get(2));
+			
+			for(int i = 0; i< preferredTechnologies.size(); i++){
+				if(retrievedTechId == preferredTechnologies.get(i)){
+					numOfTechCovered++;
+				}
+			}
+			
+			
+		}
+		return totalTech - numOfTechCovered;
+	}
+	
+	public int totalNumOfTech(int projId){
+		int totalTech = 0;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			totalTech++;
+			int retrievedProjId 	= 	Integer.parseInt(array.get(1));
+			
+		}
+		return totalTech;
 	}
 	
 	public void addTech(int projid, int techid){

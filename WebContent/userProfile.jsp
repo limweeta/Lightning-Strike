@@ -18,13 +18,32 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 }
 %>
 <head>	
-	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+	
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>  
     <script src="./js/bootstrap.js"></script>
     <link type="text/css" href="./css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+	String type 					= (String) session.getAttribute("type");
+	StudentDataManager sdm 			= new StudentDataManager();
+	ArrayList<String> majorList 	= sdm.retrieveAllMajors();
+%>
+<script type="text/javascript">
+    $(function() {
+        var majorList = [
+                <%
+                for(int i = 0; i < majorList.size(); i++){
+                	out.println("\""+majorList.get(i)+"\",");
+                }
+                %>
+                               ];
+        
+        $( "#secondmajor" ).autocomplete({
+            source: majorList
+          });
+	</script>	
 	<%@include file="template.jsp" %>
 </head>
 <body>
@@ -57,7 +76,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	CompanyDataManager cdm = new CompanyDataManager();
 	
 	//For student
-	StudentDataManager sdm = new StudentDataManager();
+	
 	Student student = sdm.retrieve(profileid);
 	
 	TeamDataManager tdm = new TeamDataManager();

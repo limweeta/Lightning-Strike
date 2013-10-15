@@ -9,7 +9,7 @@
 	ArrayList<Team> teams = tdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
 	
-	ArrayList<Project> matchedProjs = (ArrayList<Project>) request.getAttribute("combinedProjMatches");
+	ArrayList<ProjectScore> matchedProjs = (ArrayList<ProjectScore>) request.getAttribute("combinedProjMatches");
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -68,7 +68,10 @@
 int count = 0;
 CompanyDataManager cdm = new CompanyDataManager();
 for(int i = 0; i < matchedProjs.size(); i++){
-	Project project = matchedProjs.get(i);
+	ProjectScore projectScore = matchedProjs.get(i);
+	Project project = projectScore.getProject();
+	double score = projectScore.getScore();
+	
 	String name = project.getProjName();
 	int sponsorId = project.getSponsorId();
 	int termId = project.getTermId();
@@ -94,7 +97,7 @@ for(int i = 0; i < matchedProjs.size(); i++){
 			<td class="sorting_1"><%=strTerm %></td>
 			<td class=" "><%=name %></td>
 			<td class="center "><%=sponsor %></td>
-			<td class="center ">0%</td>
+			<td class="center "><%=score%>%</td>
 	</tr>
 <%
 }

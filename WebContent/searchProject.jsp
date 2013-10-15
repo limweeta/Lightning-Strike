@@ -39,6 +39,16 @@
 	</head>
 	<body id="dt_example">
 		<div id="container">
+		<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+			<font size=-1 color="red"><i><%=message %></i></font>
+		<%
+			session.removeValue("message");
+			} 
+		%>
 			<div class="full_width big">
 				<h1>Search Projects </h1>
 				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 

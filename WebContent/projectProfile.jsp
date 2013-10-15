@@ -78,9 +78,17 @@
 	</head>
 	<body>
 	<%
-	int reqId = Integer.parseInt(request.getParameter("id"));
+	String reqIdStr = request.getParameter("id");
+	int reqId = 0;
+	try{
+		reqId = Integer.parseInt(reqIdStr);
+	}catch(Exception e){
+		session.setAttribute("message", "Invalid address");
+		response.sendRedirect("searchProject.jsp");
+	}
 	
 	if(reqId == 0){
+		session.setAttribute("message", "You need to have a project to view that page.");
 		response.sendRedirect("searchProject.jsp");
 	}else{
 	

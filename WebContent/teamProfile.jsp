@@ -34,26 +34,36 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 
+		String teamIdStr = request.getParameter("id");
 		
-		String teamId = request.getParameter("id");
+		int teamId = 0;
 		
-		if(teamId == null || teamId.isEmpty() || teamId.equals("0")){
+		try{
+			teamId = Integer.parseInt(teamIdStr);
+		}catch(Exception e){
+			session.setAttribute("message", "Invalid address");
+			response.sendRedirect("searchTeam.jsp");
+		}
+		
+	
+		if(teamId == 0){
+			session.setAttribute("message", "You need to have a team to view that page.");
 			response.sendRedirect("searchTeam.jsp");
 		}else{
 			ProjectDataManager pdm = new ProjectDataManager();
 			ArrayList<Project> projs = pdm.retrieveAll();
 			
 			StudentDataManager sdm = new StudentDataManager();
-			ArrayList<Student> members = sdm.getTeamListFromTeamId(Integer.parseInt(teamId));
+			ArrayList<Student> members = sdm.getTeamListFromTeamId(teamId);
 			
 			UserDataManager udm = new UserDataManager();
 			
 			TeamDataManager tdm = new TeamDataManager();
-			Team team = tdm.retrieve(Integer.parseInt(teamId));
+			Team team = tdm.retrieve(teamId);
 			TechnologyDataManager techdm = new TechnologyDataManager();
 			
 			
-			Project teamProj = pdm.getProjFromTeam(Integer.parseInt(teamId));
+			Project teamProj = pdm.getProjFromTeam(teamId);
 			String projName = "";
 			int projId = 0;
 			try{
@@ -226,7 +236,7 @@
 				Technology hasTech = allTech.get(i);
 				count++;
 				for(int j  = 0; j < allTech.size(); j++){
-					if(techdm.hasPrefTech(Integer.parseInt(teamId), hasTech.getId())){
+					if(techdm.hasPrefTech(teamId, hasTech.getId())){
 						checked=true;
 					}
 					%>
@@ -278,7 +288,7 @@
 				Industry hasInd = allInd.get(i);
 				count++;
 				for(int j  = 0; j < allInd.size(); j++){
-					if(idm.hasPrefInd(Integer.parseInt(teamId), hasInd.getIndustryId())){
+					if(idm.hasPrefInd(teamId, hasInd.getIndustryId())){
 						checked=true;
 					}
 					%>

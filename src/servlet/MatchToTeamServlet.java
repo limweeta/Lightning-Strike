@@ -43,7 +43,7 @@ public class MatchToTeamServlet extends HttpServlet {
 		
 		//GET ALL TEAM DETAILS
 		TeamDataManager tdm = new TeamDataManager();
-		ArrayList<Team> teams = tdm.retrieveAll();
+		//ArrayList<Team> teams = tdm.retrieveAll();
 		ArrayList<Team> eligibleTeams = new ArrayList<Team>();
 		
 		try{
