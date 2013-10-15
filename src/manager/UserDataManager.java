@@ -131,7 +131,7 @@ public class UserDataManager implements Serializable {
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
-		while (iterator.hasNext()){
+		if(iterator.hasNext()){
 			isSuspended = true;
 		}
 		return isSuspended;

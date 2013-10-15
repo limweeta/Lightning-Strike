@@ -71,7 +71,15 @@ public class SkillDataManager implements Serializable {
 			
 			for(int i = 0; i < members.size(); i++){
 				if(members.get(i).getID() == userId){
-					userSkills.add(skillId);
+					if(userSkills.size() == 0){
+						userSkills.add(skillId);
+					}else{
+						for(int j = 0; j < userSkills.size(); j++){
+							if(userSkills.get(i) != skillId){
+								userSkills.add(skillId);
+							}
+						}
+					}
 				}
 			}
 			

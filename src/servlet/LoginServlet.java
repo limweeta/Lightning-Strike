@@ -122,28 +122,34 @@ public class LoginServlet extends HttpServlet {
 			
 				String loginUser = request.getParameter("smu_username");
 				
-				if(udm.isSuspended(username)){
-					session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
-				}
 				
 				String type = "Student";
 				try {
 					
-					User u = udm.retrieve(loginUser);
-					
-					if (username.matches(".*\\d.*")) {
-						type = "Student";
-					} else {
-						type = "Faculty";
-					}
-					
-					if (u == null) {
-						link = "details.jsp";
-					} else {
+
+					if(udm.isSuspended(username)){
+						session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
+						session.removeAttribute("username");
+						session.removeAttribute("fullname");
+						link = "index.jsp";
+					}else{
 						
-						link = "mainPage.jsp";
+						User u = udm.retrieve(loginUser);
+						
+						if (username.matches(".*\\d.*")) {
+							type = "Student";
+						} else {
+							type = "Faculty";
+						}
+						
+						if (u == null) {
+							link = "details.jsp";
+						} else {
+							
+							link = "mainPage.jsp";
+						}
+						session.setAttribute("type", type);
 					}
-					session.setAttribute("type", type);
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("Invalid Login");

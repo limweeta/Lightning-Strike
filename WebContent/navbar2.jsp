@@ -1,7 +1,11 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
 <html>
-	
+	<%
+	int projIdNav = 0;
+	int teamIdNav = 0;
+	int userIdNav = 0;
+	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -16,6 +20,7 @@
 		    e.stopPropagation();
 		  });
 		});
+		
 	</script>
 	<div class="container">
 		<h1><a href="./index.jsp">IS480 Matching System</a></h1>
@@ -23,12 +28,7 @@
 	<%
 	String sessionUser = (String) session.getAttribute("username");
 	
-	int projIdNav = 0;
-	int teamIdNav = 0;
-	int userIdNav = 0;
-	
 	User u = null;
-	
 	
 	if(sessionUser == null || sessionUser.isEmpty()){
 		userIdNav = 0;

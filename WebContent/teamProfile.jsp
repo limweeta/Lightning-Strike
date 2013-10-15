@@ -171,13 +171,16 @@
 			<%
 			int supId = team.getSupId(); 
 			String supervisorName = "";
-			
+			String profileLink = "#";
 			  try{
 				  supervisorName = udm.retrieve(supId).getFullName();
+				  profileLink = "userProfile.jsp?id=" + supId;
 			  }catch(Exception e){
+				  profileLink = "#";
 				  supervisorName = "No supervisor yet";
 			  }
-			%><%=supervisorName %>
+			%>
+			<a href="<%=profileLink%>"><%=supervisorName %></a>
 			</span></a>
 		  </div>
 		</div></br>
