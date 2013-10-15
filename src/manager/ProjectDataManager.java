@@ -526,7 +526,7 @@ public class ProjectDataManager implements Serializable {
 		int numOfSkillCovered = 0;
 		int totalSkill = 0;
 		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skill WHERE project_id = " + projId);
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE project_id = " + projId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -550,7 +550,7 @@ public class ProjectDataManager implements Serializable {
 	public int totalNumOfSkill(int projId){
 		int totalSkill = 0;
 		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skill WHERE project_id = " + projId);
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE project_id = " + projId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
