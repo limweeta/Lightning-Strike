@@ -216,7 +216,7 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score += (1.0/preferredIndustry.size()) * 100;
+				score = (1.0/preferredIndustry.size());
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 				ProjectScore ps = new ProjectScore(proj, score);
@@ -272,7 +272,7 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score = teamSkill.size() - numOfSkillNotCovered(teamSkill, id) / totalNumOfSkill(id) * 100.0;
+				score = teamSkill.size() - numOfSkillNotCovered(teamSkill, id) / totalNumOfSkill(id);
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 				ProjectScore ps = new ProjectScore(proj, score);
@@ -330,7 +330,7 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score = (preferredTechnologies.size() - numOfTechNotCovered(preferredTechnologies, id)) / totalNumOfTech(id) * 100.0;
+				score = (preferredTechnologies.size() - numOfTechNotCovered(preferredTechnologies, id)) / totalNumOfTech(id);
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
 				ProjectScore ps = new ProjectScore(proj, score);
@@ -351,7 +351,9 @@ public class ProjectDataManager implements Serializable {
 		
 		for(int i  = 0; i < projects.size(); i++){
 			if(!finalProjects.contains(projects.get(i))){
-				finalProjects.add(projects.get(i));
+				if(projects.get(i).getProject().getSponsorId() != 0){
+					finalProjects.add(projects.get(i));
+				}
 			}else{
 				//add score
 				ProjectScore ps = projects.get(i);

@@ -81,7 +81,13 @@ for(int i = 0; i < matchedProjs.size(); i++){
 	String strTerm = term.getAcadYear() + " T" + term.getSem();
 	
 	SponsorDataManager spdm = new SponsorDataManager();
-	String sponsor = cdm.retrieve(spdm.retrieve(sponsorId).getCoyId()).getCoyName();
+	String sponsor = "";
+	
+	try{
+		sponsor = cdm.retrieve(spdm.retrieve(sponsorId).getCoyId()).getCoyName();
+	}catch(Exception e){
+		sponsor = "No Sponsor yet";
+	}
 	
 	count++;
 	String rowclass = "";
