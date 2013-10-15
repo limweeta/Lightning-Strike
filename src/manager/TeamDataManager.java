@@ -53,15 +53,17 @@ public class TeamDataManager implements Serializable {
 	
 	public boolean emptySlots(Team team){
 		boolean result = false;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select COUNT(id) from students WHERE team_id = " + team.getId());
 		
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
 		int numOfStudents = 0;
-		
-		while (iterator.hasNext()){
-			numOfStudents++;
+
+		if (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			numOfStudents = Integer.parseInt(array.get(0));
 		}
 		
 		if(numOfStudents < team.getTeamLimit()){
@@ -69,8 +71,9 @@ public class TeamDataManager implements Serializable {
 		}else{
 			result = false;
 		}
-		
+
 		return result;
+		
 	}
 	
 	public boolean emptyPosition(Team team, Student std){
@@ -91,14 +94,12 @@ public class TeamDataManager implements Serializable {
 			}
 		}
 		
-		
 		return teamHasRole;
 	}
 	
 	public ArrayList<Team> retrieveEligibleTeams(Student std) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		ArrayList<Team> allTeams = retrieveAll();
-		
 		
 		for(int i = 0; i < allTeams.size(); i++){
 			Team t = allTeams.get(i);

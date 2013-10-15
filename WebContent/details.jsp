@@ -36,11 +36,32 @@ function toggleSkill(source) {
 	}
 </script>
 <head>
-<%
-	String type = (String) session.getAttribute("type");
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+	String type 					= (String) session.getAttribute("type");
+	StudentDataManager sdm 			= new StudentDataManager();
+	ArrayList<String> majorList 	= sdm.retrieveAllMajors();
 %>
-<%@include file="template.jsp" %>
+<script type="text/javascript">
+    $(function() {
+        var majorList = [
+                <%
+                for(int i = 0; i < majorList.size(); i++){
+                	out.println("\""+majorList.get(i)+"\",");
+                }
+                %>
+                               ];
+        
+        $( "#secondMajor" ).autocomplete({
+            source: majorList
+          });
+	</script>	
 </head>
+
+<%@include file="template.jsp" %>
+
 <body>
 	<div id="content-container" class="shadow">
 		<div id="content">
@@ -71,7 +92,8 @@ function toggleSkill(source) {
 					
 					<br />
 					<font size="4" face="Courier">Second Major:</font> 
-					<input type="text" id="secondMajor" id="secondMajor" name="secondMajor"><br>
+					<input type="text" id="secondMajor" id="secondMajor" name="secondMajor">
+					<br /><br />
 						Skills: 
 					<input type=checkbox onclick="toggleSkill(this)" />Select All<br />
 						<%

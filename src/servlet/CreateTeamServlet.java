@@ -106,7 +106,7 @@ public class CreateTeamServlet extends HttpServlet {
 		if(isNameTaken || teamName.isEmpty()){
 			session.setAttribute("message", "Team name cannot be empty or is already taken. Please try another name");
 			response.sendRedirect("createTeam.jsp");
-		}else if(sameMember || (numOfInvalidMembers > 0 && numOfInvalidMembers != 5)){
+		}else if(sameMember || (teamMembers.length - numOfInvalidMembers != numOfActiveMembers)){
 			session.setAttribute("message", "There was an error with one or more of your team member selection. Please try again");
 			response.sendRedirect("createTeam.jsp");
 		}else if(teamLimit < numOfActiveMembers){

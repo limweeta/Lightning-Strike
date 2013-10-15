@@ -36,6 +36,37 @@ public class TermDataManager implements Serializable {
 	}
 	
 	
+	public int retrieveTermId(int year, int month) throws Exception {
+		int termId = 0;
+		String acadYear = "";
+		int sem = 0;
+		
+		if((month+1) <= 5){
+			acadYear = Integer.toString(year - 1) + "/" + Integer.toString(year);
+			sem = 2;
+		}else if((month+1) >= 8){
+			acadYear = Integer.toString(year) + "/" + Integer.toString(year + 1);
+			sem = 1;
+		}else{
+			acadYear = Integer.toString(year) + "/" + Integer.toString(year + 1);
+			sem = 1;
+		}
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select","SELECT * FROM term WHERE academic_year LIKE '"+ acadYear + "' AND semester = " + sem + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int retrievedTermId = Integer.parseInt(array.get(0));
+			
+			termId = retrievedTermId;
+		}
+		return termId;
+	}
+	
 	public Term retrieve(int id) throws Exception {
 		Term term = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector

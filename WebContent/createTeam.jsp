@@ -23,7 +23,7 @@
   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
   <%
   StudentDataManager sdm = new StudentDataManager();
-  ArrayList<String> usernameList = sdm.retrieveUsernameList();
+  ArrayList<String> usernameList 	= sdm.retrieveUsernameList();
   %>
     <script type="text/javascript">
     $(function() {

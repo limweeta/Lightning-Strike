@@ -189,7 +189,7 @@
 		<div class="span1 well">
 		    <%
             SkillDataManager skdm = new SkillDataManager();
-            ArrayList<Integer> skillset = skdm.getUserSkills(members);
+            ArrayList<Integer> skillset = tdm.retrieveTeamSkills(team);
             
             for(int i = 0; i < skillset.size(); i++){
             	int count = i + 1;

@@ -46,6 +46,7 @@ public class CreateProjectServlet extends HttpServlet {
 		id++;
 		
 		int termID = Integer.parseInt(request.getParameter("term"));
+		int eligibleTermID = Integer.parseInt(request.getParameter("eligibleTerm"));
 		String projName = request.getParameter("projectname");
 		String company = request.getParameter("organization");
 		String projDesc = request.getParameter("projectdescription");
@@ -78,8 +79,10 @@ public class CreateProjectServlet extends HttpServlet {
 		if(isNameTaken || projName.isEmpty()){
 			session.setAttribute("message", "Project name cannot be empty or is already taken. Please try another name");
 			response.sendRedirect("createProject.jsp");
-		}else{
-			
+		}else if(eligibleTermID < termID){
+			session.setAttribute("message", "You can only have your project from the next term onward");
+			response.sendRedirect("createProject.jsp");
+		}else{	
 			Project proj = new Project(id, company_id, team_id, sponsor_id, reviewer1_id, reviewer2_id, projName, projDesc, status, industry, termID, creator_id);
 			pdm.add(proj);
 			

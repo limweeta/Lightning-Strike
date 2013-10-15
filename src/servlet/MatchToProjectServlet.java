@@ -28,8 +28,6 @@ public class MatchToProjectServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		System.out.println("This is the top of the page");
-		
 		RequestDispatcher rd;
 		//GET USER DETAILS
 		String username = (String) session.getAttribute("username");
@@ -52,7 +50,7 @@ public class MatchToProjectServlet extends HttpServlet {
 		ArrayList<Integer> preferredTechnologies = new ArrayList<Integer>();
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		
-		int score = 0;
+		double score = 0.0;
 		
 		try{
 			user = udm.retrieve(username);

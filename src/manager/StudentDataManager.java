@@ -10,6 +10,23 @@ public class StudentDataManager implements Serializable {
 	
 	public StudentDataManager() {}
 	
+	public ArrayList<String> retrieveAllMajors() {
+		ArrayList<String> majors = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM second_major");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String major 	= array.get(1);
+			
+			majors.add(major);
+		}
+		
+		return majors;
+	}
+	
 	public ArrayList<Student> retrieveAll() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");

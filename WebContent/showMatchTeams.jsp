@@ -73,7 +73,16 @@ for(int i = 0; i < matchedTeams.size(); i++){
 	int supId = team.getSupId();
 	int pmId = team.getPmId();
 	
-	String supervisor = udm.retrieve(supId).getFullName();
+	String supervisor = "";
+	String supProfile ="#";
+	
+	try{
+		supervisor = udm.retrieve(supId).getFullName();
+		supProfile = "userProfile.jsp?id=" + Integer.toString(supId);
+	}catch(Exception e){
+		supervisor = "No supervisor yet";
+		supProfile ="#";
+	}
 	String pm = udm.retrieve(pmId).getFullName();
 	count++;
 	String rowclass = "";
@@ -86,9 +95,9 @@ for(int i = 0; i < matchedTeams.size(); i++){
 	
 %>
 	<tr class="<%=rowclass %>">
-			<td class="sorting_1"><%=name %></td>
-			<td class=" "><%=pm %></td>
-			<td class="center "><%=supervisor %></td>
+			<td class="sorting_1"><a href="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
+			<td class=" "><a href="userProfile.jsp?id=<%=pmId%>"><%=pm %></a></td>
+			<td class="center "><a href="<%=supProfile%>"><%=supervisor %></a></td>
 			<td class="center ">0%</td>
 	</tr>
 <%

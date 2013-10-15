@@ -86,6 +86,7 @@ public class ProjectDataManager implements Serializable {
 		
 		return hasProj;
 	}
+	
 	public ArrayList<String> retrieveProjName() {
 		ArrayList<String> projects = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects");

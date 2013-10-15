@@ -60,6 +60,11 @@ function toggleSkill(source) {
 		width:5em;
 	}
 </style>
+<%
+Calendar now = Calendar.getInstance();
+int currYear = now.get(Calendar.YEAR);
+int currMth = now.get(Calendar.MONTH);
+%>
 <head>
 		<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
     <script type="text/javascript"
@@ -121,15 +126,23 @@ function toggleSkill(source) {
 						    	  <%
 						    	  TermDataManager termdm = new TermDataManager();
 						    	  ArrayList<Term> terms  = termdm.retrieveAll();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
 								  
 						    	  for(int i = 0; i < terms.size(); i++){
 						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
 						    	%>
-						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
 						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
 						    	  }
 						    	 %>
 						    </select> 
+						    <input type=hidden name="eligibleTerm" value="<%=currTermId+1%>" >
 						  </div>
 						</div>
 						
