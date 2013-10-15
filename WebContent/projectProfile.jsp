@@ -243,6 +243,19 @@
 		  </div>
 		</div>
 		
+		<input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">
+		<div class="control-group">
+		  <label class="control-label" for="status">Status</label>
+		  <div class="controls">
+		  	<% if ((reqProj.getStatus().trim())=="Open"){ %>
+			  	<span class="label label-success"><%=reqProj.getStatus() %></span>
+		  	<%}else if((reqProj.getStatus().trim())=="Closed") %>
+		  		<span class="label label-danger"><%=reqProj.getStatus() %></span>
+		  	<%} %>
+			  	<input type="hidden" name="projStatus" value="<%=reqProj.getStatus() %>">
+		  </div>
+		</div>
+		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectDesc">Project Description</label>
@@ -582,15 +595,6 @@
 					  %>
 					</ul>
 				 </li>
-		
-		<input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">
-		<div class="control-group">
-		  <label class="control-label" for="status">Status</label>
-		  <div class="controls">
-		  	<span class="label label-info"><%=reqProj.getStatus() %></span></a>
-		  	<input type="hidden" name="projStatus" value="<%=reqProj.getStatus() %>">
-		  </div>
-		</div>
 		
 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>

@@ -124,8 +124,9 @@
 						  </div>
 						</div>
 						
-						<label class="control-label" for="teammembers">Team Members:</label>
-						
+						<div class="control-group">
+						  <label class="control-label" for="projectmanager">Team Members</label>
+						</div>
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="projectmanager">Project Manager</label>

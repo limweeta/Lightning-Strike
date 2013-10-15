@@ -28,34 +28,33 @@
 				<td><div id="welcome">Welcome, <%=fullName %></div></td><!-- 
 				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
 				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	 -->
-		   	</tr>
-		   	<tr> 
 			   	<td></td> 
 			   	<td></td>
 		   	<%
 			if(!fullName.equals("guest")){
 			%>
 		   		<td>
+		   		</br>
 		   		<form action="logout" method="post">
-		   			<input type="submit" id="profilelogout" value="Logout">
+		   			<!-- <input type="submit" id="profilelogout" value="Logout"> -->
+		   			<div class="control-group">
+						  <div class="controls">
+						   <button id="logout" name="logout" class="btn btn-danger">Logout</button><br />
+							<!-- <input type="submit" id="logout" value="Logout" class="btn btn-danger"> -->
+						  </div>
+					</div>
 		   		</form>
 		   		</td>
 		   	<%
 			}
 			%>
-			   	
 			</tr> 
-			<tr>
-		   	<td></td>
-		   	<td></td>
-		   	
-		   	</tr>
 	   	</table>
 	</div>	
 	</div>
-	<div class="navcontainer">
+	</br>
 		<%@include file="navbar2.jsp"%>
-	</div></br></br>
+	</br></br>
   </head>
 <body>
 <%

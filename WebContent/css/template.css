@@ -9,7 +9,7 @@
    	#profile{
       	float: right;
    	}
-	#profilelogout {
+/* 	#profilelogout {
 		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
 		background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
 		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
@@ -50,7 +50,7 @@
 	#profilelogout:active {
 		position:relative;
 		top:1px;
-	}
+	} */
 	/* #container{
 		position: relative;
 		width: 775px;

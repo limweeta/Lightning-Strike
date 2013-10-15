@@ -9,6 +9,8 @@
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script> 
+    <link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
+	<script src="./js/bootstrap.js"></script>
 <head>
  
 	<%
@@ -35,7 +37,13 @@
 			   	<td></td> -->
 		   		<td>	
 		   		<form action="logout" method="post">
-		   			<input type="submit" id="profilelogout" value="Logout">
+		   			<!-- <input type="submit" id="profilelogout" value="Logout"> -->
+		   			<div class="control-group">
+						  <div class="controls">
+						   <button id="logout" name="logout" class="btn btn-danger">Logout</button><br />
+							<!-- <input type="submit" id="logout" value="Logout" class="btn btn-danger"> -->
+						  </div>
+					</div>
 		   		</form>
 		   		</td>
 			</tr> 
