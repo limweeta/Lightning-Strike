@@ -37,7 +37,7 @@
 		
 		String teamId = request.getParameter("id");
 		
-		if(teamId == null || teamId.isEmpty()){
+		if(teamId == null || teamId.isEmpty() || teamId.equals("0")){
 			response.sendRedirect("searchTeam.jsp");
 		}else{
 			ProjectDataManager pdm = new ProjectDataManager();

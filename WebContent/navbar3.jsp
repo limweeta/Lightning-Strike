@@ -1,3 +1,5 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
 <html>
 	
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
@@ -18,6 +20,40 @@
 	<div class="container">
 		<h1><a href="./index.jsp">IS480 Matching System</a></h1>
 	</div>
+	<%
+	String sessionUser = (String) session.getAttribute("username");
+	
+	int projIdNav = 0;
+	int teamIdNav = 0;
+	int userIdNav = 0;
+	String userType = null;
+	
+	User u = null;
+	
+	
+	if(sessionUser == null || sessionUser.isEmpty()){
+		userIdNav = 0;
+		projIdNav = 0;
+		teamIdNav = 0;
+	}else{
+		UserDataManager udmNav = new UserDataManager();
+		u = udmNav.retrieve(sessionUser);
+		userIdNav = u.getID();
+		userType = u.getType();
+		
+		TeamDataManager tdmNav = new TeamDataManager();
+		teamIdNav = tdmNav.retrieveTeamIdByUser(u);
+		
+		ProjectDataManager pdmNav = new ProjectDataManager();
+		Project p = pdmNav.getProjFromTeam(teamIdNav);
+		
+		if(p == null){
+			projIdNav = 0;
+		}else{
+			projIdNav = p.getTeamId();
+		}
+	}
+	%>
 	<div class="navbar">
          <div class="navbar-inner">
            <div class="container">
@@ -26,7 +62,7 @@
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp">Search</a></li>
 		          <li><a href="./createProject.jsp">Create</a></li>
-		          <li><a href="#">My Project</a></li>
+		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>">My Project</a></li>
 		          <li><a href="#">Match to Project</a></li>
 		          </ul>
 		        </li>
@@ -35,18 +71,21 @@
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp">Search</a></li>
 		          	<li><a href="./createTeam.jsp">Create</a></li>
-		          	<li><a href="#">My Team</a></li>
+		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>">My Team</a></li>
 		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
-               		<li><a href="#">My Profile</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
                	</ul>
                </li>
-               <li><a href="#" >Schedule</a></li>
-               <li><a href="#" >Analytics</a></li>
+               <%if(userType.equals("Admin")){ %>
+               		 <li class="dropdown"><a href="./admin.jsp" class="dropdown-toggle" data-toggle="dropdown">Admin</a></li>
+               <%} %>
+              <!--  <li><a href="#" >Schedule</a></li>
+               <li><a href="#" >Analytics</a></li> -->
              </ul>
            </div>
          </div>

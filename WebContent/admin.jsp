@@ -8,10 +8,10 @@
  <%
  String userType = (String) session.getAttribute("type");
  
- if(userType != "admin"){
+ if(!userType.equals("Admin")){
 	 session.setAttribute("message", "You are not authorized to view that page");
 	 response.sendRedirect("index.jsp");
- }
+ }	
  %>
 <!-------->
 <div id="content">

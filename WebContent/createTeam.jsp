@@ -56,6 +56,19 @@
           });
         
       });
+    function toggleTech(source) {
+  	  checkboxes = document.getElementsByName('technology');
+  	  for(var i=0, n=checkboxes.length;i<n;i++) {
+  	    checkboxes[i].checked = source.checked;
+  	  }
+  	}
+  	
+    function toggleInd(source) {
+		  checkboxes = document.getElementsByName('industry');
+		  for(var i=0, n=checkboxes.length;i<n;i++) {
+		    checkboxes[i].checked = source.checked;
+		  }
+		}
 	</script>	
 	<%
 	RoleDataManager rdm = new RoleDataManager();
@@ -99,7 +112,7 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
-						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large">
+						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" width="300px">
 						    
 						  </div>
 						</div>
@@ -252,7 +265,10 @@
 						<div class="control-group">
 						  <label class="control-label" for="textinput">Preferred Industry</label>
 						  <div class="controls">
-						    <table>
+						    <table border="0">
+						     <tr>
+						     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;Select All</td>
+						     </tr>
 						    	<tr>
 								 <%
 								  IndustryDataManager idm = new IndustryDataManager();
@@ -261,7 +277,7 @@
 								  for(int i = 0; i < industries.size(); i++){
 									  Industry ind = industries.get(i);
 									  %><td>
-									  <input type="checkbox" name="industry" value="<%=ind.getIndustryId()%>">&nbsp;<%=ind.getIndustryName() %>
+									  <input type="checkbox" name="industry" value="<%=ind.getIndustryId()%>">&nbsp;<%=ind.getIndustryName() %>&nbsp;&nbsp;
 									  </td>
 									  <%
 									  if((i+1) % 3 == 0){
@@ -279,7 +295,10 @@
 						<div class="control-group">
 						  <label class="control-label" for="textinput">Preferred Technology</label>
 						  <div class="controls">
-						    <table>
+						    <table border="0">
+						     <tr>
+						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
+						     </tr>
 						    	<tr>
 								 <%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
@@ -288,7 +307,7 @@
 								  for(int i = 0; i < technologies.size(); i++){
 									  Technology tech = technologies.get(i);
 									  %><td>
-									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>
+									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;
 									  </td>
 									  <%
 									  if((i+1) % 3 == 0){

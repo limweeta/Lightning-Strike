@@ -39,12 +39,13 @@
 		   			<!-- <input type="submit" id="profilelogout" value="Logout"> -->
 		   			<div class="control-group">
 						  <div class="controls">
-						   <button id="logout" name="logout" class="btn btn-danger">Logout</button><br />
-							<!-- <input type="submit" id="logout" value="Logout" class="btn btn-danger"> -->
+						   <!-- <button id="logout" name="logout" class="btn btn-danger">Logout</button><br /> -->
+							&nbsp;&nbsp;<input type="submit" id="logout" value="Logout" class="btn btn-danger">
 						  </div>
 					</div>
 		   		</form>
 		   		</td>
+		   		<td>&nbsp;&nbsp;&nbsp;</td>
 		   	<%
 			}
 			%>
@@ -53,7 +54,19 @@
 	</div>	
 	</div>
 	</br>
-		<%@include file="navbar2.jsp"%>
+		<%if(!fullName.equals("guest")){ %>
+		<div class="navcontainer">
+			<%@include file="navbar3.jsp"%>
+		</div>
+		 	<%
+			}else{
+		%>
+			<div class="navcontainer">
+			<%@include file="navbar2.jsp"%>
+			</div>
+		<%
+			}
+		%>
 	</br></br>
   </head>
 <body>
@@ -85,9 +98,9 @@ session.setAttribute("message", "");
 					Announcement ann = announcements.get(i);
 					%>
 					<tr>
-						<td><%=i+1 %></td>
-						<td><%=ann.getTimestamp() %></td>
-						<td><%=ann.getAnnouncement() %></td>
+						<td align="center"><%=i+1 %></td>
+						<td align="center"><%=ann.getTimestamp() %></td>
+						<td align="center"><%=ann.getAnnouncement() %></td>
 					</tr>
 					<%
 				}

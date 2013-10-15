@@ -79,8 +79,8 @@
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
                	</ul>
                </li>
-               <li><a href="#" >Schedule</a></li>
-               <li><a href="#" >Analytics</a></li>
+              <!--  <li><a href="#" >Schedule</a></li>
+               <li><a href="#" >Analytics</a></li> -->
              </ul>
              <ul class="nav pull-right">
 	          <li class="dropdown">
