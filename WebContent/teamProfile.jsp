@@ -100,6 +100,30 @@
 		    checkboxes[i].checked = source.checked;
 		  }
 		}
+	function validateFormOnSubmit(theForm) {
+		var reason = "";
+
+		  reason += validateTeamname(theForm.teamName);
+      
+		  if (reason != "") {
+		    alert("Some fields need correction:\n" + reason);
+		    return false;
+		  }
+
+		  return true;
+	}
+
+	function validateTeamname(fld) {
+	    var error = "";
+	 
+	    if (fld.value == "") {
+	        fld.style.background = 'Yellow'; 
+	        error = "Team name cannot be blank.\n";
+	    } else {
+	        fld.style.background = 'White';
+	    } 
+	    return error;
+	}
 	
 	</script>
 	<body>
@@ -114,7 +138,7 @@
 						session.removeValue("message");
 						} %>
 	<div class="row">
-	<form action="updateTeam" class="form-horizontal" method=post>
+	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
 		<legend><%=team.getTeamName() %></legend>
@@ -177,7 +201,6 @@
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Supervisor</label>
 		  <div class="controls">
-		  	<a href="#"><span class="label label-info">
 			<%
 			int supId = team.getSupId(); 
 			String supervisorName = "";
@@ -190,7 +213,7 @@
 				  supervisorName = "No supervisor yet";
 			  }
 			%>
-			<a href="<%=profileLink%>"><%=supervisorName %></a>
+			<a href="<%=profileLink%>"><span class="label label-info"><%=supervisorName %>
 			</span></a>
 		  </div>
 		</div></br>

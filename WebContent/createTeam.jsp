@@ -1,3 +1,6 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
 <style type="text/css">
 	h1{
@@ -16,7 +19,7 @@
 	}
 </style>
 
-	<head>
+<head>
 	<%@ include file="template.jsp" %> </br>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
@@ -69,6 +72,22 @@
 		    checkboxes[i].checked = source.checked;
 		  }
 		}
+    function validateForm()
+    {
+    	var teamName = document.forms["createTeam"]["teamname"].value;
+    	if (teamName == null || teamName == "")
+    	  {
+    	  alert("Team name must be filled out");
+    	  return false;
+    	  }
+    	
+    	var teamDesc = document.forms["createTeam"]["teamdesc"].value;
+    	if (teamDesc == null || teamDesc == "")
+    	  {
+    	  alert("Team description must be filled out");
+    	  return false;
+    	  }
+    }
 	</script>	
 	<%
 	RoleDataManager rdm = new RoleDataManager();

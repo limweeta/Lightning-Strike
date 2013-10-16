@@ -43,6 +43,91 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
         $( "#secondmajor" ).autocomplete({
             source: majorList
           });
+        
+        function validateFormOnSubmit(theForm) {
+        	var reason = "";
+
+        	  reason += validateFullname(theForm.fullname);
+        	  reason += validatePhone(theForm.contactno);
+        	  reason += validateEmail(theForm.email);
+        	  reason += validateEmpty(theForm.secondmajor);
+        		      
+        	  if (reason != "") {
+        	    alert("Some fields need correction:\n" + reason);
+        	    return false;
+        	  }
+
+        	  return true;
+        }
+        
+        function validateFullname(fld) {
+            var error = "";
+            var illegalChars = /[0-9]/; // allow letters ONLY
+         
+            if (fld.value == "") {
+                fld.style.background = 'Yellow'; 
+                error = "You didn't enter your full name.\n";
+            } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+                fld.style.background = 'Yellow'; 
+                error = "Your full name is the wrong length.\n";
+            } */ else if (illegalChars.test(fld.value)) {
+                fld.style.background = 'Yellow'; 
+                error = "Your full name contains illegal characters.\n";
+            } else {
+                fld.style.background = 'White';
+            } 
+            return error;
+        }
+
+        function validatePhone(fld) {
+            var error = "";
+            var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
+
+           if (fld.value == "") {
+                error = "You didn't enter a phone number.\n";
+                fld.style.background = 'Yellow';
+            } else if (isNaN(parseInt(stripped))) {
+                error = "The phone number contains illegal characters.\n";
+                fld.style.background = 'Yellow';
+            } /* else if (!(stripped.length == 8)) {
+                error = "The phone number is too short.\n";
+                fld.style.background = 'Yellow';
+            }  */
+            return error;
+        }
+
+        function validateEmail(fld) {
+            var error="";
+            var tfld = trim(fld.value);                        // value of field with whitespace trimmed off
+            var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
+            var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
+            
+            if (fld.value == "") {
+                fld.style.background = 'Yellow';
+                error = "You didn't enter an email address.\n";
+            } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
+                fld.style.background = 'Yellow';
+                error = "Please enter a valid email address.\n";
+            } else if (fld.value.match(illegalChars)) {
+                fld.style.background = 'Yellow';
+                error = "The email address contains illegal characters.\n";
+            } else {
+                fld.style.background = 'White';
+            }
+            return error;
+        }
+
+        function validateEmpty(fld) {
+            var error = "";
+          
+            if (fld.value.length == 0) {
+                fld.style.background = 'Yellow'; 
+                error = "Second major cannot be left blank.\n";
+            } else {
+                fld.style.background = 'White';
+            }
+            return error;   
+        }
 	</script>	
 	<%@include file="template.jsp" %>
 </head>
@@ -120,7 +205,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	
 	<div class="span9 well">
 <!-- 	<div class="row"> -->
-	<form action="updateCurrentProfile" method="post" class="form-horizontal">
+	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=u.getID()%>">
 		<fieldset>
 		<% String message = (String) session.getAttribute("message"); 

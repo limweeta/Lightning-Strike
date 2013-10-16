@@ -63,6 +63,77 @@
   	    checkboxes[i].checked = source.checked;
   	  }
   	}
+    
+    function validateFormOnSubmit(theForm) {
+    	var reason = "";
+
+    	  reason += validateProjname(theForm.projName);
+    	  reason += validateProjdesc(theForm.projectDesc);
+    	  reason += validateSponsor(theForm.sponsor);
+    	  reason += validateCompany(theForm.company);
+    		      
+    	  if (reason != "") {
+    	    alert("Some fields need correction:\n" + reason);
+    	    return false;
+    	  }
+
+    	  return true;
+    }
+    
+    function validateProjname(fld) {
+        var error = "";
+        //var illegalChars = /[0-9]/; // allow letters ONLY
+     
+        if (fld.value == "") {
+            fld.style.background = 'Yellow'; 
+            error = "You didn't enter project name.\n";
+        } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+            fld.style.background = 'Yellow'; 
+            error = "Your full name is the wrong length.\n";
+        }  else if (illegalChars.test(fld.value)) {
+            fld.style.background = 'Yellow'; 
+            error = "Your full name contains illegal characters.\n";
+        } */else {
+            fld.style.background = 'White';
+        } 
+        return error;
+    }
+
+    function validateProjdesc(fld) {
+        var error = ""; 
+
+       if (fld.value == "") {
+            error = "Project description cannot be left empty.\n";
+            fld.style.background = 'Yellow';
+        } else {
+            fld.style.background = 'White';
+        } 
+        return error;
+    }
+
+    function validateSponsor(fld) {
+        var error="";
+        
+        if (fld.value == "") {
+            fld.style.background = 'Yellow';
+            error = "Sponsor field cannot be left empty.\n";
+        } else {
+            fld.style.background = 'White';
+        }
+        return error;
+    }
+
+    function validateCompany(fld) {
+        var error = "";
+      
+        if (fld.value.length == 0) {
+            fld.style.background = 'Yellow'; 
+            error = "Company field cannot be left empty.\n";
+        } else {
+            fld.style.background = 'White';
+        }
+        return error;   
+    }
 	</script>	
     	<%
     		User user = null;
@@ -208,7 +279,7 @@
 		
 	<div class="span11 well">
 	<div class="row">
-	<form action="updateProject" method="post" class="form-horizontal">
+	<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<fieldset>
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
@@ -358,7 +429,7 @@
             	 <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
             	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<%
-	            if(supervisor.equalsIgnoreCase("No Supervisor Yet") && type.equals("admin")){ //TO-DO:check for admin status
+	            if(supervisor.equalsIgnoreCase("No Supervisor Yet") && type.equals("Admin")){ //TO-DO:check for admin status
 	            	%>
 	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large">
 	            	<input type="submit" value="Assign">
@@ -383,7 +454,7 @@
 		  <div class="controls">   
 		  <form method="post" action="assignReviewer">    
 		  <%
-            if(projTeam != null && type.equals("admin")){
+            if(projTeam != null && type.equals("Admin")){
             	%>   
             	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<% 
@@ -466,17 +537,17 @@
 		  if(user != null){
 				if(user.getID() == reqProj.getCreatorId()){
 			  %>
-		  	<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-large">
+		  	<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large">
 		  	
 		  	 <%
 				}else{
 					%>
-			<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
+			<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
 					<%
 				}
 		  }else{
 			  %>
-			<input id="team" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
+			<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
 			  <%
 		  }
 		  %>
