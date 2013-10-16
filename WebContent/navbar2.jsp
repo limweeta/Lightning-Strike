@@ -215,6 +215,7 @@
 	</div>
 	<%
 	String sessionUser = (String) session.getAttribute("username");
+	String userType = (String) session.getAttribute("type");
 	
 	User u = null;
 	
@@ -233,20 +234,30 @@
 		ProjectDataManager pdmNav = new ProjectDataManager();
 		Project p = pdmNav.getProjFromTeam(teamIdNav);
 		
-		if(p == null){
-			projIdNav = 0;
+		if(userType.equalsIgnoreCase("sponsor")){
+			teamIdNav = 0;
+			try{
+				projIdNav = pdmNav.getProjIdFromSponsor(userIdNav);
+			}catch(Exception e){
+				projIdNav = 0;
+			}
 		}else{
-			projIdNav = p.getTeamId();
+			if(p == null){
+				projIdNav = 0;
+			}else{
+				projIdNav = p.getId();
+			}
 		}
 	}
 	%>
+	
 	<div class="navbar">
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
-		          <li><a href="./searchProject.jsp">Search</a></li>
+		          <li><a href="./searchProject.jsp">SearchTEST</a></li>
 		          <li><a href="./createProject.jsp">Create</a></li>
 		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>">My Project</a></li>
 		          <li><a href="#">Match to Project</a></li>

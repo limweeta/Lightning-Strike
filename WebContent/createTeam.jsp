@@ -97,14 +97,19 @@
 	boolean hasTeam = false;
 		String type = "";
 		try{
-			
 			type = udm.retrieve(username).getType();
+			
+			if(type.equalsIgnoreCase("Sponsor")){
+				session.setAttribute("message", "Only students can create teams");
+				response.sendRedirect("searchTeam.jsp");
+			}
+			
 			if(sdm.hasTeam(udm.retrieve(username))){
 				hasTeam = true;
-				
 			}
 		}catch(Exception e){
-				response.sendRedirect("index.jsp");
+			session.setAttribute("message", "You need to be logged in to create a team");
+			response.sendRedirect("index.jsp");
 		}
 	%>
 	</head>

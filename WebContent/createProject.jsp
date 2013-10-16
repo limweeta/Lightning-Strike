@@ -81,7 +81,7 @@ int currMth = now.get(Calendar.MONTH);
 		}
 	
 	User u = udm.retrieve(username);
-	
+	String type = (String) session.getAttribute("type");
 	boolean hasProj = false;
 	
 	try{
@@ -108,7 +108,36 @@ int currMth = now.get(Calendar.MONTH);
 						} %>
 						<!-- Form Name -->
 						<legend>Create Project</legend>
+						<%
+						if(type.equalsIgnoreCase("sponsor")){
+							CompanyDataManager cdm = new CompanyDataManager();
+							SponsorDataManager spdm = new SponsorDataManager();
+							Company company = cdm.retrieve(u.getID());	
+							Sponsor sponsor = spdm.retrieve(u.getID());
+							
+							String sponsorName = sponsor.getFullName();
+							String coyName = company.getCoyName();
+						%>
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="projectname">Sponsor</label>
+						  <div class="controls"><input type="hidden" name="sponsorId" value="<%=sponsor.getID()%>">
+						    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-large" readonly="readonly">
+						    
+						  </div>
+						</div>
 						
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="projectname">Company</label>
+						  <div class="controls"><input type="hidden" name="coyId" value="<%=company.getID()%>">
+						    <input id="company" name="company" type="text" value="<%=coyName %>" class="input-large" readonly="readonly">
+						    
+						  </div>
+						</div>
+						<%
+						}
+						%>
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Project Name</label>

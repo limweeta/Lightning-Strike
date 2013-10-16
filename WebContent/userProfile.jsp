@@ -227,8 +227,16 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
 		  <div class="controls">
-		    <input id="fullname" name="fullname" type="text" readonly="readonly" value="<%=u.getFullName()%>" class="input-large">
-		    
+		 <%if(type.equalsIgnoreCase("sponsor")){ %>
+		    <input id="fullname" name="fullname" type="text" value="<%=u.getFullName()%>" class="input-large">
+		 <% }else{%>
+		    <input id="fullname" name="fullname" type="text" readonly="readonly"  value="<%=u.getFullName()%>" class="input-large">
+		 <% 
+		 	
+		 }	 
+		%>
+		 
+		 
 		  </div>
 		</div>
 		<!-- </div></br> --></br>
@@ -252,7 +260,13 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		<div class="control-group">
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
+		  <%if(type.equalsIgnoreCase("sponsor")){ %>
+		    <input id="email" name="email" type="text" value="<%=u.getEmail()%>" class="input-xlarge">
+		     <% }else{%>
 		    <input id="email" name="email" type="text" value="<%=u.getEmail()%>" readonly="readonly" class="input-xlarge">
+		 <% 	
+		 }	 
+		%>
 		    <input type="hidden" name="type" value="<%=userType%>">
 		  </div>
 		</div>
@@ -284,7 +298,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 			for(int i = 0; i < allSkills.size(); i++){
 				checked = false;
 				%>
-				<!-- <script>var tab = [</script> -->
+				
 				<%
 				Skill hasSkill = allSkills.get(i);
 				count++;
@@ -301,7 +315,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked" />
 						<%=allSkills.get(i).getSkillName() %>
 				</li>
-				<%--  <script>{ id: "<%=i%>", label: "<%=allSkills.get(i).getSkillName() %>", isChecked: true },</script> --%>
+				
 				<%
 				}else{
 					%>
@@ -309,7 +323,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" />
 						<%=allSkills.get(i).getSkillName() %>
 				</li>	
-				<%-- <script>{ id: "<%=i%>", label: "<%=allSkills.get(i).getSkillName() %>", isChecked: false },</script> --%>
+				
 					<%
 				}
 				if(count % 3 == 0){
@@ -336,9 +350,17 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
 		</div>
+		<%}else if(type.equalsIgnoreCase("sponsor")){ 
+		Company company = cdm.retrieve(u.getID());
+		%>
+		<div class="control-group">
+		  <label class="control-label" for="coyName">Company </label>
+		  <div class="controls">
+		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge">
+		  </div>
+		</div>
 		<%} %>
-		<!-- </div> --></br>
-		<!-- <div class="span7"> -->
+		
 		<!-- Button -->
 		<%
 		if(sessionUsername.equals(u.getUsername())){

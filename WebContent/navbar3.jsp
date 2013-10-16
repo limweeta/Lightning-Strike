@@ -26,7 +26,7 @@
 	int projIdNav = 0;
 	int teamIdNav = 0;
 	int userIdNav = 0;
-	String userType = null;
+	String userType = (String) session.getAttribute("type");
 	
 	User u = null;
 	
@@ -39,7 +39,6 @@
 		UserDataManager udmNav = new UserDataManager();
 		u = udmNav.retrieve(sessionUser);
 		userIdNav = u.getID();
-		userType = u.getType();
 		
 		TeamDataManager tdmNav = new TeamDataManager();
 		teamIdNav = tdmNav.retrieveTeamIdByUser(u);
@@ -47,10 +46,19 @@
 		ProjectDataManager pdmNav = new ProjectDataManager();
 		Project p = pdmNav.getProjFromTeam(teamIdNav);
 		
-		if(p == null){
-			projIdNav = 0;
+		if(userType.equalsIgnoreCase("sponsor")){
+			teamIdNav = 0;
+			try{
+				projIdNav = pdmNav.getProjIdFromSponsor(userIdNav);
+			}catch(Exception e){
+				projIdNav = 0;
+			}
 		}else{
-			projIdNav = p.getTeamId();
+			if(p == null){
+				projIdNav = 0;
+			}else{
+				projIdNav = p.getId();
+			}
 		}
 	}
 	%>

@@ -31,35 +31,52 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		StudentDataManager sdm =  new StudentDataManager();
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
+		String type = (String) session.getAttribute("type");
 		
 		String contact = request.getParameter("contactno");
-		String secondMajor = request.getParameter("secondmajor");
-		int prefRole = 0;
-		
-		try{
-			Integer.parseInt(request.getParameter("preferredRole"));
-		}catch(Exception e){
-			prefRole = 0;
-		}
-		String[] skills = request.getParameterValues("skills");
 		
 		User user = null;
-		Student student = null;
-		try{
-			user = udm.retrieve(userId);
-			student = sdm.retrieve(userId);
-			//UPDATE VALUES HERE
-			user.setContactNum(contact);
-			student.setSecondMajor(secondMajor);
-			student.setPreferredRole(prefRole);
-			
-			//UPDATE SQL
-			sdm.modify(user, student, skills);
-			session.setAttribute("message", "Profile Updated");
-		}catch(Exception e){
-			
-		}
 		
+		if(type.equalsIgnoreCase("Student")){
+			
+			String secondMajor = request.getParameter("secondmajor");
+			int prefRole = 0;
+			
+			try{
+				Integer.parseInt(request.getParameter("preferredRole"));
+			}catch(Exception e){
+				prefRole = 0;
+			}
+			String[] skills = request.getParameterValues("skills");
+			
+			Student student = null;
+			try{
+				user = udm.retrieve(userId);
+				student = sdm.retrieve(userId);
+				//UPDATE VALUES HERE
+				user.setContactNum(contact);
+				student.setSecondMajor(secondMajor);
+				student.setPreferredRole(prefRole);
+				
+				//UPDATE SQL
+				sdm.modify(user, student, skills);
+				session.setAttribute("message", "Profile Updated");
+			}catch(Exception e){
+				
+			}
+		}else if(type.equalsIgnoreCase("Sponsor")){
+			try{
+				String fullname = request.getParameter("fullname");
+				user = udm.retrieve(userId);
+				user.setContactNum(contact);
+				user.setFullName(fullname);
+				
+				udm.modify(user);
+				session.setAttribute("message", "Profile Updated");
+			}catch(Exception e){
+				
+			}
+		}
 		RequestDispatcher rd = request.getRequestDispatcher("userProfile.jsp?id="+userId);
 		rd.forward(request, response);
 	}

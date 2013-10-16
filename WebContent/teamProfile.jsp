@@ -34,6 +34,7 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 
+		String type = (String) session.getAttribute("type");
 		String teamIdStr = request.getParameter("id");
 		
 		int teamId = 0;
@@ -344,7 +345,7 @@
 			</li>
 		</br>
 		
-		<%if(username != null){ %>
+		<%if(type.equalsIgnoreCase("Student")){ %>
 		<div class="control-group">
 		  <label class="control-label" for="request"></label>
 		  <div class="controls">

@@ -8,6 +8,8 @@
 	TeamDataManager tdm = new TeamDataManager();
 	ArrayList<Team> teams = tdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
+	
+	String type = (String) session.getAttribute("type");
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -41,14 +43,16 @@
 				message = "";
 			}else{
 		%>
-			<font size=-1 color="red"><i><%=message %></i></font>
+			<font size="-1" color="red"><i><%=message %></i></font>
 		<%
 			session.removeValue("message");
 			} 
 		%>
 			<div class="full_width big">
 				<h1>Search Teams </h1>
-				<p style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p>
+				<% if(type.equalsIgnoreCase("Student")){ %>
+				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p>
+				<% } %>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->

@@ -44,6 +44,24 @@ public class ProjectDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public int getProjIdFromSponsor(int sponsorId){
+		int projId = 0;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE sponsor_id = " + sponsorId + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			projId = Integer.parseInt(array.get(0));
+		}
+		System.out.println(sponsorId);
+		return projId;
+	}
+	
+	
 	public boolean isProjNameTaken(String projName){
 		boolean isTaken = false;
 		

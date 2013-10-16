@@ -45,10 +45,13 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		id++;
 		
+		String username = (String) session.getAttribute("username");
+		
 		int termID = Integer.parseInt(request.getParameter("term"));
 		int eligibleTermID = Integer.parseInt(request.getParameter("eligibleTerm"));
 		String projName = request.getParameter("projectname");
-		String company = request.getParameter("organization");
+		String company = request.getParameter("coyId");
+		String sponsor = request.getParameter("sponsorId");
 		String projDesc = request.getParameter("projectdescription");
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
@@ -71,9 +74,15 @@ public class CreateProjectServlet extends HttpServlet {
 		}
 		
 		try{
-			creator_id = udm.retrieve((String)session.getAttribute("username")).getID();
+			sponsor_id = Integer.parseInt(sponsor);
 		}catch(Exception e){
-			e.printStackTrace();
+			sponsor_id = 0;
+		}
+		
+		try{
+			creator_id = udm.retrieve(username).getID();
+		}catch(Exception e){
+			creator_id = 0;
 		}
 		
 		if(isNameTaken || projName.isEmpty()){

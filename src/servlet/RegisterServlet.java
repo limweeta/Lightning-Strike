@@ -91,26 +91,29 @@ public class RegisterServlet extends HttpServlet {
 		char firstNum = contactNum.charAt(0);
 		char firstCoyNum = cContact.charAt(0);
 		
-		if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
+		if(udm.isTaken(username)){
+			session.setAttribute("message", "Please choose another username");
+			response.sendRedirect("index.jsp");
+		}else if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
 				|| (firstCoyNum != '9' || firstCoyNum != '8' || cContact.length() != 8) ){
-			
-		}
+			session.setAttribute("message", "Please enter a valid phone number");
+			response.sendRedirect("index.jsp");
+		}else{
+			try {
+				Company company = new Company(id, coyName, coyAdd, coyContact);
+				cdm.add(company);
+				
+				Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);
+				sdm.add(newSponsor);
+				
+				session.setAttribute("message", "Account successfully created");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		
-		try {
 			
-			Company company = new Company(id, coyName, coyAdd, coyContact);
-			cdm.add(company);
-			
-			Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);
-			sdm.add(newSponsor);
-			
-			session.setAttribute("message", "Account successfully created");
-		} catch (Exception e) {
-			e.printStackTrace();
+			response.sendRedirect("index.jsp");
 		}
-	
-		
-		response.sendRedirect("index.jsp");
 	}
 }
 

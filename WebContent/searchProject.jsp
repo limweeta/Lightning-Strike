@@ -7,10 +7,13 @@
 	<%
 	ProjectDataManager pdm = new ProjectDataManager();
 	ArrayList<Project> projects = pdm.retrieveAll();
+	
 	SponsorDataManager sdm = new SponsorDataManager();
 	ArrayList<Sponsor> sponsors = sdm.retrieveAll();
 	
 	CompanyDataManager cdm = new CompanyDataManager();
+	
+	String type = (String) session.getAttribute("type");
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -51,7 +54,9 @@
 		%>
 			<div class="full_width big">
 				<h1>Search Projects </h1>
+				<% if(type.equalsIgnoreCase("Student")){ %>
 				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
+				<% } %>
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->

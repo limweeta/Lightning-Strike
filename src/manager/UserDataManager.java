@@ -146,6 +146,34 @@ public class UserDataManager implements Serializable {
 		
 	}
 	
+	public boolean isSponsor(String username){
+		boolean isSponsor = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM users WHERE type LIKE 'Sponsor' AND username LIKE '" + username + "'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if(iterator.hasNext()){
+			isSponsor = true;
+		}
+		
+		return isSponsor;
+	}
+	
+	public boolean isTaken(String username){
+		boolean isTaken = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM users WHERE username LIKE '" + username + "'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if(iterator.hasNext()){
+			isTaken = true;
+		}
+		
+		return isTaken;
+	}
+	
 	public void addSkills(String[] skills, int userId){
 		
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.`user_skills`");
@@ -167,8 +195,13 @@ public class UserDataManager implements Serializable {
 	}
 	
 	
-	public void modify(User User){
-		
+	public void modify(User user){
+		MySQLConnector.executeMySQL("update", "UPDATE users SET "
+				+ "username = '" + user.getUsername() +"', "
+				+ "full_name = '" + user.getFullName() + "', "
+				+ "contact_num = " + user.getContactNum() + ", "
+				+ "email = '" + user.getEmail() + "' "
+				+ "WHERE id = " + user.getID());
 	}
 	
 	public void remove(int ID){

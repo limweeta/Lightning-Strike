@@ -223,16 +223,15 @@
 	String company = "";
 	String sponsorName = "";
 	int sponsorId = 0;
-	
+	int coyId = 0;
 	try{
 		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
-		
-		//company = cdm.retrieve(Integer.parseInt(company)).getCoyName();
 		
 		sponsorName = projSponsor.getFullName();
 		SponsorDataManager spdm = new SponsorDataManager();
 		company = cdm.retrieve(spdm.retrieve(projSponsor.getID()).getCoyId()).getCoyName();
 		sponsorId = projSponsor.getID();
+		coyId = cdm.retrieve(sponsorId).getID();
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
 		company = "Not Applicable";
@@ -328,25 +327,11 @@
 		  </div>
 		</div>
 		
-		<%-- <input type="hidden" name="projName" value="<%=reqProj.getProjName()%>">
-		<div class="control-group">
-		  <label class="control-label" for="status">Status</label>
-		  <div class="controls">
-		  	<% if ((reqProj.getStatus().trim())=="Open"){ %>
-			  	<span class="label label-success"><%=reqProj.getStatus() %></span>
-		  	<%}else if((reqProj.getStatus().trim())=="Closed") %>
-		  		<span class="label label-danger"><%=reqProj.getStatus() %></span>
-		  	<%} %>
-			  	<input type="hidden" name="projStatus" value="<%=reqProj.getStatus() %>">
-		  </div>
-		</div>
-		 --%>
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectDesc">Project Description</label>
 		  <div class="controls">
 		   <%
-		  if(user != null){
 				if(user.getID() == reqProj.getCreatorId()){
 			  %>
 		    <textarea id="projectDesc" name="projectDesc"><%=reqProj.getProjDesc() %></textarea>
@@ -356,62 +341,43 @@
 				 <textarea id="projectDesc" name="projectDesc" readonly="readonly"><%=reqProj.getProjDesc() %></textarea>
 					<%
 				}
-		  }else{
-			  %>
-			  <textarea id="projectDesc" name="projectDesc" readonly="readonly"><%=reqProj.getProjDesc() %></textarea>
-			  <%
-		  }
 		  %>
 		  </div>
 		</div>
-		<!-- </div></br> -->
-		<!-- <div class="span3"> -->
+
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="sponsor">Sponsor</label>
 		  <div class="controls">
 		  <input type=hidden name="projId" value="<%=reqId%>">
-		   <%
-		  if(user != null){
-				if(user.getID() == reqProj.getCreatorId()){
-			  %>
-		    <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large">
-		     <%
-				}else{
-					%>
-				  <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large" readonly="readonly">
-					<%
-				}
-		  }else{
-			  %>
-			   <input id="sponsor" name="sponsor" type="text" placeholder="<%=sponsorName %>" class="input-large" readonly="readonly">
-			  <%
-		  }
-		  %>
+		  	<input type="hidden" name="sponsorId" value="<%=sponsorId%>">
+		    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-large" readonly="readonly">
 		  </div>
 		</div>
-		<!-- </div> -->
-		<!-- <div class="span4"> -->
+		
+		<div class="control-group">
+		  <label class="control-label" for="company">Company</label>
+		  <div class="controls">
+		   <input type="hidden" name="coyId" value="<%=coyId%>">
+			<input id="company" name="company" type="text" value=" <%=company %>" class="input-large" readonly="readonly">
+			
+		  </div>
+		</div>
+		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
 		    <%
-		  if(user != null){
-				if(user.getID() == reqProj.getCreatorId()){
+			if(type.equalsIgnoreCase("admin")){
 			  %>
-		    <input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-large">
+		    <input id="team" name="team" type="text" value=" <%=projTeamName %>" class="input-large">
 		     <%
 				}else{
 					%>
-			<input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-large" readonly="readonly">
+			<input id="team" name="team" type="text" value=" <%=projTeamName %>" class="input-large" readonly="readonly">
 					<%
 				}
-		  }else{
-			  %>
-			<input id="team" name="team" type="text" placeholder=" <%=projTeamName %>" class="input-large" readonly="readonly">
-			  <%
-		  }
 		  %>
 		  </div>
 		</div>
@@ -419,32 +385,24 @@
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
 		<div class="control-group">
-		  <label class="control-label" for="supervisor">Supervisor</label>
+		  <label class="control-label" for="supervisor">Team Supervisor</label>
 		  <div class="controls">
 		  <form method="post" action="assignSupervisor">
 		 
 		    <%
-            if(projTeam != null){
-            	%>
-            	 <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+	            if(type.equalsIgnoreCase("admin")){ 
+			%>
+	            <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
             	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
-            	<%
-	            if(supervisor.equalsIgnoreCase("No Supervisor Yet") && type.equals("Admin")){ //TO-DO:check for admin status
-	            	%>
-	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large">
+	            	<input id="assignSup" name="assignSup" type="text" value="<%=supervisor%>"  class="input-large">
 	            	<input type="submit" value="Assign">
 	            	<%
 	            }else{
 	            	%>
-	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large" disabled="disabled" />
+	            	<input id="assignSup" name="assignSup" type="text" value="<%=supervisor%>"  class="input-large" disabled="disabled" />
 	            	<%
 	            }
-            }else{
-            	%>
-            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large" disabled="disabled" />
-            	<%
-            }
-            %>
+	            %>
 		    </form>
 		  </div>
 		</div>
@@ -454,43 +412,22 @@
 		  <div class="controls">   
 		  <form method="post" action="assignReviewer">    
 		  <%
-            if(projTeam != null && type.equals("Admin")){
+            if(type.equals("Admin")){
             	%>   
             	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
             	<% 
-	            if(rev1.isEmpty() && rev2.isEmpty()){ //TO-DO: check for admin status
-	            	%>
-	            	<input type="text" id="assignRev1" name="assignRev1" placeholder="<%=rev1%>" class="input-large"><br /><br />
-	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="<%=rev2%>" class="input-large">
-	            	<input type="submit" value="Assign">
-	            	
-	            	<%
-	            }else if(!rev1.isEmpty() && rev2.isEmpty()){
-	            	%>
-	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>" class="input-large"><br /><br />
-	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned" class="input-large">
-	            	<input type="submit" value="Assign">
-	            	
-	            	<%
-	            }else if(rev1.isEmpty() && !rev2.isEmpty()){
-	            	%>
-	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev2%>" class="input-large"><br /><br />
-	            	<input type="text" id="assignRev2" name="assignRev2" placeholder="No Reviewer Assigned" class="input-large">
-	            	<input type="submit" value="Assign">
-	            	
-	            	<%
-	            }else{
+	            if(rev1.isEmpty() && rev2.isEmpty()){ 
 	            	%>
 	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>" class="input-large"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" value="<%=rev2%>" class="input-large">
 	            	<input type="submit" value="Assign">
-	            	<%
-	            }
-            }else{
+	            <%
+           	 	}else{
             	%>
             	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly" class="input-large"> <br /><br />
             	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly" class="input-large"> 
             	<%
+            	}
             }
             %>
 			</form>
@@ -526,33 +463,11 @@
 		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
 		 <%
 			}
-		}catch(Exception e){out.println("Error here");}
+		}catch(Exception e){}
 		 %> 
 		    </div>
 		</div>
-		<div class="control-group">
-		  <label class="control-label" for="company">Company</label>
-		  <div class="controls">
-		   <%
-		  if(user != null){
-				if(user.getID() == reqProj.getCreatorId()){
-			  %>
-		  	<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large">
-		  	
-		  	 <%
-				}else{
-					%>
-			<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
-					<%
-				}
-		  }else{
-			  %>
-			<input id="company" name="company" type="text" placeholder=" <%=company %>" class="input-large" readonly="readonly">
-			  <%
-		  }
-		  %>
-		  </div>
-		</div>
+		
 		<div class="control-group">
 		  <label class="control-label" for="industry">Industry</label>
 		  <div class="controls">
@@ -631,7 +546,7 @@
 						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
 							 <% 
 						  }
-				  }
+				  	}
 					  if(!specified){
 						  %>
 						   <option value="0" selected>Not Specified</option>	
@@ -670,11 +585,6 @@
 					</li>
 						  <%  
 						  }
-						  if((i+1) % 3 == 0){
-							  %>
-							 
-							  <%
-						  }
 					  }
 					  %>
 			</table>
@@ -689,9 +599,13 @@
 			  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
 			  	<%
 			  	}else{
+			  		String errMsg = "";
+			  		if(udm.isSponsor(username)){
+			  			errMsg = "Only students can apply for a project";
+			  		}
 			  		%>
 			  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled"><br />
-			 <font color=red size=-1><i>You cannot apply for this project. You need to have a team to apply, or you could have already applied for another</i></font>
+			 <font color=red size=-1><i><%=errMsg %></i></font>
 			  		<%
 			  	}
 			  	%>
@@ -713,31 +627,21 @@
 				</div>
 				</fieldset>
 			</form>	
-			</br>		
+			<br />		
 			<form method="post" action="deleteProject" >
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
 				<div class="control-group">
 				  <div class="controls">
 				    <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this project?');return false;" class="btn btn-danger">
-				    <!--  <div id = "alert_placeholder"></div>
-					<script>
-					bootstrap_alert = function() {}
-					bootstrap_alert.warning = function(message) {
-					            $('#alert_placeholder').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
-					        }
-					
-					$('#delete').on('click', function() {
-					            bootstrap_alert.warning('Project has been deleted!');
-					});
-					</script>-->​
+				   ​
 				  </div>
 				</div>
 			</form>
 		<%
 			}
 		}catch(Exception e){}
-		}
+	}
 		%>
 		
 	</div>

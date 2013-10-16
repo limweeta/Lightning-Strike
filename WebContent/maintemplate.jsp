@@ -78,7 +78,7 @@ if(message == null || message.isEmpty()){
 %>
 <font color=red><i><%=message %></i></font>
 <%
-session.setAttribute("message", "");
+session.removeValue("message");
 %>
 		<div class="panel panel-primary">
 		<div class="panel-heading">
