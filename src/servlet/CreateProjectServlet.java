@@ -56,6 +56,15 @@ public class CreateProjectServlet extends HttpServlet {
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
 		String[] skills = request.getParameterValues("skill");
+		
+		if(technologies == null){
+			technologies = new String[0];
+		}
+		
+		if(skills == null){
+			skills = new String[0];
+		}
+		
 		String status = "Open";
 		
 		boolean isNameTaken = pdm.isProjNameTaken(projName);

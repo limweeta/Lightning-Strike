@@ -81,7 +81,8 @@ public class MatchToProjectServlet extends HttpServlet {
 			System.out.println(destPage);
 			
 		}catch(Exception e){
-			destPage = "error.jsp";
+			session.setAttribute("message", "You need a team before we can match you with a project");
+			destPage = "searchProject.jsp";
 		}finally{
 			System.out.println("Redirecting...");
 			rd = request.getRequestDispatcher(destPage);

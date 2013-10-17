@@ -59,7 +59,17 @@ public class UpdateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectDesc");
 		String projStatus = request.getParameter("projStatus");
 		
+		String[] skills		= request.getParameterValues("skill");
 		String[] technologies = request.getParameterValues("technology");
+		
+		if(skills == null){
+			skills = new String[0];
+		}
+		
+		if(technologies == null){
+			technologies = new String[0];
+		}
+		
 		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
 		int termId = Integer.parseInt(request.getParameter("term"));
@@ -82,6 +92,7 @@ public class UpdateProjectServlet extends HttpServlet {
 			//UPDATE SQL
 			pdm.modify(updateProj);
 			pdm.modifyTechnology(updateProj, technologies);
+			pdm.modifyPrefSkill(updateProj, skills);
 		}catch(Exception e){
 			
 		}

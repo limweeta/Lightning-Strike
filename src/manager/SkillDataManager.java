@@ -56,6 +56,16 @@ public class SkillDataManager implements Serializable {
 				+ "VALUES (" + skillId + ", '" + skillName + ");");
 	}
 	
+	public boolean hasSkill(ArrayList<String> skills, Skill skillCheck){
+		boolean hasTech = false;
+			for(int i = 0; i < skills.size(); i++){
+				if(skillCheck.getId() == Integer.parseInt(skills.get(i))){
+					hasTech = true;
+				}
+			}
+		return hasTech;
+	}
+	
 	public ArrayList<Integer> getUserSkills(ArrayList<Student> members){
 		ArrayList<Integer> userSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from user_skills");
@@ -110,6 +120,28 @@ public class SkillDataManager implements Serializable {
 			}catch(Exception e){}
 		}
 		return userSkills;
+	}
+	
+	public ArrayList<String> getProjSkills(int projId){
+		ArrayList<String> projSkills = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills where project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId = Integer.parseInt(array.get(2));
+			
+			Skill skill = null;
+			String skillName = "";
+			try{
+				skill = retrieve(skillId);
+				skillName = skill.getSkillName();
+				projSkills.add(skillName);
+			}catch(Exception e){}
+		}
+		return projSkills;
 	}
 	
 	public void modify(){

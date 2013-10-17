@@ -10,6 +10,10 @@
 	UserDataManager udm = new UserDataManager();
 	
 	String type = (String) session.getAttribute("type");
+	
+	if(type == null){
+		type = "";
+	}
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -98,7 +102,7 @@ for(int i = 0; i < teams.size(); i++){
 	}
 	
 %>
-	<tr class="<%=rowclass %>">
+	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class=" "><%=desc %></td>
 			<td class="center "><%=teamLimit %></td>

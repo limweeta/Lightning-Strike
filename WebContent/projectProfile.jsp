@@ -63,85 +63,24 @@
   	    checkboxes[i].checked = source.checked;
   	  }
   	}
-    
-    function validateFormOnSubmit(theForm) {
-    	var reason = "";
 
-    	  reason += validateProjname(theForm.projName);
-    	  reason += validateProjdesc(theForm.projectDesc);
-    	  reason += validateSponsor(theForm.sponsor);
-    	  reason += validateCompany(theForm.company);
-    		      
-    	  if (reason != "") {
-    	    alert("Some fields need correction:\n" + reason);
-    	    return false;
+    function toggleSkill(source) {
+    	  checkboxes = document.getElementsByName('skill');
+    	  for(var i=0, n=checkboxes.length;i<n;i++) {
+    	    checkboxes[i].checked = source.checked;
     	  }
-
-    	  return true;
-    }
-    
-    function validateProjname(fld) {
-        var error = "";
-        //var illegalChars = /[0-9]/; // allow letters ONLY
-     
-        if (fld.value == "") {
-            fld.style.background = 'Yellow'; 
-            error = "You didn't enter project name.\n";
-        } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
-            fld.style.background = 'Yellow'; 
-            error = "Your full name is the wrong length.\n";
-        }  else if (illegalChars.test(fld.value)) {
-            fld.style.background = 'Yellow'; 
-            error = "Your full name contains illegal characters.\n";
-        } */else {
-            fld.style.background = 'White';
-        } 
-        return error;
-    }
-
-    function validateProjdesc(fld) {
-        var error = ""; 
-
-       if (fld.value == "") {
-            error = "Project description cannot be left empty.\n";
-            fld.style.background = 'Yellow';
-        } else {
-            fld.style.background = 'White';
-        } 
-        return error;
-    }
-
-    function validateSponsor(fld) {
-        var error="";
-        
-        if (fld.value == "") {
-            fld.style.background = 'Yellow';
-            error = "Sponsor field cannot be left empty.\n";
-        } else {
-            fld.style.background = 'White';
-        }
-        return error;
-    }
-
-    function validateCompany(fld) {
-        var error = "";
-      
-        if (fld.value.length == 0) {
-            fld.style.background = 'Yellow'; 
-            error = "Company field cannot be left empty.\n";
-        } else {
-            fld.style.background = 'White';
-        }
-        return error;   
-    }
+    	}
 	</script>	
     	<%
     		User user = null;
+    		int userId = 0;
 			String type = "";
 			try{
 				type = udm.retrieve(username).getType();
 				user = udm.retrieve(username);	
+				userId = user.getID();
 			}catch(Exception e){
+				userId = 0;
 				type= "";
 			}
 		%>
@@ -273,6 +212,9 @@
 	TechnologyDataManager techdm = new TechnologyDataManager();
 	ArrayList<String> tech = techdm.retrieveByProjId(reqProj.getId());
 	
+	SkillDataManager skdm = new SkillDataManager();
+	ArrayList<String> skill = skdm.getProjSkills(reqProj.getId());
+
 	
 	%>
 		
@@ -291,7 +233,7 @@
 			} %>
 		<!-- Form Name -->
 		<legend>Project Profile</legend>
-
+		
 		<div class="span1">	
 			<div class="control-group">	
 			<div class="controls">
@@ -301,14 +243,13 @@
 		</div>
 		
 		<div class="span10">
-<!-- 		<form method="post" action="updateProject"> -->
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
 		  <div class="controls">
 		  <%
 		  if(user != null){
-				if(user.getID() == reqProj.getCreatorId()){
+				if(userId == reqProj.getCreatorId()){
 			  %>
 			 		<input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" class="input-large"/>
 			  <%
@@ -332,7 +273,7 @@
 		  <label class="control-label" for="projectDesc">Project Description</label>
 		  <div class="controls">
 		   <%
-				if(user.getID() == reqProj.getCreatorId()){
+				if(userId == reqProj.getCreatorId()){
 			  %>
 		    <textarea id="projectDesc" name="projectDesc"><%=reqProj.getProjDesc() %></textarea>
 		     <%
@@ -428,6 +369,11 @@
             	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly" class="input-large"> 
             	<%
             	}
+            }else{
+            	%>
+            	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly" class="input-large"> <br /><br />
+            	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly" class="input-large"> 
+            	<%
             }
             %>
 			</form>
@@ -463,7 +409,11 @@
 		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
 		 <%
 			}
-		}catch(Exception e){}
+		}catch(Exception e){
+			%>
+			<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
+			<%
+		}
 		 %> 
 		    </div>
 		</div>
@@ -473,7 +423,7 @@
 		  <div class="controls">
 		   <%
 		  if(user != null){
-				if(user.getID() == reqProj.getCreatorId()){
+				if(userId == reqProj.getCreatorId()){
 			  %>
 		    <select id="industry" name="industry" class="input-large">
 		    	 <%
@@ -560,6 +510,35 @@
 		  
 		  </div>
 		</div>
+		<div class="control-group">
+		  <label class="control-label" for="skill">Preferred Skills</label>
+		  		<table>
+	               		<li><input type="checkbox" onclick="toggleSkill(this)" />Select All</li>
+	               
+					 <%
+					  ArrayList<Skill> skills = skdm.retrieveAll();
+					  
+					  for(int i = 0; i < skills.size(); i++){
+						  Skill skill2 = skills.get(i);
+						  
+						  if(skdm.hasSkill(tech, skill2)){
+						  %>
+					<li>
+						<input type="checkbox" id="skill" name="skill" value="<%=skill2.getId()%>" checked="checked">&nbsp;<%=skill2.getSkillName() %></option>
+					</li>
+						  <%
+						  }else{
+						  %>
+					<li>
+						<input type="checkbox" id="skill" name="skill" value="<%=skill2.getId()%>">&nbsp;<%=skill2.getSkillName() %></option>
+					</li>
+						  <%  
+						  }
+					  }
+					  %>
+			</table>
+		</div>
+
 
 		<div class="control-group">
 		  <label class="control-label" for="technology">Technology</label>

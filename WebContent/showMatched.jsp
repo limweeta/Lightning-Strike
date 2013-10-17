@@ -71,6 +71,9 @@ for(int i = 0; i < matchedProjs.size(); i++){
 	ProjectScore projectScore = matchedProjs.get(i);
 	Project project = projectScore.getProject();
 	double score = projectScore.getScore();
+	double totalScore = projectScore.getTotalScore();
+	
+	double accuracy = (score/totalScore) * 100;
 	
 	String name = project.getProjName();
 	int sponsorId = project.getSponsorId();
@@ -99,17 +102,17 @@ for(int i = 0; i < matchedProjs.size(); i++){
 	}
 	
 %>
-	<tr class="<%=rowclass %>">
+	<tr class="">
 			<td class="sorting_1"><%=strTerm %></td>
-			<td class=" "><%=name %></td>
+			<td class=" "><a href="projectProfile.jsp?id=<%=project.getId()%>"><%=name %></td>
 			<td class="center "><%=sponsor %></td>
-			<td class="center "><%=score%>%</td>
+			<td class="center "><%=accuracy%>%</td>
 	</tr>
 <%
 }
 %>
 		</tbody></table>
-		<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
+		
 			</div>
 			<div class="spacer"></div>
 			

@@ -37,7 +37,15 @@
 			<div class="full_width big">
 				<h1>Search User</h1>
 			</div>
-			
+			<% String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+						%>
+						<font size=-1 color="red"><i><%=message %></i></font>
+						<%
+						session.removeValue("message");
+						} %>
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
 			
 			<div id="demo">
@@ -75,7 +83,7 @@ for(int i = 0; i < students.size(); i++){
 	}
 	
 %>
-	<tr class="<%=rowclass %>">
+	<tr class="">
 			<td class="sorting_1"><a href="userProfile.jsp?id=<%=student.getID()%>"><%=name %></td>
 			<td class=" "><%=fullname %></td>
 			<td class="center "><%=email %></td>

@@ -43,9 +43,10 @@
 			</div>
 			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
-			<h1>Matched Projects</h1>
+			<h1>Matched Teams</h1>
 			<div id="demo">
-<div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
+<div id="example_wrapper" class="dataTables_wrapper" role="grid">
+<table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
 	<thead>
 		<tr role="row">
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Team</th>
@@ -94,7 +95,7 @@ for(int i = 0; i < matchedTeams.size(); i++){
 	}
 	
 %>
-	<tr class="<%=rowclass %>">
+	<tr class="">
 			<td class="sorting_1"><a href="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class=" "><a href="userProfile.jsp?id=<%=pmId%>"><%=pm %></a></td>
 			<td class="center "><a href="<%=supProfile%>"><%=supervisor %></a></td>

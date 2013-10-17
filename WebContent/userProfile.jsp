@@ -22,28 +22,14 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
     <script src="./js/bootstrap.js"></script>
     <link type="text/css" href="./css/bootstrap-responsive.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
-  <%
-	String type 					= (String) session.getAttribute("type");
-	StudentDataManager sdm 			= new StudentDataManager();
-	ArrayList<String> majorList 	= sdm.retrieveAllMajors();
-%>
+
 <script type="text/javascript">
-    $(function() {
-        var majorList = [
-                <%
-                for(int i = 0; i < majorList.size(); i++){
-                	out.println("\""+majorList.get(i)+"\",");
-                }
-                %>
-                               ];
-        
-        $( "#secondmajor" ).autocomplete({
-            source: majorList
-          });
-        
+function toggleSkill(source) {
+	  checkboxes = document.getElementsByName('skills');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+	    checkboxes[i].checked = source.checked;
+	  }
+	}
         function validateFormOnSubmit(theForm) {
         	var reason = "";
 
@@ -131,18 +117,41 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	</script>	
 	<%@include file="template.jsp" %>
 </head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+  <%
+	String type 					= (String) session.getAttribute("type");
+	  if(type == null){
+		  type = "";
+	  }
+	StudentDataManager sdm 			= new StudentDataManager();
+	ArrayList<String> majorList 	= sdm.retrieveAllMajors();
+%>
+<script type="text/javascript">
+    $(function() {
+        var majorList = [
+                <%
+                for(int i = 0; i < majorList.size(); i++){
+                	out.println("\""+majorList.get(i)+"\",");
+                }
+                %>
+           ];
+        
+        $( "#secondmaj" ).autocomplete({
+            source: majorList
+          });
+ </script>
 <body>
  
 </br></br></br>
-	<!-- <div id="profilepic2"><a href="./ViewProfile.html"><img src="http://db.tt/Cfe7G4Z5" width="100" height="100" /></a></div>
-	<a href="#">Edit Profile Picture</a> 
-	</br></br></br>-->
 	<%
 	int profileid = 0;
 	
 	try{
 		profileid = Integer.parseInt(request.getParameter("id"));
 	}catch(Exception e){
+		session.setAttribute("message","Please choose a valid profile to view");
 		response.sendRedirect("searchUser.jsp");
 	}
 	
@@ -275,14 +284,14 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
 		<div class="control-group">
-		  <label class="control-label" for="secondmajor">Second Major</label>
+		  <label class="control-label" for="secondMajor">Second Major</label>
 		  <div class="controls">
 		  	<%
 				if(sessionUsername.equals(u.getUsername())){
 			%>
-		    <input id="secondmajor" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large">
+		    <input id="secondmaj" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large">
 		     <%}else{ %>
-		     <input id="secondmajor" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large" readonly="readonly">
+		     <input id="secondmaj" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large" readonly="readonly">
 		    <%} %>
 		  </div>
 		</div>
@@ -291,7 +300,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		  
 		  <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Skills<b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
-	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
+	     		<li><input type="checkbox" onclick="toggleSkill(this)" />Select All</li>
 		 <%
 		    int count = 0;
 			boolean checked = false;

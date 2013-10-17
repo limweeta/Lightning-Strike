@@ -82,6 +82,10 @@ int currMth = now.get(Calendar.MONTH);
 	
 	User u = udm.retrieve(username);
 	String type = (String) session.getAttribute("type");
+	
+	if(type == null){
+		type = "";
+	}
 	boolean hasProj = false;
 	
 	try{

@@ -209,9 +209,26 @@ public class ProjectDataManager implements Serializable {
 		return isEligible;
 	}
 	
+	public double totalIndustrybyProj(int projId){
+		double total = 0.0;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			total++;
+			
+		}
+		return total;
+	}
+	
 	public ArrayList<ProjectScore> matchByIndustry(ArrayList<Integer> preferredIndustry){
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		double score = 0.0;
+		double totalScore = 0.0;
 		for(int i = 0; i < preferredIndustry.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
 			Set<String> keySet = map.keySet();
@@ -234,10 +251,11 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score = (1.0/preferredIndustry.size());
-				
+				score = 1;
+				totalScore = totalIndustrybyProj(id);
+						
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				ProjectScore ps = new ProjectScore(proj, score);
+				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
 		}
@@ -250,7 +268,7 @@ public class ProjectDataManager implements Serializable {
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		
 		double score = 0.0;
-		
+		double totalScore = 0.0;
 		for(int i = 0; i < teamSkill.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE skill_id = " + teamSkill.get(i));
 			Set<String> keySet = map.keySet();
@@ -290,10 +308,16 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score = teamSkill.size() - numOfSkillNotCovered(teamSkill, id) / totalNumOfSkill(id);
+				if(teamSkill.size() > totalNumOfSkill(id)){
+					score = totalNumOfSkill(id);
+				}else{
+					score = teamSkill.size();
+				}
+				
+				totalScore = totalNumOfSkill(id);
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				ProjectScore ps = new ProjectScore(proj, score);
+				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
 		}
@@ -306,7 +330,7 @@ public class ProjectDataManager implements Serializable {
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		
 		double score = 0.0;
-		
+		double totalScore = 0.0;
 		
 		for(int i = 0; i < preferredTechnologies.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE technology_id = " + preferredTechnologies.get(i));
@@ -348,10 +372,16 @@ public class ProjectDataManager implements Serializable {
 				int termId 			= 	Integer.parseInt(array.get(10));
 				int creatorId 		= 	Integer.parseInt(array.get(11));
 				
-				score = (preferredTechnologies.size() - numOfTechNotCovered(preferredTechnologies, id)) / totalNumOfTech(id);
+				if(preferredTechnologies.size() > totalNumOfTech(id)){
+					score = totalNumOfTech(id);
+				}else{
+					score = preferredTechnologies.size();
+				}
+				
+				totalScore = totalNumOfTech(id);
 				
 				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
-				ProjectScore ps = new ProjectScore(proj, score);
+				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
 		}
@@ -380,6 +410,7 @@ public class ProjectDataManager implements Serializable {
 					
 					if(ps.getProject().getId() == finalPs.getProject().getId()){
 						finalPs.setScore(finalPs.getScore() + ps.getScore());
+						finalPs.setTotalScore(finalPs.getTotalScore() + ps.getTotalScore());
 					}
 					
 				}
@@ -578,7 +609,6 @@ public class ProjectDataManager implements Serializable {
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
 			totalSkill++;
-			int retrievedProjId 	= 	Integer.parseInt(array.get(1));
 			
 		}
 		return totalSkill;
@@ -627,23 +657,7 @@ public class ProjectDataManager implements Serializable {
 	}
 	
 	public void addTech(int projid, int techid){
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies");
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		int nextId = 0;
-		
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			
-			int retrievedId 	= 	Integer.parseInt(array.get(0));
-			
-			if(nextId <= retrievedId){
-				nextId = retrievedId + 1;
-			}
-			
-		}
-		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES (" + nextId + ", " + projid + ", " + techid + ");");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies (`project_id`, `technology_id`) VALUES (" + projid + ", " + techid + ");");
 	}
 	
 	public void modify(Project p){
@@ -674,29 +688,22 @@ public class ProjectDataManager implements Serializable {
 				+ "WHERE id = " + p.getId());
 	}
 	
+	public void modifyPrefSkill(Project p, String[] skillArray){
+		MySQLConnector.executeMySQL("delete", "delete from project_preferred_skills where project_id = " + p.getId() + ";");
+	
+		for(int i = 0; i < skillArray.length; i++){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO project_preferred_skills (`project_id`, `skill_id`) "
+					+ "VALUES(" + p.getId() + ", " + Integer.parseInt(skillArray[i]) + ")");
+		}
+		
+	}
+	
 	public void modifyTechnology(Project p, String[] techArray){
 		MySQLConnector.executeMySQL("delete", "delete from project_technologies where project_id = " + p.getId() + ";");
 		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies");
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		int nextId = 0;
-		
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			
-			int retrievedId 	= 	Integer.parseInt(array.get(0));
-			
-			if(nextId <= retrievedId){
-				nextId = retrievedId + 1;
-			}
-			
-		}
-		
 		for(int i = 0; i < techArray.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies VALUES(" + nextId +", " + p.getId() + ", " + Integer.parseInt(techArray[i]) + ")");
-			nextId++;
+			MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies (`project_id`, `technology_id`)"
+					+ " VALUES(" + p.getId() + ", " + Integer.parseInt(techArray[i]) + ")");
 		}
 		
 	}

@@ -14,6 +14,10 @@
 	CompanyDataManager cdm = new CompanyDataManager();
 	
 	String type = (String) session.getAttribute("type");
+	
+	if(type == null){
+		type = "";
+	}
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -126,7 +130,7 @@
 			}
 		
 	%>
-	<tr class="<%=rowclass %>">
+	<tr class="">
 			<td class="sorting_1"><%=strTerm %></td>
 			<td class=" "><a href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
