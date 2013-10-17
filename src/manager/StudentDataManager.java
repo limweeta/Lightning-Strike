@@ -27,6 +27,17 @@ public class StudentDataManager implements Serializable {
 		return majors;
 	}
 	
+	public boolean isValidMajor(String major){
+		boolean isValid = false;
+		ArrayList<String> allMajors = retrieveAllMajors();
+		
+		if((allMajors.contains(major))){
+			isValid = true;
+		}
+		
+		return isValid;
+	}
+	
 	public ArrayList<Student> retrieveAll() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");

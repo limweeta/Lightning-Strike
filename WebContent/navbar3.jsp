@@ -55,7 +55,14 @@
 			}
 		}else{
 			if(p == null){
-				projIdNav = 0;
+				try{
+					if(pdmNav.hasProj(u)){
+						p = pdmNav.retrieveProjIdFromCreator(u.getID());
+						projIdNav = p.getId();
+					}
+				}catch(Exception e){
+					projIdNav = 0;	
+				}
 			}else{
 				projIdNav = p.getId();
 			}

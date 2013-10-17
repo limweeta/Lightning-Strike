@@ -33,6 +33,8 @@ public class CreateProjectServlet extends HttpServlet {
 		ProjectDataManager pdm = new ProjectDataManager();
 		TechnologyDataManager tdm = new TechnologyDataManager();
 		
+		
+		
 		ArrayList<Project> projects = pdm.retrieveAll();
 		int id = 0;
 		

@@ -35,6 +35,8 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		String contact = request.getParameter("contactno");
 		
+		char firstNum = contact.charAt(0);
+		
 		User user = null;
 		
 		if(type.equalsIgnoreCase("Student")){
@@ -43,26 +45,36 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 			int prefRole = 0;
 			
 			try{
-				Integer.parseInt(request.getParameter("preferredRole"));
+				prefRole = Integer.parseInt(request.getParameter("preferredRole"));
 			}catch(Exception e){
 				prefRole = 0;
 			}
 			String[] skills = request.getParameterValues("skills");
 			
-			Student student = null;
-			try{
-				user = udm.retrieve(userId);
-				student = sdm.retrieve(userId);
-				//UPDATE VALUES HERE
-				user.setContactNum(contact);
-				student.setSecondMajor(secondMajor);
-				student.setPreferredRole(prefRole);
-				
-				//UPDATE SQL
-				sdm.modify(user, student, skills);
-				session.setAttribute("message", "Profile Updated");
-			}catch(Exception e){
-				
+			if(skills == null){
+				skills = new String[0];
+			}
+			
+			if(firstNum != '9' || firstNum != '8' || contact.length() != 8){
+				session.setAttribute("message", "Please enter a valid phone number");
+			}else if(!sdm.isValidMajor(secondMajor)){
+				session.setAttribute("message", "Please enter a valid second major");
+			}else{
+				Student student = null;
+				try{
+					user = udm.retrieve(userId);
+					student = sdm.retrieve(userId);
+					//UPDATE VALUES HERE
+					user.setContactNum(contact);
+					student.setSecondMajor(secondMajor);
+					student.setPreferredRole(prefRole);
+					
+					//UPDATE SQL
+					sdm.modify(user, student, skills);
+					session.setAttribute("message", "Profile Updated");
+				}catch(Exception e){
+					
+				}
 			}
 		}else if(type.equalsIgnoreCase("Sponsor")){
 			try{

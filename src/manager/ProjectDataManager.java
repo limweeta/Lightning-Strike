@@ -96,6 +96,15 @@ public class ProjectDataManager implements Serializable {
 				if(iterator.hasNext()){
 					hasProj = true;
 				}
+				
+				map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE creator_id = " + student.getID() + " ;");
+				keySet = map.keySet();
+				iterator = keySet.iterator();
+				
+				if(iterator.hasNext()){
+					hasProj = true;
+				}
+				
 			}
 			
 		}catch(Exception e){
@@ -121,6 +130,35 @@ public class ProjectDataManager implements Serializable {
 		}
 		
 		return projects;
+	}
+	
+	public Project retrieveProjIdFromCreator(int creatorId) {
+		Project p = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE creator_id  = " + creatorId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			int id2 				= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			int reviewer1Id		=	Integer.parseInt(array.get(4));
+			int reviewer2Id		=	Integer.parseInt(array.get(5));
+			String projName		= 	array.get(6);
+			String projDesc		= 	array.get(7);
+			String status		= 	array.get(8);
+			int industry		= 	Integer.parseInt(array.get(9));
+			int termId 		= 	Integer.parseInt(array.get(10));
+			int creatorId2 		= 	Integer.parseInt(array.get(11));
+			
+			p = new Project(id2, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId2);
+		}
+		
+		return p;
 	}
 	
 	public Project getProjFromTeam(int teamId){
