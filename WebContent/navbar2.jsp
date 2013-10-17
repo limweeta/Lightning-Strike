@@ -168,7 +168,7 @@
 
 		function validateCoyAdd(fld) {
 		    var error = "";
-		    var illegalChars = /\W_/; // allow letters and numbers
+		   // var illegalChars = /\W_/; // allow letters and numbers
 		 
 		    if (fld.value == "") {
 		        fld.style.background = 'Yellow'; 
@@ -176,10 +176,7 @@
 		    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your address is the too short.\n";
-		    } else if (illegalChars.test(fld.value)) {
-		        fld.style.background = 'Yellow'; 
-		        error = "Your address contains illegal characters.\n";
-		    } else {
+		    }else {
 		        fld.style.background = 'White';
 		    } 
 		    return error;

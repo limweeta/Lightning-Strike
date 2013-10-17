@@ -93,7 +93,7 @@ int currMth = now.get(Calendar.MONTH);
 	</head>
 	<body>
 		<div id="content-container" class="shadow">
-			<div id="content">
+			<div id="content" align = "justify">
 				<div class="createTeam">
 					<form class="form-horizontal" method=post action="createProject" onsubmit="return validateForm()">
 						<fieldset>
@@ -315,15 +315,11 @@ int currMth = now.get(Calendar.MONTH);
 						  %>
 					 	  </div>
 						</div>
-						
-						</div>
-						
 						</fieldset>
 						</form>
-					
+						</div>
 					<br/>
 				</div>
 			</div>
-		</div>
 	</body>
 </html>
