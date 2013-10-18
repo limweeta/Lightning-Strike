@@ -31,7 +31,7 @@ public class AcceptStudentServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		int stdId = Integer.parseInt(request.getParameter("stdIf"));
+		int stdId = Integer.parseInt(request.getParameter("stdId"));
 		
 		StudentDataManager stdm = new StudentDataManager();
 		TeamDataManager tdm = new TeamDataManager();

@@ -34,7 +34,51 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
-
+	public ArrayList<Team> retrieveStudentRequests(int studentId) {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request WHERE student_id = " + studentId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int teamId	 	= Integer.parseInt(array.get(2));
+			
+			Team team = null;
+			
+			try{
+				team = retrieve(teamId);
+			}catch(Exception e){}
+			
+			teams.add(team);
+		}
+		
+		return teams;
+	}
+	
+	public ArrayList<Team> retrieveAllInvites(int studentId) {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM team_request WHERE student_id = " + studentId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int teamId	 	= Integer.parseInt(array.get(1));
+			
+			Team team = null;
+			
+			try{
+				team = retrieve(teamId);
+			}catch(Exception e){}
+			
+			teams.add(team);
+		}
+		
+		return teams;
+	}
 	
 	public ArrayList<Team> retrieveTeamsByAppliedProj(int projId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
@@ -416,6 +460,20 @@ public class TeamDataManager implements Serializable {
 	public void removeStudentRequest(int userId, int teamId){
 		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
 	}
+	
+	public void studentInvite(int userId, int teamId){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO team_request (student_id, team_id) "
+				+ "VALUES(" + userId + ", " + teamId + ")");
+	}
+	
+	public void removeAllTeamInvite(int teamId){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM team_request WHERE team_id =  " + teamId);
+	}
+	
+	public void removeTeamInvite(int userId, int teamId){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM team_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
+	}
+	
 	
 	public void removeMember(int userId){
 		MySQLConnector.executeMySQL("update", "UPDATE students SET team_id = 0, role_id = 0 WHERE id = " + userId);

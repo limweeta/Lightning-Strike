@@ -215,13 +215,14 @@ function toggleSkill(source) {
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<Skill> allSkills = skdm.retrieveAll();
 	ArrayList<String> userSkills = skdm.getUserSkills(u);
+	
+	ArrayList<Team> teamInvites = tdm.retrieveAllInvites(profileid);
+	ArrayList<Team> teamRequests = tdm.retrieveStudentRequests(profileid);
 	%>
 	<div class="container" id="userdetails">
 	
 	<div class="span9 well">
 <!-- 	<div class="row"> -->
-	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
-		<input type="hidden" name="userId" value="<%=u.getID()%>">
 		<fieldset>
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
@@ -234,9 +235,101 @@ function toggleSkill(source) {
 			} %>
 		<!-- Form Name -->
 		<legend>User Profile</legend>
+		<br />
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Team Invitations (<%=teamInvites.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+		  if(teamInvites.size() == 0){
+			  out.println("None");
+		  }else{
+		  	for(int i = 0; i < teamInvites.size(); i++){
+		  		Team team = teamInvites.get(i);
+		  		%>
+		  		<td>
+		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+		  		<form method="post" action="acceptInvite">
+		  		<input type="hidden" name="stdId" value="<%=profileid %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Accept Team Invite" class="btn btn-warning">
+		  		</form>
+		  		<form method="post" action="rejectInvite">	
+		  		<input type="hidden" name="stdId" value="<%=profileid %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Reject Invite" class="btn btn-danger">
+		  		</form>
+		  		</td>
+		  		<%
+		  		if((i+1) % 5 == 0){
+		  			%>
+		  			</tr><tr class="spaceunder">
+		  			<%
+		  		}
+		  	}
+		  }
+		  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  
+		  <br />
 		
-			<div class="span1"><a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
-			</div>
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		          Team Requests (<%=teamRequests.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+		  if(teamRequests.size() == 0){
+			  out.println("None");
+		  }else{
+		  	for(int i = 0; i < teamRequests.size(); i++){
+		  		Team team = teamRequests.get(i);
+		  		%>
+		  		<td>
+		  		<a href="userProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+		  		<font size=-1 color="grey"><i>Awaiting response...</i></font>
+		  		</td>
+		  		<%
+		  		if((i+1) % 5 == 0){
+		  			%>
+		  			</tr><tr class="spaceunder">
+		  			<%
+		  		}
+		  	}
+		  }
+		  %>
+		  			 	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  
+		  <br />
+	</div>
+	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
+		<input type="hidden" name="userId" value="<%=u.getID()%>">
+	
 		<div class="span8">
 		<!-- Text input-->
 		<div class="control-group">

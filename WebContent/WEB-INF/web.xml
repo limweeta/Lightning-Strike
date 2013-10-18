@@ -218,7 +218,25 @@
   <servlet-mapping>
     <servlet-name>RejectStudentServlet</servlet-name>
     <url-pattern>/rejectStudent</url-pattern>
-  </servlet-mapping>   
+  </servlet-mapping> 
+  
+  <servlet>
+    <servlet-name>AcceptInviteServlet</servlet-name>
+    <servlet-class>servlet.AcceptInviteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AcceptInviteServlet</servlet-name>
+    <url-pattern>/acceptInvite</url-pattern>
+  </servlet-mapping>  
+   
+  <servlet>
+    <servlet-name>RejectInviteServlet</servlet-name>
+    <servlet-class>servlet.RejectInviteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectInviteServlet</servlet-name>
+    <url-pattern>/rejectInvite</url-pattern>
+  </servlet-mapping>  
     
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
