@@ -4,6 +4,26 @@
 		xmlns:web="http://java.sun.com/xml/ns/javaee" 
 		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
 		id="WebApp_ID" version="3.0">
+  <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>465</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>danialkoh@gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>s8929915b</param-value>
+    </context-param>
+  
   <servlet>
     <servlet-name>Authenticate</servlet-name>
     <servlet-class>servlet.AuthenticateServlet</servlet-class>
@@ -11,6 +31,15 @@
   <servlet-mapping>
     <servlet-name>Authenticate</servlet-name>
     <url-pattern>/authenticate</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>EmailSendingServlet</servlet-name>
+    <servlet-class>servlet.EmailSendingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmailSendingServlet</servlet-name>
+    <url-pattern>/EmailForm</url-pattern>
   </servlet-mapping>
   
   <servlet>

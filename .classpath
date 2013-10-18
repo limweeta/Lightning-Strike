@@ -18,5 +18,12 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/eclipselink.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/modernizr-2.6.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Desktop/commons-codec-1.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/j2ee-1.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.activation.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.annotation.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api-2.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/smtp.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
