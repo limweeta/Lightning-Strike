@@ -57,7 +57,7 @@ public class UpdateProfileServlet extends HttpServlet {
 		
 		char firstNum = contactNum.charAt(0);
 		
-		if(firstNum != '9' || firstNum != '8' || contactNum.length() != 8){
+		if(contactNum.length() != 8){
 			session.setAttribute("message", "Please enter a valid phone number");
 			response.sendRedirect("details.jsp");
 		}else{

@@ -7,7 +7,7 @@
 		font-family:Impact;
 		font-size:1.75em;
 	}
-	#teamName{
+/* 	#teamName{
 		width:49.8em;
 		font-size:1em;
 	}
@@ -16,7 +16,7 @@
 	}
 	#teamLimit{
 		width:5em;
-	}
+	} */
 </style>
 
 <head>
@@ -136,7 +136,7 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
-						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" width="300px">
+						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" >
 						    
 						  </div>
 						</div>

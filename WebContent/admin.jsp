@@ -5,20 +5,22 @@
 </head>
 <body>
 <div class="container">
- <%
+<%--  <%
  String userType = (String) session.getAttribute("type");
  
  if(!userType.equals("Admin")){
 	 session.setAttribute("message", "You are not authorized to view that page");
 	 response.sendRedirect("index.jsp");
  }	
- %>
+ %> --%>
 <!-------->
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#red" data-toggle="tab">Assign Reviewer</a></li>
-        <li><a href="#orange" data-toggle="tab">Assign Supervisor</a></li>
-        <li><a href="#yellow" data-toggle="tab">Suspend User</a></li>
+        <li class="active"><a href="#assignRev" data-toggle="tab">Assign Reviewer</a></li>
+        <li><a href="#assignSup" data-toggle="tab">Assign Supervisor</a></li>
+        <li><a href="#assignTeam" data-toggle="tab">Assign Team to Project</a></li>
+        <li><a href="#suspend" data-toggle="tab">Suspend User</a></li>
+        <li><a href="#suspended" data-toggle="tab">Suspended Users</a></li>
     </ul>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
@@ -97,9 +99,9 @@
       });
 	</script>	
     <div id="my-tab-content" class="tab-content">
-        <div class="tab-pane active" id="red">
+        <div class="tab-pane active" id="assignRev">
             <h1>Assign Reviewers</h1>
-           		<div class="span9 well">
+           		<div class="span8 well">
 					<div class="row">
 					<form action="assignReviewer" method="post" class="form-horizontal">
 						<fieldset>
@@ -155,9 +157,9 @@
 					</div>
 					</div>
         </div>
-        <div class="tab-pane active" id="orange">
+        <div class="tab-pane" id="assignSup">
             <h1>Assign Supervisor</h1>
-            <div class="span9 well">
+            <div class="span8 well">
 					<div class="row">
 					<form action="assignSupervisor" method="post" class="form-horizontal">
 						<fieldset>
@@ -205,9 +207,9 @@
 					</div>
             
         </div>
-        <div class="tab-pane" id="yellow">
+        <div class="tab-pane" id="suspend">
             <h1>Suspend User</h1>
-            <div class="span9 well">
+            <div class="span7 well">
 					<div class="row">
 					<form action="suspendUser" method="post" class="form-horizontal">
 						<fieldset>
@@ -215,7 +217,7 @@
 						<!-- Form Name -->
 						<legend>Suspend User</legend>
 					
-						<div class="span8">
+						<div class="span7">
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="userName">User Name</label>
@@ -237,11 +239,23 @@
         </div>
          <div class="tab-pane" id="suspended">
             <h1>Suspended Users</h1>
-            <div class="span9 well">
-				<div class="panel-heading">Suspended Users</h3>
+					<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Suspended Users</h3>
+					</div>
+					<div class="panel-body">
+
+					</div>
+					</div>
+		</div>
+
+        <div class="tab-pane" id="assignTeam">
+            <h1>Assign Team to Project</h1>
+            <div class="span8 well">
+				<div class="panel-heading">Assign Team</h3>
 				</div>
 				<div class="panel-body">
-					
+					<div class="span8"></div>
 				</div>	
 			</div>
         </div>

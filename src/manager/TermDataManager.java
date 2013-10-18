@@ -35,6 +35,41 @@ public class TermDataManager implements Serializable {
 		return terms;
 	}
 	
+	public ArrayList<Term> retrieveFromNextSem() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		
+		Calendar now = Calendar.getInstance();
+		int currYear = now.get(Calendar.YEAR);
+		int currMth = now.get(Calendar.MONTH);
+		int currTermId = 0;
+		
+		try{
+			currTermId = retrieveTermId(currYear, currMth);
+		}catch(Exception e){
+			currTermId = 0;
+		}
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT * FROM `is480-matching`.term WHERE id > " + currTermId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String acadYear = array.get(1);
+			int sem = Integer.parseInt(array.get(2));
+			
+			Term term = new Term(id, acadYear, sem);
+			terms.add(term);
+		}
+		Collections.sort(terms, new Comparator<Term>() {
+	        @Override public int compare(Term t1, Term t2) {
+	            	return t1.getId() - t2.getId();
+	        }
+		});
+		
+		return terms;
+	}
 	
 	public int retrieveTermId(int year, int month) throws Exception {
 		int termId = 0;

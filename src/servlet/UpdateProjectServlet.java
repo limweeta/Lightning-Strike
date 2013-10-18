@@ -26,7 +26,7 @@ public class UpdateProjectServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		ProjectDataManager pdm = new ProjectDataManager();
 		
 		int projID = Integer.parseInt(request.getParameter("projId"));
@@ -70,7 +70,6 @@ public class UpdateProjectServlet extends HttpServlet {
 			technologies = new String[0];
 		}
 		
-		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
 		int termId = Integer.parseInt(request.getParameter("term"));
 		
@@ -93,6 +92,8 @@ public class UpdateProjectServlet extends HttpServlet {
 			pdm.modify(updateProj);
 			pdm.modifyTechnology(updateProj, technologies);
 			pdm.modifyPrefSkill(updateProj, skills);
+			
+			session.setAttribute("message", "Profile Updated");
 		}catch(Exception e){
 			
 		}

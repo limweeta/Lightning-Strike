@@ -218,8 +218,8 @@
 	
 	%>
 		
-	<div class="span11 well">
-	<div class="row">
+	<div class="span12 well">
+
 	<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<fieldset>
 		<% String message = (String) session.getAttribute("message"); 
@@ -242,7 +242,7 @@
 			</div>
 		</div>
 		
-		<div class="span10">
+		<div class="span11">
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -336,7 +336,7 @@
 	            <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
             	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
 	            	<input id="assignSup" name="assignSup" type="text" value="<%=supervisor%>"  class="input-large">
-	            	<input type="submit" value="Assign">
+	            	<input type="submit" value="Assign" class = "btn btn-success">
 	            	<%
 	            }else{
 	            	%>
@@ -510,120 +510,153 @@
 		  
 		  </div>
 		</div>
-		<div class="control-group">
-		  <label class="control-label" for="skill">Preferred Skills</label>
-		  		<table>
-	               		<li><input type="checkbox" onclick="toggleSkill(this)" />Select All</li>
-	               
-					 <%
-					  ArrayList<Skill> skills = skdm.retrieveAll();
-					  
-					  for(int i = 0; i < skills.size(); i++){
-						  Skill skill2 = skills.get(i);
-						  
-						  if(skdm.hasSkill(tech, skill2)){
-						  %>
-					<li>
-						<input type="checkbox" id="skill" name="skill" value="<%=skill2.getId()%>" checked="checked">&nbsp;<%=skill2.getSkillName() %></option>
-					</li>
-						  <%
-						  }else{
-						  %>
-					<li>
-						<input type="checkbox" id="skill" name="skill" value="<%=skill2.getId()%>">&nbsp;<%=skill2.getSkillName() %></option>
-					</li>
-						  <%  
-						  }
-					  }
-					  %>
-			</table>
-		</div>
-
-
-		<div class="control-group">
-		  <label class="control-label" for="technology">Technology</label>
-		  		<table>
-	               		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
-	               
-					 <%
-					  ArrayList<Technology> technologies = techdm.retrieveAll();
-					  
-					  for(int i = 0; i < technologies.size(); i++){
-						  Technology tech2 = technologies.get(i);
-						  
-						  if(techdm.hasTech(tech, tech2)){
-						  %>
-					<li>
-						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<%=tech2.getTechName() %></option>
-					</li>
-						  <%
-						  }else{
-						  %>
-					<li>
-						<input type="checkbox" id="technology" name="technology" value="<%=tech2.getId()%>">&nbsp;<%=tech2.getTechName() %></option>
-					</li>
-						  <%  
-						  }
-					  }
-					  %>
-			</table>
-		</div>
-		<div class="control-group">
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Preferred Skills
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+							  ArrayList<Skill> skills = skdm.retrieveAll();
+							  
+							  for(int i = 0; i < skills.size(); i++){
+								  Skill skill2 = skills.get(i);
+								  
+								  if(skdm.hasSkill(skill, skill2)){
+								  %><td>
+								  <input type="checkbox" name="skill" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="skill" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		          Technology
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+			    	<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+							 ArrayList<Technology> technologies = techdm.retrieveAll();
+							  
+							  for(int i = 0; i < technologies.size(); i++){
+								  Technology tech2 = technologies.get(i);
+								  
+								  if(techdm.hasTech(tech, tech2)){
+								  %><td>
+								  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+								  %>
+							  </tr><tr class="spaceunder">
+							  <%
+								  }
+							  }
+							  %>
+					  	</tr>
+					</table> 
+				</div>
+		    </div>
+		  </div>
+	  </div>
+		</br></br>
+<!-- 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
-		  <div class="controls">
-			  <form action="applyProj" method="post">
-			  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
-			  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
-			  	<%if(eligibleToApply){ %>
-			  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
-			  	<%
-			  	}else{
-			  		String errMsg = "";
-			  		if(udm.isSponsor(username)){
-			  			errMsg = "Only students can apply for a project";
+		  <div class="controls"> -->
+		  <table>
+			  <tr>
+			  <td class = "space" align = "center">
+				  <form action="applyProj" method="post">
+				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
+				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
+				  	<%if(eligibleToApply){ %>
+				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
+				  	<%
+				  	}else{
+				  		String errMsg = "";
+				  		if(udm.isSponsor(username)){
+				  			errMsg = "Only students can apply for a project";
 			  		}
 			  		%>
-			  		<input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled"><br />
-			 <font color=red size=-1><i><%=errMsg %></i></font>
+				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled">
+				 		<font color=red size=-1><i><%=errMsg %></i></font>
 			  		<%
-			  	}
-			  	%>
-			  </form>
-		  </div>
-		</div>
+				  	}
+				  	%>
+				  </form>
+				</td>  
+				
+<!-- 		  </div>
+		</div> -->
 		<%
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>
-				
+				<td class = "space" align = "justify">
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
-				<div class="control-group">
-				  <div class="controls">
-				    <input type="submit" id="update" value="Update" class="btn btn-success">
-				  </div>
-				</div>
-				</div>
-				</fieldset>
-			</form>	
-			<br />		
-			<form method="post" action="deleteProject" >
-				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
-				<!-- Button -->
-				<div class="control-group">
-				  <div class="controls">
-				    <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this project?');return false;" class="btn btn-danger">
-				   ​
-				  </div>
-				</div>
-			</form>
+			    <input type="submit" id="update" value="Update" class="btn btn-success">
+				</td>
+				<td class = "space" align = "center">
+				<form method="post" action="deleteProject" >
+					<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
+					<!-- Button -->
+					    </br><input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this project?');return false;" class="btn btn-danger">
+				</form>
+				</td>
 		<%
 			}
-		}catch(Exception e){}
-	}
+			}catch(Exception e){}
+		}
 		%>
-		
-	</div>
+		</tr>
+		</table>
+			</div>
+		</fieldset>
+		</form>	
 	</div>
 
 	</body>

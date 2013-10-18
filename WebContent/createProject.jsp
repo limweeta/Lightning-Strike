@@ -158,7 +158,7 @@ int currMth = now.get(Calendar.MONTH);
 						   <select id="term" name="term" class="input-large">
 						    	  <%
 						    	  TermDataManager termdm = new TermDataManager();
-						    	  ArrayList<Term> terms  = termdm.retrieveAll();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
 								  int currTermId = termdm.retrieveTermId(currYear, currMth);
 								  
 						    	  for(int i = 0; i < terms.size(); i++){
@@ -224,7 +224,10 @@ int currMth = now.get(Calendar.MONTH);
 						  
 						  <div class="controls">
 						    <table border=0>
-						   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleTech(this)" />Select All</td></tr><tr>
+						   	 <tr>
+						   	 <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
+						   	 </tr>
+						   	 <tr>
 								 <%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  ArrayList<Technology> technologies = tdm.retrieveAll();
@@ -233,7 +236,7 @@ int currMth = now.get(Calendar.MONTH);
 									  Technology tech = technologies.get(i);
 									  %>
 								<td style="padding: 1px">
-									<input type="checkbox" id="technology" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %></option>
+									<input type="checkbox" id="technology" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
 								</td>
 									  <%
 									  if((i+1) % 3 == 0){
@@ -253,7 +256,10 @@ int currMth = now.get(Calendar.MONTH);
 						  
 						  <div class="controls">
 						    <table border=0>
-						   	 <tr><td colspan=3 align=center><input type="checkbox" onclick="toggleSkill(this)" />Select All</td></tr><tr>
+						   	 <tr>
+						   	 <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;Select All</td>
+						   	 </tr>
+						   	 <tr>
 								 <%
 								  SkillDataManager skdm = new SkillDataManager();
 								  ArrayList<Skill> skills = skdm.retrieveAll();
@@ -262,7 +268,7 @@ int currMth = now.get(Calendar.MONTH);
 									  Skill skill = skills.get(i);
 									  %>
 								<td style="padding: 1px">
-									<input type="checkbox" id="skill" name="skill" value="<%=skill.getId()%>">&nbsp;<%=skill.getSkillName() %></option>
+									<input type="checkbox" id="skill" name="skill" value="<%=skill.getId()%>">&nbsp;<%=skill.getSkillName() %>&nbsp;&nbsp;
 								</td>
 									  <%
 									  if((i+1) % 3 == 0){

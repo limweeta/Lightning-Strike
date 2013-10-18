@@ -202,7 +202,13 @@ function toggleSkill(source) {
 			projName = "No project yet";
 		}
 	}else{
-		projName = "No project yet";
+		try{
+			proj = pdm.retrieveProjIdFromCreator(profileid);
+			projName = proj.getProjName();
+			projId = proj.getId();
+		}catch(Exception e){
+			projName = "No project yet";
+		}
 	}
 	
 	

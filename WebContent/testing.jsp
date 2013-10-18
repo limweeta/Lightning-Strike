@@ -1,158 +1,170 @@
-<script>
-function validateFormOnSubmit(theForm) {
-	var reason = "";
-
-	  reason += validateUsername(theForm.username);
-	  reason += validatePassword(theForm.pwd);
-	  reason += validateEmail(theForm.email);
-	  reason += validatePhone(theForm.phone);
-	  reason += validateEmpty(theForm.from);
-	      
-	  if (reason != "") {
-	    alert("Some fields need correction:\n" + reason);
-	    return false;
-	  }
-
-	  return true;
-}
-
-function validateEmpty(fld) {
-    var error = "";
-  
-    if (fld.value.length == 0) {
-        fld.style.background = 'Yellow'; 
-        error = "The required field has not been filled in.\n"
-    } else {
-        fld.style.background = 'White';
-    }
-    return error;   
-}
-
-function validateUsername(fld) {
-    var error = "";
-    var illegalChars = /\W/; // allow letters, numbers, and underscores
- 
-    if (fld.value == "") {
-        fld.style.background = 'Yellow'; 
-        error = "You didn't enter a username.\n";
-    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
-        fld.style.background = 'Yellow'; 
-        error = "The username is the wrong length.\n";
-    } else if (illegalChars.test(fld.value)) {
-        fld.style.background = 'Yellow'; 
-        error = "The username contains illegal characters.\n";
-    } else {
-        fld.style.background = 'White';
-    } 
-    return error;
-}
-
-function validatePassword(fld) {
-    var error = "";
-    var illegalChars = /[\W_]/; // allow only letters and numbers 
- 
-    if (fld.value == "") {
-        fld.style.background = 'Yellow';
-        error = "You didn't enter a password.\n";
-    } else if ((fld.value.length < 7) || (fld.value.length > 15)) {
-        error = "The password is the wrong length. \n";
-        fld.style.background = 'Yellow';
-    } else if (illegalChars.test(fld.value)) {
-        error = "The password contains illegal characters.\n";
-        fld.style.background = 'Yellow';
-    } else if (!((fld.value.search(/(a-z)+/)) && (fld.value.search(/(0-9)+/)))) {
-        error = "The password must contain at least one numeral.\n";
-        fld.style.background = 'Yellow';
-    } else {
-        fld.style.background = 'White';
-    }
-   return error;
-}  
-
-function trim(s)
-{
-  return s.replace(/^\s+|\s+$/, '');
-} 
-
-function validateEmail(fld) {
-    var error="";
-    var tfld = trim(fld.value);                        // value of field with whitespace trimmed off
-    var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
-    var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
-    
-    if (fld.value == "") {
-        fld.style.background = 'Yellow';
-        error = "You didn't enter an email address.\n";
-    } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
-        fld.style.background = 'Yellow';
-        error = "Please enter a valid email address.\n";
-    } else if (fld.value.match(illegalChars)) {
-        fld.style.background = 'Yellow';
-        error = "The email address contains illegal characters.\n";
-    } else {
-        fld.style.background = 'White';
-    }
-    return error;
-}
-
-function validatePhone(fld) {
-    var error = "";
-    var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
-
-   if (fld.value == "") {
-        error = "You didn't enter a phone number.\n";
-        fld.style.background = 'Yellow';
-    } else if (isNaN(parseInt(stripped))) {
-        error = "The phone number contains illegal characters.\n";
-        fld.style.background = 'Yellow';
-    } else if (!(stripped.length == 10)) {
-        error = "The phone number is the wrong length. Make sure you included an area code.\n";
-        fld.style.background = 'Yellow';
-    } 
-    return error;
-}
-</script>
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 
 <html>
-<head>
-<title>WebCheatSheet - JavaScript Tutorial</title>
-</head>
+
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+<script type="text/javascript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script src="js/jquery.autocomplete.js"></script>  
+<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="./js/bootstrap.js"></script>
+
 <body>
-<h1>WebCheatSheet - JavaScript Tutorial</h1>
 
-<form name="demo" onsubmit="return validateFormOnSubmit(this)" action="test.htm">
-<table summary="Demonstration form">
-  <tbody>
-  <tr>
-    <td><label for="username">Your user name:</label></td>
-    <td><input name="username" size="35" maxlength="50" type="text"></td>
-  </tr>   
-  <tr>
-    <td><label for="pwd">Your password</label></td>
-    <td><input name="pwd" size="35" maxlength="25" type="password"></td>
-  </tr>   
-  <tr>
-    <td><label for="email">Your email:</label></td>
-    <td><input name="email" size="35" maxlength="30" type="text"></td>
-  </tr>   
-  <tr>
-    <td><label for="phone">Your telephone number:</label></td>
-    <td><input name="phone" size="35" maxlength="25" type="text"></td>
-  </tr>   
-  <tr>
-    <td>
-        <label for="from">Where are you :</label></td>
-    <td><input name="from" size="35" maxlength="50" type="text"></td>
-  </tr>   
-  <tr>
-    <td>&nbsp;</td>
-    <td><input name="Submit" value="Send" type="submit" ></td>
-    <td>&nbsp;</td>
-  </tr> 
-  </tbody>
-</table>
-</form> 
-
-
+<%-- 	<div class = "span9 well">
+		<div class = "span9">
+			<table>
+				<tr>
+				     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;Select All</td>
+			     </tr>
+		    	<tr>
+					 <%
+					  IndustryDataManager idm = new IndustryDataManager();
+					  ArrayList<Industry> industries = idm.retrieveAll();
+					 
+					  for(int i = 0; i < industries.size(); i++){
+						  Industry ind = industries.get(i);
+						  %><td>
+						  <input type="checkbox" name="industry" value="<%=ind.getIndustryId()%>">&nbsp;<span class="label label-default"><%=ind.getIndustryName() %></span>&nbsp;&nbsp;
+						  </td>
+						  <%
+						  if((i+1) % 3 == 0){
+							  %>
+							  </tr><tr>
+							  <%
+						  }
+					  }
+					  %>
+			  	</tr>
+			</table>
+		</div>
+	</div>
+	 --%>
+	<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Preferred Industry
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse in">
+		      <div class="panel-body">
+		 			<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							 <%
+							    IndustryDataManager idm = new IndustryDataManager();
+							    ArrayList<Industry> allInd = idm.retrieveAll();
+							    count = 0;
+								checked = false;
+								for(int i = 0; i < allInd.size(); i++){
+									checked = false;
+									%>
+									
+									<%
+									Industry hasInd = allInd.get(i);
+									count++;
+									for(int j  = 0; j < allInd.size(); j++){
+										if(idm.hasPrefInd(teamId, hasInd.getIndustryId())){
+											checked=true;
+										}
+										%>
+										<%
+									}
+									if(checked){
+									%>
+								<td>
+								  <input type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allInd.get(i).getIndustryId() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>">&nbsp;<span class="label label-default"><%=allInd.get(i).getIndustryId() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		          Preferred Technology
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+			    	<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+							    ArrayList<Technology> allTech = techdm.retrieveAll();
+							    int count = 0;
+								boolean checked = false;
+								for(int i = 0; i < allTech.size(); i++){
+									checked = false;
+									%>
+									
+									<%
+									Technology hasTech = allTech.get(i);
+									count++;
+									for(int j  = 0; j < allTech.size(); j++){
+										if(techdm.hasPrefTech(teamId, hasTech.getId())){
+											checked=true;
+										}
+										%>
+										<%
+									}
+									if(checked){
+								%>
+								<td>
+								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allTech.get(i).getId() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>">&nbsp;<span class="label label-default"><%=allTech.get(i).getId() %>></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+								  %>
+							  		</tr><tr class="spaceunder">
+							  	<%
+								  }
+							  }
+							  %>
+					  	</tr>
+					</table> 
+				</div>
+		    </div>
+		  </div>
+	  </div>
+	
+	
 </body>
+
 </html>

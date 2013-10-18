@@ -293,11 +293,11 @@ a:focus {
 }
 
 .span12 {
-  width: 940px;
+  width: 960px;
 }
 
 .span11 {
-  width: 860px;
+  width: 900px;
 }
 
 .span10 {
@@ -2021,6 +2021,15 @@ table {
 
 .table th {
   font-weight: bold;
+}
+
+tr.spaceunder td{
+	padding-bottom: 0.5em;
+}
+
+
+td.space{
+	padding-right: 0.5em;
 }
 
 .table thead th {
@@ -5725,6 +5734,7 @@ a.badge:focus {
   background-color: #1a1a1a;
 }
 
+
 .btn .label,
 .btn .badge {
   position: relative;
@@ -6272,6 +6282,7 @@ a.badge:focus {
 }
 .panel-default {
   border-color: #dddddd;
+  width: 925px;
 }
 .panel-default > .panel-heading {
   color: #333333;

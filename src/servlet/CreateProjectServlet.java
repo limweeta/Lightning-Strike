@@ -96,10 +96,15 @@ public class CreateProjectServlet extends HttpServlet {
 			creator_id = 0;
 		}
 		
+		System.out.println(termID + " " + eligibleTermID);
+		
 		if(isNameTaken || projName.isEmpty()){
 			session.setAttribute("message", "Project name cannot be empty or is already taken. Please try another name");
 			response.sendRedirect("createProject.jsp");
-		}else if(eligibleTermID < termID){
+		}else if(projDesc.isEmpty()){
+			session.setAttribute("message", "Project description cannot be empty");
+			response.sendRedirect("createProject.jsp");
+		}else if(termID < eligibleTermID){
 			session.setAttribute("message", "You can only have your project from the next term onward");
 			response.sendRedirect("createProject.jsp");
 		}else{	

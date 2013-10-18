@@ -85,26 +85,23 @@ public class ProjectDataManager implements Serializable {
 		try{
 			student = stdm.retrieve(std.getID());
 			
-			if(student.getTeamId() ==  0){
+
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE creator_id = " + student.getID() + " ;");
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if(iterator.hasNext()){
+				hasProj = true;
+			}else if(student.getTeamId() ==  0){
 				hasProj = false;
 			}else{
-			
-				HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE team_id = " + student.getTeamId() + " ;");
-				Set<String> keySet = map.keySet();
-				Iterator<String> iterator = keySet.iterator();
+				 map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE team_id = " + student.getTeamId() + " ;");
+				 keySet = map.keySet();
+				 iterator = keySet.iterator();
 				
 				if(iterator.hasNext()){
 					hasProj = true;
 				}
-				
-				map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.projects WHERE creator_id = " + student.getID() + " ;");
-				keySet = map.keySet();
-				iterator = keySet.iterator();
-				
-				if(iterator.hasNext()){
-					hasProj = true;
-				}
-				
 			}
 			
 		}catch(Exception e){

@@ -128,7 +128,7 @@
 	
 	</script>
 	<body>
-	<div class="span9 well">
+	<div class="span12 well">
 				<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -138,14 +138,13 @@
 						<%
 						session.removeValue("message");
 						} %>
-	<div class="row">
 	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
 		<legend><%=team.getTeamName() %></legend>
 		<input type="hidden" name="teamId" value="<%=teamId %>">
 		<input type="hidden" name="teamName" value="<%=team.getTeamName() %>">
-		<div class="span9">
+		<div class="span11">
 		<!-- Text input-->
 		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
 		<div class="control-group">
@@ -169,20 +168,21 @@
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> &nbsp;| 
+            	<span class = "label label-info"><a href="userProfile.jsp?id=<%=student.getID()%>" style="color: #FFFFFF"><%=student.getFullName() %></a> &nbsp;| 
             	<%
             	RoleDataManager rdm = new RoleDataManager();
             	int roleId = student.getRole();
             	Role r = rdm.retrieve(roleId);
             	%>
-            	<%=r.getRoleName() %> <br />
+            	<%=r.getRoleName() %>  </span></br></br>
 	            	<%
 	            		if(sessUserId == team.getPmId()){
 	            	%>
+	           
 				<form action="removeMember" method="post">
 				<input type="hidden" name="userId" value="<%=student.getID()%>">
 				<input type="hidden" name="teamId" value="<%=teamId%>">
-				<input type="submit" value="Remove from Team" onclick="return confirm('Are you sure you want to remove <%=student.getFullName() %> from this team?');return false;" />
+				<input type="submit" value="Remove from Team" onclick="return confirm('Are you sure you want to remove <%=student.getFullName() %> from this team?');return false;" class="btn btn-danger"/>
 				<br />
 				</form>
 					<%
@@ -192,13 +192,13 @@
             }
             %>
 		  </div>
-		</div></br>
+		</div>
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
-		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName %></span></a>
+		  	<span class="label label-info"><a href="projectProfile.jsp?id=<%=projId%>" style="color: #FFFFFF"><%=projName %></a></span>
 		  </div>
-		</div></br>
+		</div>
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Supervisor</label>
 		  <div class="controls">
@@ -214,8 +214,8 @@
 				  supervisorName = "No supervisor yet";
 			  }
 			%>
-			<a href="<%=profileLink%>"><span class="label label-info"><%=supervisorName %>
-			</span></a>
+			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %>
+			</a></span>
 		  </div>
 		</div></br>
 		
@@ -230,7 +230,7 @@
             	int skillId = skillset.get(i);
             	Skill skill = skdm.retrieve(skillId);
             	%>
-            	<%=skill.getSkillName() + " | " %>
+            	<span class = "label label-default"><%=skill.getSkillName()%></span></br>
             	<%
             	if(count % 3 == 0){
             		%>
@@ -241,148 +241,154 @@
             %>
            
 		</div>
-		</br></br></br></br></br></br></br></br></br>
-		
-		  <label class="control-label" for="technology">Preferred Technology</label>
-		
-		 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Technology<b class="caret"></b></a>
-	      	<ul class="dropdown-menu">
-	     		<li><input type="checkbox" onclick="toggleTech(this)" />Select All</li>
-		    <%
-		    ArrayList<Technology> allTech = techdm.retrieveAll();
-		    int count = 0;
-			boolean checked = false;
-			for(int i = 0; i < allTech.size(); i++){
-				checked = false;
-				%>
-				
-				<%
-				Technology hasTech = allTech.get(i);
-				count++;
-				for(int j  = 0; j < allTech.size(); j++){
-					if(techdm.hasPrefTech(teamId, hasTech.getId())){
-						checked=true;
-					}
-					%>
-					<%
-				}
-				if(checked){
-				%>
-				<li>
-				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked" />
-						<%=allTech.get(i).getTechName() %>
-				</li>
-				<%
-				}else{
-					%>
-				<li>
-				<input id="technology" type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" />
-						<%=allTech.get(i).getTechName() %>
-				</li>	
-					<%
-				}
-				if(count % 3 == 0){
-					%>
-				
-					<%
-				}%>
-				
-			<%}
-			%>
-			</ul>
-			</li>
-		</br>
-		 
-		
-		  <label class="control-label" for="prefindustry">Preferred Industry</label>
-		 
-		  	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Industry<b class="caret"></b></a>
-	      	<ul class="dropdown-menu">
-	     		<li><input type="checkbox" onclick="toggleInd(this)" />Select All</li>
-		    <%
-		    IndustryDataManager idm = new IndustryDataManager();
-		    ArrayList<Industry> allInd = idm.retrieveAll();
-		    count = 0;
-			checked = false;
-			for(int i = 0; i < allInd.size(); i++){
-				checked = false;
-				%>
-				
-				<%
-				Industry hasInd = allInd.get(i);
-				count++;
-				for(int j  = 0; j < allInd.size(); j++){
-					if(idm.hasPrefInd(teamId, hasInd.getIndustryId())){
-						checked=true;
-					}
-					%>
-					<%
-				}
-				if(checked){
-				%>
-				<li>
-				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" checked="checked" />
-						<%=allInd.get(i).getIndustryName() %>
-				</li>
-				<%
-				}else{
-					%>
-				<li>
-				<input id="industry" type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" />
-						<%=allInd.get(i).getIndustryName() %>
-				</li>	
-					<%
-				}
-				if(count % 3 == 0){
-					%>
-				
-					<%
-				}%>
-				
-			<% }
-			%>
-			</ul>
-			</li>
-		</br>
-		
-		<%if(type.equalsIgnoreCase("Student")){ %>
-		<div class="control-group">
-		  <label class="control-label" for="request"></label>
-		  <div class="controls">
-		  	<a href="#"><span class="label label-info">Request to Join</span></a>
+	<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Preferred Industry
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+						    IndustryDataManager idm = new IndustryDataManager();
+						    ArrayList<Industry> allInd = idm.retrieveAll();
+						    int count = 0;
+							boolean checked = false;
+							for(int i = 0; i < allInd.size(); i++){
+								checked = false;
+								%>
+								
+								<%
+								Industry hasInd = allInd.get(i);
+								count++;
+								for(int j  = 0; j < allInd.size(); j++){
+									if(idm.hasPrefInd(teamId, hasInd.getIndustryId())){
+										checked=true;
+									}
+									%>
+									<%
+								}
+								if(checked){
+								%><td>
+								  <input type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allInd.get(i).getIndustryName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="industry" value="<%=allInd.get(i).getIndustryId() %>">&nbsp;<span class="label label-default"><%=allInd.get(i).getIndustryName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
 		  </div>
-		</div></br>
-		<% 
-		}
-		%>
-		</br>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		          Preferred Technology
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+			    	<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+							    ArrayList<Technology> allTech= techdm.retrieveAll();
+							    int count1 = 0;
+								boolean checked1 = false;
+								for(int i = 0; i < allTech.size(); i++){
+									checked1 = false;
+									%>
+									
+									<%
+									Technology hasTech = allTech.get(i);
+									count1++;
+									for(int j  = 0; j < allTech.size(); j++){
+										if(techdm.hasPrefTech(teamId, hasTech.getId())){
+											checked=true;
+										}
+										%>
+										<%
+									}
+									if(checked){
+								%>
+								<td>
+								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allTech.get(i).getTechName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>">&nbsp;<span class="label label-default"><%=allTech.get(i).getTechName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+								  %>
+							  		</tr><tr class="spaceunder">
+							  	<%
+								  }
+							  }
+							  %>
+					  	</tr>
+					</table> 
+				</div>
+		    </div>
+		  </div>
+	  </div>
+		<table>
+		<tr>
+		<%if(type.equalsIgnoreCase("Student")){ %>
+			<td class="space">
+		  	<button type="button" id="request" class="btn btn-warning" onclick="#">Request to Join</button>
+		  	</td>
 		<%
+		}
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
 				%>
-		<div class="control-group">
-		  <label class="control-label" for="updateTeam"></label>
-		  <div class="controls">
-		    <input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
-		  </div>
-		</div>
-		
+				<td class="space">
+		    	<input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
+				</td>
+
 			<%
 			
 				}
 			}catch(Exception e){}
-		%></div>
-		</form>
+		%>
+		
 		<%
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
 				%>
 				<form method="post" action="deleteTeam">
 					<input type="hidden" name="teamId" value="<%=teamId %>">
-					<div class="control-group">
-					  <label class="control-label" for="delete"></label>
-					  <div class="controls">
+					<td class="space">
 					   <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this team?');return false;" class="btn btn-danger">
+					</td>
 					 <!--    <div id = "alert_placeholder"></div>
 						<script>
 						bootstrap_alert = function() {}
@@ -394,15 +400,15 @@
 						            bootstrap_alert.warning('Team has been deleted!');
 						});
 						</script> -->
-					  </div>
-					</div>
 				</form>
 				<%
 				}
 			}catch(Exception e){}
 		}
 		%>
-		</div>
+		</tr>
+		</table>
+		</form>
 		</div>
 	</body>
 

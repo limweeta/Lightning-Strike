@@ -55,7 +55,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 				skills = new String[0];
 			}
 			
-			if(firstNum != '9' || firstNum != '8' || contact.length() != 8){
+			if(contact.length() != 8){ //check that it starts with 9, 8 or 6
 				session.setAttribute("message", "Please enter a valid phone number");
 			}else if(!sdm.isValidMajor(secondMajor)){
 				session.setAttribute("message", "Please enter a valid second major");

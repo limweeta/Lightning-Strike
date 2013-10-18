@@ -32,6 +32,23 @@ public class SkillDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public Skill retrieveSkill(String skillName) throws Exception{
+		Skill retrievedSkill = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills where skill_name LIKE '" + skillName + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int retrievedId = Integer.parseInt(array.get(0));
+			String skName = array.get(1);
+			
+			retrievedSkill = new Skill(retrievedId, skName);
+		}
+		return retrievedSkill;
+	}
+	
 	public Skill retrieve(int id) throws Exception{
 		Skill retrievedSkill = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills where id = " + id + ";");
@@ -56,10 +73,11 @@ public class SkillDataManager implements Serializable {
 				+ "VALUES (" + skillId + ", '" + skillName + ");");
 	}
 	
-	public boolean hasSkill(ArrayList<String> skills, Skill skillCheck){
+	public boolean hasSkill(ArrayList<String> skills, Skill skillCheck) throws Exception{
 		boolean hasTech = false;
 			for(int i = 0; i < skills.size(); i++){
-				if(skillCheck.getId() == Integer.parseInt(skills.get(i))){
+				Skill skill = retrieveSkill(skills.get(i));
+				if(skillCheck.getId() == skill.getId()){
 					hasTech = true;
 				}
 			}
