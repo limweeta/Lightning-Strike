@@ -33,6 +33,31 @@ public class UserDataManager implements Serializable {
 		return Users;
 	}
 	
+	public ArrayList<User> retrieveSuspendedUsers() {
+		ArrayList<User> users = new ArrayList<User>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM suspended_list");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String username = array.get(1);
+			
+			User u = null;
+			
+			try{
+				u = retrieve(username);
+			}catch(Exception e){
+				u = null;
+			}
+			
+			users.add(u);
+		}
+		
+		return users;
+	}
+	
 	public ArrayList<String> retrieveFacultyFullname() throws Exception{
 		ArrayList<String> facultyNameList = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.type LIKE 'Faculty' OR users.type LIKE 'admin';");

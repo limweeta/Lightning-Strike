@@ -285,6 +285,22 @@ function toggleSkill(source) {
 		    <input type="hidden" name="type" value="<%=userType%>">
 		  </div>
 		</div>
+	<% if(type.equalsIgnoreCase("faculty")){ 
+		ArrayList<Team> supervisedTeams = tdm.retrievebyFaculty(profileid);
+	%>
+		<div class="control-group">
+		  <label class="control-label" for="email">Teams Supervised:</label>
+		  <div class="controls">
+		  <% for(int i = 0; i < supervisedTeams.size(); i++){ 
+		  		Team supervisedTeam = supervisedTeams.get(i);
+		  		String supervisedTeamName = supervisedTeam.getTeamName();
+		  		int supervisedTeamId = supervisedTeam.getId();
+		  %>
+		    <a href="teamProfile.jsp?id=<%=supervisedTeamId%>"><%=supervisedTeamName %></a>
+		    <% } %>
+		  </div>
+		</div>
+	<% } %>	
 		<%if(userType.equals("Student")){%>
 		<!-- </div> --></br>
 		<!-- <div class="span5"> -->
@@ -341,13 +357,7 @@ function toggleSkill(source) {
 				
 					<%
 				}
-				if(count % 3 == 0){
-					%>
-					
-					<%
-				}%>
-				
-			<%}
+			}
 			%>
 			</ul>
 				</li>

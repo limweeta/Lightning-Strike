@@ -21,6 +21,16 @@
     <servlet-name>ApplyProjectServlet</servlet-name>
     <url-pattern>/applyProj</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AddAnnouncementServlet</servlet-name>
+    <servlet-class>servlet.AddAnnouncementServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddAnnouncementServlet</servlet-name>
+    <url-pattern>/addAnn</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>servlet.LoginServlet</servlet-class>
@@ -173,7 +183,42 @@
     <servlet-name>SuspendUserServlet</servlet-name>
     <url-pattern>/suspendUser</url-pattern>
   </servlet-mapping>
-  
+
+  <servlet>
+    <servlet-name>AcceptTeamServlet</servlet-name>
+    <servlet-class>servlet.AcceptTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AcceptTeamServlet</servlet-name>
+    <url-pattern>/acceptTeam</url-pattern>
+  </servlet-mapping>  
+   
+  <servlet>
+    <servlet-name>RejectTeamServlet</servlet-name>
+    <servlet-class>servlet.RejectTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectTeamServlet</servlet-name>
+    <url-pattern>/rejectTeam</url-pattern>
+  </servlet-mapping> 
+    
+  <servlet>
+    <servlet-name>AcceptStudentServlet</servlet-name>
+    <servlet-class>servlet.AcceptStudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AcceptStudentServlet</servlet-name>
+    <url-pattern>/acceptStudent</url-pattern>
+  </servlet-mapping>  
+   
+  <servlet>
+    <servlet-name>RejectStudentServlet</servlet-name>
+    <servlet-class>servlet.RejectStudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RejectStudentServlet</servlet-name>
+    <url-pattern>/rejectStudent</url-pattern>
+  </servlet-mapping>   
     
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>

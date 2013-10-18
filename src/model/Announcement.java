@@ -13,6 +13,10 @@ public class Announcement {
 		this.timestamp = timestamp;
 	}
 	
+	public Announcement(String announcement){
+		this.announcement = announcement;
+	}
+	
 	public String getAnnouncement(){
 		return announcement;
 	}

@@ -13,7 +13,7 @@ import model.*;
 import manager.*;
 
 @SuppressWarnings("serial")
-public class ApplyProjectServlet extends HttpServlet {
+public class StudentRequestServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processAuthenticateRequest(request, response);
@@ -31,31 +31,21 @@ public class ApplyProjectServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		int projId = Integer.parseInt(request.getParameter("projId"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		ProjectDataManager pdm = new ProjectDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		Project p = null;
+		
 		Team team = null;
-		boolean eligibleToApply = false;
-		
-		
 		
 		try{
 			team = tdm.retrieve(teamId);
-			p = pdm.retrieve(projId);
 			
-			eligibleToApply = pdm.isEligibleForApplication(teamId);
+			tdm.studentRequest(userId, teamId);
 			
-			if(teamId == 0){
-				session.setAttribute("message", "You must have a team before you can apply for a project");
-			}else if(eligibleToApply){
-				pdm.applyProj(teamId, projId);
-				//SEND NOTIFICATION TO CREATOR
-				session.setAttribute("message", "You have successfully applied for the project");
-			}
+			session.setAttribute("message", "You must have requested to join " + team.getTeamName());
+		
 		}catch(Exception e){}
 		
-		response.sendRedirect("projectProfile.jsp?id="+projId);
+		response.sendRedirect("teamProfile.jsp?id="+teamId);
 	}
 }

@@ -29,6 +29,8 @@
 	  UserDataManager udm = new UserDataManager();
 	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
 	  
+	  ArrayList<User> suspendedUserList = udm.retrieveSuspendedUsers();
+	  
 	  StudentDataManager sdm = new StudentDataManager();
 	  ArrayList<String> usernameList = sdm.retrieveUsernameList();
 	  
@@ -244,7 +246,23 @@
 						<h3 class="panel-title">Suspended Users</h3>
 					</div>
 					<div class="panel-body">
-
+						<table width="100%">
+							<th>Username</th>
+							<th>Full Name</th>
+							<th>Type</th>
+						<%
+							for(int i = 0; i < suspendedUserList.size(); i++){
+								User u = suspendedUserList.get(i);
+								%>
+								<tr align=center>
+									<td><a href="userProfile.jsp?id=<%=u.getID()%>"><%=u.getUsername() %></a></td>
+									<td><%=u.getFullName() %></td>
+									<td><%=u.getType() %></td>
+								</tr>
+								<%
+							}
+						%>
+						</table>
 					</div>
 					</div>
 		</div>

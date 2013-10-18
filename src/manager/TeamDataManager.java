@@ -34,6 +34,29 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+
+	
+	public ArrayList<Team> retrieveTeamsByAppliedProj(int projId) {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from applied_projects WHERE project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			Team team = null;
+			
+			try{
+				team = retrieve(Integer.parseInt(array.get(2)));
+				teams.add(team);
+			}catch(Exception e){}
+		
+		}
+		
+		return teams;
+	}
+	
 	public ArrayList<String> retrieveTeamNames() {
 		ArrayList<String> teams = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
@@ -258,6 +281,28 @@ public class TeamDataManager implements Serializable {
 		return teamId;
 	}
 	
+	public ArrayList<Team> retrievebyFaculty(int id) throws Exception{
+		 ArrayList<Team> retrievedTeams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = " + id + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int retrievedId = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			String teamDesc = array.get(2);
+			int teamLimit	= Integer.parseInt(array.get(3));
+			int pmId		= Integer.parseInt(array.get(4));
+			int supId		= Integer.parseInt(array.get(5));
+			
+			Team team = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId, supId);
+			retrievedTeams.add(team);
+		}
+		return retrievedTeams;
+	}
+	
 	public Team retrieve(int id) throws Exception{
 		Team retrievedTeam = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = " + id + ";");
@@ -359,8 +404,21 @@ public class TeamDataManager implements Serializable {
 		
 	}
 	
+	public void studentRequest(int userId, int teamId){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO student_request (student_id, team_id) "
+				+ "VALUES(" + userId + ", " + teamId + ")");
+	}
+	
+	public void removeAllStudentRequest(int teamId){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE team_id =  " + teamId);
+	}
+	
+	public void removeStudentRequest(int userId, int teamId){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
+	}
+	
 	public void removeMember(int userId){
-		MySQLConnector.executeMySQL("UPDATE", "UPDATE students SET team_id = 0, role_id = 0 WHERE id = " + userId);
+		MySQLConnector.executeMySQL("update", "UPDATE students SET team_id = 0, role_id = 0 WHERE id = " + userId);
 	}
 	
 	public void remove(int ID){

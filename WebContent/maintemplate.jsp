@@ -10,7 +10,12 @@
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
-	<%
+	<%	
+		String type = (String) session.getAttribute("type");
+		if(type == null){
+			type = "";
+		}
+		
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
 	%>

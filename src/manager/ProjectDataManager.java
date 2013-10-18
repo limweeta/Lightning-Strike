@@ -42,6 +42,49 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	
+	public ArrayList<Project> retrieveCurrent() {
+		ArrayList<Project> projects = new ArrayList<Project>();
+		TermDataManager tdm = new TermDataManager();
+		Calendar now = Calendar.getInstance();
+		int currYear = now.get(Calendar.YEAR);
+		int currMth = now.get(Calendar.MONTH);
+		int currTermId = 0;
+		
+		try{
+			currTermId = tdm.retrieveTermId(currYear, currMth);
+		}catch(Exception e){
+			currTermId = 0;
+		}
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE term_id >= " + currTermId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			int id 				= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			int reviewer1Id		=	Integer.parseInt(array.get(4));
+			int reviewer2Id		=	Integer.parseInt(array.get(5));
+			String projName		= 	array.get(6);
+			String projDesc		= 	array.get(7);
+			String status		= 	array.get(8);
+			int industry		= 	Integer.parseInt(array.get(9));
+			int termId 		= 	Integer.parseInt(array.get(10));
+			int creatorId 		= 	Integer.parseInt(array.get(11));
+			
+			
+			Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+			projects.add(proj);
+		}
+		
+		return projects;
+	}
 	// check for conflicting objects
 	
 	public int getProjIdFromSponsor(int sponsorId){
@@ -741,6 +784,14 @@ public class ProjectDataManager implements Serializable {
 					+ " VALUES(" + p.getId() + ", " + Integer.parseInt(techArray[i]) + ")");
 		}
 		
+	}
+	
+	public void removeAllApplication(int projId){
+		MySQLConnector.executeMySQL("delete", "delete from applied_projects where project_id = " + projId + ";");
+	}
+	
+	public void removeTeamApplication(int teamId){
+		MySQLConnector.executeMySQL("delete", "delete from applied_projects where team_id = " + teamId + ";");
 	}
 	
 	public void remove(int ID){

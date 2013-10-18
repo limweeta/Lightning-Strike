@@ -26,6 +26,13 @@ public class AnnouncementDataManager implements Serializable {
 			Announcement announcement = new Announcement(id, ann, timestamp);
 			announcements.add(announcement);
 		}
+		
+		Collections.sort(announcements, new Comparator<Announcement>() {
+			  public int compare(Announcement a1, Announcement a2) {
+			      return a2.getTimestamp().compareTo(a1.getTimestamp());
+			  }
+			});
+		
 		return announcements;
 	}
 
@@ -50,12 +57,10 @@ public class AnnouncementDataManager implements Serializable {
 	}
 
 	public void add(Announcement announcement) {
-		int id = announcement.getId();
 		String ann = announcement.getAnnouncement();
-		String timestamp = announcement.getTimestamp();
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`announcement` (time_stamp, announcement)"
-				+ " VALUES ('" + timestamp + "', '" + ann + "');");
+				"INSERT INTO `is480-matching`.`announcements` (time_stamp, announcement)"
+				+ " VALUES ( CURRENT_TIMESTAMP, '" + ann + "');");
 	}
 
 	public void modify(Announcement announcement) {

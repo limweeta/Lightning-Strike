@@ -27,6 +27,53 @@ public class StudentDataManager implements Serializable {
 		return majors;
 	}
 	
+	public ArrayList<Student> retrieveStudentsInvitedByTeam(int teamId) {
+		ArrayList<Student> students = new ArrayList<Student>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM team_request WHERE team_id = " + teamId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int stdId	 	= Integer.parseInt(array.get(2));
+			
+			Student student = null;
+			
+			try{
+				student = retrieve(stdId);
+			}catch(Exception e){}
+			
+			students.add(student);
+		}
+		
+		return students;
+	}
+	
+	
+	public ArrayList<Student> retrieveStudentRequests(int teamId) {
+		ArrayList<Student> students = new ArrayList<Student>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request WHERE team_id = " + teamId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int stdId	 	= Integer.parseInt(array.get(1));
+			
+			Student student = null;
+			
+			try{
+				student = retrieve(stdId);
+			}catch(Exception e){}
+			
+			students.add(student);
+		}
+		
+		return students;
+	}
+	
 	public boolean isValidMajor(String major){
 		boolean isValid = false;
 		ArrayList<String> allMajors = retrieveAllMajors();

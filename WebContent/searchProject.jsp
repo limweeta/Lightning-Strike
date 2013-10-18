@@ -6,7 +6,7 @@
 	<%@include file="template.jsp"%>
 	<%
 	ProjectDataManager pdm = new ProjectDataManager();
-	ArrayList<Project> projects = pdm.retrieveAll();
+	ArrayList<Project> projects = pdm.retrieveCurrent();
 	
 	SponsorDataManager sdm = new SponsorDataManager();
 	ArrayList<Sponsor> sponsors = sdm.retrieveAll();

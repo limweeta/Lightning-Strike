@@ -150,13 +150,16 @@
 		projTeam = tdm.retrieve(reqProj.getTeamId());
 		projTeamName = projTeam.getTeamName();
 		projTeamId = projTeam.getId();
-		supervisor = udm.retrieve(projTeam.getSupId()).getFullName();
 		
 	}catch(Exception e){
 		projTeamName = "No Team Yet";
-		supervisor = "No Supervisor Yet";
 	}
 	
+	try{
+		supervisor = udm.retrieve(projTeam.getSupId()).getFullName();	
+	}catch(Exception e){
+		supervisor = "No Supervisor Yet";
+	}
 
 	User projSponsor = null;
 	String company = "";
@@ -215,12 +218,17 @@
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<String> skill = skdm.getProjSkills(reqProj.getId());
 
+	ArrayList<Team> appliedTeams = null;
 	
+	try{
+		appliedTeams = tdm.retrieveTeamsByAppliedProj(reqId);
+	}catch(Exception e){
+		appliedTeams = new ArrayList<Team>();
+	}finally{}
 	%>
 		
 	<div class="span12 well">
 
-	<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<fieldset>
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
@@ -233,16 +241,62 @@
 			} %>
 		<!-- Form Name -->
 		<legend>Project Profile</legend>
-		
-		<div class="span1">	
-			<div class="control-group">	
-			<div class="controls">
-				<a href="#" class="thumbnail"><img src="https://db.tt/8gUG7CxQ" alt=""></a>
-			</div>
-			</div>
-		</div>
-		
+	
 		<div class="span11">
+	<% if(creatorId == userId){ %>	
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Teams Applied (<%=appliedTeams.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+		  if(appliedTeams.size() == 0){
+			  out.println("None");
+		  }else{
+		  	for(int i = 0; i < appliedTeams.size(); i++){
+		  		Team team = appliedTeams.get(i);
+		  		%>
+		  		<td>
+		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+		  		<form method="post" action="acceptTeam">
+		  		<input type="hidden" name="projId" value="<%=reqId %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Accept Team" class="btn btn-warning">
+		  		</form>
+		  		<form method="post" action="rejectTeam">	
+		  		<input type="hidden" name="projId" value="<%=reqId %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Reject Team" class="btn btn-danger">
+		  		</form>
+		  		</td>
+		  		<%
+		  		if((i+1) % 5 == 0){
+		  			%>
+		  			</tr><tr class="spaceunder">
+		  			<%
+		  		}
+		  	}
+		  }
+		  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  
+		  <br />
+	<% } %>	
+		
+<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
+		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -628,7 +682,6 @@
 				  	%>
 				  </form>
 				</td>  
-				
 <!-- 		  </div>
 		</div> -->
 		<%

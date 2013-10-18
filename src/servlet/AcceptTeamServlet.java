@@ -13,7 +13,7 @@ import model.*;
 import manager.*;
 
 @SuppressWarnings("serial")
-public class ApplyProjectServlet extends HttpServlet {
+public class AcceptTeamServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processAuthenticateRequest(request, response);
@@ -35,25 +35,21 @@ public class ApplyProjectServlet extends HttpServlet {
 		
 		ProjectDataManager pdm = new ProjectDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		Project p = null;
-		Team team = null;
-		boolean eligibleToApply = false;
+		pdm.removeAllApplication(projId);
 		
+		Project p = null;
+		Team t = null;
 		
 		
 		try{
-			team = tdm.retrieve(teamId);
 			p = pdm.retrieve(projId);
+			p.setTeamId(teamId);
 			
-			eligibleToApply = pdm.isEligibleForApplication(teamId);
+			t =  tdm.retrieve(teamId);
 			
-			if(teamId == 0){
-				session.setAttribute("message", "You must have a team before you can apply for a project");
-			}else if(eligibleToApply){
-				pdm.applyProj(teamId, projId);
-				//SEND NOTIFICATION TO CREATOR
-				session.setAttribute("message", "You have successfully applied for the project");
-			}
+			pdm.modify(p);
+			//SEND NOTIFICATION TO TEAM
+			session.setAttribute("message", t.getTeamName() + " has undertaken your project");
 		}catch(Exception e){}
 		
 		response.sendRedirect("projectProfile.jsp?id="+projId);

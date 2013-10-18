@@ -36,9 +36,11 @@
 	<% 
 		String type = (String) session.getAttribute("type");
 		String teamIdStr = request.getParameter("id");
-		
+		int sessUserId = 0;
 		int teamId = 0;
-		
+
+		TeamDataManager tdm = new TeamDataManager();
+		Team team = null;
 		try{
 			teamId = Integer.parseInt(teamIdStr);
 		}catch(Exception e){
@@ -59,10 +61,11 @@
 			
 			UserDataManager udm = new UserDataManager();
 			
-			TeamDataManager tdm = new TeamDataManager();
-			Team team = tdm.retrieve(teamId);
+			team = tdm.retrieve(teamId);
 			TechnologyDataManager techdm = new TechnologyDataManager();
 			
+			ArrayList<Student> studentRequests = sdm.retrieveStudentRequests(teamId);
+			ArrayList<Student> studentInvites = sdm.retrieveStudentsInvitedByTeam(teamId);
 			
 			Project teamProj = pdm.getProjFromTeam(teamId);
 			String projName = "";
@@ -76,7 +79,7 @@
 
 		   	String sessionUsername = (String) session.getAttribute("username");
 		  	User sessUser = null;
-			int sessUserId = 0;
+			
 			try{
 				 sessUser =  udm.retrieve(sessionUsername);
 				 sessUserId = sessUser.getID();
@@ -138,10 +141,103 @@
 						<%
 						session.removeValue("message");
 						} %>
-	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
+	
+		<legend><%=team.getTeamName() %></legend>
+		
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Students Request (<%=studentRequests.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+		  if(studentRequests.size() == 0){
+			  out.println("None");
+		  }else{
+		  	for(int i = 0; i < studentRequests.size(); i++){
+		  		Student student = studentRequests.get(i);
+		  		%>
+		  		<td>
+		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
+		  		<form method="post" action="acceptStudent">
+		  		<input type="hidden" name="stdId" value="<%=student.getID() %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Accept Student" class="btn btn-warning">
+		  		</form>
+		  		<form method="post" action="rejectStudent">	
+		  		<input type="hidden" name="stdId" value="<%=student.getID() %>">
+		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+		  		<input type="submit" value="Reject Student" class="btn btn-danger">
+		  		</form>
+		  		</td>
+		  		<%
+		  		if((i+1) % 5 == 0){
+		  			%>
+		  			</tr><tr class="spaceunder">
+		  			<%
+		  		}
+		  	}
+		  }
+		  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  
+		  <br />
+		
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		          Students Invited (<%=studentInvites.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseTwo" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+		  if(studentInvites.size() == 0){
+			  out.println("None");
+		  }else{
+		  	for(int i = 0; i < studentInvites.size(); i++){
+		  		Student student = studentInvites.get(i);
+		  		%>
+		  		<td>
+		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
+		  		<font size=-1 color="grey"><i>Awaiting response...</i></font>
+		  		</td>
+		  		<%
+		  		if((i+1) % 5 == 0){
+		  			%>
+		  			</tr><tr class="spaceunder">
+		  			<%
+		  		}
+		  	}
+		  }
+		  %>
+		  			 	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  
+		  <br />
+		<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
-		<legend><%=team.getTeamName() %></legend>
+	
 		<input type="hidden" name="teamId" value="<%=teamId %>">
 		<input type="hidden" name="teamName" value="<%=team.getTeamName() %>">
 		<div class="span11">
@@ -217,8 +313,8 @@
 			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %>
 			</a></span>
 		  </div>
-		</div></br>
-		
+		</div><br />
+		<!-- @CHLOE PUT SKILLS IN THE SAME AS INDUSTRY AND TECH -->
 		<label class="control-label" for="teamskills">Team Skills</label>
 		<div class="span1 well">
 		    <%
@@ -240,7 +336,7 @@
             }
             %>
            
-		</div>
+		</div><br /><br /><br /><br /><br /><br />
 	<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -300,6 +396,7 @@
 		 	  </div>
 		    </div>
 		  </div>
+		  <br />
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
@@ -359,28 +456,22 @@
 		    </div>
 		  </div>
 	  </div>
+	  <br />
 		<table>
 		<tr>
-		<%if(type.equalsIgnoreCase("Student")){ %>
-			<td class="space">
-		  	<button type="button" id="request" class="btn btn-warning" onclick="#">Request to Join</button>
-		  	</td>
 		<%
-		}
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
 				%>
 				<td class="space">
 		    	<input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
 				</td>
-
+</form>
 			<%
 			
 				}
 			}catch(Exception e){}
-		%>
 		
-		<%
 		try{
 			if(udm.retrieve(username).getID() == team.getPmId()){
 				%>
@@ -389,26 +480,35 @@
 					<td class="space">
 					   <input type="submit" id="delete" value="Delete" onclick="return confirm('Do you wish to delete this team?');return false;" class="btn btn-danger">
 					</td>
-					 <!--    <div id = "alert_placeholder"></div>
-						<script>
-						bootstrap_alert = function() {}
-						bootstrap_alert.warning = function(message) {
-						            $('#alert_placeholder').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
-						        }
-						
-						$('#delete').on('click', function() {
-						            bootstrap_alert.warning('Team has been deleted!');
-						});
-						</script> -->
 				</form>
 				<%
 				}
 			}catch(Exception e){}
 		}
 		%>
+		<%if(type.equalsIgnoreCase("Student")){ %>
+			<td class="space">
+			<form action="stdRequest" method="post">
+				<input type="hidden" name="teamId" value="<%=teamId %>">
+				<input type="hidden" name="userId" value="<%=sessUserId %>">
+				<% if(!tdm.emptySlots(team)){ %>
+		  		<input type="submit" value="Request to Join" class="btn btn-warning" disabled="disabled"><br />
+		  		<font size=-1 color=red><i>Team is full</i></font>
+		  		<% }else{
+		  			%>
+		  		<input type="submit" value="Request to Join" class="btn btn-warning">	
+		  			<%
+		  		}
+		  		%>
+		  		
+		  	</form>
+		  	</td>
+		<%
+		}
+		%>
 		</tr>
 		</table>
-		</form>
+		
 		</div>
 	</body>
 
