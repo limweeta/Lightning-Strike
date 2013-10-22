@@ -87,7 +87,7 @@ session.removeValue("message");
 %>
 		<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">Announcements</h3>
+			<h2 class="panel-title">Announcements</h2>
 		</div>
 		<div class="panel-body">
 			<table>

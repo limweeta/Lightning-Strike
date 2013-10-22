@@ -154,6 +154,38 @@ public class ProjectDataManager implements Serializable {
 		return hasProj;
 	}
 	
+	public boolean isSup(int projId, int facultyId){
+		boolean isSup = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, projects p WHERE t.id = p.team_id"
+				+ " AND p.id = " + projId + " AND t.supervisor_id = " + facultyId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			isSup = true;
+		}
+		
+		return isSup;
+	}
+	
+	public boolean isRev(int projId, int facultyId){
+		boolean isRev = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE id = " + projId + " "
+				+ "AND (reviewer1_id = " + facultyId + " OR reviewer2_id " + facultyId + ")");
+		
+		Set<String> keySet = map.keySet();
+		
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			isRev = true;
+		}
+		
+		return isRev;
+	}
+	
 	public ArrayList<String> retrieveProjName() {
 		ArrayList<String> projects = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects");

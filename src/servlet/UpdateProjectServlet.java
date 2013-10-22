@@ -71,34 +71,45 @@ public class UpdateProjectServlet extends HttpServlet {
 		}
 		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
-		int termId = Integer.parseInt(request.getParameter("term"));
-		
-		Project updateProj = null;
+		int termId = 0; 
 		
 		try{
-			updateProj = pdm.retrieve(projID);
+			termId = Integer.parseInt(request.getParameter("term"));
 			
-			//UPDATE VALUES HERE
-			updateProj.setCoyId(companyId);
-			updateProj.setTeamId(projTeamId);
-			updateProj.setSponsorId(sponsorId);
-			updateProj.setProjName(projName);
-			updateProj.setProjDesc(projDesc);
-			updateProj.setStatus(projStatus);
-			updateProj.setIndustry(industryId);
-			updateProj.setTermId(termId);
+			Project updateProj = null;
 			
-			//UPDATE SQL
-			pdm.modify(updateProj);
-			pdm.modifyTechnology(updateProj, technologies);
-			pdm.modifyPrefSkill(updateProj, skills);
+			try{
+				updateProj = pdm.retrieve(projID);
+				
+				//UPDATE VALUES HERE
+				updateProj.setCoyId(companyId);
+				updateProj.setTeamId(projTeamId);
+				updateProj.setSponsorId(sponsorId);
+				updateProj.setProjName(projName);
+				updateProj.setProjDesc(projDesc);
+				updateProj.setStatus(projStatus);
+				updateProj.setIndustry(industryId);
+				updateProj.setTermId(termId);
+				
+				//UPDATE SQL
+				pdm.modify(updateProj);
+				pdm.modifyTechnology(updateProj, technologies);
+				pdm.modifyPrefSkill(updateProj, skills);
+				
+				session.setAttribute("message", "Profile Updated");
+			}catch(Exception e){
+				
+			}
 			
-			session.setAttribute("message", "Profile Updated");
+			RequestDispatcher rd = request.getRequestDispatcher("projectProfile.jsp?id="+projID);
+			rd.forward(request, response);
+			
 		}catch(Exception e){
-			
+			session.setAttribute("teamId", projTeamId);
+			session.setAttribute("assignSupName", request.getParameter("assignSup"));
+			response.sendRedirect("assignSupervisor");
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("projectProfile.jsp?id="+projID);
-		rd.forward(request, response);
+		
 	}
 }

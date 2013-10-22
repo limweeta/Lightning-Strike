@@ -48,9 +48,6 @@ public class EmailSendingServlet extends HttpServlet {
         System.out.println(subject);
         System.out.println(content);
 
-        
-
-        
         try {
             EmailUtility.sendEmail(host, port, user, pass, recipient, subject,
                     content);

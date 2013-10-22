@@ -77,6 +77,7 @@
 			String type = "";
 			try{
 				type = udm.retrieve(username).getType();
+				System.out.println(type);
 				user = udm.retrieve(username);	
 				userId = user.getID();
 			}catch(Exception e){
@@ -179,7 +180,6 @@
 		company = "Not Applicable";
 	}
 	
-
 	String projManager = "";
 	
 	try{
@@ -228,8 +228,7 @@
 	%>
 		
 	<div class="span12 well">
-
-		<fieldset>
+		
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
 				message = "";
@@ -240,63 +239,67 @@
 			session.removeValue("message");
 			} %>
 		<!-- Form Name -->
-		<legend>Project Profile</legend>
-	
+		<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
 		<div class="span11">
-	<% if(creatorId == userId){ %>	
-		<div class="panel-group" id="accordion">
-		  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		          Teams Applied (<%=appliedTeams.size() %>)
-		        </a>
-		      </h4>
-		    </div>
-		<div id="collapseOne" class="panel-collapse collapse">
-		      <div class="panel-body">
-		 			<table width="100%">
-				    	<tr class="spaceunder">
-							 <%
-		  if(appliedTeams.size() == 0){
-			  out.println("None");
-		  }else{
-		  	for(int i = 0; i < appliedTeams.size(); i++){
-		  		Team team = appliedTeams.get(i);
-		  		%>
-		  		<td>
-		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
-		  		<form method="post" action="acceptTeam">
-		  		<input type="hidden" name="projId" value="<%=reqId %>">
-		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
-		  		<input type="submit" value="Accept Team" class="btn btn-warning">
-		  		</form>
-		  		<form method="post" action="rejectTeam">	
-		  		<input type="hidden" name="projId" value="<%=reqId %>">
-		  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
-		  		<input type="submit" value="Reject Team" class="btn btn-danger">
-		  		</form>
-		  		</td>
-		  		<%
-		  		if((i+1) % 5 == 0){
-		  			%>
-		  			</tr><tr class="spaceunder">
-		  			<%
-		  		}
-		  	}
-		  }
-		  %>
-					  	</tr>
-					</table>
-		 	  </div>
-		    </div>
-		  </div>
-		  
-		  <br />
-	<% } %>	
-		
-<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
-		
+		<h5>Project Profile &nbsp;&nbsp;
+				<%if(reqProj.getStatus().equals("Open")){ %>
+					<span class="label label-success" style="padding:10px;">Open</span></br>
+				<%}else if(reqProj.getStatus().equals("Closed")){ %>
+					<span class="label label-danger" style="padding:10px;">Closed</span></br>
+				<%} %>
+		</h5>
+			
+			<% if(creatorId == userId){ %>	
+				<div class="panel-group" id="accordion">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				          Teams Applied (<%=appliedTeams.size() %>)
+				        </a>
+				      </h4>
+				    </div>
+				<div id="collapseOne" class="panel-collapse collapse">
+				      <div class="panel-body">
+				 			<table width="100%">
+						    	<tr class="spaceunder">
+									 <%
+				  if(appliedTeams.size() == 0){
+					  out.println("None");
+				  }else{
+				  	for(int i = 0; i < appliedTeams.size(); i++){
+				  		Team team = appliedTeams.get(i);
+				  		%>
+				  		<td>
+				  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+				  		<form method="post" action="acceptTeam">
+				  		<input type="hidden" name="projId" value="<%=reqId %>">
+				  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+				  		<input type="submit" value="Accept Team" class="btn btn-warning">
+				  		</form>
+				  		<form method="post" action="rejectTeam">	
+				  		<input type="hidden" name="projId" value="<%=reqId %>">
+				  		<input type="hidden" name="teamId" value="<%=team.getId() %>">
+				  		<input type="submit" value="Reject Team" class="btn btn-danger">
+				  		</form>
+				  		</td>
+				  		<%
+				  		if((i+1) % 5 == 0){
+				  			%>
+				  			</tr><tr class="spaceunder">
+				  			<%
+				  		}
+				  	}
+				  }
+				  %>
+							  	</tr>
+							</table>
+				 	  </div>
+				    </div>
+				  </div>
+				 </div> 
+				  <br />
+			<% } %>	
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -379,18 +382,24 @@
 		<!-- </div> -->
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
+		<input type=hidden name="teamId" value="<%=projTeamId%>">
 		<div class="control-group">
 		  <label class="control-label" for="supervisor">Team Supervisor</label>
 		  <div class="controls">
 		  <form method="post" action="assignSupervisor">
-		 
 		    <%
 	            if(type.equalsIgnoreCase("admin")){ 
 			%>
-	            <input type=hidden name="teamId" value="<%=projTeam.getId()%>">
+			 
+	            
+				<%-- 	<%=projTeamId %> --%>
             	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
-	            	<input id="assignSup" name="assignSup" type="text" value="<%=supervisor%>"  class="input-large">
+	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large">
+	            	<% if(projTeamId == 0){ %>
+	            	<input type="submit" value="Assign" class = "btn btn-success" disabled="disabled">
+	            	<% }else{ %>
 	            	<input type="submit" value="Assign" class = "btn btn-success">
+	            	<% } %>
 	            	<%
 	            }else{
 	            	%>
@@ -410,19 +419,11 @@
             if(type.equals("Admin")){
             	%>   
             	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
-            	<% 
-	            if(rev1.isEmpty() && rev2.isEmpty()){ 
-	            	%>
+            	
 	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>" class="input-large"><br /><br />
 	            	<input type="text" id="assignRev2" name="assignRev2" value="<%=rev2%>" class="input-large">
-	            	<input type="submit" value="Assign">
+	            	<input type="submit" value="Assign" class="btn btn-success">
 	            <%
-           	 	}else{
-            	%>
-            	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly" class="input-large"> <br /><br />
-            	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly" class="input-large"> 
-            	<%
-            	}
             }else{
             	%>
             	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly" class="input-large"> <br /><br />
@@ -460,12 +461,12 @@
 		 <%
 			}else{
 		 %>
-		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
+		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" disabled="disabled"> 
 		 <%
 			}
 		}catch(Exception e){
 			%>
-			<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" readonly="readonly"> 
+			<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" disabled="disabled"> 
 			<%
 		}
 		 %> 
@@ -660,8 +661,7 @@
 <!-- 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
 		  <div class="controls"> -->
-		  <table>
-			  <tr>
+		  <table>			  <tr>
 			  <td class = "space" align = "center">
 				  <form action="applyProj" method="post">
 				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
@@ -707,9 +707,9 @@
 		%>
 		</tr>
 		</table>
-			</div>
-		</fieldset>
-		</form>	
+				
+		</div>
+	</form>
 	</div>
 
 	</body>

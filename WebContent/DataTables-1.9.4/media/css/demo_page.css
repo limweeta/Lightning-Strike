@@ -2,13 +2,13 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * General page setup
  */
-#dt_example {
+/* #dt_example {
 	font: 80%/1.45em "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
 	color: #333;
 	background-color: #fff;
-}
+} */
 
 
 #dt_example #container {
@@ -53,7 +53,7 @@
 	border: 1px solid #CCCCCC;
 }
 
-#dt_example h1 {
+/* #dt_example h1 {
 	margin-top: 2em;
 	font-size: 1.3em;
 	font-weight: normal;
@@ -61,7 +61,7 @@
 	color: #4E6CA3;
 	border-bottom: 1px solid #B0BED9;
 	clear: both;
-}
+} */
 
 #dt_example h2 {
 	font-size: 1.2em;
@@ -71,14 +71,14 @@
 	clear: both;
 }
 
-#dt_example a {
+/* #dt_example a {
 	color: #02050A;
 	text-decoration: none;
-}
+} */
 
-#dt_example a:hover {
+/* #dt_example a:hover {
 	text-decoration: underline;
-}
+} */
 
 #dt_example ul {
 	color: #4E6CA3;

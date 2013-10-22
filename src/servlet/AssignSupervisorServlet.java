@@ -42,11 +42,17 @@ public class AssignSupervisorServlet extends HttpServlet {
 		try{
 			teamId = Integer.parseInt(request.getParameter("teamId"));
 		}catch(Exception e){
-			teamId = tdm.retrieveTeamByName(teamName).getId();
-			
+			try{
+				teamId = (Integer) session.getAttribute("teamId");
+			}catch(Exception ex){
+				teamId = tdm.retrieveTeamByName(teamName).getId();
+			}
 		}
 		
-		
+		if(supUser == null || supUser.isEmpty()){
+			supUser = (String) session.getAttribute("assignSupName");
+		}
+
 		
 		int supId = 0;
 		User u = null;
@@ -55,6 +61,7 @@ public class AssignSupervisorServlet extends HttpServlet {
 			u = udm.retrieveByFullName(supUser);
 			supId = u.getID();
 			Team team = tdm.retrieve(teamId);
+			
 			team.setSupId(supId);
 			tdm.modify(team);
 		}catch(Exception e){

@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -35,11 +32,11 @@ public class ApplyProjectServlet extends HttpServlet {
 		
 		ProjectDataManager pdm = new ProjectDataManager();
 		TeamDataManager tdm = new TeamDataManager();
+		UserDataManager udm = new UserDataManager();
+		
 		Project p = null;
 		Team team = null;
 		boolean eligibleToApply = false;
-		
-		
 		
 		try{
 			team = tdm.retrieve(teamId);
@@ -47,11 +44,25 @@ public class ApplyProjectServlet extends HttpServlet {
 			
 			eligibleToApply = pdm.isEligibleForApplication(teamId);
 			
+			User u = udm.retrieve(p.getCreatorId());
+			
 			if(teamId == 0){
 				session.setAttribute("message", "You must have a team before you can apply for a project");
 			}else if(eligibleToApply){
 				pdm.applyProj(teamId, projId);
 				//SEND NOTIFICATION TO CREATOR
+						
+				ServletContext context = getServletContext();
+				String host = context.getInitParameter("host");
+				String port = context.getInitParameter("port");
+				String user = context.getInitParameter("user");
+				String pass = context.getInitParameter("pass");
+			    String recipient  = u.getEmail();
+			    String subject = "[IS480] You have an application pending approval/rejection";
+			    String content = team.getTeamName() + " has applied for your project.";
+			     
+			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			     
 				session.setAttribute("message", "You have successfully applied for the project");
 			}
 		}catch(Exception e){}

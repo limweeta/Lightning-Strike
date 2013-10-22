@@ -142,8 +142,8 @@
 						session.removeValue("message");
 						} %>
 	
-		<legend><%=team.getTeamName() %></legend>
-		
+		<h3><%=team.getTeamName() %></h3>
+		<div class="span11">
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -239,8 +239,18 @@
 		<!-- Form Name -->
 	
 		<input type="hidden" name="teamId" value="<%=teamId %>">
-		<input type="hidden" name="teamName" value="<%=team.getTeamName() %>">
-		<div class="span11">
+		
+		
+		<div class="control-group">
+		  <label class="control-label" for="fullname">Team Name</label>
+		  <div class="controls">
+		<%if(sessUserId == team.getPmId()){ %>
+			<input type="text" name="teamName" value="<%=team.getTeamName() %>">
+		<%}else{ %>
+			<input type="text" name="teamName" value="<%=team.getTeamName() %>" disabled>
+		 <%}%>
+		 </div>
+		</div>
 		<!-- Text input-->
 		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
 		<div class="control-group">
@@ -466,7 +476,7 @@
 				<td class="space">
 		    	<input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
 				</td>
-</form>
+
 			<%
 			
 				}
@@ -486,19 +496,23 @@
 			}catch(Exception e){}
 		}
 		%>
+		
 		<%if(type.equalsIgnoreCase("Student")){ %>
 			<td class="space">
 			<form action="stdRequest" method="post">
 				<input type="hidden" name="teamId" value="<%=teamId %>">
 				<input type="hidden" name="userId" value="<%=sessUserId %>">
-				<% if(!tdm.emptySlots(team)){ %>
-		  		<input type="submit" value="Request to Join" class="btn btn-warning" disabled="disabled"><br />
-		  		<font size=-1 color=red><i>Team is full</i></font>
-		  		<% }else{
-		  			%>
-		  		<input type="submit" value="Request to Join" class="btn btn-warning">	
-		  			<%
-		  		}
+				<% 
+				try{
+					if(!tdm.emptySlots(team)){ %>
+			  		<input type="submit" value="Request to Join" class="btn btn-warning" disabled="disabled"><br />
+			  		<font size=-1 color=red><i>Team is full</i></font>
+			  		<% }else{
+			  			%>
+			  		<input type="submit" value="Request to Join" class="btn btn-warning">	
+			  			<%
+			  		}
+				}catch(Exception e){}
 		  		%>
 		  		
 		  	</form>
@@ -508,6 +522,8 @@
 		%>
 		</tr>
 		</table>
+		</form>
+		</div>
 		
 		</div>
 	</body>

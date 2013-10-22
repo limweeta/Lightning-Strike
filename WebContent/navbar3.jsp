@@ -38,10 +38,19 @@
 	}else{
 		UserDataManager udmNav = new UserDataManager();
 		u = udmNav.retrieve(sessionUser);
-		userIdNav = u.getID();
+		try{
+			userIdNav = u.getID();
+		}catch(Exception e){
+			userIdNav = 0;
+		}
 		
 		TeamDataManager tdmNav = new TeamDataManager();
-		teamIdNav = tdmNav.retrieveTeamIdByUser(u);
+		
+		try{
+			teamIdNav = tdmNav.retrieveTeamIdByUser(u);
+		}catch(Exception e){
+			teamIdNav = 0;
+		}
 		
 		ProjectDataManager pdmNav = new ProjectDataManager();
 		Project p = pdmNav.getProjFromTeam(teamIdNav);
@@ -97,7 +106,7 @@
                	</ul>
                </li>
                <%if(userType.equals("Admin")){ %>
-               		 <li class="dropdown"><a href="./admin.jsp" class="dropdown-toggle" data-toggle="dropdown">Admin</a></li>
+               		 <li class="dropdown"><a href="./admin.jsp">Admin</a></li>
                <%} %>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->

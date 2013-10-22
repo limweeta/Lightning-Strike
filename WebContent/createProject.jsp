@@ -77,6 +77,7 @@ int currMth = now.get(Calendar.MONTH);
 	<%@ include file="template.jsp" %>
 	<%	
 		if(username == null){
+			session.setAttribute("message", "You need to be logged in to create a project");
 			response.sendRedirect("index.jsp");
 		}
 	
@@ -98,9 +99,9 @@ int currMth = now.get(Calendar.MONTH);
 	<body>
 		<div id="content-container" class="shadow">
 			<div id="content" align = "justify">
-				<div class="createTeam">
+				<div class="span12 well">
 					<form class="form-horizontal" method=post action="createProject" onsubmit="return validateForm()">
-						<fieldset>
+						<div class="span11">
 						<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -219,69 +220,81 @@ int currMth = now.get(Calendar.MONTH);
 						  </div>
 						</div>
 						<!-- Select Basic -->
-						<div class="control-group">
-						  <label class="control-label" for="technology">Technology</label>
-						  
-						  <div class="controls">
-						    <table border=0>
-						   	 <tr>
-						   	 <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
-						   	 </tr>
-						   	 <tr>
-								 <%
-								  TechnologyDataManager tdm = new TechnologyDataManager();
-								  ArrayList<Technology> technologies = tdm.retrieveAll();
-								  
-								  for(int i = 0; i < technologies.size(); i++){
-									  Technology tech = technologies.get(i);
-									  %>
-								<td style="padding: 1px">
-									<input type="checkbox" id="technology" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
-								</td>
-									  <%
-									  if((i+1) % 3 == 0){
-										  %>
-										  </tr><tr>
-										  <%
-									  }
-								  }
-								  %>
-							 </tr>
-						    </table>
+					<div class="panel-group" id="accordion">
+					  <div class="panel panel-default">
+						    <div class="panel-heading">
+						      <h4 class="panel-title">
+						        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+						          Technology
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseOne" class="panel-collapse collapse">
+						      <div class="panel-body">
+							    	<table>
+										<tr class="spaceunder">
+										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+									     </tr>
+								    	<tr class="spaceunder">
+											<%
+											  TechnologyDataManager tdm = new TechnologyDataManager();
+											  ArrayList<Technology> technologies = tdm.retrieveAll();
+											 
+											  for(int i = 0; i < technologies.size(); i++){
+												  Technology tech = technologies.get(i);
+												  %><td>
+												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+												  </td><td></td>
+												   <%
+												  if((i+1) % 3 == 0){
+												  %>
+											  </tr><tr class="spaceunder">
+											  <%
+												  }
+											  }
+											  %>
+									  	</tr>
+									</table> 
+								</div>
+						    </div>
 						  </div>
-						</div>
-						
-						<div class="control-group">
-						  <label class="control-label" for="technology">Preferred Skills</label>
-						  
-						  <div class="controls">
-						    <table border=0>
-						   	 <tr>
-						   	 <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;Select All</td>
-						   	 </tr>
-						   	 <tr>
-								 <%
-								  SkillDataManager skdm = new SkillDataManager();
-								  ArrayList<Skill> skills = skdm.retrieveAll();
-								  
-								  for(int i = 0; i < skills.size(); i++){
-									  Skill skill = skills.get(i);
-									  %>
-								<td style="padding: 1px">
-									<input type="checkbox" id="skill" name="skill" value="<%=skill.getId()%>">&nbsp;<%=skill.getSkillName() %>&nbsp;&nbsp;
-								</td>
-									  <%
-									  if((i+1) % 3 == 0){
-										  %>
-										  </tr><tr>
-										  <%
-									  }
-								  }
-								  %>
-							 </tr>
-						    </table>
-						  </div>
-						</div>
+						  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+					          Preferred Skills
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseTwo" class="panel-collapse collapse">
+					      <div class="panel-body">
+					 			<table>
+									<tr class="spaceunder">
+									     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+								     </tr>
+							    	<tr class="spaceunder">
+										<%
+											  SkillDataManager skdm = new SkillDataManager();
+											  ArrayList<Skill> skills = skdm.retrieveAll();
+											  
+											  for(int i = 0; i < skills.size(); i++){
+												  Skill skill = skills.get(i);
+												  %><td>
+												  <input type="checkbox" name="skill" value="<%=skill.getId()%>>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+												  </td><td></td>
+												  <%
+												  if((i+1) % 3 == 0){
+													  %></tr><tr class="spaceunder">
+											<%
+												  }
+											  }
+											  %>
+								  	</tr>
+								</table>
+					 	  </div>
+					    </div>
+					  </div>
+					  </div>
 						
 						<%
 						SponsorDataManager spdm = new SponsorDataManager();
@@ -306,26 +319,29 @@ int currMth = now.get(Calendar.MONTH);
 						<%
 						}catch(Exception e){}
 						%>
-						
+						</br></br>
 						<!-- Button -->
-						<div class="control-group">
-						  <label class="control-label" for="createproject"></label>
-						  <div class="controls">
+						<table>
+						<tr>
 						  <%
 							if(hasProj){
 						  %>
-						    <input type="submit" id="createproject" Value="Create" class="btn btn-success" disabled="disabled"><br />
+						  <td class = "space" align = "justify">
+						    <input type="submit" id="createproject" Value="Create Project" class="btn btn-success" disabled="disabled"><br />
+						  </td>	
 						    <font color=red size=-1><i>You are already undertaking a project</i></font>
 						  <%
 							}else{
 								%>
-							<input type="submit" id="createproject" Value="Create" class="btn btn-success" />
+								<td class="space" align="justify">	
+								<input type="submit" id="createproject" Value="Create Project" class="btn btn-success" />
+								</td>
 								<%
 							}
 						  %>
-					 	  </div>
+						  </tr>
+					 	</table>
 						</div>
-						</fieldset>
 						</form>
 						</div>
 					<br/>

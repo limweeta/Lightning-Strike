@@ -221,9 +221,9 @@ function toggleSkill(source) {
 	%>
 	<div class="container" id="userdetails">
 	
-	<div class="span9 well">
+	<div class="span12 well">
 <!-- 	<div class="row"> -->
-		<fieldset>
+		
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
 				message = "";
@@ -234,8 +234,8 @@ function toggleSkill(source) {
 			session.removeValue("message");
 			} %>
 		<!-- Form Name -->
-		<legend>User Profile</legend>
-		<br />
+		<h3>User Profile</h3>
+		<div class="span11">
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -327,10 +327,11 @@ function toggleSkill(source) {
 		  
 		  <br />
 	</div>
+	</div>
 	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=u.getID()%>">
 	
-		<div class="span8">
+		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
@@ -410,50 +411,67 @@ function toggleSkill(source) {
 		    <%} %>
 		  </div>
 		</div>
-		
-		  <label class="control-label" for="skills">Skills</label>
+
 		  
-		  <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Skills<b class="caret"></b></a>
-	      	<ul class="dropdown-menu">
-	     		<li><input type="checkbox" onclick="toggleSkill(this)" />Select All</li>
-		 <%
-		    int count = 0;
-			boolean checked = false;
-			for(int i = 0; i < allSkills.size(); i++){
-				checked = false;
-				%>
-				
-				<%
-				Skill hasSkill = allSkills.get(i);
-				count++;
-				for(int j  = 0; j < userSkills.size(); j++){
-					if(hasSkill.getSkillName().trim().equals(userSkills.get(j).trim())){
-						checked=true;
-					}
-					%>
-					<%
-				}
-				if(checked){
-				%>
-				<li>
-				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked" />
-						<%=allSkills.get(i).getSkillName() %>
-				</li>
-				
-				<%
-				}else{
-					%>
-				<li>
-				<input id="skills" type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" />
-						<%=allSkills.get(i).getSkillName() %>
-				</li>	
-				
-					<%
-				}
-			}
-			%>
-			</ul>
-				</li>
+		  <div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+		         Skills
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseThree" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
+							    int count = 0;
+								boolean checked = false;
+								for(int i = 0; i < allSkills.size(); i++){
+									checked = false;
+									%>
+									
+									<%
+									Skill hasSkill = allSkills.get(i);
+									count++;
+									for(int j  = 0; j < userSkills.size(); j++){
+										if(hasSkill.getSkillName().trim().equals(userSkills.get(j).trim())){
+											checked=true;
+										}
+										%>
+										<%
+									}
+									if(checked){
+									%>
+								<td>
+								  <input type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>">&nbsp;<span class="label label-default"><%=allSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								  %>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  </div>
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		 </br> 
 		<div class="control-group">
@@ -492,11 +510,13 @@ function toggleSkill(source) {
 		<%
 		}
 		%>
+		</form>
 		</div></br>
-		</fieldset>
-	</form>
+	
 <!-- 	</div> -->
+	
 	</div>
+	
 	</div>
 </body>
 </html>

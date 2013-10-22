@@ -23,8 +23,8 @@
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
-			@import "./css/style.css";
-			@import "./css/searchstyle.css";
+/* 			@import "./css/style.css"; */
+/* 			@import "./css/searchstyle.css"; */
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -53,7 +53,7 @@
 			} 
 		%>
 			<div class="full_width big">
-				<h1>Search Teams </h1>
+				<h3>Search Teams </h3>
 				<% if(type.equalsIgnoreCase("Student")){ %>
 				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p>
 				<% } %>
@@ -104,7 +104,7 @@ for(int i = 0; i < teams.size(); i++){
 %>
 	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
-			<td class=" "><%=desc %></td>
+			<td class="center"><%=desc %></td>
 			<td class="center "><%=teamLimit %></td>
 			<td class="center "><%=pm %></td>
 	</tr>

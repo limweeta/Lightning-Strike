@@ -16,8 +16,8 @@
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
-			@import "./css/style.css";
-			@import "./css/searchstyle.css";
+			/* @import "./css/style.css";
+			@import "./css/searchstyle.css"; */
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -35,7 +35,7 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h1>Search User</h1>
+				<h3>Search User</h3>
 			</div>
 			<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
@@ -85,7 +85,7 @@ for(int i = 0; i < students.size(); i++){
 %>
 	<tr class="">
 			<td class="sorting_1"><a href="userProfile.jsp?id=<%=student.getID()%>"><%=name %></td>
-			<td class=" "><%=fullname %></td>
+			<td class="center"><%=fullname %></td>
 			<td class="center "><%=email %></td>
 	</tr>
 <%

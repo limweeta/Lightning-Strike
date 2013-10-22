@@ -44,7 +44,11 @@ public class AssignReviewerServlet extends HttpServlet {
 		try{
 			projId = Integer.parseInt(request.getParameter("projId"));
 		}catch(Exception e){
-			projId = pdm.retrieveProjectsByName(projName).getId();
+			try{
+				projId = pdm.retrieveProjectsByName(projName).getId();
+			}catch(Exception e1){
+				session.setAttribute("message", "That project does not exist");
+			}
 		}
 		
 		Project p = null;
@@ -63,12 +67,11 @@ public class AssignReviewerServlet extends HttpServlet {
 			rev2Id = u.getID();
 			
 			p.setReviewer2Id(rev2Id);
+			
+			pdm.modify(p);
 		}catch(Exception e){
 			rev2Id = 0;
 			p.setReviewer2Id(rev2Id);
-		}finally{
-			
-			pdm.modify(p);
 		}
 		response.sendRedirect("projectProfile.jsp?id="+projId);
 	}

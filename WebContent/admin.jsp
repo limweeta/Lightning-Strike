@@ -74,7 +74,7 @@
                             %>
                                            ];
         
-        $( "#userName" ).autocomplete({
+        $( "#username" ).autocomplete({
             source: studentNameList
           });
         
@@ -86,7 +86,7 @@
             source: teamNameList
           });
         
-        $( "#assignSup" ).autocomplete({
+        $( "#assignSupName" ).autocomplete({
           source: facultyNameList
         });
         
@@ -111,7 +111,7 @@
 						<!-- Form Name -->
 						<legend>Assign Reviewers</legend>
 					
-						<div class="span8">
+						<div class="span7">
 						<!-- Text input--><!-- 
 						<div class="control-group">
 						  <label class="control-label" for="teamId">Team Name</label>
@@ -119,7 +119,7 @@
 						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
 						</div> -->
-						<!-- </div></br> --></br>
+						<!-- </div></br> -->
 						<!-- <div class="span3"> -->
 						<!-- Text input-->
 						<div class="control-group">
@@ -128,7 +128,7 @@
 						    <input id="projName" name="projName" type="text" class="input-large">
 						  </div>
 						</div>
-						<!-- </div> --></br>
+						<!-- </div> -->
 						<!-- <div class="span4"> -->
 						<!-- Text input-->
 						<div class="control-group">
@@ -137,7 +137,7 @@
 						    <input id="assignRev1" name="assignRev1" type="text" class="input-large">
 						  </div>
 						</div>
-						<!-- </div> --></br>
+						<!-- </div> -->
 						<!-- <div class="span5"> -->
 						<!-- Text input-->
 						<div class="control-group">
@@ -145,7 +145,7 @@
 						  <div class="controls">
 						    <input id="assignRev2" name="assignRev2" type="text" class="input-large">
 						  </div>
-						</div></br>
+						</div>
 						<!-- <div class="span7"> -->
 						<!-- Button -->
 						<div class="control-group">
@@ -153,7 +153,7 @@
 						    <button id="assignReviewer" name="assignReviewer" class="btn btn-success">Assign</button>
 						  </div>
 						</div>
-						</div></br>
+						</div>
 						</fieldset>
 					</form>
 					</div>
@@ -169,7 +169,7 @@
 						<!-- Form Name -->
 						<legend>Assign Supervisor</legend>
 					
-						<div class="span8">
+						<div class="span7">
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="teamId">Team Name</label>
@@ -177,6 +177,7 @@
 						    <input id="teamName" name="teamName" type="text" class="input-large">
 						  </div>
 						</div>
+						
 						<!-- </div></br> -->
 						<!-- <div class="span3"> -->
 						<!-- Text input--><!-- 
@@ -186,16 +187,16 @@
 						    <input id="projName" name="projName" type="text" class="input-large">
 						  </div>
 						</div> -->
-						<!-- </div> --></br>
+						<!-- </div> -->
 						<!-- <div class="span4"> -->
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="assignSup">Supervisor</label>
 						  <div class="controls">
-						    <input id="assignSup" name="assignSup" type="text" class="input-large">
+						    <input id="assignSupName" name="assignSup" type="text" class="input-large">
 						  </div>
 						</div>
-						<!-- </div> --></br>
+						<!-- </div> -->
 						<!-- Button -->
 						<div class="control-group">
 						  <div class="controls">
@@ -211,7 +212,7 @@
         </div>
         <div class="tab-pane" id="suspend">
             <h1>Suspend User</h1>
-            <div class="span7 well">
+            <div class="span8 well">
 					<div class="row">
 					<form action="suspendUser" method="post" class="form-horizontal">
 						<fieldset>
@@ -243,7 +244,7 @@
             <h1>Suspended Users</h1>
 					<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">Suspended Users</h3>
+						<h2 class="panel-title">Suspended Users</h2>
 					</div>
 					<div class="panel-body">
 						<table width="100%">
@@ -270,10 +271,38 @@
         <div class="tab-pane" id="assignTeam">
             <h1>Assign Team to Project</h1>
             <div class="span8 well">
-				<div class="panel-heading">Assign Team</h3>
-				</div>
-				<div class="panel-body">
-					<div class="span8"></div>
+				<div class="row">
+					
+						<form action="" method="post" class="form-horizontal">
+						<fieldset>
+						<legend>Assign Team</legend>
+						<div class="span7">
+						<!-- Form Name -->
+						
+						<!-- Text input-->
+						<div class="control-group">
+						  <label class="control-label" for="teamname">Team Name</label>
+						  <div class="controls">
+						    <input id="teamname" name="teamname" type="text" class="input-large">
+						  </div>
+						</div>
+						<div class="control-group">
+						  <label class="control-label" for="projname">Project Name</label>
+						  <div class="controls">
+						    <input id="projname" name="projname" type="text" class="input-large">
+						  </div>
+						</div>
+						<!-- Button -->
+						<div class="control-group">
+						  <div class="controls">
+						    <input type="submit" value="Assign Team" class="btn btn-success">
+						  </div>
+						</div>
+						</br>
+						</div>
+						</fieldset>
+					</form>
+					</div>
 				</div>	
 			</div>
         </div>

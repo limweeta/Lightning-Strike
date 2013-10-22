@@ -36,14 +36,15 @@ function toggleSkill(source) {
 	}
 </script>
 <head>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+</head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
-  <%
-	String type 					= (String) session.getAttribute("type");
-	StudentDataManager sdm 			= new StudentDataManager();
-	ArrayList<String> majorList 	= sdm.retrieveAllMajors();
-%>
+  	<%
+		String type 					= (String) session.getAttribute("type");
+		StudentDataManager sdm 			= new StudentDataManager();
+		ArrayList<String> majorList 	= sdm.retrieveAllMajors();
+	%>	
 <script type="text/javascript">
     $(function() {
         var majorList = [
@@ -57,11 +58,8 @@ function toggleSkill(source) {
         $( "#secondMajor" ).autocomplete({
             source: majorList
           });
-	</script>	
-</head>
-
+</script>
 <%@include file="template.jsp" %>
-
 <body>
 	<div id="content-container" class="shadow">
 		<div id="content">
@@ -92,7 +90,7 @@ function toggleSkill(source) {
 					
 					<br />
 					<font size="4" face="Courier">Second Major:</font> 
-					<input type="text" id="secondMajor" id="secondMajor" name="secondMajor">
+					<input id="secondMajor" type="text" name="secondMajor" class="input-large">
 					<br /><br />
 						Skills: 
 					<input type=checkbox onclick="toggleSkill(this)" />Select All<br />

@@ -2,6 +2,11 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+
+<style type="text/css">
+
+</style>
+
 	<head>
 	<%@include file="template.jsp"%>
 	<%
@@ -27,8 +32,8 @@
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
-			@import "./css/style.css";
-			@import "./css/searchstyle.css";
+			/* @import "./css/style.css";
+			@import "./css/searchstyle.css"; */
 		</style>
 		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
@@ -57,7 +62,7 @@
 			} 
 		%>
 			<div class="full_width big">
-				<h1>Search Projects </h1>
+				<h3>Search Projects </h3>
 				<% if(type.equalsIgnoreCase("Student")){ %>
 				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
 				<% } %>
@@ -132,7 +137,7 @@
 	%>
 	<tr class="">
 			<td class="sorting_1"><%=strTerm %></td>
-			<td class=" "><a href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
+			<td class="center"><a style="color:#000000" href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
 			<td class="center "><%=sponsor %></td>
 	</tr>

@@ -768,11 +768,14 @@ h1 {
 }
 
 h2 {
-  font-size: 31.5px;
+  font-size: 35.5px;
 }
 
 h3 {
-  font-size: 24.5px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 21px;
+  line-height: 40px;
+  color: #4E6CA3;
 }
 
 h4 {
@@ -780,7 +783,10 @@ h4 {
 }
 
 h5 {
-  font-size: 14px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 21px;
+  line-height: 50px;
+  color: #4E6CA3;
 }
 
 h6 {
@@ -1965,6 +1971,7 @@ legend + .control-group {
 
 .form-horizontal .control-label {
   float: left;
+  font-weight: bold;
   width: 160px;
   padding-top: 5px;
   text-align: right;
@@ -5684,6 +5691,18 @@ a.badge:focus {
   cursor: pointer;
 }
 
+.label-default,
+.badge-default {
+  background-color: #ECECEC;
+  color: #000000;
+  font-weight: normal;
+}
+
+.label-default[href],
+.badge-default[href] {
+  background-color: #ECECEC;
+}
+
 .label-important,
 .badge-important {
   background-color: #b94a48;
@@ -5717,11 +5736,23 @@ a.badge:focus {
 .label-info,
 .badge-info {
   background-color: #3a87ad;
+  padding: 5px;
 }
 
 .label-info[href],
 .badge-info[href] {
   background-color: #2d6987;
+}
+
+.label-danger,
+.badge-danger {
+  background-color: #FE0000;
+  padding: 5px;
+}
+
+.label-danger[href],
+.badge-danger[href] {
+  background-color: #FE0000;
 }
 
 .label-inverse,

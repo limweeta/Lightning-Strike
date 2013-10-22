@@ -17,17 +17,44 @@
 	#teamLimit{
 		width:5em;
 	} */
+
 </style>
 
 <head>
-	<%@ include file="template.jsp" %> </br>
+
+	<%@ include file="template.jsp" %>
+	<%
+  StudentDataManager sdm = new StudentDataManager();
+  ArrayList<String> usernameList 	= sdm.retrieveUsernameList();
+  
+	RoleDataManager rdm = new RoleDataManager();
+	ArrayList<Role> roles = rdm.retrieveAll();
+	UserDataManager udm = new UserDataManager();
+	
+	boolean hasTeam = false;
+		String type = "";
+		try{
+
+			if(sdm.hasTeam(udm.retrieve(username))){
+				hasTeam = true;
+			}
+			
+			type = udm.retrieve(username).getType();
+			
+			if(type.equalsIgnoreCase("Sponsor")){
+				session.setAttribute("message", "Only students can create teams");
+				response.sendRedirect("searchTeam.jsp");
+			}
+			
+		}catch(Exception e){
+			session.setAttribute("message", "You need to be logged in to create a team");
+			response.sendRedirect("index.jsp");
+		}
+	%>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
-  <%
-  StudentDataManager sdm = new StudentDataManager();
-  ArrayList<String> usernameList 	= sdm.retrieveUsernameList();
-  %>
+  
     <script type="text/javascript">
     $(function() {
         var studentNameList = [
@@ -88,38 +115,40 @@
     	  return false;
     	  }
     }
+    
+    /* function showHide(){
+        var option=document.getElementById('teamlimit').value;
+
+        if(option=="5"){
+                document.getElementById('mem5').style="display:show";
+        }
+            else if(option=="6"){
+            	document.getElementById('mem5').style="display:show";
+            	document.getElementById('mem6').style="display:show";
+            }
+
+    }  */
+  $('#teamlimit').on('change',function(){
+	    if( $(this).val()==="5"){
+        $("#mem5").show();
+        }
+        else if($(this).val()==="6"){
+        $("#mem5").show();
+        $("#mem6").show();
+        }else{
+        	$("#mem5").hide();
+        	$("#mem6").hide();
+        }
+	});
 	</script>	
-	<%
-	RoleDataManager rdm = new RoleDataManager();
-	ArrayList<Role> roles = rdm.retrieveAll();
-	UserDataManager udm = new UserDataManager();
-	
-	boolean hasTeam = false;
-		String type = "";
-		try{
-			type = udm.retrieve(username).getType();
-			
-			if(type.equalsIgnoreCase("Sponsor")){
-				session.setAttribute("message", "Only students can create teams");
-				response.sendRedirect("searchTeam.jsp");
-			}
-			
-			if(sdm.hasTeam(udm.retrieve(username))){
-				hasTeam = true;
-			}
-		}catch(Exception e){
-			session.setAttribute("message", "You need to be logged in to create a team");
-			response.sendRedirect("index.jsp");
-		}
-	%>
 	</head>
 
 	<body>
-		<div id="content-container" >
+		<div id="content-container">
 			<div id="content">
-				<div class="createTeam">
+				<div class="span12 well">
 					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
-						<fieldset>
+						<div class="span11">
 						<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -151,16 +180,15 @@
 						
 						<!-- Select Basic -->
 						<div class="control-group">
-						  <label class="control-label" for="teamlimit">Team Limit</label>
+						  <label class="control-label">Team Limit</label>
 						  <div class="controls">
-						    <select id="teamlimit" name="teamlimit" class="input-large" onchange="javascript: showHide();">
-						      <option selected>4</option>
-						      <option>5</option>
-						      <option>6</option>
+						    <select id="teamlimit" name="teamlimit" class="input-large">
+						      <option value="4" selected>4</option>
+						      <option value="5">5</option>
+						      <option value="6">6</option>
 						    </select>
 						  </div>
 						</div>
-						
 						<div class="control-group">
 						  <label class="control-label" for="projectmanager">Team Members</label>
 						</div>
@@ -175,9 +203,9 @@
 						</div>
 						
 						<!-- Text input-->
-						<div id="mem2" class="control-group">
+						<div class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
-						  <div class="controls">
+						  <div id="members" class="controls">
 						    <input id="username2" name="username" type="text" placeholder="User Name" class="input-large">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
@@ -280,92 +308,112 @@
 						    	 <option value="<%=role.getId() %>"><%=role.getRoleName() %></option>
 						    	 <% 
 						    	 }
-						     }
+						     }	
 						     %>
 						    </select>
 						  </div>
 						</div>
 						
-						<div class="control-group">
-						  <label class="control-label" for="textinput">Preferred Industry</label>
-						  <div class="controls">
-						    <table border="0">
-						     <tr>
-						     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;Select All</td>
-						     </tr>
-						    	<tr>
-								 <%
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		          Preferred Industry
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+							<%
 								  IndustryDataManager idm = new IndustryDataManager();
 								  ArrayList<Industry> industries = idm.retrieveAll();
 								 
 								  for(int i = 0; i < industries.size(); i++){
 									  Industry ind = industries.get(i);
 									  %><td>
-									  <input type="checkbox" name="industry" value="<%=ind.getIndustryId()%>">&nbsp;<%=ind.getIndustryName() %>&nbsp;&nbsp;
-									  </td>
+									  <input type="checkbox" name="industry" value="<%=ind.getIndustryId()%>">&nbsp;<span class="label label-default"><%=ind.getIndustryName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
 									  <%
 									  if((i+1) % 3 == 0){
-										  %>
-										  </tr><tr>
-										  <%
+										  %></tr><tr class="spaceunder">
+								<%
 									  }
 								  }
 								  %>
-								  	</tr>
-						    </table>
-						  </div>
-						</div>
-						
-						<div class="control-group">
-						  <label class="control-label" for="textinput">Preferred Technology</label>
-						  <div class="controls">
-						    <table border="0">
-						     <tr>
-						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
+					  	</tr>
+					</table>
+		 	  </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+			    <div class="panel-heading">
+			      <h4 class="panel-title">
+			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+			          Preferred Technology
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseTwo" class="panel-collapse collapse">
+			      <div class="panel-body">
+				    	<table>
+							<tr class="spaceunder">
+							     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
 						     </tr>
-						    	<tr>
-								 <%
+					    	<tr class="spaceunder">
+								<%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  ArrayList<Technology> technologies = tdm.retrieveAll();
 								 
 								  for(int i = 0; i < technologies.size(); i++){
 									  Technology tech = technologies.get(i);
 									  %><td>
-									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;
-									  </td>
-									  <%
+									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
+									   <%
 									  if((i+1) % 3 == 0){
-										  %>
-										  </tr><tr>
-										  <%
+									  %>
+								  </tr><tr class="spaceunder">
+								  <%
 									  }
 								  }
 								  %>
-								  	</tr>
-						    </table>
-						  </div>
-						</div>
-						
+						  	</tr>
+						</table> 
+					</div>
+			    </div>
+			  </div>
+		  </div>
+						</br></br>	
 						<!-- Button -->
-						<div class="control-group">
-						  <label class="control-label" for="createteam"></label>
-						  <div class="controls">
+						<table>
 						  	<%
 								if(hasTeam){
 							%>
-						    <button id="createteam" name="createteam" class="btn btn-success" disabled="disabled">Create Team</button><br />
+							<tr>
+							<td class = "space" align = "justify">
+						    <input type="submit" id="createteam" value="Create Team" class="btn btn-success" disabled="disabled">
+						    </td>
 						    <font size=-1 color="red"><i>You already have a team</i></font>
 						    <%
 								}else{
 									%> 
-							<input type="submit" id="createteam" value="Create Team" class="btn btn-success">
+									<td class = "space" align = "justify">
+									<input type="submit" id="createteam" value="Create Team" class="btn btn-success">
+									</td>
 									<%
 								}
 						    %>
-						  </div>
-						</div>
+						    </tr>
+						</table> 
 						
-						</fieldset>
+						
+						</div>
 						</form>
 					
 					<br/>
