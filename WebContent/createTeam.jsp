@@ -30,6 +30,7 @@
 	RoleDataManager rdm = new RoleDataManager();
 	ArrayList<Role> roles = rdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
+	boolean invalidAccess = false;
 	
 	boolean hasTeam = false;
 		String type = "";
@@ -43,12 +44,14 @@
 			
 			if(type.equalsIgnoreCase("Sponsor")){
 				session.setAttribute("message", "Only students can create teams");
+				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
 			}
 			
 		}catch(Exception e){
 			session.setAttribute("message", "You need to be logged in to create a team");
-			response.sendRedirect("index.jsp");
+			invalidAccess = true;
+			response.sendRedirect("searchTeam.jsp");
 		}
 	%>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -142,7 +145,7 @@
 	});
 	</script>	
 	</head>
-
+<% if(!invalidAccess){ %>
 	<body>
 		<div id="content-container">
 			<div id="content">
@@ -421,4 +424,5 @@
 			</div>
 		</div>
 	</body>
+<% } %>
 </html>

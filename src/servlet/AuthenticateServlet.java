@@ -46,7 +46,7 @@ public class AuthenticateServlet extends HttpServlet {
 						
 						session.setAttribute("fullname", fullName);
 						session.setAttribute("username", sponsorUsername);
-						session.setAttribute("type", "Sponsor");
+						session.setAttribute("type", udm.retrieveByFullName(fullName).getType());
 						
 						response.sendRedirect("mainPage.jsp");
 					}else{

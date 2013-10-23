@@ -35,6 +35,11 @@
     
 	<% 
 		String type = (String) session.getAttribute("type");
+	
+	if(type == null || type.isEmpty()){
+		type = "";
+	}
+		
 		String teamIdStr = request.getParameter("id");
 		int sessUserId = 0;
 		int teamId = 0;

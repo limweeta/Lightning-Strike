@@ -105,7 +105,8 @@
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
                	</ul>
                </li>
-               <%if(userType.equals("Admin")){ %>
+
+               <%if(userType.equalsIgnoreCase("Admin")){%>
                		 <li class="dropdown"><a href="./admin.jsp">Admin</a></li>
                <%} %>
               <!--  <li><a href="#" >Schedule</a></li>

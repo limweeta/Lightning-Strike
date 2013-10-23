@@ -75,10 +75,11 @@ int currMth = now.get(Calendar.MONTH);
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
 	<%@ include file="template.jsp" %>
-	<%	
+	<%	boolean invalidAccess = false;
 		if(username == null){
 			session.setAttribute("message", "You need to be logged in to create a project");
-			response.sendRedirect("index.jsp");
+			invalidAccess = true;
+			response.sendRedirect("searchProject.jsp");
 		}
 	
 	User u = udm.retrieve(username);
@@ -96,6 +97,7 @@ int currMth = now.get(Calendar.MONTH);
 	}
 	%> 
 	</head>
+<% if(!invalidAccess){ %>
 	<body>
 		<div id="content-container" class="shadow">
 			<div id="content" align = "justify">
@@ -348,4 +350,5 @@ int currMth = now.get(Calendar.MONTH);
 				</div>
 			</div>
 	</body>
+<% } %>
 </html>

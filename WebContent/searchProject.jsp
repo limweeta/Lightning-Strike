@@ -51,7 +51,14 @@
 	</head>
 	<body id="dt_example">
 		<div id="container">
-		<% String message = (String) session.getAttribute("message"); 
+			<div class="full_width big">
+				<h3>Search Projects </h3>
+				<% if(type.equalsIgnoreCase("Student")){ %>
+				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
+				<% } %>
+			</div>
+		<% 
+			String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
 				message = "";
 			}else{
@@ -61,13 +68,6 @@
 			session.removeValue("message");
 			} 
 		%>
-			<div class="full_width big">
-				<h3>Search Projects </h3>
-				<% if(type.equalsIgnoreCase("Student")){ %>
-				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
-				<% } %>
-			</div>
-			
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
 		<%
 			String reqId = request.getParameter("id");
