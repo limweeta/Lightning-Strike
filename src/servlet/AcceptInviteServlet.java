@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -53,7 +50,22 @@ public class AcceptInviteServlet extends HttpServlet {
 			
 			stdm.modify(std);
 			
-			//SEND NOTIFICATION TO TEAM
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = stdm.retrieve(team.getPmId()).getEmail();
+		    String subject = "[IS480] Your invitation to " + std.getFullName() + " has been accepted";
+		    String content = std.getFullName() + " has accepted your invitation."
+		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		     
+		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+			//SEND EMAIL TO REJECT OTHER TEAMS
+ 
+		     
 			session.setAttribute("message", "You have joined " + team.getTeamName());
 		}catch(Exception e){}
 		

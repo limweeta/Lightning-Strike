@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -34,13 +31,29 @@ public class RejectStudentServlet extends HttpServlet {
 		int stdId = Integer.parseInt(request.getParameter("stdId"));
 		
 		TeamDataManager tdm = new TeamDataManager();
+		StudentDataManager stdm = new StudentDataManager();
 		
 		Team t = null;
-		
+		Student st = null;
 		try{
-			tdm.removeStudentRequest(stdId, teamId);
-			//SEND NOTIFICATION TO TEAM
-			session.setAttribute("message", t.getTeamName() + " has been rejected");
+			t = tdm.retrieve(teamId);
+			st = stdm.retrieve(stdId);
+			
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = st.getEmail();
+		    String subject = "[IS480] Your request has been rejected";
+		    String content = "Your request for " + t.getTeamName() + " to join their team has been rejected."
+		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		     
+		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+			
+			session.setAttribute("message", st.getFullName() + " has been rejected");
 		}catch(Exception e){}
 		
 		response.sendRedirect("teamProfile.jsp?id="+teamId);

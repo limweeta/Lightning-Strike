@@ -75,8 +75,6 @@ public class RegisterServlet extends HttpServlet {
 		
 		String username = request.getParameter("userName");
 		
-		//TO VALIDATE WHEN JAVAMAIL.JAR HAS BEEN ADDED
-		
 		String fullName = request.getParameter("fullName");
 		String contactNum = request.getParameter("contactNum");
 		String email	= request.getParameter("email");
@@ -106,6 +104,19 @@ public class RegisterServlet extends HttpServlet {
 				Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);
 				sdm.add(newSponsor);
 				
+				/*
+				ServletContext context = getServletContext();
+				String host = context.getInitParameter("host");
+				String port = context.getInitParameter("port");
+				String user = context.getInitParameter("user");
+				String pass = context.getInitParameter("pass");
+			    String recipient  = email;
+			    String subject = "[IS480] Your account has been created successfully";
+			    String content = "Your account, " + username + ", has been created."
+			    		+ "\n Click <a href=\"202.161.45.127/is480-matching/userProfile.jsp?id=" + sponsorid + "\">here</a> to view";
+			     
+			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+				*/
 				session.setAttribute("message", "Account successfully created");
 			} catch (Exception e) {
 				e.printStackTrace();

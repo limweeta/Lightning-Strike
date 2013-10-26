@@ -11,25 +11,33 @@
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
 	<%
+		UserDataManager um = new UserDataManager();
 		String fullName = (String)session.getAttribute("fullname");
 		String username = (String) session.getAttribute("username");
+		User user = um.retrieve(username);
 	%>
 	<div id="topbanner">
 	<div class="headercontainer">
-		<a href="./index.jsp">
+		
 		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
-		<%
-			if(fullName == null){
-				fullName = "guest";
-			}
-		%>
 		<table id="profile">
 			<tr>
-				<td><div id="welcome">Welcome, <%=fullName %></div></td><!-- 
-				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
+			<%
+			if(fullName == null){
+				fullName = "guest";
+			%>
+				<td><div id="welcome">Welcome, <%=fullName %></div></td>
+				<!-- <td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
 				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	 -->
 			   	<td></td> 
 			   	<td></td>
+			<%}else {%>
+				<td><div id="welcome">Welcome, <a href="userProfile.jsp?id=<%=user.getID()%>"> <%=fullName %></a></div></td>
+				<!-- <td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
+				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	 -->
+			   	<td></td> 
+			   	<td></td>
+			<%}%>
 		   	<%
 			if(!fullName.equals("guest")){
 			%>

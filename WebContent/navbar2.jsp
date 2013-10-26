@@ -56,18 +56,18 @@
 
 		function validateUsername(fld) {
 		    var error = "";
-		    var illegalChars = /\W/; // allow letters, numbers and underscores
+		    //var illegalChars = /\W/; // allow letters, numbers and underscores
 		 
 		    if (fld.value == "") {
 		        fld.style.background = 'Yellow'; 
 		        error = "You didn't enter a username.\n";
-		    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+		    } else if (fld.value.length < 5) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your username is the too short.\n";
-		    } else if (illegalChars.test(fld.value)) {
+		    } /* else if (illegalChars.test(fld.value)) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your username contains illegal characters.\n";
-		    } else {
+		    }  */else {
 		        fld.style.background = 'White';
 		    } 
 		    return error;
@@ -173,7 +173,7 @@
 		    if (fld.value == "") {
 		        fld.style.background = 'Yellow'; 
 		        error = "You didn't enter an address.\n";
-		    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+		    } else if (fld.value.length < 5) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your address is the too short.\n";
 		    }else {
@@ -291,13 +291,13 @@
 	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 	              	<form action="register" method="post" onSubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
 					  <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" />
+					  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" />
 					  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" />
 					  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" />
 					  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="Email" size="45" />
 					  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" />
 					  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" />
 					  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" />
-					  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" />
 					  <div id="loginError" class="error"></div>
 					  <div class="field-container">
 							<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />

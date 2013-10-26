@@ -27,7 +27,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
-		<title>DataTables example</title>
+		<title>Search Project</title>
 		<style type="text/css" title="currentStyle">
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
@@ -54,7 +54,7 @@
 			<div class="full_width big">
 				<h3>Search Projects </h3>
 				<% if(type.equalsIgnoreCase("Student")){ %>
-				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" /></form></p> 
+				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" class="btn btn-primary"/></form></p> 
 				<% } %>
 			</div>
 		<% 
@@ -124,7 +124,12 @@
 				sponsor = "Not Available";
 			}else{
 				SponsorDataManager spdm = new SponsorDataManager();
-				sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
+				
+				try{
+					sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
+				}catch(Exception e){
+					sponsor = "Not Available";
+				}
 				
 			}
 			
@@ -139,7 +144,7 @@
 			<td class="sorting_1"><%=strTerm %></td>
 			<td class="center"><a style="color:#000000" href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
-			<td class="center "><%=sponsor %></td>
+			<td class="center "><a href="userProfile.jsp?id=<%=sponsorid%>"><%=sponsor %></td>
 	</tr>
 	<%
 	}

@@ -28,10 +28,46 @@ public class DeleteProjectServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		
 		ProjectDataManager pdm = new ProjectDataManager();
+		UserDataManager udm = new UserDataManager();
+		TeamDataManager tdm = new TeamDataManager();
 		
 		int projID = Integer.parseInt(request.getParameter("projId"));
 		
+		Project p = null;
+		Team team = null;
+		User u = null;
+		
 		pdm.remove(projID);
+		try{
+			p = pdm.retrieve(projID);
+			u = udm.retrieve(p.getCreatorId());
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = u.getEmail();
+		    String subject = "[IS480] Project has been deleted";
+		    String content = p.getProjName() + " has been deleted.";
+		     
+		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+		    
+		    if(p.getTeamId() != 0 ){
+		    	team = tdm.retrieve(p.getTeamId());
+		    	
+		    	u = udm.retrieve(team.getPmId());
+		    	
+			    recipient  = u.getEmail();
+			    subject = "[IS480] Project has been deleted";
+			    content = "The project you are undertaking, " + p.getProjName() + ", has been deleted.";
+			     
+			    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+		    }
+		    */
+		}catch(Exception e){
+			
+		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("searchProject.jsp");
 		rd.forward(request, response);

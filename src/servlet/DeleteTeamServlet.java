@@ -28,8 +28,39 @@ public class DeleteTeamServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		
 		TeamDataManager tdm = new TeamDataManager();
-		
+		StudentDataManager stdm = new StudentDataManager();
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
+		
+		Student std = null;
+		Team team = null;
+		ArrayList<Integer> membersId = new ArrayList<Integer>();
+		
+		try{
+			team = tdm.retrieve(teamId);
+			
+			membersId = tdm.retrieveStudentsInTeam(team);
+			
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+			
+			for(int i = 0; i < membersId.size(); i++){
+				std = stdm.retrieve(membersId.get(i));
+				
+				String recipient  = std.getEmail();
+			    String subject = "[IS480] Your team has been deleted";
+			    String content = team.getTeamName() + " has been deleted.";
+			     
+			    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			}
+			*/
+		}catch(Exception e){
+			
+		}
+		
 		
 		tdm.updateStudentsIfTeamDeleted(teamId); //Update Students Table
 		tdm.updateProjectIfTeamDeleted(teamId);	//Update Project Table

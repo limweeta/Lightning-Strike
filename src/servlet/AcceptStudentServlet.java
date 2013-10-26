@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -35,6 +32,7 @@ public class AcceptStudentServlet extends HttpServlet {
 		
 		StudentDataManager stdm = new StudentDataManager();
 		TeamDataManager tdm = new TeamDataManager();
+		
 		tdm.removeAllStudentRequest(teamId);
 		
 		Student std = null;
@@ -43,9 +41,26 @@ public class AcceptStudentServlet extends HttpServlet {
 			std = stdm.retrieve(stdId);
 			std.setTeamId(teamId);
 			
+			Team team = tdm.retrieve(teamId);
 			
 			stdm.modify(std);
-			//SEND NOTIFICATION TO TEAM
+			
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = std.getEmail();
+		    String subject = "[IS480] Your request to join a team has been accepted";
+		    String content = team.getTeamName() + " has accepted your request to join their team."
+		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		     
+		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+		    //SEND EMAIL TO REJECT OTHER STUDENTS
+		     
+		     
 			session.setAttribute("message", std.getFullName() + " has joined your team");
 		}catch(Exception e){}
 		

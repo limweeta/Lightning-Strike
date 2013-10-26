@@ -46,6 +46,14 @@
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
+			}else if(type.equalsIgnoreCase("Faculty")){
+				session.setAttribute("message", "Only students can create teams");
+				invalidAccess = true;
+				response.sendRedirect("searchTeam.jsp");
+			}else if(type.equalsIgnoreCase("Admin")){
+				session.setAttribute("message", "Only students can create teams");
+				invalidAccess = true;
+				response.sendRedirect("searchTeam.jsp");
 			}
 			
 		}catch(Exception e){

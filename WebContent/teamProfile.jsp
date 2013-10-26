@@ -239,7 +239,7 @@
 		  </div>
 		  
 		  <br />
-		<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
+	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
 	
@@ -330,38 +330,54 @@
 		  </div>
 		</div><br />
 		<!-- @CHLOE PUT SKILLS IN THE SAME AS INDUSTRY AND TECH -->
-		<label class="control-label" for="teamskills">Team Skills</label>
-		<div class="span1 well">
-		    <%
-            SkillDataManager skdm = new SkillDataManager();
-            ArrayList<Integer> skillset = tdm.retrieveTeamSkills(team);
-            
-            for(int i = 0; i < skillset.size(); i++){
-            	int count = i + 1;
-            	int skillId = skillset.get(i);
-            	Skill skill = skdm.retrieve(skillId);
-            	%>
-            	<span class = "label label-default"><%=skill.getSkillName()%></span></br>
-            	<%
-            	if(count % 3 == 0){
-            		%>
-            		</br>
-            		<%
-            	}
-            }
-            %>
-           
-		</div><br /><br /><br /><br /><br /><br />
+		
 	<div class="panel-group" id="accordion">
+		<div class="panel panel-default">
+			    <div class="panel-heading">
+			      <h4 class="panel-title">
+			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+			          Team Skills 
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseFive" class="panel-collapse collapse">
+			      <div class="panel-body">
+				    	<table>
+					    	<tr class="spaceunder">
+								<%
+					            SkillDataManager skdm = new SkillDataManager();
+					            ArrayList<Integer> skillset = tdm.retrieveTeamSkills(team);
+					            System.out.println(skillset.size());
+					            for(int k = 0; k < skillset.size(); k++){
+					            	int count2 = k + 1;
+					            	int skillId = skillset.get(k);
+					            	Skill skill = skdm.retrieve(skillId);
+					            	%><td>
+									 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
+									  </td><td></td>
+									   <%
+									  if((k+1) % 3 == 0){
+									  %>
+								  </tr><tr class="spaceunder">
+								  <%
+									  }
+					            }
+								  %>
+						  	</tr>
+						</table> 
+					</div>
+			    </div>
+			  </div>
+			  </br>
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
 		          Preferred Industry
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseOne" class="panel-collapse collapse">
+		    <div id="collapseThree" class="panel-collapse collapse">
 		      <div class="panel-body">
 		 			<table>
 						<tr class="spaceunder">
@@ -415,12 +431,12 @@
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
 		          Preferred Technology
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse">
+		    <div id="collapseFour" class="panel-collapse collapse">
 		      <div class="panel-body">
 			    	<table>
 						<tr class="spaceunder">

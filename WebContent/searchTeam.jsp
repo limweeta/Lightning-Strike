@@ -18,7 +18,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
-		<title>DataTables example</title>
+		<title>Search Team</title>
 		<style type="text/css" title="currentStyle">
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
@@ -46,7 +46,7 @@
 			<div class="full_width big">
 				<h3>Search Teams </h3>
 				<% if(type.equalsIgnoreCase("Student")){ %>
-				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" /></form></p>
+				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" class="btn btn-primary"/></form></p>
 				<% } %>
 			</div>
 			<% 

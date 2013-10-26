@@ -132,6 +132,22 @@ public class CreateTeamServlet extends HttpServlet {
 					String role = roles[i];
 					int id = u.getID();
 					sdm.updateStudent(id, teamid, role);
+					
+					/*
+					ServletContext context = getServletContext();
+					String host = context.getInitParameter("host");
+					String port = context.getInitParameter("port");
+					String user = context.getInitParameter("user");
+					String pass = context.getInitParameter("pass");
+				    String recipient  = u.getEmail();
+				    String subject = "[IS480] Your team has been created successfully";
+				    String content = teamName + " has been created."
+				    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamid + "\">here</a> to view";
+				     
+				     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+					*/
+					
+					
 				}catch(Exception e){}
 			}
 			tdm.add(team, prefIndustry, prefTech);

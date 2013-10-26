@@ -72,14 +72,14 @@
     	}
 	</script>	
     	<%
-    		User user = null;
+    		User sessUser = null;
     		int userId = 0;
 			String type = "";
 			try{
 				type = udm.retrieve(username).getType();
 				System.out.println(type);
-				user = udm.retrieve(username);	
-				userId = user.getID();
+				sessUser = udm.retrieve(username);	
+				userId = sessUser.getID();
 			}catch(Exception e){
 				userId = 0;
 				type= "";
@@ -305,7 +305,7 @@
 		  <label class="control-label" for="projectname">Project Name</label>
 		  <div class="controls">
 		  <%
-		  if(user != null){
+		  if(sessUser != null){
 				if(userId == reqProj.getCreatorId()){
 			  %>
 			 		<input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" class="input-large"/>
@@ -477,7 +477,7 @@
 		  <label class="control-label" for="industry">Industry</label>
 		  <div class="controls">
 		   <%
-		  if(user != null){
+		  if(sessUser != null){
 				if(userId == reqProj.getCreatorId()){
 			  %>
 		    <select id="industry" name="industry" class="input-large">
@@ -569,12 +569,12 @@
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
 		          Preferred Skills
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseOne" class="panel-collapse collapse">
+		    <div id="collapseTwo" class="panel-collapse collapse">
 		      <div class="panel-body">
 		 			<table>
 						<tr class="spaceunder">
@@ -614,12 +614,12 @@
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
 		          Technology
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse">
+		    <div id="collapseThree" class="panel-collapse collapse">
 		      <div class="panel-body">
 			    	<table>
 						<tr class="spaceunder">

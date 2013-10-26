@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -34,15 +31,32 @@ public class StudentRequestServlet extends HttpServlet {
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		TeamDataManager tdm = new TeamDataManager();
-		
+		StudentDataManager stdm = new StudentDataManager(); 
 		Team team = null;
-		
+		Student pm = null;
+		Student std = null;
 		try{
 			team = tdm.retrieve(teamId);
+			pm = stdm.retrieve(team.getPmId());
+			std = stdm.retrieve(userId);
 			
 			tdm.studentRequest(userId, teamId);
 			
-			session.setAttribute("message", "You must have requested to join " + team.getTeamName());
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = pm.getEmail();
+		    
+		    String subject = "[IS480] You have a new team request";
+		    String content = std.getFullName() + " has requested to join your team, " + team.getTeamName()
+		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		     
+		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+			session.setAttribute("message", "You have requested to join " + team.getTeamName());
 		
 		}catch(Exception e){}
 		

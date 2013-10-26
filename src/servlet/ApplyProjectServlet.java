@@ -59,11 +59,12 @@ public class ApplyProjectServlet extends HttpServlet {
 				String pass = context.getInitParameter("pass");
 			    String recipient  = u.getEmail();
 			    String subject = "[IS480] You have an application pending approval/rejection";
-			    String content = team.getTeamName() + " has applied for your project.";
+			    String content = team.getTeamName() + " has applied for your project."
+			    		+ "\n Click <a href=\"202.161.45.127/is480-matching/projectProfile.jsp?id=" + projId + "\">here</a> to view";
 			     
 			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			     
-				session.setAttribute("message", "You have successfully applied for the project");
+				session.setAttribute("message", "You have successfully applied for the project.");
 			}
 		}catch(Exception e){}
 		

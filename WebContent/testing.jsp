@@ -249,26 +249,25 @@
 		  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-			          Technology
+			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+			          Team Skills 
 			        </a>
 			      </h4>
 			    </div>
-			    <div id="collapseOne" class="panel-collapse collapse">
+			    <div id="collapseFive" class="panel-collapse collapse">
 			      <div class="panel-body">
 				    	<table>
-							<tr class="spaceunder">
-							     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-						     </tr>
 					    	<tr class="spaceunder">
 								<%
-								  TechnologyDataManager tdm = new TechnologyDataManager();
-								  ArrayList<Technology> technologies = tdm.retrieveAll();
-								 
-								  for(int i = 0; i < technologies.size(); i++){
-									  Technology tech = technologies.get(i);
-									  %><td>
-									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+					            SkillDataManager skdm = new SkillDataManager();
+					            ArrayList<Integer> skillset = tdm.retrieveTeamSkills(team);
+					            
+					            for(int i = 0; i < skillset.size(); i++){
+					            	int count = i + 1;
+					            	int skillId = skillset.get(i);
+					            	Skill skill = skdm.retrieve(skillId);
+					            	%><td>
+									 <span class = "label label-default"><%=skill.getSkillName()%></span>>&nbsp;&nbsp;
 									  </td><td></td>
 									   <%
 									  if((i+1) % 3 == 0){
@@ -282,6 +281,7 @@
 						</table> 
 					</div>
 			    </div>
+			  </div>
 			  </div>
 			  <div class="panel panel-default">
 		    <div class="panel-heading">

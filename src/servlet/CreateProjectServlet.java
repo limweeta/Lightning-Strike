@@ -34,7 +34,6 @@ public class CreateProjectServlet extends HttpServlet {
 		TechnologyDataManager tdm = new TechnologyDataManager();
 		
 		
-		
 		ArrayList<Project> projects = pdm.retrieveAll();
 		int id = 0;
 		
@@ -129,6 +128,23 @@ public class CreateProjectServlet extends HttpServlet {
 					}
 					pdm.addTech(id, tech.getId());
 				}
+			
+			User creator = udm.retrieve(creator_id);	
+			/*
+				ServletContext context = getServletContext();
+				String host = context.getInitParameter("host");
+				String port = context.getInitParameter("port");
+				String user = context.getInitParameter("user");
+				String pass = context.getInitParameter("pass");
+			    String recipient  = creator.getEmail();
+			    String subject = "[IS480] Your project has been created successfully";
+			    String content = projName + " has been created."
+			    		+ "\n Click <a href=\"202.161.45.127/is480-matching/projectProfile.jsp?id=" + id + "\">here</a> to view";
+			     
+			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+				
+			*/	
+				
 			}catch(Exception e){
 				//System.out.println("No technology");
 			}

@@ -139,7 +139,7 @@ function toggleSkill(source) {
 		type = uProfile.getType();
 		userSkills = skdm.getUserSkills(uProfile);
 	}catch(Exception e){
-		session.setAttribute("message","You do not have a valid profile to view");
+		session.setAttribute("message","Please choose a valid profile to view");
 		invalidAccess = true;
 		response.sendRedirect("searchUser.jsp");
 	}
@@ -228,13 +228,19 @@ function toggleSkill(source) {
 				message = "";
 			}else{
 		%>
-			<font size=-1 color="red"><i><%=message %></i></font>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			<div class="alert alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
 			<%
 			session.removeValue("message");
 			} %>
 		<!-- Form Name -->
 		<h3>User Profile</h3>
 		<div class="span11">
+		<%if (type.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -306,7 +312,7 @@ function toggleSkill(source) {
 		  		Team team = teamRequests.get(i);
 		  		%>
 		  		<td>
-		  		<a href="userProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
 		  		<font size=-1 color="grey"><i>Awaiting response...</i></font>
 		  		</td>
 		  		<%
@@ -327,6 +333,7 @@ function toggleSkill(source) {
 		  <br />
 	</div>
 	</div>
+	<%} %>
 	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=uProfile.getID()%>">
 	

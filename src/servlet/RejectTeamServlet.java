@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import model.Project;
-import model.Sponsor;
-
 import model.*;
 import manager.*;
 
@@ -35,20 +32,39 @@ public class RejectTeamServlet extends HttpServlet {
 		
 		ProjectDataManager pdm = new ProjectDataManager();
 		TeamDataManager tdm = new TeamDataManager();
+		StudentDataManager stdm = new StudentDataManager();
+		UserDataManager udm = new UserDataManager();
+		
 		pdm.removeTeamApplication(teamId);
 		
 		Project p = null;
 		Team t = null;
-		
-		
+		Student pm = null;
+		User sponsor = null;
 		try{
 			p = pdm.retrieve(projId);
 			p.setTeamId(teamId);
 			
 			t =  tdm.retrieve(teamId);
-			
+			pm = stdm.retrieve(t.getPmId());
+			sponsor = udm.retrieve(p.getSponsorId());
 			pdm.modify(p);
-			//SEND NOTIFICATION TO TEAM
+			
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = pm.getEmail();
+		    
+		    String subject = "[IS480] Your application to take on a project has been rejected";
+		    String content = sponsor.getFullName() + " has rejected your application to take on their project, " + p.getProjName()
+		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/searchProject.jsp\">here</a> to browse other projects";
+		     
+		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+			
 			session.setAttribute("message", t.getTeamName() + " has been rejected for this project");
 		}catch(Exception e){}
 		
