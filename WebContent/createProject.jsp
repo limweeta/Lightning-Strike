@@ -282,7 +282,7 @@ int currMth = now.get(Calendar.MONTH);
 											  for(int i = 0; i < skills.size(); i++){
 												  Skill skill = skills.get(i);
 												  %><td>
-												  <input type="checkbox" name="skill" value="<%=skill.getId()%>>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
 												  </td><td></td>
 												  <%
 												  if((i+1) % 3 == 0){

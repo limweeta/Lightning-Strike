@@ -546,7 +546,7 @@ public class ProjectDataManager implements Serializable {
 		int creatorId		= proj.getCreatorId();
 		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`projects` "
-				+ "VALUES ('" + id + "', " + coyId +", " + teamId + "," + sponsorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', " + industry + ", '" + termId + "', " + creatorId + ");");
+				+ "VALUES (" + id + ", " + coyId +", " + teamId + "," + sponsorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', " + industry + ", '" + termId + "', " + creatorId + ", 4);");
 		System.out.println("Project added successfully");
 	}
 	
