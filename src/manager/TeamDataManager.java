@@ -11,6 +11,35 @@ public class TeamDataManager implements Serializable {
 	
 	public TeamDataManager() {}
 	
+	public ArrayList<String> retrieveSuitableSupervisors(int teamId) {
+		ArrayList<String> teams = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from users u WHERE u.type NOT LIKE 'Student' AND u.type NOT LIKE 'Sponsor'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		ArrayList<User> supervisors = new ArrayList<User>();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int retrievedId = Integer.parseInt(array.get(0));
+			String username = array.get(1);
+			String fullName = array.get(2);
+			String contactNum = array.get(3);
+			String email = array.get(4);
+			String type = array.get(5);
+			
+			User u = new User(retrievedId, username, fullName, contactNum, email, type);
+			supervisors.add(u);
+		}
+		
+		ArrayList<Integer> teamSkills = retrieveTeamSkillsById(teamId);
+		
+		//COMPARE SKILLS AND ADD
+		
+		return teams;
+	}
+	
 	public ArrayList<Team> retrieveAll() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
@@ -234,6 +263,23 @@ public class TeamDataManager implements Serializable {
 			
 		}
 		return teamId;
+	}
+	
+	public ArrayList<Integer> retrieveTeamSkillsById(int teamId){
+		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + teamId + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId	= Integer.parseInt(array.get(0));
+			
+			teamSkills.add(skillId);
+			
+		}
+		return teamSkills;
 	}
 	
 	public ArrayList<Integer> retrieveTeamSkills(Team team){

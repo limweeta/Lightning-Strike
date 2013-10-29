@@ -92,11 +92,11 @@ public class RegisterServlet extends HttpServlet {
 		if(udm.isTaken(username)){
 			session.setAttribute("message", "Please choose another username");
 			response.sendRedirect("index.jsp");
-		}else if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
+		}/*else if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
 				|| (firstCoyNum != '9' || firstCoyNum != '8' || cContact.length() != 8) ){
 			session.setAttribute("message", "Please enter a valid phone number");
 			response.sendRedirect("index.jsp");
-		}else{
+		}*/else{
 			try {
 				Company company = new Company(id, coyName, coyAdd, coyContact);
 				cdm.add(company);

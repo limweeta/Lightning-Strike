@@ -8,7 +8,7 @@ import model.*;
 public class UserDataManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	public UserDataManager() {}
+	public UserDataManager() { retrieveAll(); }
 	
 	public ArrayList<User> retrieveAll() {
 		ArrayList<User> Users = new ArrayList<User>();

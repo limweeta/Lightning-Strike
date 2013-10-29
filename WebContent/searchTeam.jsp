@@ -88,10 +88,12 @@ for(int i = 0; i < teams.size(); i++){
 	Team team = teams.get(i);
 	String name = team.getTeamName();
 	String desc = team.getTeamDesc();
+	
 	int teamLimit = team.getTeamLimit();
 	int pmId = team.getPmId();
 	
-	String pm = udm.retrieve(pmId).getFullName();
+	User pmUser = udm.retrieve(pmId);
+	String pm = pmUser.getFullName();
 	
 	count++;
 	String rowclass = "";
