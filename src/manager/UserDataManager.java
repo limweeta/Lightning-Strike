@@ -58,6 +58,20 @@ public class UserDataManager implements Serializable {
 		return users;
 	}
 	
+	public boolean hasSkill(User u, int skillId) {
+		boolean hasSkill = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM user_skills WHERE user_id = " + u.getID() + " AND skill_id = " + skillId +";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+	
+		if(iterator.hasNext()){
+			hasSkill = true;
+		}
+		
+		return hasSkill;
+	}
+	
 	public ArrayList<String> retrieveFacultyFullname() throws Exception{
 		ArrayList<String> facultyNameList = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.type LIKE 'Faculty' OR users.type LIKE 'admin';");

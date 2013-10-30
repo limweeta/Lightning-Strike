@@ -35,7 +35,25 @@ public class TeamDataManager implements Serializable {
 		
 		ArrayList<Integer> teamSkills = retrieveTeamSkillsById(teamId);
 		
-		//COMPARE SKILLS AND ADD
+		UserDataManager udm = new UserDataManager();
+		
+		
+		Map<Integer, Integer> matchScore = new HashMap<Integer, Integer>();
+		
+		for(int i = 0; i < supervisors.size(); i++){
+			User tmpUser = supervisors.get(i);
+			int numOfMatches = 0;
+			for(int j = 0; j < teamSkills.size(); j++){
+				int skillId = teamSkills.get(i);
+				if(udm.hasSkill(tmpUser, skillId)){
+					numOfMatches++;
+				}
+			}
+			
+			matchScore.put(tmpUser.getID(), numOfMatches);
+		}
+		
+		//SORT HASHMAP
 		
 		return teams;
 	}

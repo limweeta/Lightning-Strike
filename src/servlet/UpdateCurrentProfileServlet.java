@@ -32,16 +32,16 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		String type = (String) session.getAttribute("type");
-		
+		String email = request.getParameter("email");
 		String contact = request.getParameter("contactno");
 		
 		char firstNum = contact.charAt(0);
-		
+
+		String secondMajor = request.getParameter("secondmajor");
 		User user = null;
 		
 		if(type.equalsIgnoreCase("Student")){
 			
-			String secondMajor = request.getParameter("secondmajor");
 			int prefRole = 0;
 			
 			try{
@@ -82,6 +82,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 				user = udm.retrieve(userId);
 				user.setContactNum(contact);
 				user.setFullName(fullname);
+				user.setEmail(email);
 				
 				udm.modify(user);
 				session.setAttribute("message", "Profile Updated");

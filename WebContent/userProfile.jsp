@@ -217,6 +217,7 @@ function toggleSkill(source) {
 	
 	ArrayList<Team> teamInvites = tdm.retrieveAllInvites(profileid);
 	ArrayList<Team> teamRequests = tdm.retrieveStudentRequests(profileid);
+
 	%>
 	<div class="container" id="userdetails">
 	
@@ -401,20 +402,37 @@ function toggleSkill(source) {
 		  </div>
 		</div>
 	<% } %>	
-		<%if(type.equals("Student")){%>
+		<%if(type.equalsIgnoreCase("Student")){%>
 		<!-- </div> --></br>
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="secondMajor">Second Major</label>
 		  <div class="controls">
+		  	 <select id="secondmaj" name="secondmajor" class="input-large">
 		  	<%
-				if(sessionUsername.equals(uProfile.getUsername())){
+				if(sessionUsername.equals(uProfile.getUsername()) && type.equalsIgnoreCase("Student")){
 			%>
-		    <input id="secondmaj" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large">
-		     <%}else{ %>
-		     <input id="secondmaj" name="secondmajor" type="text" value="<%=student.getSecondMajor()%>" class="input-large" readonly="readonly">
-		    <%} %>
+			<%
+		    	  SecondMajorDataManager secondMajordm = new SecondMajorDataManager();
+			    	  ArrayList<SecondMajor> secondMajors  = secondMajordm.retrieveAll();
+					  
+			    	  for(int i = 0; i < secondMajors.size(); i++){
+			    		SecondMajor showSecondMajor = secondMajors.get(i); 
+			    		String secMaj = showSecondMajor.getSecondMajor();
+			    		String studentSecMaj = student.getSecondMajor();
+			    		if(secMaj.equalsIgnoreCase(studentSecMaj)){	
+			%>
+					   <option value="<%=secMaj%>" selected="selected"><%=secMaj%></option>
+					    <%}else{ %>
+					    	<option value="<%=secMaj%>"><%=secMaj%></option>
+					    <%
+					    }
+					}
+				}
+					    %>
+					
+		     </select>
 		  </div>
 		</div>
 
@@ -464,7 +482,6 @@ function toggleSkill(source) {
 								  </td><td></td>
 								  <%  
 									}
-								  
 								  if((i+1) % 3 == 0){
 									  %>
 									  </tr><tr class="spaceunder">
@@ -492,7 +509,7 @@ function toggleSkill(source) {
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
 		</div>
-		<%}else if(type.equalsIgnoreCase("sponsor")){ 
+		<%}else if(type.equalsIgnoreCase("Sponsor")){ 
 		Company company = cdm.retrieve(profileid);
 		%>
 		<div class="control-group">

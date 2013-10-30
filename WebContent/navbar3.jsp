@@ -99,13 +99,19 @@
 		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
                	</ul>
                </li>
-
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="#">Register</a></li>
+               		<li><a href="./searchUser.jsp">Search</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
+               	</ul>
+               </li>
                <%if(userType.equalsIgnoreCase("Admin")){%>
                		 <li class="dropdown"><a href="./admin.jsp">Admin</a></li>
                <%} %>

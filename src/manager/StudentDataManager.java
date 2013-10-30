@@ -81,7 +81,6 @@ public class StudentDataManager implements Serializable {
 		if((allMajors.contains(major))){
 			isValid = true;
 		}
-		
 		return isValid;
 	}
 	

@@ -26,19 +26,16 @@
 		<!-- <img id="banner" src="http://db.tt/mjn0dKYe" alt="index"></a> -->
 		
 		<table id="profile">
+			<tr></tr>
 			<tr>
 			<%
 			if(fullName == null){
 				fullName = "guest";%>
-				<td><div id="welcome">Welcome, <%=fullName %></div></td><!-- 
-				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
-				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	 -->
+				<td><div id="welcome">Welcome, <%=fullName %></div></td>
 			   	<td></td> 
 			   	<td></td>
 			<%}else {%>
-				<td><div id="welcome">Welcome, <a href="userProfile.jsp?id=<%=user.getID()%>"> <%=fullName %></a></div></td><!-- 
-				<td><a href="#"><img src="http://db.tt/YtzsJnpm" id="notifications" width="30" height="20" /></a></td>
-				<td><a href="#"><img src="http://db.tt/Cfe7G4Z5" id="profilepic" width="50" height="50" /></a></td>	 -->
+				<td><div id="welcome">Welcome, <a href="userProfile.jsp?id=<%=user.getID()%>"> <%=fullName %></a></div></td>
 			   	<td></td> 
 			   	<td></td>
 			
@@ -64,6 +61,53 @@
 			}
 			%>
 			</tr> 
+			<%
+			if(fullName.equals("guest")){
+			%>
+		   		<tr>
+		   		<td>
+		   			<!-- <input type="submit" id="profilelogout" value="Logout"> -->
+		   			<div class="control-group">
+						  <div class="controls">
+						   <!-- <button id="logout" name="logout" class="btn btn-danger">Logout</button><br /> -->
+							<a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">
+							<button type="button" id="SSO" class="btn btn-primary">Single Sign On</button>
+							</a>
+						  </div>
+					</div>
+		   		</td>
+		   		<td>
+		   			<!-- <input type="submit" id="profilelogout" value="Logout"> -->
+		   			<div class="control-group">
+						  <div class="controls">
+						   <!-- <button id="logout" name="logout" class="btn btn-danger">Logout</button><br /> -->
+							  <a href="#myModal" data-toggle="modal">
+							  <button type="button" id="external" class="btn btn-primary">External Sign In</button>
+							  </a>
+						  </div>
+					</div>
+<!-- 					<a href="#myModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
+					<!-- Modal HTML -->
+					<div id="myModal" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h3>Sign In</h3>
+					    </div>
+					       <form action="authenticate" method="post" onsubmit = "return validateSignInOnSubmit(this)" accept-charset="UTF-8">
+					    <div class="modal-body">
+					     	  <input type="text" name="userName" id="user_username" style="margin-bottom: 20px; height:30px;" type="text" name="user[username]" placeholder="Username" size="45" />
+							  <input type="password" name="password" id="user_password" style="margin-bottom: 20px; height:30px;" type="password" name="user[password]" placeholder="Password" size="45" />
+					    </div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
+					    </div>
+					   	 </form>
+					</div>
+		   		</td>
+		   		</tr>
+		   	<%
+			}
+			%>
 	   	</table>
 	</div>	
 	</div>

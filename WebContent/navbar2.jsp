@@ -276,8 +276,15 @@
 		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
+               		<li><a href="./searchUser.jsp">Search</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
+               	</ul>
+               </li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="#">Register</a></li>
                		<li><a href="./searchUser.jsp">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
                	</ul>
@@ -298,6 +305,7 @@
 					  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" />
 					  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" />
 					  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" />
+					  <font color="red">*All Fields Are Mandatory</font>
 					  <div id="loginError" class="error"></div>
 					  <div class="field-container">
 							<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />
@@ -306,7 +314,7 @@
 					</form>
 	            </div>
 	          </li>
-	          <li class="divider-vertical"></li>
+	         <!--  <li class="divider-vertical"></li>
 	          <li><a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">SMU Users Sign-In(SSO)</a></li>
 	          <li class="divider-vertical"></li>
 	          <li class="dropdown">
@@ -318,7 +326,7 @@
 					  <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
 					</form>
 	            </div> 
-	          </li>
+	          </li> -->
 	        </ul>
            </div>
          </div>
