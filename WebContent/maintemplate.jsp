@@ -31,13 +31,14 @@
 			<%
 			if(fullName == null){
 				fullName = "guest";%>
-				<td><div id="welcome">Welcome, <%=fullName %></div></td>
-			   	<td></td> 
+				<td></td>
+				<td><div id="welcome">Welcome, <%=fullName %></div></td>			   	 
 			   	<td></td>
 			<%}else {%>
+				<td></td>
 				<td><div id="welcome">Welcome, <a href="userProfile.jsp?id=<%=user.getID()%>"> <%=fullName %></a></div></td>
 			   	<td></td> 
-			   	<td></td>
+			   	
 			
 			<%}%>
 				

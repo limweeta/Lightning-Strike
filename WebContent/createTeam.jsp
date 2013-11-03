@@ -63,10 +63,51 @@
 		}
 	%>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+<!--   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script> -->
+<!--   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script> -->
   
     <script type="text/javascript">
+    
+    function alterTeamLimit() {
+    	var selected = $('#teamlimit').val();
+    	if(selected==="5"){
+    		$('#mem5').show();
+    	}else if(selected==="6"){
+    		$('#mem5').show();
+    		$('#mem6').show();
+    	}else if(selected==="4"){
+    		$('#mem5').hide();
+    		$('#mem6').hide();
+    	}
+    }
+    
+    $("#country").change(function() 
+    	     { 
+    	         var _selected = $("#country").val();
+    	         var options = 
+    	         {
+    	             type: "POST",
+    	             url: "SearchPage.aspx/StateBy",
+    	             data: "{'countryId':'" + _selected + "'}",
+    	             contentType: "application/json; charset=utf-8",
+    	             dataType: "json",
+
+    	             success: function(msg) {
+    	                $('#state').empty(); 
+    	                 var returnedArray = msg.d;
+
+
+    	                 state = $("#state");
+    	                 for (var i = 0; i < returnedArray.length; ++i) {
+    	                     state.append("<option value='" + returnedArray[i].Id + "'>" + returnedArray[i].Name + "</option>");
+    	                 }
+    	             }
+    	         };
+    	         $.ajax(options);
+    	     });
+    
+    
+    
     $(function() {
         var studentNameList = [
                 <%
@@ -115,7 +156,7 @@
     	var teamName = document.forms["createTeam"]["teamname"].value;
     	if (teamName == null || teamName == "")
     	  {
-    	  alert("Team name must be filled out");
+    	  alert("Team name must be filled out");f
     	  return false;
     	  }
     	
@@ -139,18 +180,10 @@
             }
 
     }  */
-  $('#teamlimit').on('change',function(){
-	    if( $(this).val()==="5"){
-        $("#mem5").show();
-        }
-        else if($(this).val()==="6"){
-        $("#mem5").show();
-        $("#mem6").show();
-        }else{
-        	$("#mem5").hide();
-        	$("#mem6").hide();
-        }
-	});
+
+    
+    
+    
 	</script>	
 	</head>
 <% if(!invalidAccess){ %>
@@ -193,7 +226,7 @@
 						<div class="control-group">
 						  <label class="control-label">Team Limit</label>
 						  <div class="controls">
-						    <select id="teamlimit" name="teamlimit" class="input-large">
+						    <select id="teamlimit" name="teamlimit" class="input-large" onChange="alterTeamLimit()">
 						      <option value="4" selected>4</option>
 						      <option value="5">5</option>
 						      <option value="6">6</option>
@@ -288,7 +321,7 @@
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <%
+						      <!-- <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
 						    	 if(role.getId() != 1){
@@ -297,7 +330,7 @@
 						    	 <% 
 						    	 }
 						     }
-						     %>
+						     %>  -->
 						    </select>
 						  </div>
 						</div>

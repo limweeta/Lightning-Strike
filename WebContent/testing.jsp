@@ -5,9 +5,7 @@
 <html>
 
 <link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
-<script type="text/javascript"
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script src="js/jquery.autocomplete.js"></script>  
+ 
 <link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 <link rel="stylesheet" href="./css/glyphicons.css"  type="text/css"/>
 <link rel="stylesheet" href="./css/bootstrap-responsive.css"  type="text/css"/>
@@ -24,6 +22,7 @@ $(document).ready(function(){
     });
 });
 </script>
+
 <body>
 
 		<div class="panel-group" id="accordion">
@@ -56,6 +55,22 @@ $(document).ready(function(){
 		    </div>
 		  </div>
 	
+	asdasdsa222dasd
+	<select id="teamlimit" name="teamlimit" class="input-large" onchange="alterTeamLimit()">
+						      <option value="4" selected>4</option>
+						      <option value="5">5</option>
+						      <option value="6">6</option>
+						    </select>
+						    
+						    
+						    <script>
+						    function alterTeamLimit() {
+						    	alert('hello');
+						    
+						    }
+						    </script>
+						    
+						    
 </body>
 
 </html>
