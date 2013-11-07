@@ -12,8 +12,8 @@ public class SponsorDataManager implements Serializable {
 	
 	public ArrayList<Sponsor> retrieveAll() {
 		ArrayList<Sponsor> sponsors = new ArrayList<Sponsor>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.id;");
-		Set<String> keySet = map.keySet();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id;");
+		Set<String> keySet = map.keySet(); 
 		Iterator<String> iterator = keySet.iterator();
 		
 		while (iterator.hasNext()){

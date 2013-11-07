@@ -83,6 +83,7 @@ public class RegisterServlet extends HttpServlet {
 		String cContact	= request.getParameter("coyContact");
 		int coyContact = Integer.parseInt(cContact);
 		String coyAdd	= request.getParameter("coyAdd");
+		int orgType	= Integer.parseInt(request.getParameter("orgType"));
 		String password	= request.getParameter("password");
 		
 		
@@ -98,7 +99,7 @@ public class RegisterServlet extends HttpServlet {
 			response.sendRedirect("index.jsp");
 		}*/else{
 			try {
-				Company company = new Company(id, coyName, coyAdd, coyContact);
+				Company company = new Company(id, coyName, coyAdd, coyContact, orgType);
 				cdm.add(company);
 				
 				Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);

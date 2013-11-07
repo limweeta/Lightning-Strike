@@ -121,11 +121,10 @@ public class TermDataManager implements Serializable {
 	}
 
 	public void add(Term term) {
-		int id = term.getId();
 		String acadYear = term.getAcadYear();
 		int sem = term.getSem();
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`announcement` (academic_year, semester)"
+				"INSERT INTO `is480-matching`.`term` (academic_year, semester)"
 				+ " VALUES ('" + acadYear + "', " + sem + ");");
 	}
 

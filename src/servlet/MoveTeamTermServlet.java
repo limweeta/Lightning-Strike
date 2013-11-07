@@ -10,7 +10,7 @@ import model.*;
 import manager.*;
 
 @SuppressWarnings("serial")
-public class UpdateTeamServlet extends HttpServlet {
+public class MoveTeamTermServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
@@ -29,42 +29,25 @@ public class UpdateTeamServlet extends HttpServlet {
 		
 		TeamDataManager tdm = new TeamDataManager();
 		
-		int teamId = Integer.parseInt(request.getParameter("teamId"));
 		int termId = Integer.parseInt(request.getParameter("termId"));
-		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
-		int pmId = Integer.parseInt(request.getParameter("pmId"));
 		
 		String teamName = request.getParameter("teamName");
-		String[] members = request.getParameterValues("members");
-		String[] roles = request.getParameterValues("roles");
 		
-		int supId = 0;
-		try{
-			supId = Integer.parseInt(request.getParameter("supId"));
-		}catch(Exception e){
-			supId = 0;
-		}
-			
 		Team updateTeam = null;
 		
 		try{
-			updateTeam = tdm.retrieve(teamId);
+			updateTeam = tdm.retrieveTeamByName(teamName);
 			
 			//UPDATE VALUES HERE
-			updateTeam.setTeamName(teamName);
-			updateTeam.setTeamLimit(teamLimit);
-			updateTeam.setPmId(pmId);
-			updateTeam.setSupId(supId);
 			updateTeam.setTermId(termId);
 			
 			//UPDATE SQL
 			tdm.modify(updateTeam);
-			tdm.modifyStudents(updateTeam, members, roles);
 		}catch(Exception e){
 			
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("teamProfile.jsp?id="+teamId);
+		RequestDispatcher rd = request.getRequestDispatcher("teamProfile.jsp?id="+updateTeam.getId());
 		rd.forward(request, response);
 	}
 }

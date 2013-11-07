@@ -2,18 +2,6 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
-
-<style type="text/css">
-.navbar .container {
-	height: 40px;
-}
-a{
-font-size: 20px !important;
-color: white !important;
-font-weight: 200;
-}
-
-</style>
 	<%
 	int projIdNav = 0;
 	int teamIdNav = 0;
@@ -261,64 +249,45 @@ font-weight: 200;
 			}else{
 				projIdNav = p.getId();
 			}
-		}
+		}	
 	}
 	%>
 	
-	<div class="navbar navbar-inverse navbar-fixed-top">
-         <a href="./index.jsp" style="text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
+	<div class="navbar">
          <div class="navbar-inner">
-          
-          
-           <div class="nav-collapse collapse">
+           <div class="container">
              <ul class="nav">
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp">Search</a></li>
-		          <li><a href="./createProject.jsp">Create</a></li>
-		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>">My Project</a></li>
-		          <li><a href="#">Match to Project</a></li>
 		          </ul>
 		        </li>
 		      
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp">Search</a></li>
-		          	<li><a href="./createTeam.jsp">Create</a></li>
-		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>">My Team</a></li>
-		          	<li><a href="#">Match to Team</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./sponsorFeedback.jsp">Sponsor Feedback</a></li>
-               		<li><a href="./mentorFeedback.jsp">Mentor Feedback</a></li>
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="#register" data-toggle="modal">Register</a></li>
                		<li><a href="./searchUser.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./myProjects.jsp">My Projects</a></li>
-               		<li><a href="./teamFeedback.jsp">Team Feedback</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./myTeams.jsp">My Teams</a></li>
                	</ul>
                </li>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->
              </ul>
-             <!-- <a href="#myModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
-					<!-- Modal HTML -->
-					<div id="register" class="modal hide fade">
+             <div id="register" class="modal hide fade">
 					    <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					        <h6>Register</h6>
@@ -358,44 +327,7 @@ font-weight: 200;
 					    </div>
 					   	 </form>
 					</div>
-          <!--    <ul class="nav pull-right">
-	          <li class="dropdown">
-	            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
-	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-	              	<form action="register" method="post" onSubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
-					  <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" />
-					  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" />
-					  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" />
-					  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" />
-					  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="Email" size="45" />
-					  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" />
-					  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" />
-					  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" />
-					  <font color="red">*All Fields Are Mandatory</font>
-					  <div id="loginError" class="error"></div>
-					  <div class="field-container">
-							<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />
-					  </div>
-					  <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Register" />
-					</form>
-	            </div>
-	          </li>
-	          <li class="divider-vertical"></li>
-	          <li><a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">SMU Users Sign-In(SSO)</a></li>
-	          <li class="divider-vertical"></li>
-	          <li class="dropdown">
-	            <a class="dropdown-toggle" href="#" data-toggle="dropdown">External Sign In <strong class="caret"></strong></a>
-	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-	              	<form action="authenticate" method="post" onsubmit = "return validateSignInOnSubmit(this)" accept-charset="UTF-8">
-					  <input type="text" name="userName" id="user_username" style="margin-bottom: 20px; height:30px;" type="text" name="user[username]" placeholder="Username" size="45" />
-					  <input type="password" name="password" id="user_password" style="margin-bottom: 20px; height:30px;" type="password" name="user[password]" placeholder="Password" size="45" />
-					  <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
-					</form>
-	            </div> 
-	          </li>
-	        </ul> -->
            </div>
          </div>
      </div>
- 
 </html>

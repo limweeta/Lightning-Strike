@@ -121,7 +121,7 @@ function toggleSkill(source) {
 
 	UserDataManager udm = new UserDataManager();
 	User uProfile = null;
-	String type = (String) session.getAttribute("type");
+	String usertype = (String) session.getAttribute("type");
 	
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<Skill> allSkills = skdm.retrieveAll();
@@ -129,14 +129,14 @@ function toggleSkill(source) {
 	
 	boolean invalidAccess = false;
 	
-	if(type == null || type.isEmpty()){
-		type="";
+	if(usertype == null || usertype.isEmpty()){
+		usertype="";
 	}
 	
 	try{
 		profileid = Integer.parseInt(request.getParameter("id"));
 		uProfile = udm.retrieve(profileid);
-		type = uProfile.getType();
+		usertype = uProfile.getType();
 		userSkills = skdm.getUserSkills(uProfile);
 	}catch(Exception e){
 		session.setAttribute("message","Please choose a valid profile to view");

@@ -89,7 +89,7 @@ public class UpdateProjectServlet extends HttpServlet {
 				updateProj.setProjDesc(projDesc);
 				updateProj.setStatus(projStatus);
 				updateProj.setIndustry(industryId);
-				updateProj.setTermId(termId);
+				updateProj.setIntendedTermId(termId);
 				
 				//UPDATE SQL
 				pdm.modify(updateProj);

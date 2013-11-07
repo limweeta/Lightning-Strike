@@ -74,15 +74,14 @@
     	<%
     		User sessUser = null;
     		int userId = 0;
-			String type = "";
+			String usertype = "";
 			try{
-				type = udm.retrieve(username).getType();
-				System.out.println(type);
+				usertype = udm.retrieve(username).getType();
 				sessUser = udm.retrieve(username);	
 				userId = sessUser.getID();
 			}catch(Exception e){
 				userId = 0;
-				type= "";
+				usertype= "";
 			}
 		%>
 
@@ -106,19 +105,22 @@
 	StudentDataManager stdm = new StudentDataManager();	
 	
 	String sessionUsername = (String) session.getAttribute("username");
-	User sessionUser = udm.retrieve(sessionUsername);
+	User sessionUser2 = udm.retrieve(sessionUsername);
 	int userTeamId = 0;
+
+	OrganizationDataManager odm = new OrganizationDataManager();
+	ArrayList<Organization> orgs = odm.retrieveAll();
 	
 	TermDataManager 	termdm = new TermDataManager();
 	TeamDataManager 	tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
-	SponsorDataManager sdm = new SponsorDataManager();
+	SponsorDataManager spdm = new SponsorDataManager();
 	CompanyDataManager cdm = new CompanyDataManager();
 	
 	boolean eligibleToApply = false;
 	
 	try{
-		userTeamId = stdm.retrieve(sessionUser.getID()).getTeamId();
+		userTeamId = stdm.retrieve(sessionUser2.getID()).getTeamId();
 		eligibleToApply = pdm.isEligibleForApplication(userTeamId);
 	}catch(Exception e){
 		userTeamId = 0;
@@ -131,7 +133,6 @@
 	
 	Project reqProj = pdm.retrieve(reqId);
 	String reqProjName = reqProj.getProjName();
-	
 	Team projTeam = null; 
 	String projTeamName = "";
 	int projTeamId = 0;
@@ -140,7 +141,7 @@
 	
 	Term term = null;
 	try{
-		term = termdm.retrieve(reqProj.getTermId());
+		term = termdm.retrieve(reqProj.getIntendedTermId());
 		strTerm = term.getAcadYear() + " " + term.getSem();
 	}catch(Exception e){
 		
@@ -167,17 +168,22 @@
 	String sponsorName = "";
 	int sponsorId = 0;
 	int coyId = 0;
+	String orgType = "";
 	try{
-		projSponsor = udm.retrieve(sdm.retrieve(reqProj.getSponsorId()).getUserid());
+		projSponsor = udm.retrieve(reqProj.getSponsorId());
 		
 		sponsorName = projSponsor.getFullName();
-		SponsorDataManager spdm = new SponsorDataManager();
-		company = cdm.retrieve(spdm.retrieve(projSponsor.getID()).getCoyId()).getCoyName();
+		
+		company = cdm.retrieve(reqProj.getSponsorId()).getCoyName();
 		sponsorId = projSponsor.getID();
 		coyId = cdm.retrieve(sponsorId).getID();
+		
+		orgType = odm.retrieve(cdm.retrieve(sponsorId).getOrgType()).getOrgType();
+		
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
 		company = "Not Applicable";
+		orgType = "N/A";
 	}
 	
 	String projManager = "";
@@ -187,25 +193,6 @@
 	}catch(Exception e){
 		projManager = "Not Applicable";
 	}
-	
-	
-	String reviewers = "";
-	String rev1 = "";
-	String rev2 = "";
-	
-	try{
-		rev1 = udm.retrieve(reqProj.getReviewer1Id()).getFullName();;
-	}catch(Exception e){
-		rev1 = "";
-	}
-	
-	try{
-		rev2 = udm.retrieve(reqProj.getReviewer2Id()).getFullName();;
-	}catch(Exception e){
-		rev2 = "";
-	}
-	
-	reviewers = rev1 + ", " + rev2;
 	
 	int creatorId = reqProj.getCreatorId();
 	
@@ -217,7 +204,8 @@
 	
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<String> skill = skdm.getProjSkills(reqProj.getId());
-
+	
+	
 	ArrayList<Team> appliedTeams = null;
 	
 	try{
@@ -312,12 +300,12 @@
 			  <%
 				}else{
 					%>
-					<input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" readonly="readonly" class="input-large"/>
+					<%=reqProj.getProjName() %>
 					<%
 				}
 		  }else{
 			  %>
-			  <input type="text" id="projName" name="projName" value="<%=reqProj.getProjName() %>" readonly="readonly" class="input-large"/>
+			 <%=reqProj.getProjName() %>
 			  <%
 		  }
 		  %>
@@ -336,7 +324,7 @@
 		     <%
 				}else{
 					%>
-				 <textarea id="projectDesc" name="projectDesc" readonly="readonly"><%=reqProj.getProjDesc() %></textarea>
+				<%=reqProj.getProjDesc() %>
 					<%
 				}
 		  %>
@@ -349,7 +337,7 @@
 		  <div class="controls">
 		  <input type=hidden name="projId" value="<%=reqId%>">
 		  	<input type="hidden" name="sponsorId" value="<%=sponsorId%>">
-		    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-large" readonly="readonly">
+		    <%=sponsorName %>
 		  </div>
 		</div>
 		
@@ -357,7 +345,7 @@
 		  <label class="control-label" for="company">Company</label>
 		  <div class="controls">
 		   <input type="hidden" name="coyId" value="<%=coyId%>">
-			<input id="company" name="company" type="text" value=" <%=company %>" class="input-large" readonly="readonly">
+			<%=company %>
 			
 		  </div>
 		</div>
@@ -373,69 +361,15 @@
 		     <%
 				}else{
 					%>
-			<input id="team" name="team" type="text" value=" <%=projTeamName %>" class="input-large" readonly="readonly">
+			<%=projTeamName %>
 					<%
 				}
 		  %>
 		  </div>
 		</div>
-		<!-- </div> -->
-		<!-- <div class="span5"> -->
-		<!-- Text input-->
-		<input type=hidden name="teamId" value="<%=projTeamId%>">
+		
 		<div class="control-group">
-		  <label class="control-label" for="supervisor">Team Supervisor</label>
-		  <div class="controls">
-		  <form method="post" action="assignSupervisor">
-		    <%
-	            if(type.equalsIgnoreCase("admin")){ 
-			%>
-			 
-	            
-				<%-- 	<%=projTeamId %> --%>
-            	 <input type=hidden name="projId" value="<%=reqProj.getId()%>">  
-	            	<input id="assignSup" name="assignSup" type="text" placeholder="<%=supervisor%>"  class="input-large">
-	            	<% if(projTeamId == 0){ %>
-	            	<input type="submit" value="Assign" class = "btn btn-success" disabled="disabled">
-	            	<% }else{ %>
-	            	<input type="submit" value="Assign" class = "btn btn-success">
-	            	<% } %>
-	            	<%
-	            }else{
-	            	%>
-	            	<input id="assignSup" name="assignSup" type="text" value="<%=supervisor%>"  class="input-large" disabled="disabled" />
-	            	<%
-	            }
-	            %>
-		    </form>
-		  </div>
-		</div>
-		<!-- Textarea -->
-		<div class="control-group">
-		  <label class="control-label" for="reviewer">Reviewer(s)</label>
-		  <div class="controls">   
-		  <form method="post" action="assignReviewer">    
-		  <%
-            if(type.equals("Admin")){
-            	%>   
-            	<input type=hidden name="projId" value="<%=reqProj.getId()%>">  
-            	
-	            	<input type="text" id="assignRev1" name="assignRev1" value="<%=rev1%>" class="input-large"><br /><br />
-	            	<input type="text" id="assignRev2" name="assignRev2" value="<%=rev2%>" class="input-large">
-	            	<input type="submit" value="Assign" class="btn btn-success">
-	            <%
-            }else{
-            	%>
-            	<input type="text" name="assignRev1" value="<%=rev1%>" readonly="readonly" class="input-large"> <br /><br />
-            	<input type="text" name="assignRev2" value="<%=rev2%>" readonly="readonly" class="input-large"> 
-            	<%
-            }
-            %>
-			</form>
-		  </div>
-		</div>
-		<div class="control-group">
-		  <label class="control-label" for="term">Term</label>
+		  <label class="control-label" for="term">Projected Term</label>
 		  <div class="controls">
 		  <%
 		try{
@@ -461,12 +395,12 @@
 		 <%
 			}else{
 		 %>
-		  	<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" disabled="disabled"> 
+		  	<%=term.getAcadYear() + " T" + term.getSem() %>
 		 <%
 			}
 		}catch(Exception e){
 			%>
-			<input type="text" value="<%=term.getAcadYear() + " T" + term.getSem() %>" id="term" name="term" class="input-large" disabled="disabled"> 
+			<%=term.getAcadYear() + " T" + term.getSem() %>
 			<%
 		}
 		 %> 
@@ -506,21 +440,42 @@
 		    </select>
 			<%
 				}else{
+					String indName = idm.retrieve(reqProj.getIndustry()).getIndustryName();
 					%>
-			 <select id="industry" name="industry" class="input-large" readonly="readonly">
+					<%=indName %>
+					<%
+				}
+		  }else{
+			  String indName = idm.retrieve(reqProj.getIndustry()).getIndustryName();
+				%>
+				<%=indName %>
+				<%
+		  }
+		  %>
+		  
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="org">Organization</label>
+		  <div class="controls">
+		   <%
+		  if(sessUser != null){
+				if(userId == reqProj.getCreatorId()){
+			  %>
+		    <select id="org" name="org" class="input-large">
 		    	 <%
-					  ArrayList<Industry> industries = idm.retrieveAll();
 					  boolean specified = false;
-					  for(int i = 0; i < industries.size(); i++){
-						  Industry ind2 = industries.get(i);
-						  if(reqProj.getIndustry() == ind2.getIndustryId()){
+					  for(int i = 0; i < orgs.size(); i++){
+						  Organization org1 = orgs.get(i);
+						  Company comp = cdm.retrieve(spdm.retrieve(reqProj.getSponsorId()).getCoyId());
+						  if(comp.getOrgType() == org1.getId()){
 							  specified = true;
 						  %>
-						  <option value="<%=ind2.getIndustryId()%>" selected><%=ind2.getIndustryName() %></option>
+						  <option value="<%=org1.getId()%>" selected><%=org1.getOrgType() %></option>
 						  <%
 						  }else{
 							 %>
-						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
+						 <option value="<%=org1.getId()%>"><%=org1.getOrgType() %></option>	 
 							 <% 
 						  }
 				  }
@@ -531,38 +486,13 @@
 					  }
 				  %>
 		    </select>
-					<%
-				}
-		  }else{
-			  %>
-			 <select id="industry" name="industry" class="input-large" readonly="readonly">
-		    	<%
-					  ArrayList<Industry> industries = idm.retrieveAll();
-					  boolean specified = false;
-					  for(int i = 0; i < industries.size(); i++){
-						  Industry ind2 = industries.get(i);
-						  if(reqProj.getIndustry() == ind2.getIndustryId()){
-							  specified = true;
-						  %>
-						  <option value="<%=ind2.getIndustryId()%>" selected><%=ind2.getIndustryName() %></option>
-						  <%
-						  }else{
-							 %>
-						 <option value="<%=ind2.getIndustryId()%>"><%=ind2.getIndustryName() %></option>	 
-							 <% 
-						  }
-				  	}
-					  if(!specified){
-						  %>
-						   <option value="0" selected>Not Specified</option>	
-						  <%
-					  }
-				  %>
-		    </select>
-			  <%
-		  }
-		  %>
-		  
+			<%
+				}else{%>
+				 <%=orgType %>
+		  <%}
+		  }else{%>
+				 <%=orgType %>
+		  <%} %>
 		  </div>
 		</div>
 		<div class="panel-group" id="accordion">

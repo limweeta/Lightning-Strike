@@ -1,7 +1,12 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
+<%@ page import="java.util.*" %>
 <html>
-	
+	<%
+	int projIdNav = 0;
+	int teamIdNav = 0;
+	int userIdNav = 0;
+	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -16,20 +21,19 @@
 		    e.stopPropagation();
 		  });
 		});
+		
+		function trim(s)
+		{
+		  return s.replace(/^\s+|\s+$/, '');
+		} 
+
 	</script>
-	<div class="container">
-		<h1><a href="./index.jsp">IS480 Matching System</a></h1>
-	</div>
+
 	<%
 	String sessionUser = (String) session.getAttribute("username");
-	
-	int projIdNav = 0;
-	int teamIdNav = 0;
-	int userIdNav = 0;
 	String userType = (String) session.getAttribute("type");
 	
 	User u = null;
-	
 	
 	if(sessionUser == null || sessionUser.isEmpty()){
 		userIdNav = 0;
@@ -38,19 +42,10 @@
 	}else{
 		UserDataManager udmNav = new UserDataManager();
 		u = udmNav.retrieve(sessionUser);
-		try{
-			userIdNav = u.getID();
-		}catch(Exception e){
-			userIdNav = 0;
-		}
+		userIdNav = u.getID();
 		
 		TeamDataManager tdmNav = new TeamDataManager();
-		
-		try{
-			teamIdNav = tdmNav.retrieveTeamIdByUser(u);
-		}catch(Exception e){
-			teamIdNav = 0;
-		}
+		teamIdNav = tdmNav.retrieveTeamIdByUser(u);
 		
 		ProjectDataManager pdmNav = new ProjectDataManager();
 		Project p = pdmNav.getProjFromTeam(teamIdNav);
@@ -75,9 +70,10 @@
 			}else{
 				projIdNav = p.getId();
 			}
-		}
+		}	
 	}
 	%>
+	
 	<div class="navbar">
          <div class="navbar-inner">
            <div class="container">
@@ -103,20 +99,13 @@
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
+               		<li><a href="./sponsorFeedback.jsp">Sponsor Feedback</a></li>
+               		<li><a href="./mentorFeedback.jsp">Mentor Feedback</a></li>
                	</ul>
                </li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
-               	<ul class="dropdown-menu">
-               		<li><a href="#">Register</a></li>
-               		<li><a href="./searchUser.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               	</ul>
-               </li>
-             <%--   <%if(userType.equalsIgnoreCase("Admin")){%>
-               		 <li class="dropdown"><a href="./admin.jsp">Admin</a></li>
-               <%} %> --%>
+              
               <!--  <li><a href="#" >Schedule</a></li>
-               <li><a href="#" >Analytics</a></li> -->
+               -->
              </ul>
            </div>
          </div>

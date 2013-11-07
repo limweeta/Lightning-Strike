@@ -33,24 +33,24 @@
 	boolean invalidAccess = false;
 	
 	boolean hasTeam = false;
-		String type = "";
+		String usertype = "";
 		try{
 
 			if(sdm.hasTeam(udm.retrieve(username))){
 				hasTeam = true;
 			}
 			
-			type = udm.retrieve(username).getType();
+			usertype = udm.retrieve(username).getType();
 			
-			if(type.equalsIgnoreCase("Sponsor")){
+			if(usertype.equalsIgnoreCase("Sponsor")){
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
-			}else if(type.equalsIgnoreCase("Faculty")){
+			}else if(usertype.equalsIgnoreCase("Faculty")){
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
-			}else if(type.equalsIgnoreCase("Admin")){
+			}else if(usertype.equalsIgnoreCase("Admin")){
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
@@ -63,8 +63,8 @@
 		}
 	%>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<!--   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script> -->
-<!--   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script> -->
+<script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script> 
+ <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
   
     <script type="text/javascript">
     
@@ -72,6 +72,7 @@
     	var selected = $('#teamlimit').val();
     	if(selected==="5"){
     		$('#mem5').show();
+    		$('#mem6').hide();
     	}else if(selected==="6"){
     		$('#mem5').show();
     		$('#mem6').show();
@@ -214,13 +215,6 @@
 						  </div>
 						</div>
 						
-						<!-- Textarea -->
-						<div class="control-group">
-						  <label class="control-label" for="teamdesc">Team Description</label>
-						  <div class="controls">                     
-						    <textarea id="teamdesc" name="teamdesc"></textarea>
-						  </div>
-						</div>
 						
 						<!-- Select Basic -->
 						<div class="control-group">
@@ -321,7 +315,7 @@
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
 						    <select id="memberRole" name="memberRole" class="input-large">
-						      <!-- <%
+						     <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
 						    	 if(role.getId() != 1){
@@ -330,7 +324,7 @@
 						    	 <% 
 						    	 }
 						     }
-						     %>  -->
+						     %>  
 						    </select>
 						  </div>
 						</div>

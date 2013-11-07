@@ -25,23 +25,48 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String projName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 		= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
 			
-			Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 			projects.add(proj);
 		}
 		
 		return projects;
 	}
 	
+	public ArrayList<Project> retrieveAllFromSponsor(Sponsor sponsor) {
+		ArrayList<Project> projects = new ArrayList<Project>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id = " + sponsor.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			int id 				= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
+			
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
+			projects.add(proj);
+		}
+		
+		return projects;
+	}
 	
 	public ArrayList<Project> retrieveCurrent() {
 		ArrayList<Project> projects = new ArrayList<Project>();
@@ -57,7 +82,7 @@ public class ProjectDataManager implements Serializable {
 			currTermId = 0;
 		}
 		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE term_id >= " + currTermId);
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE intended_term_id >= " + currTermId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -69,20 +94,17 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String projName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 		= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
 			
-			Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 			projects.add(proj);
 		}
-		
 		return projects;
 	}
 	// check for conflicting objects
@@ -218,17 +240,16 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String projName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 		= 	Integer.parseInt(array.get(10));
-			int creatorId2 		= 	Integer.parseInt(array.get(11));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId2 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
-			p = new Project(id2, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId2);
-		}
+			
+			p = new Project(id2, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId2, intendedTermId);
+			}
 		
 		return p;
 	}
@@ -264,17 +285,15 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String projName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 		= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
 			
-			proj = new Project(id2, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+			proj = new Project(id2, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 			
 		}
 		return proj;
@@ -352,19 +371,15 @@ public class ProjectDataManager implements Serializable {
 				int coyId 			= 	Integer.parseInt(array.get(1));
 				int teamId 			= 	Integer.parseInt(array.get(2));
 				int sponsorId 		= 	Integer.parseInt(array.get(3));
-				int reviewer1Id		=	Integer.parseInt(array.get(4));
-				int reviewer2Id		=	Integer.parseInt(array.get(5));
-				String projName		= 	array.get(6);
-				String projDesc		= 	array.get(7);
-				String status		= 	array.get(8);
-				int industry		= 	Integer.parseInt(array.get(9));
-				int termId 			= 	Integer.parseInt(array.get(10));
-				int creatorId 		= 	Integer.parseInt(array.get(11));
+				String projName		= 	array.get(4);
+				String projDesc		= 	array.get(5);
+				String status		= 	array.get(6);
+				int industry		= 	Integer.parseInt(array.get(7));
+				int creatorId 		= 	Integer.parseInt(array.get(8));
+				int intendedTermId	= 	Integer.parseInt(array.get(9));
 				
-				score = 1;
-				totalScore = totalIndustrybyProj(id);
-						
-				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				
+				Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
@@ -409,14 +424,14 @@ public class ProjectDataManager implements Serializable {
 				int coyId 			= 	Integer.parseInt(array.get(1));
 				int teamId 			= 	Integer.parseInt(array.get(2));
 				int sponsorId 		= 	Integer.parseInt(array.get(3));
-				int reviewer1Id		=	Integer.parseInt(array.get(4));
-				int reviewer2Id		=	Integer.parseInt(array.get(5));
-				String projName		= 	array.get(6);
-				String projDesc		= 	array.get(7);
-				String status		= 	array.get(8);
-				int industry		= 	Integer.parseInt(array.get(9));
-				int termId 			= 	Integer.parseInt(array.get(10));
-				int creatorId 		= 	Integer.parseInt(array.get(11));
+				String projName		= 	array.get(4);
+				String projDesc		= 	array.get(5);
+				String status		= 	array.get(6);
+				int industry		= 	Integer.parseInt(array.get(7));
+				int creatorId 		= 	Integer.parseInt(array.get(8));
+				int intendedTermId	= 	Integer.parseInt(array.get(9));
+				
+				
 				
 				if(teamSkill.size() > totalNumOfSkill(id)){
 					score = totalNumOfSkill(id);
@@ -426,7 +441,7 @@ public class ProjectDataManager implements Serializable {
 				
 				totalScore = totalNumOfSkill(id);
 				
-				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
@@ -473,14 +488,12 @@ public class ProjectDataManager implements Serializable {
 				int coyId 			= 	Integer.parseInt(array.get(1));
 				int teamId 			= 	Integer.parseInt(array.get(2));
 				int sponsorId 		= 	Integer.parseInt(array.get(3));
-				int reviewer1Id		=	Integer.parseInt(array.get(4));
-				int reviewer2Id		=	Integer.parseInt(array.get(5));
-				String projName		= 	array.get(6);
-				String projDesc		= 	array.get(7);
-				String status		= 	array.get(8);
-				int industry		= 	Integer.parseInt(array.get(9));
-				int termId 			= 	Integer.parseInt(array.get(10));
-				int creatorId 		= 	Integer.parseInt(array.get(11));
+				String projName		= 	array.get(4);
+				String projDesc		= 	array.get(5);
+				String status		= 	array.get(6);
+				int industry		= 	Integer.parseInt(array.get(7));
+				int creatorId 		= 	Integer.parseInt(array.get(8));
+				int intendedTermId	= 	Integer.parseInt(array.get(9));
 				
 				if(preferredTechnologies.size() > totalNumOfTech(id)){
 					score = totalNumOfTech(id);
@@ -490,7 +503,7 @@ public class ProjectDataManager implements Serializable {
 				
 				totalScore = totalNumOfTech(id);
 				
-				Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry, termId, creatorId);
+				Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
 				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
@@ -533,20 +546,19 @@ public class ProjectDataManager implements Serializable {
 	
 	public void add(Project proj){
 		int id 				= proj.getId();
-		int termId			= proj.getTermId();
 		int coyId			= proj.getCoyId();
 		int teamId			= proj.getTeamId();
 		int sponsorId 		= proj.getSponsorId();
-		int reviewer1Id		= proj.getReviewer1Id();
-		int reviewer2Id		= proj.getReviewer2Id();
 		String projName		= proj.getProjName();
 		String projDesc		= proj.getProjDesc();
 		String status		= proj.getStatus();
 		int industry 		= proj.getIndustry();
 		int creatorId		= proj.getCreatorId();
+		int intendedTermId	= proj.getIntendedTermId();
 		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`projects` "
-				+ "VALUES (" + id + ", " + coyId +", " + teamId + "," + sponsorId + ", " + reviewer1Id + ", " + reviewer2Id + ", '" + projName + "', '" + projDesc + "', '" + status + "', " + industry + ", '" + termId + "', " + creatorId + ", 4);");
+				+ "VALUES (" + id + ", " + coyId +", " + teamId + "," + sponsorId + ", '"
+					+ projName + "', '" + projDesc + "', '" + status + "', " + industry + ", " + creatorId + ", " + intendedTermId + ");");
 		System.out.println("Project added successfully");
 	}
 	
@@ -564,16 +576,15 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String retrievedProjName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 			= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName2	= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
-			project = new Project(retrievedId, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId, creatorId);
+			
+			project = new Project(retrievedId, coyId, teamId, sponsorId, projName2, projDesc, status, industry, creatorId, intendedTermId);
 		}
 		
 		return project;
@@ -593,16 +604,15 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId2 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String retrievedProjName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId 			= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName2	= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
-			project = new Project(retrievedId, coyId, teamId2, sponsorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId, creatorId);
+			
+			project = new Project(retrievedId, coyId, teamId2, sponsorId, projName2, projDesc, status, industry, creatorId, intendedTermId);
 		}
 		
 		return project;
@@ -622,17 +632,15 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String retrievedProjName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry		= 	Integer.parseInt(array.get(9));
-			int termId2 			= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName2	= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
 			
-			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, retrievedProjName, projDesc, status, industry, termId2, creatorId);
+			Project proj = new Project(retrievedId, coyId, teamId, sponsorId, projName2, projDesc, status, industry, creatorId, intendedTermId);
 			projects.add(proj);
 		}
 		
@@ -653,16 +661,15 @@ public class ProjectDataManager implements Serializable {
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));
-			int reviewer1Id		=	Integer.parseInt(array.get(4));
-			int reviewer2Id		=	Integer.parseInt(array.get(5));
-			String projName		= 	array.get(6);
-			String projDesc		= 	array.get(7);
-			String status		= 	array.get(8);
-			int industry2		= 	Integer.parseInt(array.get(9));
-			int termId 		= 	Integer.parseInt(array.get(10));
-			int creatorId 		= 	Integer.parseInt(array.get(11));
+			String projName2	= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industryId		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
 			
-			Project proj = new Project(id, coyId, teamId, sponsorId, reviewer1Id, reviewer2Id, projName, projDesc, status, industry2, termId, creatorId);
+			
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName2, projDesc, status, industryId, creatorId, intendedTermId);
 			projects.add(proj);
 		}
 		
@@ -774,27 +781,23 @@ public class ProjectDataManager implements Serializable {
 		int coyId = p.getCoyId();
 		int teamId = p.getTeamId();
 		int sponsorId = p.getSponsorId();
-		int rev1Id = p.getReviewer1Id();
-		int rev2Id = p.getReviewer2Id();
 		
 		String projName = p.getProjName();
 		String projDesc = p.getProjDesc();
 		String projStatus = p.getStatus();
 		
 		int industryId = p.getIndustry();
-		int termId = p.getTermId();
+		int intendedtermId = p.getIntendedTermId();
 		
 		MySQLConnector.executeMySQL("update", "UPDATE projects SET "
 				+ "company_id = " + coyId + ", "
 				+ "team_id = " + teamId + ", "
 				+ "sponsor_id = " + sponsorId + ", "
-				+ "reviewer1_id = " + rev1Id + ", "
-				+ "reviewer2_id = " + rev2Id + ", "
 				+ "project_name = '" + projName + "', "
 				+ "project_description = '" + projDesc + "', "
 				+ "status = '" + projStatus + "', "
 				+ "industry_id = " + industryId + ", "
-				+ "term_id = '" + termId + "' "
+				+ "intended_term_id = " + intendedtermId + " "
 				+ "WHERE id = " + p.getId());
 	}
 	

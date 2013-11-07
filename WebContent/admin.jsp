@@ -2,6 +2,9 @@
 <head>
     <script src="script.js"></script>
     <%@ include file="template.jsp" %>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  	<script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
+  	<script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
 </head>
 <body>
 <div class="container">
@@ -18,13 +21,11 @@
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#assignRev" data-toggle="tab">Assign Reviewer</a></li>
         <li><a href="#assignSup" data-toggle="tab">Assign Supervisor</a></li>
-        <li><a href="#assignTeam" data-toggle="tab">Assign Team to Project</a></li>
         <li><a href="#suspend" data-toggle="tab">Suspend User</a></li>
         <li><a href="#suspended" data-toggle="tab">Suspended Users</a></li>
+        <li><a href="#term" data-toggle="tab">Term</a></li>
+        <li><a href="#team" data-toggle="tab">Team</a></li>
     </ul>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
-  <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
   <%
 	  UserDataManager udm = new UserDataManager();
 	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
@@ -37,9 +38,12 @@
 	  TeamDataManager tdm = new TeamDataManager();
 	  ArrayList<String> teamNameList = tdm.retrieveTeamNames();
 	  
-	  ProjectDataManager pdm = new ProjectDataManager();
-	  ArrayList<String> projectNameList = pdm.retrieveProjName();
   %>
+  <%
+	Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
+%>
   <script type="text/javascript">
     $(function() {
     	var studentNameList = [
@@ -66,23 +70,19 @@
                                %>
                                               ];
         
-        var projectNameList = [
-                            <%
-                            for(int i = 0; i < projectNameList.size(); i++){
-                            	out.println("\""+projectNameList.get(i)+"\",");
-                            }
-                            %>
-                                           ];
-        
         $( "#username" ).autocomplete({
             source: studentNameList
           });
         
-        $( "#projName" ).autocomplete({
-            source: projectNameList
+        $( "#teamName" ).autocomplete({
+            source: teamNameList
           });
         
-        $( "#teamName" ).autocomplete({
+        $( "#teamName2" ).autocomplete({
+            source: teamNameList
+          });
+        
+        $( "#teamName3" ).autocomplete({
             source: teamNameList
           });
         
@@ -123,9 +123,9 @@
 						<!-- <div class="span3"> -->
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projName">Project Name</label>
+						  <label class="control-label" for="projName">Team Name</label>
 						  <div class="controls">
-						    <input id="projName" name="projName" type="text" class="input-large">
+						    <input id="teamName3" name="teamName" type="text" class="input-large">
 						  </div>
 						</div>
 						<!-- </div> -->
@@ -253,12 +253,12 @@
 							<th>Type</th>
 						<%
 							for(int i = 0; i < suspendedUserList.size(); i++){
-								User u = suspendedUserList.get(i);
+								User u1 = suspendedUserList.get(i);
 								%>
 								<tr align=center>
-									<td><a href="userProfile.jsp?id=<%=u.getID()%>"><%=u.getUsername() %></a></td>
-									<td><%=u.getFullName() %></td>
-									<td><%=u.getType() %></td>
+									<td><a href="userProfile.jsp?id=<%=u1.getID()%>"><%=u1.getUsername() %></a></td>
+									<td><%=u1.getFullName() %></td>
+									<td><%=u1.getType() %></td>
 								</tr>
 								<%
 							}
@@ -267,7 +267,7 @@
 					</div>
 					</div>
 		</div>
-
+<!-- 
         <div class="tab-pane" id="assignTeam">
             <h1>Assign Team to Project</h1>
             <div class="span8 well">
@@ -277,9 +277,9 @@
 						<fieldset>
 						<legend>Assign Team</legend>
 						<div class="span7">
-						<!-- Form Name -->
+						Form Name
 						
-						<!-- Text input-->
+						Text input
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
@@ -292,10 +292,107 @@
 						    <input id="projname" name="projname" type="text" class="input-large">
 						  </div>
 						</div>
-						<!-- Button -->
+						Button
 						<div class="control-group">
 						  <div class="controls">
 						    <input type="submit" value="Assign Team" class="btn btn-success">
+						  </div>
+						</div>
+						</br>
+						</div>
+						</fieldset>
+					</form>
+					</div>
+				</div>	
+			</div> -->
+			<div class="tab-pane" id="term">
+            <h1>Manage Terms</h1>
+            <div class="span8 well">
+				<div class="row">
+					
+						<form name="addTerm" action="" method="post" class="form-horizontal">
+						<fieldset>
+						<legend>Add Term</legend>
+						<div class="span7">
+						<div class="control-group">
+					
+						  	 <label class="control-label" for="teamName">Academic Year</label>
+							  <div class="controls">
+							    <input id="acadYear" name="acadYear" type="text" class="input-large">
+							  </div>
+						  	<br />
+						  	 <label class="control-label" for="teamName">Semester</label>
+							  <div class="controls">
+							    <input id="semester" name="semester" type="text" class="input-large">
+							  </div><br />
+						  <div class="controls">
+						    <input type="submit" value="Add Term" class="btn btn-success">
+						  </div>
+						</div>
+						</br>
+						</div>
+						</fieldset>
+					</form>
+					<form name="manageTerm" action="" method="post" class="form-horizontal">
+						<fieldset>
+						<legend>Manage Term</legend>
+						<div class="span7">
+						<div class="control-group">
+						  <div class="controls">
+						    <input type="submit" value="Manage Term" class="btn btn-success">
+						  </div>
+						</div>
+						</br>
+						</div>
+						</fieldset>
+					</form>
+					</div>
+				</div>	
+			</div>
+			<div class="tab-pane" id="team">
+            <h1>Manage Teams</h1>
+            <div class="span8 well">
+				<div class="row">
+					
+						<form name="moveTeam" action="changeTeamTerm" method="post" class="form-horizontal">
+						<fieldset>
+						<legend>Move Team</legend>
+						<div class="span7">
+						<div class="control-group">
+						  <label class="control-label" for="teamName">Team Name</label>
+						  <div class="controls">
+						    <input id="teamName2" name="teamName" type="text" class="input-large">
+						  </div>
+						</div>
+						<div class="control-group">
+						  <label class="control-label" for="projectterm">Project Term</label>
+						  <div class="controls">
+						   <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select> 
+						    <input type=hidden name="eligibleTerm" value="<%=currTermId+1%>" >
+						  </div>
+						</div>
+						<div class="control-group">
+						  <div class="controls">
+						    <input type="submit" value="Move Team" class="btn btn-success">
 						  </div>
 						</div>
 						</br>

@@ -83,10 +83,10 @@ int currMth = now.get(Calendar.MONTH);
 		}
 	
 	User u = udm.retrieve(username);
-	String type = (String) session.getAttribute("type");
+	String usertype = (String) session.getAttribute("type");
 	
-	if(type == null){
-		type = "";
+	if(usertype == null){
+		usertype = "";
 	}
 	boolean hasProj = false;
 	
@@ -116,7 +116,7 @@ int currMth = now.get(Calendar.MONTH);
 						<!-- Form Name -->
 						<legend>Create Project</legend>
 						<%
-						if(type.equalsIgnoreCase("sponsor")){
+						if(usertype.equalsIgnoreCase("sponsor")){
 							CompanyDataManager cdm = new CompanyDataManager();
 							SponsorDataManager spdm = new SponsorDataManager();
 							Company company = cdm.retrieve(u.getID());	

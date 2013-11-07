@@ -7,6 +7,11 @@ public class Term {
 	
 	public Term(){}
 	
+	public Term(String acadYear, int sem){
+		this.acadYear = acadYear;
+		this.sem = sem;
+	}
+	
 	public Term(int id, String acadYear, int sem){
 		this.id = id;
 		this.acadYear = acadYear;

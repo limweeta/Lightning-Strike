@@ -26,8 +26,9 @@ public class CompanyDataManager implements Serializable {
 			String coyName = array.get(1);
 			String coyAdd = array.get(2);
 			int contactNum = Integer.parseInt(array.get(3));
+			int orgType = Integer.parseInt(array.get(4));
 			
-			Company company = new Company(id, coyName, coyAdd, contactNum);
+			Company company = new Company(id, coyName, coyAdd, contactNum, orgType);
 			companies.add(company);
 		}
 		return companies;
@@ -46,8 +47,9 @@ public class CompanyDataManager implements Serializable {
 			String coyName = array.get(1);
 			String coyAdd = array.get(2);
 			int contactNum = Integer.parseInt(array.get(3));
+			int orgType = Integer.parseInt(array.get(4));
 			
-			company = new Company(coyid, coyName, coyAdd, contactNum);
+			company = new Company(coyid, coyName, coyAdd, contactNum, orgType);
 		}
 		return company;
 	}
@@ -57,9 +59,10 @@ public class CompanyDataManager implements Serializable {
 		String coyName = company.getCoyName();
 		String coyAdd = company.getCoyAdd();
 		int contactNum = company.getCoyContactNum();
+		int orgType = company.getOrgType();
 		MySQLConnector.executeMySQL("insert",
 				"INSERT INTO `is480-matching`.`companies` VALUES ("
-						+ id + ", '" + coyName + "', '" + coyAdd + "', " + contactNum + ");");
+						+ id + ", '" + coyName + "', '" + coyAdd + "', " + contactNum + ", " + orgType + ");");
 	}
 
 	public void modify(Company company) {

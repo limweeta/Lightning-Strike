@@ -77,7 +77,7 @@ for(int i = 0; i < matchedProjs.size(); i++){
 	
 	String name = project.getProjName();
 	int sponsorId = project.getSponsorId();
-	int termId = project.getTermId();
+	int termId = project.getIntendedTermId();
 	
 	TermDataManager termdm = new TermDataManager();
 	Term term = termdm.retrieve(termId);

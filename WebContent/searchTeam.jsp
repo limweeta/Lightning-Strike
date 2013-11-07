@@ -6,13 +6,15 @@
 	<%@include file="template.jsp"%>
 	<%
 	TeamDataManager tdm = new TeamDataManager();
+	ProjectDataManager pdm = new ProjectDataManager();
 	ArrayList<Team> teams = tdm.retrieveAll();
 	UserDataManager udm = new UserDataManager();
+	StudentDataManager stdm = new StudentDataManager();
 	
-	String type = (String) session.getAttribute("type");
+	String usertype = (String) session.getAttribute("type");
 	
-	if(type == null){
-		type = "";
+	if(usertype == null){
+		usertype = "";
 	}
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -45,7 +47,7 @@
 		
 			<div class="full_width big">
 				<h3>Search Teams </h3>
-				<% if(type.equalsIgnoreCase("Student")){ %>
+				<% if(usertype.equalsIgnoreCase("Student")){ %>
 				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" class="btn btn-primary"/></form></p>
 				<% } %>
 			</div>
@@ -67,33 +69,52 @@
 	<thead>
 		<tr role="row">
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Team Name</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Team Description</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Max Members</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Project Manager</th>		
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Project</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Members</th>	
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
 		</tr>
 	</thead>
 	
 	<tfoot>
 		<tr>
 			<th rowspan="1" colspan="1">Team Name</th>
-			<th rowspan="1" colspan="1">Team Description</th>
-			<th rowspan="1" colspan="1">Max Members</th>
-			<th rowspan="1" colspan="1">Project Manager</th>
+			<th rowspan="1" colspan="1">Project</th>
+			<th rowspan="1" colspan="1">Members</th>
+			<th rowspan="1" colspan="1">Supervisor</th>
 		</tr>
 	</tfoot>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
+RoleDataManager roledm = new RoleDataManager();
 int count = 0;
 for(int i = 0; i < teams.size(); i++){
 	Team team = teams.get(i);
 	String name = team.getTeamName();
-	String desc = team.getTeamDesc();
+	String sup = "";
+	int supId = 0;
+	
+	String project = "";
+	int projId = 0;
+	try{
+		project = pdm.retrieveProjectsByTeam(team.getId()).getProjName();
+		projId = pdm.retrieveProjectsByTeam(team.getId()).getId();
+	}catch(Exception e){
+		project = "No registered project yet";
+		projId = 0;
+	}
+	
+	try{
+		sup = udm.retrieve(team.getSupId()).getFullName();
+		supId = udm.retrieve(team.getSupId()).getID();
+	}catch(Exception e){
+		sup = "No supervisor registered";
+		supId = 0;
+	}
+	
+	ArrayList<Student> members = tdm.retrieveAllStudents(team);
 	
 	int teamLimit = team.getTeamLimit();
 	int pmId = team.getPmId();
-	
-	User pmUser = udm.retrieve(pmId);
-	String pm = pmUser.getFullName();
 	
 	count++;
 	String rowclass = "";
@@ -107,9 +128,37 @@ for(int i = 0; i < teams.size(); i++){
 %>
 	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
-			<td class="center"><%=desc %></td>
-			<td class="center "><%=teamLimit %></td>
-			<td class="center "><%=pm %></td>
+			<td class="center ">
+			<%if(projId != 0){ %>
+			<a href="projectProfile.jsp?id=<%=projId%>">
+			<%} %>
+			<%=project %></a>
+			
+			</td>
+			<td class="center " valign="top">
+				<%
+				for(int j = 0; j < members.size(); j++){
+					Student std = members.get(j);
+					String role = "";
+					
+					if(std.getRole() == 1){
+						role = "(Project Manager)";
+					}
+					%>
+					<a href="userProfile.jsp?id=<%=std.getID()%>"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
+					<%
+				}
+				%>
+				 <button type="button" id="external" class="btn btn-primary">Add Member</button>
+			</td>
+			<td class="center ">
+			  <a href="#">
+			  <%if(supId != 0){ %>
+			<a href="userProfile.jsp?id=<%=supId%>">
+			<%} %>
+			  <%=sup %>
+			  </a>
+			</td>
 	</tr>
 <%
 }

@@ -10,7 +10,6 @@
     <%@ include file="maintemplate.jsp" %>
 </head>
 <body>
-
 	<% if(type.equalsIgnoreCase("admin")){ %>
 	<div class="panel panel-primary">
 		<div class="panel-heading">

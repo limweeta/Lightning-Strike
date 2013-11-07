@@ -32,47 +32,44 @@ public class AssignReviewerServlet extends HttpServlet {
 		
 		UserDataManager udm = new UserDataManager();
 
-		ProjectDataManager pdm = new ProjectDataManager();
+		TeamDataManager tdm = new TeamDataManager();
 		
 		String rev1User = request.getParameter("assignRev1");
 		String rev2User = request.getParameter("assignRev2");
 		System.out.println(rev1User);
 		System.out.println(rev2User);
-		int projId = 0;
-		String projName = request.getParameter("projName");
+		int teamId = 0;
+		String teamName = request.getParameter("teamName");
 		
 		try{
-			projId = Integer.parseInt(request.getParameter("projId"));
+			teamId = Integer.parseInt(request.getParameter("teamId"));
 		}catch(Exception e){
 			try{
-				projId = pdm.retrieveProjectsByName(projName).getId();
+				teamId = tdm.retrieveTeamByName(teamName).getId();
 			}catch(Exception e1){
-				session.setAttribute("message", "That project does not exist");
+				session.setAttribute("message", "That team does not exist");
 			}
 		}
 		
-		Project p = null;
+		Team t = null;
 		int rev1Id = 0;
 		int rev2Id = 0;
 		User u = null;
 		
 		try{
 			u = udm.retrieveByFullName(rev1User);
-			System.out.println("*************" + u.getID() + "*************");
 			rev1Id = u.getID();
-			p = pdm.retrieve(projId);
-			p.setReviewer1Id(rev1Id);
+			t = tdm.retrieve(teamId);
+			t.setRev1Id(rev1Id);
 			
 			u = udm.retrieveByFullName(rev2User);
 			rev2Id = u.getID();
 			
-			p.setReviewer2Id(rev2Id);
+			t.setRev2Id(rev2Id);
 			
-			pdm.modify(p);
+			tdm.modify(t);
 		}catch(Exception e){
-			rev2Id = 0;
-			p.setReviewer2Id(rev2Id);
 		}
-		response.sendRedirect("projectProfile.jsp?id="+projId);
+		response.sendRedirect("teamProfile.jsp?id="+teamId);
 	}
 }

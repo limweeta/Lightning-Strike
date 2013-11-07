@@ -10,6 +10,8 @@
 	<head>
 	<%@include file="template.jsp"%>
 	<%
+	OrganizationDataManager odm = new OrganizationDataManager();
+	
 	ProjectDataManager pdm = new ProjectDataManager();
 	ArrayList<Project> projects = pdm.retrieveCurrent();
 	
@@ -18,10 +20,10 @@
 	
 	CompanyDataManager cdm = new CompanyDataManager();
 	
-	String type = (String) session.getAttribute("type");
+	String usertype = (String) session.getAttribute("type");
 	
-	if(type == null){
-		type = "";
+	if(usertype == null){
+		usertype = "";
 	}
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -53,7 +55,7 @@
 		<div id="container">
 			<div class="full_width big">
 				<h3>Search Projects </h3>
-				<% if(type.equalsIgnoreCase("Student")){ %>
+				<% if(usertype.equalsIgnoreCase("Student")){ %>
 				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" class="btn btn-primary"/></form></p> 
 				<% } %>
 			</div>
@@ -80,19 +82,23 @@
 	<thead>
 		<tr role="row">
 			
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Term</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Projected Term</th>
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Project Name</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Project Description</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Sponsor</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Team</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Organization</th>
 		</tr>
 	</thead>
 	
 	<tfoot>
 		<tr>
-			<th rowspan="1" colspan="1">Term</th>
+			<th rowspan="1" colspan="1">Projected Term</th>
 			<th rowspan="1" colspan="1">Project Name</th>
 			<th rowspan="1" colspan="1">Project Description</th>
 			<th rowspan="1" colspan="1">Sponsor</th>
+			<th rowspan="1" colspan="1">Team</th>
+			<th rowspan="1" colspan="1">Organization</th>
 		</tr>
 	</tfoot>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -106,12 +112,17 @@
 			
 			try{
 				desc = proj.getProjDesc();
+				
+				if(desc.length() > 20){
+					desc = desc.substring(0, 50) + "...";
+				}
+				
 			}catch(Exception e){
 				desc = "None";
 			}
 			
 			int sponsorid = proj.getSponsorId();
-			int term = proj.getTermId();
+			int term = proj.getIntendedTermId();
 			
 			TermDataManager tdm = new TermDataManager();
 			String strTerm = tdm.retrieve(term).getAcadYear() + " T" + tdm.retrieve(term).getSem();
@@ -119,16 +130,31 @@
 			count++;
 			String rowclass = "";
 			
+			TeamDataManager teamdm = new TeamDataManager();
+			String teamName = "";
+			int teamid = 0;		
+			try{
+				teamName = teamdm.retrieve(proj.getTeamId()).getTeamName();
+				teamid =  teamdm.retrieve(proj.getTeamId()).getId();
+			}catch(Exception e){
+				teamName = "No Team Yet";
+			}
+
+			String organization = "";
 			String sponsor = "";
+			
 			if(sponsorid == 0){
 				sponsor = "Not Available";
 			}else{
 				SponsorDataManager spdm = new SponsorDataManager();
 				
 				try{
-					sponsor = cdm.retrieve(sdm.retrieve(sponsorid).getCoyId()).getCoyName();
+					sponsor = cdm.retrieve(proj.getSponsorId()).getCoyName();
+					organization = odm.retrieve(cdm.retrieve(sponsorid).getOrgType()).getOrgType();
+					
 				}catch(Exception e){
 					sponsor = "Not Available";
+					organization = "Not Available";
 				}
 				
 			}
@@ -144,7 +170,9 @@
 			<td class="sorting_1"><%=strTerm %></td>
 			<td class="center"><a style="color:#000000" href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
-			<td class="center "><a href="userProfile.jsp?id=<%=sponsorid%>"><%=sponsor %></td>
+			<td class="center "><a href="userProfile.jsp?id=<%=sponsorid%>"><%=sponsor %></a></td>
+			<td class="center "><a href="teamProfile.jsp?id=<%=teamid%>"><%=teamName %></a></td>
+			<td class="center "><%=sponsor %></td>
 	</tr>
 	<%
 	}

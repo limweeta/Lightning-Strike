@@ -4,34 +4,30 @@ import javax.persistence.Id;
 
 public class Project{
 	@Id private int id;
-	private int termId;
 	private int coyId;
 	private int teamId;
 	private int sponsorId;
-	private int reviewer1Id;
-	private int reviewer2Id;
 	private String projName;
 	private String projDesc;
 	private String status;
 	private int industry;
 	private int creator_id;
+	private int intendedTermId;
   
 	public Project(){}
 	
 	//constructor
-	public Project(int id, int coyId, int teamId, int sponsorId, int reviewer1Id, int reviewer2Id, String projName, String projDesc, String status, int industry, int termId, int creator_id){
+	public Project(int id, int coyId, int teamId, int sponsorId, String projName, String projDesc, String status, int industry, int creator_id, int intendedTermId){
 		this.id				=	id;
-		this.termId 		=	termId;
 		this.coyId 			= 	coyId;
 		this.teamId			= 	teamId;
 		this.sponsorId 		=	sponsorId;
-		this.reviewer1Id	=	reviewer1Id;
-		this.reviewer2Id	=	reviewer2Id;
 		this.projName		=	projName;
 		this.projDesc 		= 	projDesc;
 		this.status			=	status;
 		this.industry		=	industry;
 		this.creator_id 	= 	creator_id;
+		this.intendedTermId	=	intendedTermId;
 	}
   
 	public int getId(){
@@ -42,10 +38,6 @@ public class Project{
 		return creator_id;
 	}
 	
-	public int getTermId(){
-		return termId;
-	}
-  
 	public int getCoyId(){
 		return coyId;
 	}
@@ -57,14 +49,7 @@ public class Project{
 	public int getSponsorId(){
 		return sponsorId;
 	}
-	
-	public int getReviewer1Id(){
-		return reviewer1Id;
-	}
-	
-	public int getReviewer2Id(){
-		return reviewer2Id;
-	}
+
   
 	public String getProjName(){
 		return projName;
@@ -80,6 +65,10 @@ public class Project{
 	
 	public int getIndustry(){
 		return industry;
+	}
+	
+	public int getIntendedTermId(){
+		return intendedTermId;
 	}
 	
 	//setter
@@ -98,23 +87,11 @@ public class Project{
 	public void setTeamId(int teamId){
 		this.teamId = teamId;
 	}
-	
-	public void setTermId(int termId){
-		this.termId = termId;
-	}
   
 	public void setSponsorId(int sponsorId){
 		this.sponsorId = sponsorId;
 	}
  
-	public void setReviewer1Id(int id){
-		this.reviewer1Id = id;
-	}
-	
-	public void setReviewer2Id(int id){
-		this.reviewer2Id = id;
-	}
-	
 	public void setProjName(String projName){
 		this.projName = projName;
 	}
@@ -129,5 +106,9 @@ public class Project{
   
 	public void setIndustry(int industry){
 		this.industry = industry;
+	}
+	
+	public void setIntendedTermId(int intendedTermId){
+		this.intendedTermId = intendedTermId;
 	}
 }

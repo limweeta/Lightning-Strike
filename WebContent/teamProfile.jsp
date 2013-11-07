@@ -34,18 +34,16 @@
     <script src="js/jquery.autocomplete.js"></script>  
     
 	<% 
-		String type = (String) session.getAttribute("type");
+		String usertype = (String) session.getAttribute("type");
 	
-	if(type == null || type.isEmpty()){
-		type = "";
+	if(usertype == null || usertype.isEmpty()){
+		usertype = "";
 	}
 		
 		String teamIdStr = request.getParameter("id");
 		int sessUserId = 0;
 		int teamId = 0;
-
-		TeamDataManager tdm = new TeamDataManager();
-		Team team = null;
+		
 		try{
 			teamId = Integer.parseInt(teamIdStr);
 		}catch(Exception e){
@@ -53,13 +51,25 @@
 			response.sendRedirect("searchTeam.jsp");
 		}
 		
+		TeamDataManager tdm = new TeamDataManager();
+		Team team = null;
+		
 	
 		if(teamId == 0){
 			session.setAttribute("message", "You need to have a team to view that page.");
 			response.sendRedirect("searchTeam.jsp");
+		}else if(tdm.retrieve(teamId) == null){
+			session.setAttribute("message", "Not a valid team");
+			response.sendRedirect("searchTeam.jsp");
 		}else{
+			
 			ProjectDataManager pdm = new ProjectDataManager();
 			ArrayList<Project> projs = pdm.retrieveAll();
+			String status = "";
+			
+			try{
+				status = tdm.getTeamStatus(team);
+			}catch(Exception e){}
 			
 			StudentDataManager sdm = new StudentDataManager();
 			ArrayList<Student> members = sdm.getTeamListFromTeamId(teamId);
@@ -147,7 +157,7 @@
 						session.removeValue("message");
 						} %>
 	
-		<h3><%=team.getTeamName() %></h3>
+		<h3><%=team.getTeamName()%><p style="float: right">Status: <%=status %></p></h3>
 		<div class="span11">
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
@@ -252,13 +262,13 @@
 		<%if(sessUserId == team.getPmId()){ %>
 			<input type="text" name="teamName" value="<%=team.getTeamName() %>">
 		<%}else{ %>
-			<input type="text" name="teamName" value="<%=team.getTeamName() %>" disabled>
+			<%=team.getTeamName() %>
 		 <%}%>
 		 </div>
 		</div>
 		<!-- Text input-->
 		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
-		<div class="control-group">
+		<%-- <div class="control-group">
 		  <label class="control-label" for="fullname">About Us</label>
 		  <div class="controls">
 		  <%if(sessUserId == team.getPmId()){ %>
@@ -267,7 +277,7 @@
 		  	<textarea id="teamDesc" name="teamDesc" readonly="readonly"><%=team.getTeamDesc() %></textarea>
 		  <%}%>
 		  </div>
-		</div>
+		</div> --%>
 		<!-- </div></br> --></br>
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
@@ -518,7 +528,7 @@
 		}
 		%>
 		
-		<%if(type.equalsIgnoreCase("Student")){ %>
+		<%if(usertype.equalsIgnoreCase("Student")){ %>
 			<td class="space">
 			<form action="stdRequest" method="post">
 				<input type="hidden" name="teamId" value="<%=teamId %>">
@@ -546,6 +556,8 @@
 		</form>
 		</div>
 		
+		</div>
+		</div>
 		</div>
 	</body>
 

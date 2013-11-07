@@ -102,6 +102,15 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>MoveTeamTermServlet</servlet-name>
+    <servlet-class>servlet.MoveTeamTermServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoveTeamTermServlet</servlet-name>
+    <url-pattern>/moveTeam</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>UpdateTeamServlet</servlet-name>
     <servlet-class>servlet.UpdateTeamServlet</servlet-class>
   </servlet>
@@ -177,6 +186,16 @@
     <servlet-name>UpdateProjectServlet</servlet-name>
     <url-pattern>/updateProject</url-pattern>
   </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AddTermServlet</servlet-name>
+    <servlet-class>servlet.AddTermServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddTermServlet</servlet-name>
+    <url-pattern>/addTerm</url-pattern>
+  </servlet-mapping>
+  
    <servlet>
     <servlet-name>RemoveTeamMemberServlet</servlet-name>
     <servlet-class>servlet.RemoveTeamMemberServlet</servlet-class>

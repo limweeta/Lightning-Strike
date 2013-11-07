@@ -25,7 +25,7 @@ public class AuthenticateServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		String username = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
@@ -41,7 +41,6 @@ public class AuthenticateServlet extends HttpServlet {
 					String fullName = authSponsor.getFullName();
 					String sponsorUsername	= authSponsor.getUsername();
 					//String userType = authSponsor.getType();
-					HttpSession session = request.getSession();
 					if(!udm.isSuspended(sponsorUsername)){
 						
 						session.setAttribute("fullname", fullName);
@@ -54,14 +53,16 @@ public class AuthenticateServlet extends HttpServlet {
 						response.sendRedirect("index.jsp");
 					}
 				} else {
-					writer.print("false1");
+					session.setAttribute("message", "Invalid Login");
+					response.sendRedirect("index.jsp");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 		} else {
-			writer.print("false");
+			session.setAttribute("message", "Invalid Login");
+			response.sendRedirect("index.jsp");
 		}
 	}
 }

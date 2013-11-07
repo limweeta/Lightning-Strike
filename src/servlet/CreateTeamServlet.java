@@ -44,8 +44,11 @@ public class CreateTeamServlet extends HttpServlet {
 		teamid = largestId + 1;
 		
 		String teamName = request.getParameter("teamname");
-		String teamDesc = request.getParameter("teamdesc");
 		int teamLimit = Integer.parseInt(request.getParameter("teamlimit"));
+		//int termId = Integer.parseInt(request.getParameter("termId"));
+		int termId = 17;
+		int rev1 = 0;
+		int rev2 = 0;
 		
 		String[] teamMembers = request.getParameterValues("username");
 		String[] roles = request.getParameterValues("memberRole");
@@ -122,7 +125,7 @@ public class CreateTeamServlet extends HttpServlet {
 				pmid = udm.retrieve(projectManager).getID();
 			}catch(Exception e){}
 			
-			Team team = new Team(teamid, teamName, teamDesc, teamLimit, pmid, supId);
+			Team team = new Team(teamid, teamName, teamLimit, pmid, supId, rev1, rev2, termId);
 			
 			for(int i = 0; i < teamMembers.length; i++){
 				User u = null; 

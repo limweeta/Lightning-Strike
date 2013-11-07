@@ -7,15 +7,17 @@ public class Company{
 	private String coyName;
 	private String coyAdd;
 	private int coyContactNum;
+	private int orgType;
   
 	public Company(){}
 	
 	//constructor
-	public Company(int id, String coyName, String coyAdd, int coyContactNum){
+	public Company(int id, String coyName, String coyAdd, int coyContactNum, int orgType){
 		this.id				=	id;
 		this.coyName		=	coyName;
 		this.coyAdd			=	coyAdd;
 		this.coyContactNum	=	coyContactNum;
+		this.orgType		=	orgType;
 	  }
 	
 	//getter
@@ -35,6 +37,10 @@ public class Company{
 		return coyContactNum;
 	}
 	
+	public int getOrgType(){
+		return orgType;
+	}
+	
 	//setter
 	public void setID(int ID){
 		this.id	= ID;
@@ -50,5 +56,9 @@ public class Company{
 	
 	public void setCoyContactNum(int coyContactNum){
 		this.coyContactNum = coyContactNum;
+	}
+	
+	public void setOrgType(int orgType){
+		this.orgType = orgType;
 	}
 }

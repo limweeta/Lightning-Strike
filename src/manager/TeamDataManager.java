@@ -58,6 +58,81 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public String getTeamStatus(Team team){
+		String status = "";
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT s.status FROM team_status ts, status s WHERE ts.status_id = s.status_id AND team_id = " + team.getId());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			status = array.get(0);
+		}
+		
+		return status;
+	}
+	
+	public ArrayList<Team> retrieveSupervisingTeams(String username) {
+		UserDataManager udm = new UserDataManager();
+		User u = null;
+		
+		try{
+			u = udm.retrieve(username);
+		}catch(Exception e){}
+		
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE supId = " + u.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
+			
+			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			teams.add(addTeam);
+		}
+		
+		return teams;
+	}
+	
+	public ArrayList<Student> retrieveAllStudents(Team team) {
+		ArrayList<Student> members = new ArrayList<Student>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE students.team_id = " + team.getId());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id 				= Integer.parseInt(array.get(0));
+			String username 	= array.get(1);
+			String fullName 	= array.get(2);
+			String contactNum 	= array.get(3);
+			String email 		= array.get(4);
+			String type			= array.get(5);
+			String secondMajor 	= array.get(7);
+			int role 			= Integer.parseInt(array.get(8));
+			int teamId 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));
+			
+			Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamId, prefRole);
+			members.add(student);
+		}
+		
+		return members;
+	}
+	
 	public ArrayList<Team> retrieveAll() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
@@ -69,12 +144,14 @@ public class TeamDataManager implements Serializable {
 			ArrayList<String> array = map.get(key);	
 			int id = Integer.parseInt(array.get(0));
 			String teamName = array.get(1);
-			String teamDesc = array.get(2);
-			int teamLimit	= Integer.parseInt(array.get(3));
-			int pmId		= Integer.parseInt(array.get(4));
-			int supId 		= Integer.parseInt(array.get(5));
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
 			
-			Team team = new Team(id, teamName, teamDesc,teamLimit, pmId, supId);
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
 			teams.add(team);
 		}
 		
@@ -255,12 +332,14 @@ public class TeamDataManager implements Serializable {
 			ArrayList<String> array = map.get(key);	
 			int id = Integer.parseInt(array.get(0));
 			String teamName2 = array.get(1);
-			String teamDesc = array.get(2);
-			int teamLimit	= Integer.parseInt(array.get(3));
-			int pmId		= Integer.parseInt(array.get(4));
-			int supId 		= Integer.parseInt(array.get(5));
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
 			
-			team = new Team(id, teamName2, teamDesc,teamLimit, pmId, supId);
+			team = new Team(id, teamName2,teamLimit, pmId, supId, rev1, rev2, termId);
 			
 		}
 		return team;
@@ -415,14 +494,16 @@ public class TeamDataManager implements Serializable {
 		while (iterator.hasNext()){
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
-			int retrievedId = Integer.parseInt(array.get(0));
+			int id2 = Integer.parseInt(array.get(0));
 			String teamName = array.get(1);
-			String teamDesc = array.get(2);
-			int teamLimit	= Integer.parseInt(array.get(3));
-			int pmId		= Integer.parseInt(array.get(4));
-			int supId		= Integer.parseInt(array.get(5));
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
 			
-			Team team = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId, supId);
+			Team team = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
 			retrievedTeams.add(team);
 		}
 		return retrievedTeams;
@@ -437,14 +518,16 @@ public class TeamDataManager implements Serializable {
 		while (iterator.hasNext()){
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
-			int retrievedId = Integer.parseInt(array.get(0));
+			int id2 = Integer.parseInt(array.get(0));
 			String teamName = array.get(1);
-			String teamDesc = array.get(2);
-			int teamLimit	= Integer.parseInt(array.get(3));
-			int pmId		= Integer.parseInt(array.get(4));
-			int supId		= Integer.parseInt(array.get(5));
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
 			
-			retrievedTeam = new Team(retrievedId, teamName, teamDesc,teamLimit, pmId, supId);
+			retrievedTeam = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
 		}
 		return retrievedTeam;
 	}
@@ -452,13 +535,15 @@ public class TeamDataManager implements Serializable {
 	public void add(Team team, String[] prefIndustry, String[] prefTech){
 		int teamId		=	team.getId();
 		String teamName = 	team.getTeamName();
-		String teamDesc	=	team.getTeamDesc();
 		int teamLimit	=	team.getTeamLimit();
 		int pmId		=	team.getPmId();
 		int supId		=	team.getSupId();
+		int rev1		= 	team.getRev1Id();
+		int rev2		= 	team.getRev2Id();
+		int termId		= 	team.getTermId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`teams` "
-				+ "(`id`, `team_name`, `team_description`, `team_limit`, `pm_id`, `supervisor_id`) "
-				+ "VALUES (" + teamId + ", '" + teamName + "', '" + teamDesc +"', " + teamLimit + ", " + pmId + ", " + supId + ");");
+				+ "(`id`, `team_name`, `team_limit`, `pm_id`, `supervisor_id`, `reviewer1`, `reviewer2`, `term_id`) "
+				+ "VALUES (" + teamId + ", '" + teamName + "', " + teamLimit + ", " + pmId + ", " + supId + ", " + rev1 + ", " + rev2 + ", " + termId + ");");
 		
 		for(int i = 0; i < prefIndustry.length; i++){
 			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
@@ -502,10 +587,12 @@ public class TeamDataManager implements Serializable {
 	public void modify(Team team){
 		MySQLConnector.executeMySQL("update", "UPDATE teams SET "
 				+ "team_name = '" + team.getTeamName() + "', "
-				+ "team_description = '" + team.getTeamDesc() + "', "
 				+ "team_limit = " + team.getTeamLimit() + ", "
 				+ "pm_id = " + team.getPmId() + ", "
-				+ "supervisor_id = " + team.getSupId() + " "
+				+ "supervisor_id = " + team.getSupId() + ", "
+				+ "reviewer1 = " + team.getRev1Id() + ", "
+				+ "reviewer2 = " + team.getRev2Id() + ", "
+				+ "team_id = " + team.getTermId() + " "
 				+ "WHERE id = " + team.getId());
 	}
 	

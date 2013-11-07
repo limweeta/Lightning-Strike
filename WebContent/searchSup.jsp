@@ -5,17 +5,13 @@
 	<head>
 	<%@include file="template.jsp"%>
 	<%
-	StudentDataManager sdm = new StudentDataManager();
-	TeamDataManager tdm = new TeamDataManager();
-	ProjectDataManager pdm = new ProjectDataManager();
 	UserDataManager udm = new UserDataManager();
-	
-	ArrayList<Student> students = sdm.retrieveAll();
+	ArrayList<User> faculty = udm.retrieveAllFaculty();
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
-		<title>Search Student</title>
+		<title>Search Supervisor</title>
 		<style type="text/css" title="currentStyle">
 			@import "./DataTables-1.9.4/media/css/demo_page.css";
 			@import "./DataTables-1.9.4/media/css/demo_table.css";
@@ -56,78 +52,41 @@
 <div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
 	<thead>
 		<tr role="row">
-			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Full Name</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Email</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Team Name</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Project</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
+			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Username</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Full Name</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Email</th>
 		</tr>
 	</thead>
 	
+	<tfoot>
+		<tr>
+			<th rowspan="1" colspan="1">Username</th>
+			<th rowspan="1" colspan="1">Full Name</th>
+			<th rowspan="1" colspan="1">Email</th>
+		</tr>
+	</tfoot>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
-	int count = 0;
-
-User u = null;
-String supname = "";
-int supId = 0;
-
-Team t = null;
-String teamName = "";
-int teamId = 0;
-
-Project p = null;
-String projName = "";
-int projId = 0;
-
-for(int i = 0; i < students.size(); i++){
-	Student student = students.get(i);
-	String fullname = student.getFullName();
-	String email = student.getEmail();
+int count = 0;
+for(int i = 0; i < faculty.size(); i++){
+	User userFaculty = faculty.get(i);
+	String name = userFaculty.getUsername();
+	String fullname = userFaculty.getFullName();
+	String email = userFaculty.getEmail();
 	count++;
+	String rowclass = "";
 	
-	try{
-		t =  tdm.retrieve(student.getTeamId());
-		teamName = t.getTeamName();
-		teamId = t.getId();
-	}catch(Exception e){
-		//teamName = "No Registered Team";
+	if(count % 2 == 0){
+		rowclass = "gradeA even";
+	}else{
+		rowclass = "gradeA odd";
 	}
 	
-	try{
-		p = pdm.retrieveProjectsByTeam(t.getId());
-		projName = p.getProjName();
-		projId = p.getId();
-	}catch(Exception e){
-		//projName = "N/A";
-	}
-	
-	try{
-		u = udm.retrieve(t.getSupId());
-		supname = u.getFullName();
-		supId = u.getID();
-	}catch(Exception e){
-		//supname = "N/A";
-	}
 %>
 	<tr class="">
-			<td class="sorting_1"><%=fullname %></td>
+			<td class="sorting_1"><a href="userProfile.jsp?id=<%=userFaculty.getID()%>"><%=name %></td>
+			<td class="center"><%=fullname %></td>
 			<td class="center"><a href="mailto:<%=email%>" target="_top"><%=email %></a></td>
-			<td class="center">
-			<%if(teamId != 0){ %>
-			<a href="teamProfile.jsp?id=<%=teamId%>">
-			<%} %>
-			<%=teamName %></td>
-			<td class="center">
-			<%if(projId != 0){ %>
-			<a href="projectProfile.jsp?id=<%=projId%>">
-			<%} %>
-			<%=projName %></td>
-			<td class="center">
-			<%if(supId != 0){ %>
-			<a href="userProfile.jsp?id=<%=supId%>">
-			<%} %>
-			<%=supname %></td>
 	</tr>
 <%
 }

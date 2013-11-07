@@ -8,7 +8,31 @@ import model.*;
 public class UserDataManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	public UserDataManager() { retrieveAll(); }
+	public UserDataManager() { }
+	
+	public ArrayList<User> retrieveAllFaculty() {
+		ArrayList<User> Users = new ArrayList<User>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users"
+				+ " WHERE type LIKE 'Faculty' OR type LIKE 'Admin'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String username = array.get(1);
+			String fullName = array.get(2);
+			String contactNum = array.get(3);
+			String email = array.get(4);
+			String type = array.get(5);
+			
+			User User = new User(id, username, fullName, contactNum, email, type);
+			Users.add(User);
+		}
+		
+		return Users;
+	}
 	
 	public ArrayList<User> retrieveAll() {
 		ArrayList<User> Users = new ArrayList<User>();
