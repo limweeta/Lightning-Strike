@@ -518,8 +518,29 @@ function toggleSkill(source) {
 		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge">
 		  </div>
 		</div>
-		<%} %>
+		<%}else if(type.equalsIgnoreCase("Faculty") || type.equalsIgnoreCase("Admin")){ %>
+		<div class="control-group">
+		  <label class="control-label" for="coyName">Supervising Teams </label>
+		  <div class="controls">
+		    <%
+			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(username);
+			
+			if(teams.size() < 1){
+				out.println("No teams under supervision");
+			}else{
+				for(int i = 0; i < teams.size(); i++){
+					Team t = teams.get(i);
+					%>
+					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
+					<%
+				}
+			}
+			%>
+		  </div>
+		</div>
+			
 		
+		<%} %>
 		<!-- Button -->
 		<%
 		if(sessionUsername.equals(uProfile.getUsername())){

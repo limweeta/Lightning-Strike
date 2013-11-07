@@ -83,7 +83,7 @@ public class TeamDataManager implements Serializable {
 		}catch(Exception e){}
 		
 		ArrayList<Team> teams = new ArrayList<Team>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE supId = " + u.getID());
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE supervisor_id = " + u.getID());
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
