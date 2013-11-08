@@ -76,7 +76,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 					
 				}
 			}
-		}else if(type.equalsIgnoreCase("Sponsor")){
+		}else if(type.equalsIgnoreCase("Sponsor") || type.equalsIgnoreCase("Admin") || type.equalsIgnoreCase("Faculty")){
 			try{
 				String fullname = request.getParameter("fullname");
 				user = udm.retrieve(userId);

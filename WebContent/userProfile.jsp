@@ -121,7 +121,7 @@ function toggleSkill(source) {
 
 	UserDataManager udm = new UserDataManager();
 	User uProfile = null;
-	String usertype = (String) session.getAttribute("type");
+	String sessiontype = (String) session.getAttribute("type");
 	
 	SkillDataManager skdm = new SkillDataManager();
 	ArrayList<Skill> allSkills = skdm.retrieveAll();
@@ -129,15 +129,20 @@ function toggleSkill(source) {
 	
 	boolean invalidAccess = false;
 	
+	String usertype = "";
+	
 	if(usertype == null || usertype.isEmpty()){
 		usertype="";
 	}
-	
+
+	String requestedUserName = ""; 
 	try{
 		profileid = Integer.parseInt(request.getParameter("id"));
 		uProfile = udm.retrieve(profileid);
 		usertype = uProfile.getType();
 		userSkills = skdm.getUserSkills(uProfile);
+		
+		requestedUserName = uProfile.getUsername();
 	}catch(Exception e){
 		session.setAttribute("message","Please choose a valid profile to view");
 		invalidAccess = true;
@@ -241,7 +246,7 @@ function toggleSkill(source) {
 		<!-- Form Name -->
 		<h3>User Profile</h3>
 		<div class="span11">
-		<%if (type.equalsIgnoreCase("Student")){ %>
+		<%if (usertype.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -343,10 +348,10 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
 		  <div class="controls">
-		 <%if(type.equalsIgnoreCase("sponsor")){ %>
+		 <%if(sessionUsername.equals(uProfile.getUsername())){ %>
 		    <input id="fullname" name="fullname" type="text" value="<%=uProfile.getFullName()%>" class="input-large">
 		 <% }else{%>
-		    <input id="fullname" name="fullname" type="text" readonly="readonly"  value="<%=uProfile.getFullName()%>" class="input-large">
+		    <%=uProfile.getFullName()%>
 		 <% 
 		 	
 		 }	 
@@ -366,7 +371,7 @@ function toggleSkill(source) {
 			%>
 		    	<input id="contactno" name="contactno" type="text" value="<%=uProfile.getContactNum()%>" class="input-large">
 		    <%}else{ %>
-		    	<input id="contactno" name="contactno" type="text" value="<%=uProfile.getContactNum()%>" class="input-large" readonly="readonly">
+		    	<%=uProfile.getContactNum()%>
 		    <%} %>
 		  </div>
 		</div>
@@ -376,17 +381,17 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
-		  <%if(type.equalsIgnoreCase("sponsor")){ %>
+		  <%if(sessionUsername.equals(uProfile.getUsername())){ %>
 		    <input id="email" name="email" type="text" value="<%=uProfile.getEmail()%>" class="input-xlarge">
 		     <% }else{%>
-		    <input id="email" name="email" type="text" value="<%=uProfile.getEmail()%>" readonly="readonly" class="input-xlarge">
+		    <a href="mailto:<%=uProfile.getEmail()%>"><%=uProfile.getEmail()%></a>
 		 <% 	
 		 }	 
 		%>
 		    <input type="hidden" name="type" value="<%=type%>">
 		  </div>
 		</div>
-	<% if(type.equalsIgnoreCase("faculty")){ 
+	<% if(usertype.equalsIgnoreCase("faculty")){ 
 		ArrayList<Team> supervisedTeams = tdm.retrievebyFaculty(profileid);
 	%>
 		<div class="control-group">
@@ -402,18 +407,20 @@ function toggleSkill(source) {
 		  </div>
 		</div>
 	<% } %>	
-		<%if(type.equalsIgnoreCase("Student")){%>
+		<%if(usertype.equalsIgnoreCase("Student")){%>
 		<!-- </div> --></br>
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="secondMajor">Second Major</label>
 		  <div class="controls">
-		  	 <select id="secondmaj" name="secondmajor" class="input-large">
+		  	 
 		  	<%
-				if(sessionUsername.equals(uProfile.getUsername()) && type.equalsIgnoreCase("Student")){
+				if(sessionUsername.equals(uProfile.getUsername())){
 			%>
+			<select id="secondmaj" name="secondmajor" class="input-large">
 			<%
+			
 		    	  SecondMajorDataManager secondMajordm = new SecondMajorDataManager();
 			    	  ArrayList<SecondMajor> secondMajors  = secondMajordm.retrieveAll();
 					  
@@ -429,10 +436,13 @@ function toggleSkill(source) {
 					    <%
 					    }
 					}
+			    %></select><%
+				}else{
+					out.println(student.getSecondMajor());
 				}
-					    %>
+					  %>
 					
-		     </select>
+		     
 		  </div>
 		</div>
 
@@ -509,7 +519,7 @@ function toggleSkill(source) {
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
 		</div>
-		<%}else if(type.equalsIgnoreCase("Sponsor")){ 
+		<%}else if(usertype.equalsIgnoreCase("Sponsor")){ 
 		Company company = cdm.retrieve(profileid);
 		%>
 		<div class="control-group">
@@ -518,12 +528,12 @@ function toggleSkill(source) {
 		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge">
 		  </div>
 		</div>
-		<%}else if(type.equalsIgnoreCase("Faculty") || type.equalsIgnoreCase("Admin")){ %>
+		<%}else if(usertype.equalsIgnoreCase("Faculty") || usertype.equalsIgnoreCase("Admin")){ %>
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Supervising Teams </label>
 		  <div class="controls">
 		    <%
-			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(username);
+			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(requestedUserName);
 			
 			if(teams.size() < 1){
 				out.println("No teams under supervision");

@@ -37,7 +37,6 @@
 	  
 	  TeamDataManager tdm = new TeamDataManager();
 	  ArrayList<String> teamNameList = tdm.retrieveTeamNames();
-	  
   %>
   <%
 	Calendar now = Calendar.getInstance();

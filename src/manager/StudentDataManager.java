@@ -133,6 +133,29 @@ public class StudentDataManager implements Serializable {
 		return hasTeam;
 	}
 	
+	public ArrayList<String> retrieveFullNameList() throws Exception{
+		ArrayList<String> nameList = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String username 	= array.get(2);
+			
+			nameList.add(username);
+		}
+		
+		Collections.sort(nameList, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareTo(s2);
+	        }
+		});
+		
+		return nameList;
+	}
+	
 	public ArrayList<String> retrieveUsernameList() throws Exception{
 		ArrayList<String> nameList = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");

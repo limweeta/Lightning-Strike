@@ -91,7 +91,8 @@ for(int i = 0; i < students.size(); i++){
 		teamName = t.getTeamName();
 		teamId = t.getId();
 	}catch(Exception e){
-		//teamName = "No Registered Team";
+		teamId = 0;
+		teamName = "No Registered Team";
 	}
 	
 	try{
@@ -99,7 +100,8 @@ for(int i = 0; i < students.size(); i++){
 		projName = p.getProjName();
 		projId = p.getId();
 	}catch(Exception e){
-		//projName = "N/A";
+		projId = 0;
+		projName = "N/A";
 	}
 	
 	try{
@@ -107,11 +109,12 @@ for(int i = 0; i < students.size(); i++){
 		supname = u.getFullName();
 		supId = u.getID();
 	}catch(Exception e){
-		//supname = "N/A";
+		supId = 0;
+		supname = "N/A";
 	}
 %>
 	<tr class="">
-			<td class="sorting_1"><%=fullname %></td>
+			<td class="sorting_1"><a href="userProfile.jsp?id=<%=student.getID()%>"><%=fullname %></a></td>
 			<td class="center"><a href="mailto:<%=email%>" target="_top"><%=email %></a></td>
 			<td class="center">
 			<%if(teamId != 0){ %>

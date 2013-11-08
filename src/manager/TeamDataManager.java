@@ -175,6 +175,28 @@ public class TeamDataManager implements Serializable {
 		return membersId;
 	}
 	
+	public ArrayList<String> retrieveStudentsInTeam(String teamName) {
+		Team team = null;
+		
+		try{
+			team = retrieveTeamByName(teamName);
+		}catch(Exception e){}
+		ArrayList<String> members = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select u.full_name from users u, studentss WHERE s.id = u.id AND s.team_id =" + team.getId());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String fullname = array.get(0);
+			
+			members.add(fullname);
+		}
+		
+		return members;
+	}
+	
 	public ArrayList<Team> retrieveStudentRequests(int studentId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request WHERE student_id = " + studentId);
