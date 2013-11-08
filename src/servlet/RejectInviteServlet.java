@@ -41,7 +41,7 @@ public class RejectInviteServlet extends HttpServlet {
 			pm = stdm.retrieve(t.getPmId());
 			
 			tdm.removeTeamInvite(stdId, teamId);
-			/*
+			
 			ServletContext context = getServletContext();
 			String host = context.getInitParameter("host");
 			String port = context.getInitParameter("port");
@@ -50,10 +50,10 @@ public class RejectInviteServlet extends HttpServlet {
 		    String recipient  = pm.getEmail();
 		    String subject = "[IS480] Your request has been rejected";
 		    String content = "Your request for " + std.getFullName() + " to join your team has been rejected."
-		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		    		+ "\n Click 202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + " to view";
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
-			*/
+			
 			session.setAttribute("message", t.getTeamName() + " has been rejected");
 		}catch(Exception e){}
 		

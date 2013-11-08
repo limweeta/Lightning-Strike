@@ -67,7 +67,7 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 		    String recipient  = std.getEmail();
 		    String subject = "[IS480] You have been removed from your team";
 		    String content = team.getTeamName() + " has removed you from their team"
-		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/searchTeam.jsp\">here</a> to browse other teams";
+		    		+ "\n Click 202.161.45.127/is480-matching/searchTeam.jsp to browse other teams";
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/

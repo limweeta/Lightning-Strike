@@ -60,7 +60,7 @@ public class RejectTeamServlet extends HttpServlet {
 		    
 		    String subject = "[IS480] Your application to take on a project has been rejected";
 		    String content = sponsor.getFullName() + " has rejected your application to take on their project, " + p.getProjName()
-		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/searchProject.jsp\">here</a> to browse other projects";
+		    		+ "\n Click 202.161.45.127/is480-matching/searchProject.jsp to browse other projects";
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/

@@ -56,7 +56,7 @@ public class AddTermServlet extends HttpServlet {
 		Term term = new Term(acadYear, sem);
 		
 		termdm.add(term);
-
+		session.setAttribute("message", "Term " + acadYear + " T" + sem + " added");
 		response.sendRedirect("admin.jsp");
 		
 	}

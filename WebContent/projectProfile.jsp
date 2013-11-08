@@ -174,7 +174,14 @@
 		
 		sponsorName = projSponsor.getFullName();
 		
-		company = cdm.retrieve(reqProj.getSponsorId()).getCoyName();
+		Company comp = cdm.retrieve(reqProj.getSponsorId());
+		
+		try{
+			company = comp.getCoyName();
+		}catch(Exception e){
+			company = "Not Applicable";
+		}
+		
 		sponsorId = projSponsor.getID();
 		coyId = cdm.retrieve(sponsorId).getID();
 		
@@ -236,7 +243,6 @@
 					<span class="label label-danger" style="padding:10px;">Closed</span></br>
 				<%} %>
 		</h5>
-			
 			<% if(creatorId == userId){ %>	
 				<div class="panel-group" id="accordion">
 				  <div class="panel panel-default">
@@ -467,17 +473,25 @@
 					  boolean specified = false;
 					  for(int i = 0; i < orgs.size(); i++){
 						  Organization org1 = orgs.get(i);
-						  Company comp = cdm.retrieve(spdm.retrieve(reqProj.getSponsorId()).getCoyId());
-						  if(comp.getOrgType() == org1.getId()){
-							  specified = true;
-						  %>
-						  <option value="<%=org1.getId()%>" selected><%=org1.getOrgType() %></option>
-						  <%
-						  }else{
-							 %>
-						 <option value="<%=org1.getId()%>"><%=org1.getOrgType() %></option>	 
-							 <% 
-						  }
+						  Company comp = null;
+						  try{
+							  comp = cdm.retrieve(spdm.retrieve(reqProj.getSponsorId()).getCoyId());
+						  
+							  if(comp.getOrgType() == org1.getId()){
+								  specified = true;
+							  %>
+							  <option value="<%=org1.getId()%>" selected><%=org1.getOrgType() %></option>
+							  <%
+							  }else{
+								 %>
+							 <option value="<%=org1.getId()%>"><%=org1.getOrgType() %></option>	 
+								 <% 
+							  }
+							}catch(Exception e){
+							  %>
+							  <option value="<%=org1.getId()%>"><%=org1.getOrgType() %></option>
+							  <%
+						  	}
 				  }
 					  if(!specified){
 						  %>
@@ -583,6 +597,8 @@
 							  %>
 					  	</tr>
 					</table> 
+					
+	</form>
 				</div>
 		    </div>
 		  </div>
@@ -639,7 +655,6 @@
 		</table>
 				
 		</div>
-	</form>
 	</div>
 
 	</body>

@@ -249,6 +249,15 @@
     <servlet-name>RejectTeamServlet</servlet-name>
     <url-pattern>/rejectTeam</url-pattern>
   </servlet-mapping> 
+  
+  <servlet>
+    <servlet-name>StudentRequestServlet</servlet-name>
+    <servlet-class>servlet.StudentRequestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentRequestServlet</servlet-name>
+    <url-pattern>/stdRequest</url-pattern>
+  </servlet-mapping>
     
   <servlet>
     <servlet-name>AcceptStudentServlet</servlet-name>
@@ -266,6 +275,15 @@
   <servlet-mapping>
     <servlet-name>RejectStudentServlet</servlet-name>
     <url-pattern>/rejectStudent</url-pattern>
+  </servlet-mapping> 
+  
+  <servlet>
+    <servlet-name>InviteStudentServlet</servlet-name>
+    <servlet-class>servlet.InviteStudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InviteStudentServlet</servlet-name>
+    <url-pattern>/inviteStudent</url-pattern>
   </servlet-mapping> 
   
   <servlet>

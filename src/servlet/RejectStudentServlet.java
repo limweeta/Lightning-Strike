@@ -48,7 +48,7 @@ public class RejectStudentServlet extends HttpServlet {
 		    String recipient  = st.getEmail();
 		    String subject = "[IS480] Your request has been rejected";
 		    String content = "Your request for " + t.getTeamName() + " to join their team has been rejected."
-		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		    		+ "\n Click 202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + " to view";
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/

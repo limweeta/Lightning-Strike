@@ -555,6 +555,14 @@ public class TeamDataManager implements Serializable {
 	}
 	
 	public void add(Team team, String[] prefIndustry, String[] prefTech){
+		if(prefIndustry == null){
+			prefIndustry = new String[0];
+		}
+		
+		if(prefTech == null){
+			prefTech = new String[0];
+		}
+		
 		int teamId		=	team.getId();
 		String teamName = 	team.getTeamName();
 		int teamLimit	=	team.getTeamLimit();

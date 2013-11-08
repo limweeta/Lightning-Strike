@@ -184,7 +184,7 @@ function toggleSkill(source) {
 	
 	TeamDataManager tdm = new TeamDataManager();
 	int teamId = 0;
-	
+	int visitorTeamId = 0;
 	String teamName = "";
 	
 	try{
@@ -195,6 +195,11 @@ function toggleSkill(source) {
 		teamName = "No team yet";
 	}
 	
+	try{
+		visitorTeamId = tdm.retrievebyStudent(udm.retrieve(username).getID());
+	}catch(Exception e){
+		visitorTeamId = 0;
+	}
 	
 	ProjectDataManager pdm = new ProjectDataManager();
 	ArrayList<Project> projArray = pdm.retrieveAll(); 
@@ -252,7 +257,7 @@ function toggleSkill(source) {
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
 		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		          Team Invitations (<%=teamInvites.size() %>)
+		          Team Invitations (<%=teamRequests.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -261,11 +266,11 @@ function toggleSkill(source) {
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(teamInvites.size() == 0){
+		  if(teamRequests.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < teamInvites.size(); i++){
-		  		Team team = teamInvites.get(i);
+		  	for(int i = 0; i < teamRequests.size(); i++){
+		  		Team team = teamRequests.get(i);
 		  		%>
 		  		<td>
 		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
@@ -302,7 +307,7 @@ function toggleSkill(source) {
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
 		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-		          Team Requests (<%=teamRequests.size() %>)
+		          Team Requests (<%=teamInvites.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -311,11 +316,11 @@ function toggleSkill(source) {
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(teamRequests.size() == 0){
+		  if(teamInvites.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < teamRequests.size(); i++){
-		  		Team team = teamRequests.get(i);
+		  	for(int i = 0; i < teamInvites.size(); i++){
+		  		Team team = teamInvites.get(i);
 		  		%>
 		  		<td>
 		  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
@@ -566,7 +571,16 @@ function toggleSkill(source) {
 		%>
 		</form>
 		</div></br>
-	
+		<div class="control-group">
+		  <label class="control-label" for="inviteStudent"></label>
+		  <div class="controls">
+		  <form action="inviteStudent" method="post">
+		  	<input type="hidden" name="studentId" value="<%=uProfile.getID()%>">
+		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
+		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-success">
+		   </form>
+		  </div>
+		</div>
 <!-- 	</div> -->
 	
 	</div>

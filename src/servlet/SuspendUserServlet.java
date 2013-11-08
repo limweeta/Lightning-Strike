@@ -26,18 +26,32 @@ public class SuspendUserServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		UserDataManager udm = new UserDataManager();
 		
 		String username = request.getParameter("username");
-		System.out.println("********************" + username);
+		
 		User u = null;
 		
 		try{
 			u = udm.retrieve(username);
 			
 			udm.suspend(u);
-			
+			/*
+			ServletContext context = getServletContext();
+			String host = context.getInitParameter("host");
+			String port = context.getInitParameter("port");
+			String user = context.getInitParameter("user");
+			String pass = context.getInitParameter("pass");
+		    String recipient  = u.getEmail();
+		    
+		    String subject = "[IS480] You have been suspended";
+		    String content = " You have been suspended from the IS480 Matching System. "
+		    		+ "\n Please contact benjamingan@smu.edu.sg for more details";
+		     
+		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+			*/
+		    session.setAttribute("message", u.getFullName() + " has been suspended");
 		}catch(Exception e){
 			//INSERT ERROR MESSAGE
 			e.printStackTrace();

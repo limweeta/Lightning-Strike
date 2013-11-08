@@ -52,7 +52,7 @@ public class StudentRequestServlet extends HttpServlet {
 		    
 		    String subject = "[IS480] You have a new team request";
 		    String content = std.getFullName() + " has requested to join your team, " + team.getTeamName()
-		    		+ "\n Click <a href=\"202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + "\">here</a> to view";
+		    		+ "\n Click 202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + " to view";
 		     
 		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/

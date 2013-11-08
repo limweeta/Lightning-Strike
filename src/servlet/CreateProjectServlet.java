@@ -139,8 +139,8 @@ public class CreateProjectServlet extends HttpServlet {
 			    		+ "\n Click <a href=\"202.161.45.127/is480-matching/projectProfile.jsp?id=" + id + "\">here</a> to view";
 			     
 			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
-				
-			*/	
+				*/
+			
 				
 			}catch(Exception e){
 				//System.out.println("No technology");

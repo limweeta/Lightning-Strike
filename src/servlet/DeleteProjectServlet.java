@@ -37,7 +37,6 @@ public class DeleteProjectServlet extends HttpServlet {
 		Team team = null;
 		User u = null;
 		
-		pdm.remove(projID);
 		try{
 			p = pdm.retrieve(projID);
 			u = udm.retrieve(p.getCreatorId());
@@ -65,8 +64,8 @@ public class DeleteProjectServlet extends HttpServlet {
 			    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 		    }
 		    */
-		}catch(Exception e){
-			
+		}catch(Exception e){}finally{
+			pdm.remove(projID);
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("searchProject.jsp");

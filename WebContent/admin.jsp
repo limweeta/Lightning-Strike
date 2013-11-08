@@ -309,7 +309,7 @@
             <div class="span8 well">
 				<div class="row">
 					
-						<form name="addTerm" action="" method="post" class="form-horizontal">
+						<form name="addTerm" action="addTerm" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Add Term</legend>
 						<div class="span7">

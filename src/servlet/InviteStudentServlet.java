@@ -10,7 +10,7 @@ import model.*;
 import manager.*;
 
 @SuppressWarnings("serial")
-public class AcceptInviteServlet extends HttpServlet {
+public class InviteStudentServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processAuthenticateRequest(request, response);
@@ -27,28 +27,20 @@ public class AcceptInviteServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		int stdId = Integer.parseInt(request.getParameter("stdId"));
+		int teamId = Integer.parseInt(request.getParameter("visitorTeamId"));
+		int userId = Integer.parseInt(request.getParameter("studentId"));
 		
-		StudentDataManager stdm = new StudentDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		tdm.removeAllStudentRequest(teamId);
-		
-		Student std = null;
+		StudentDataManager stdm = new StudentDataManager(); 
 		Team team = null;
-		
+		Student pm = null;
+		Student std = null;
 		try{
-			std = stdm.retrieve(stdId);
-			std.setTeamId(teamId);
-			team  = tdm.retrieve(teamId);
+			team = tdm.retrieve(teamId);
+			pm = stdm.retrieve(team.getPmId());
+			std = stdm.retrieve(userId);
 			
-			if(tdm.emptySlots(team)){
-				tdm.removeAllTeamInvite(teamId);
-			}else{
-				tdm.removeTeamInvite(stdId, teamId);
-			}
-			
-			stdm.modify(std);
+			tdm.studentRequest(userId, teamId);
 			
 			/*
 			ServletContext context = getServletContext();
@@ -56,19 +48,17 @@ public class AcceptInviteServlet extends HttpServlet {
 			String port = context.getInitParameter("port");
 			String user = context.getInitParameter("user");
 			String pass = context.getInitParameter("pass");
-		    String recipient  = stdm.retrieve(team.getPmId()).getEmail();
-		    String subject = "[IS480] Your invitation to " + std.getFullName() + " has been accepted";
-		    String content = std.getFullName() + " has accepted your invitation."
+		    String recipient  = std.getEmail();
+		    String subject = "[IS480] You have a new team invite";
+		    String content = team.getTeamName() + " has invited you to join their team "
 		    		+ "\n Click 202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + " to view";
 		     
-		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
+		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/
-			//SEND EMAIL TO REJECT OTHER TEAMS
- 
-		     
-			session.setAttribute("message", "You have joined " + team.getTeamName());
+			session.setAttribute("message", "You have requested to join " + team.getTeamName());
+		
 		}catch(Exception e){}
 		
-		response.sendRedirect("userProfile.jsp?id="+stdId);
+		response.sendRedirect("userProfile.jsp?id="+userId);
 	}
 }

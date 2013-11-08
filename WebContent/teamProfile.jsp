@@ -249,25 +249,7 @@
 		  </div>
 		  
 		  <br />
-	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
-		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
-		<!-- Form Name -->
-	
-		<input type="hidden" name="teamId" value="<%=teamId %>">
-		
-		
-		<div class="control-group">
-		  <label class="control-label" for="fullname">Team Name</label>
-		  <div class="controls">
-		<%if(sessUserId == team.getPmId()){ %>
-			<input type="text" name="teamName" value="<%=team.getTeamName() %>">
-		<%}else{ %>
-			<%=team.getTeamName() %>
-		 <%}%>
-		 </div>
-		</div>
-		<!-- Text input-->
-		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
+
 		<%-- <div class="control-group">
 		  <label class="control-label" for="fullname">About Us</label>
 		  <div class="controls">
@@ -281,6 +263,8 @@
 		<!-- </div></br> --></br>
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
+		
+				<form action="removeMember" method="post" class="form-horizontal">
 		<div class="control-group">
 		  <label class="control-label" for="members">Members</label>
 		  <div class="controls">
@@ -300,7 +284,6 @@
 	            		if(sessUserId == team.getPmId()){
 	            	%>
 	           
-				<form action="removeMember" method="post">
 				<input type="hidden" name="userId" value="<%=student.getID()%>">
 				<input type="hidden" name="teamId" value="<%=teamId%>">
 				<input type="submit" value="Remove from Team" onclick="return confirm('Are you sure you want to remove <%=student.getFullName() %> from this team?');return false;" class="btn btn-danger"/>
@@ -314,6 +297,14 @@
             %>
 		  </div>
 		</div>
+	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
+		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
+		<!-- Form Name -->
+		<input type="hidden" name="teamName" value="<%=team.getTeamName()%>">
+		<input type="hidden" name="teamId" value="<%=teamId %>">
+		
+		<!-- Text input-->
+		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
@@ -497,6 +488,7 @@
 		    </div>
 		  </div>
 	  </div>
+		</form>
 	  <br />
 		<table>
 		<tr>
@@ -553,7 +545,6 @@
 		%>
 		</tr>
 		</table>
-		</form>
 		</div>
 		
 		</div>
