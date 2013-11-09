@@ -47,7 +47,7 @@ public class AuthenticateServlet extends HttpServlet {
 						session.setAttribute("username", sponsorUsername);
 						session.setAttribute("type", udm.retrieveByFullName(fullName).getType());
 						
-						response.sendRedirect("index.jsp");
+						response.sendRedirect("mainPage.jsp");
 					}else{
 						session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
 						response.sendRedirect("index.jsp");

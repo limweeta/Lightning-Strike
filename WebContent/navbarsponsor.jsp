@@ -2,13 +2,28 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+<style type="text/css">
+.navbar .container {
+	height: 40px;
+}
+.navbar-username {
+color: white ;
+}
+
+
+</style>
+
+
 	<%
-	int projIdNav = 0;
-	int teamIdNav = 0;
-	int userIdNav = 0;
+		int projIdNav = 0;
+		int teamIdNav = 0;
+		int userIdNav = 0;
+
+		String spFullName = (String)session.getAttribute("fullname");
+		String spUsername = (String) session.getAttribute("username");
 	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
-	
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
 	<script>
@@ -211,7 +226,9 @@
 	<%
 	String sessionUser = (String) session.getAttribute("username");
 	String userType = (String) session.getAttribute("type");
-	
+	if(userType == null){
+		userType = "";
+	}
 	User u = null;
 	
 	if(sessionUser == null || sessionUser.isEmpty()){
@@ -253,40 +270,68 @@
 	}
 	%>
 	
-	<div class="navbar">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+         <a href="./index.jsp" style="font-size: 20px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Project<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
-		          <li><a href="./searchProject.jsp">Search</a></li>
+		          <li><a href="./searchProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
+		          <li><a href="./createProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Create</a></li>
+		          <li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Delete Project</a></li>
+		          <li><a href="./sponsorFeedback" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
 		          </ul>
 		        </li>
 		      
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Team<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchTeam.jsp">Search</a></li>
+               		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Student<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchUser.jsp">Search</a></li>
+               		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="#register" data-toggle="modal">Register</a></li>
-               		<li><a href="./searchUser.jsp">Search</a></li>
-               	</ul>
-               </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Supervisor<b class="caret"></b></a>
-               	<ul class="dropdown-menu">
-               		<li><a href="./searchSup.jsp">Search</a></li>
+               		<li><a href="#register" data-toggle="modal" style="font-size: 20px; color: white;font-weight: 200;">Register</a></li>
+               		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
+               		<li><a href="./myProjects.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Projects</a></li>
+               		<li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
+               		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->
              </ul>
+              <ul class="nav pull-right">
+	          <li>
+	          	<a class="navbar-username" href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 20px; color: white;font-weight: 200;"><%=spFullName%> - <%=userType%></a>
+	          </li>
+	          <li class="dropdown">
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 20px; color: white;font-weight: 200;">
+	          		<i class="fa fa-cogs"></i>
+	          	</a>
+	          	<ul class="dropdown-menu pull-right">
+	          	<li>
+	          	<a href="#" style="font-size: 20px; color: white;font-weight: 200;">
+	          		<i class="fa fa-caret-square-o-down"></i>
+	          		&nbsp; Switch Roles
+	          	</a>
+	          	</li>
+	          	<li>
+	          	<form id="logout" action="logout" method="post"></form>
+	          	<a href="#" onclick="logout.submit()" style="font-size: 20px; color: white;font-weight: 200;">
+	          		<i class="fa fa-power-off"></i>
+	          		&nbsp; Logout
+	          	</a>
+	          	</li>
+	          	</ul>
+	          </li>
+	        </ul>
              <div id="register" class="modal hide fade">
 					    <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

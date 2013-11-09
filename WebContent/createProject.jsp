@@ -49,15 +49,25 @@ function toggleSkill(source) {
 		font-family:Impact;
 		font-size:1.75em;
 	}
-	#teamName{
-		width:49.8em;
-		font-size:1em;
+	.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
-	#createTeam{
-		font-size:1em;
-	}
-	#teamLimit{
-		width:5em;
+	
+	.panel-title .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    font-family:FontAwesome;
+	font-size:16px;
+    content: '\f067';  
+    float:right;
 	}
 </style>
 <%
@@ -99,11 +109,9 @@ int currMth = now.get(Calendar.MONTH);
 	</head>
 <% if(!invalidAccess){ %>
 	<body>
-		<div id="content-container" class="shadow">
-			<div id="content" align = "justify">
-				<div class="span12 well">
+		<div id="content-container" class="container">
+			<div class="content" align = "justify">
 					<form class="form-horizontal" method=post action="createProject" onsubmit="return validateForm()">
-						<div class="span11">
 						<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -343,12 +351,11 @@ int currMth = now.get(Calendar.MONTH);
 						  %>
 						  </tr>
 					 	</table>
-						</div>
 						</form>
 						</div>
+						
+						</div>
 					<br/>
-				</div>
-			</div>
 	</body>
 <% } %>
 </html>

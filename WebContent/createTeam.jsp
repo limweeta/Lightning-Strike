@@ -7,25 +7,39 @@
 		font-family:Impact;
 		font-size:1.75em;
 	}
-/* 	#teamName{
-		width:49.8em;
-		font-size:1em;
+	.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
-	#createTeam{
-		font-size:1em;
-	}
-	#teamLimit{
-		width:5em;
-	} */
-
+	
+	.panel-title .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    font-family:FontAwesome;
+	font-size:16px;
+    content: '\f067';  
+	float:right;
+}
 </style>
 
 <head>
 
 	<%@ include file="template.jsp" %>
 	<%
-  StudentDataManager sdm = new StudentDataManager();
-  ArrayList<String> usernameList 	= sdm.retrieveUsernameList();
+
+	Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
+	
+  	StudentDataManager sdm = new StudentDataManager();
+  	ArrayList<String> usernameList 	= sdm.retrieveUsernameList();
   
 	RoleDataManager rdm = new RoleDataManager();
 	ArrayList<Role> roles = rdm.retrieveAll();
@@ -189,11 +203,9 @@
 	</head>
 <% if(!invalidAccess){ %>
 	<body>
-		<div id="content-container">
-			<div id="content">
-				<div class="span12 well">
+		<div class="container" id="content-container">
+			<div class="content">
 					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
-						<div class="span11">
 						<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -214,7 +226,32 @@
 						    
 						  </div>
 						</div>
-						
+						<div class="control-group">
+						  <label class="control-label" for="projectterm">Project Term</label>
+						  <div class="controls">
+						   <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select> 
+						    <input type=hidden name="eligibleTerm" value="<%=currTermId+1%>" >
+						  </div>
+						</div>
 						
 						<!-- Select Basic -->
 						<div class="control-group">
@@ -451,11 +488,9 @@
 						</table> 
 						
 						
-						</div>
+						
 						</form>
-					
 					<br/>
-				</div>
 			</div>
 		</div>
 	</body>

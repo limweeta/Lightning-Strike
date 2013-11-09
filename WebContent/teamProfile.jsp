@@ -8,23 +8,28 @@
 		font-family:Impact;
 		font-size:1.75em;
 	}
-	#teamName{
-		font-family: Impact;
-		font-size:1.5em;
-	}
-	#createTeam{
-		font-size:1em;
-	}
-	#teamLimit{
-		width:5em;
-	}
+
 	textarea{
 		resize: none;
 	}
-	#teamPic{
-		font-family:Impact;
-		font-size: 1em;
-		word-wrap:break-word;
+	.container > .content {
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+	
+	.panel-title .accordion-toggle:after {
+    /* symbol for "collapsed" panels */
+    font-family:FontAwesome;
+	font-size:16px;
+    content: '\f067'; 
+    float:right; 
 	}
 </style>
 	<head>
@@ -146,7 +151,7 @@
 	
 	</script>
 	<body>
-	<div class="span12 well">
+	<div class="container">
 				<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -156,9 +161,9 @@
 						<%
 						session.removeValue("message");
 						} %>
-	
-		<h3><%=team.getTeamName()%><p style="float: right">Status: <%=status %></p></h3>
-		<div class="span11">
+		<div class="content">
+		<h3><%=team.getTeamName()%>&nbsp;Status: <%=status %></h3>
+		
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">

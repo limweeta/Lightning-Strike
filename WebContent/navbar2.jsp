@@ -18,11 +18,17 @@ font-weight: 200;
 	int projIdNav = 0;
 	int teamIdNav = 0;
 	int userIdNav = 0;
+	
+	UserDataManager udm = new UserDataManager();
+	String fullName = (String)session.getAttribute("fullname");
+	String username = (String) session.getAttribute("username");
+	User user = udm.retrieve(username);
 	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<script>
 		$(function() {
 		  // Setup drop down menu
@@ -357,9 +363,9 @@ font-weight: 200;
 					        <input class="btn btn-primary" style="clear: left; width: 50%; height: 32px; font-size: 13px;" type="submit" name="register" value="Register" />
 					    </div>
 					   	 </form>
-					</div>
-          <!--    <ul class="nav pull-right">
-	          <li class="dropdown">
+					   	 
+              <ul class="nav pull-right">
+	          <!-- <li class="dropdown">
 	            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 	              	<form action="register" method="post" onSubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
@@ -392,8 +398,31 @@ font-weight: 200;
 					  <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
 					</form>
 	            </div> 
+	          </li> -->
+	          <li>
+	          	<a class="navbar-username" href="userProfile.jsp?id=<%=user.getID()%>"><%=fullName%> - <%=userType%></a>
 	          </li>
-	        </ul> -->
+	          <li class="dropdown">
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#">
+	          		<i class="icon-cogs icon-large"></i>
+	          	</a>
+	          	<ul class="dropdown-menu pull-right" role="menu">
+	          	<li>
+	          	<a href="#">
+	          		<i class="fa fa-caret-square-o-down"></i>
+	          		&nbsp; Switch Roles
+	          	</a>
+	          	</li>
+	          	<li>
+	          	<form id="logout" action="logout" method="post"></form>
+	          	<a href="logout.submit()">
+	          		<i class="icon-off"></i>
+	          		&nbsp; Logout
+	          	</a>
+	          	</li>
+	          	</ul>
+	          </li>
+	        </ul>
            </div>
          </div>
      </div>

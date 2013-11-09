@@ -227,7 +227,7 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #eeeeee;
 }
 
 a {
@@ -1050,7 +1050,7 @@ legend {
   margin-bottom: 20px;
   font-size: 21px;
   font-weight: bold;
-  line-height: 40px;
+  line-height: 35px;
   color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;

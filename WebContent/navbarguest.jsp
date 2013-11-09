@@ -2,13 +2,26 @@
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
 <html>
+<style type="text/css">
+.navbar .container {
+	height: 40px;
+}
+.navbar-username {
+color: white ;
+}
+
+
+</style>
+
+
 	<%
-	int projIdNav = 0;
-	int teamIdNav = 0;
-	int userIdNav = 0;
+		int projIdNav = 0;
+		int teamIdNav = 0;
+		int userIdNav = 0;
+
 	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
-	
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
 	<script>
@@ -212,6 +225,10 @@
 	String sessionUser = (String) session.getAttribute("username");
 	String userType = (String) session.getAttribute("type");
 	
+	if(userType == null){
+		userType = "";
+	}
+	
 	User u = null;
 	
 	if(sessionUser == null || sessionUser.isEmpty()){
@@ -253,59 +270,43 @@
 	}
 	%>
 	
-	<div class="navbar">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+         <a href="./index.jsp" style="font-size: 20px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Project<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
-		          <li><a href="./searchProject.jsp">Search</a></li>
-		          <li><a href="./createProject.jsp">Create</a></li>
-		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>">My Project</a></li>
-		          <li><a href="#">Match to Project</a></li>
-		          <li><a href="#">Delete Project</a></li>
+		          <li><a href="./searchProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
 		          </ul>
 		        </li>
 		      
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Team<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchTeam.jsp">Search</a></li>
-		          	<li><a href="./createTeam.jsp">Create</a></li>
-		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>">My Team</a></li>
-		          	<li><a href="#">Match to Team</a></li>
-               		<li class="dropdown"><a href="./admin.jsp">Assign Supervisor</a></li>
-               		<li class="dropdown"><a href="./admin.jsp">Assign Reviewer</a></li>
-              		<li class="dropdown"><a href="#">Suspend Team</a></li>	
+               		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Student<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchUser.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./sponsorFeedback.jsp">Sponsor Feedback</a></li>
-               		<li><a href="./mentorFeedback.jsp">Mentor Feedback</a></li>
-               		<li><a href="./admin.jsp">Suspend User</a></li>
+               		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sponsor<b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="#register" data-toggle="modal">Register</a></li>
-               		<li><a href="./searchSponsor.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./myProjects.jsp">My Projects</a></li>
-               		<li><a href="./teamFeedback.jsp">Team Feedback</a></li>
-               		<li><a href="./admin.jsp">Suspend User</a></li>
+               		<li><a href="#register" data-toggle="modal" style="font-size: 20px; color: white;font-weight: 200;">Register</a></li>
+               		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Supervisor<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchSup.jsp">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>">My Profile</a></li>
-               		<li><a href="./myTeams.jsp">My Teams</a></li>
-               		<li><a href="./admin.jsp">Assign Team</a></li>
-               		<li><a href="./admin.jsp">Suspend User</a></li>
+               		<li><a href="./searchSup.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
+                <ul class="nav pull-right">
+	          <li>
+	          	Guest	
+	          </li>
+	        </ul>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->
              </ul>
@@ -333,7 +334,7 @@
 								    		Organization org = orgs.get(i); 
 								    		String orgType = org.getOrgType();
 										   %>
-										    	<option value="<%=orgType%>"><%=orgType%></option>
+										    	<option value="<%=org.getId()%>"><%=orgType%></option>
 										    <%
 										    }
 										    %>

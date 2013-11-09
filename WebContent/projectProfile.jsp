@@ -4,24 +4,30 @@
 <html>
 
 <style type="text/css">
-/* 	h1{
-		font-family:Impact;
-		font-size:1.75em;
+.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
-	#teamName{
-		width:49.8em;
-		font-size:1em;
-	}
-	#createTeam{
-		font-size:1em;
-	}
-	#teamLimit{
-		width:5em;
-	}*/
+
 	textarea{
 		resize: none;
 		font-size: 1em;
 	} 
+	.panel-title .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    font-family:FontAwesome;
+	font-size:16px;
+    content: '\f067';  
+	float: right;
+	}
 </style>
 
 <head>
@@ -222,8 +228,8 @@
 	}finally{}
 	%>
 		
-	<div class="span12 well">
-		
+	<div class="container">
+		<div class="content">
 		<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
 				message = "";
@@ -235,7 +241,6 @@
 			} %>
 		<!-- Form Name -->
 		<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
-		<div class="span11">
 		<h5>Project Profile &nbsp;&nbsp;
 				<%if(reqProj.getStatus().equals("Open")){ %>
 					<span class="label label-success" style="padding:10px;">Open</span></br>
@@ -598,11 +603,11 @@
 					  	</tr>
 					</table> 
 					
-	</form>
 				</div>
 		    </div>
 		  </div>
 	  </div>
+	  	</form>
 		</br></br>
 <!-- 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
@@ -655,8 +660,7 @@
 		</table>
 				
 		</div>
-	</div>
-
+		</div>
 	</body>
 
 </html>

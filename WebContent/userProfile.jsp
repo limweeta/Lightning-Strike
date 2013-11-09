@@ -8,7 +8,26 @@
 		font-weight: bold;
 		font-size:20px;
 	}
-
+	.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+	
+	.panel-title .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    font-family:FontAwesome;
+	font-size:16px;
+    content: '\f067';  
+	float:right;
+	}
 </style>
 <%
 String sessionUsername = (String) session.getAttribute("username");
@@ -231,7 +250,7 @@ function toggleSkill(source) {
 	%>
 	<div class="container" id="userdetails">
 	
-	<div class="span12 well">
+	<div class="content">
 <!-- 	<div class="row"> -->
 		
 		<% String message = (String) session.getAttribute("message"); 
@@ -250,7 +269,6 @@ function toggleSkill(source) {
 			} %>
 		<!-- Form Name -->
 		<h3>User Profile</h3>
-		<div class="span11">
 		<%if (usertype.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
@@ -526,11 +544,21 @@ function toggleSkill(source) {
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Sponsor")){ 
 		Company company = cdm.retrieve(profileid);
+		int orgId = company.getOrgType();
+		OrganizationDataManager odm = new OrganizationDataManager();
+		Organization org = odm.retrieve(orgId);
+		String orgType = org.getOrgType();
 		%>
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Company </label>
 		  <div class="controls">
 		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="orgType">Organization Type </label>
+		  <div class="controls">
+		    <input id="orgType" name="orgType" type="text" value="<%=orgType%>" readonly="readonly" class="input-xlarge">
 		  </div>
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Faculty") || usertype.equalsIgnoreCase("Admin")){ %>
@@ -560,30 +588,24 @@ function toggleSkill(source) {
 		<%
 		if(sessionUsername.equals(uProfile.getUsername())){
 		%>
-		<div class="control-group">
-		  <label class="control-label" for="editprofile"></label>
-		  <div class="controls">
-		    <input type="submit" id="editprofile" value="Save Profile" class="btn btn-success">
-		  </div>
-		</div>
+		<table>
+		<tr>
+		   <td> <input type="submit" id="editprofile" value="Save Profile" class="btn btn-success"></td>
+		</form>
 		<%
 		}
 		%>
-		</form>
-		</div></br>
-		<div class="control-group">
-		  <label class="control-label" for="inviteStudent"></label>
-		  <div class="controls">
+		  <td>
+		  </br>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=uProfile.getID()%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
-		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-success">
+		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
 		   </form>
-		  </div>
-		</div>
+		 </td>
+		</tr>
+		</table>
 <!-- 	</div> -->
-	
-	</div>
 	
 	</div>
 </body>

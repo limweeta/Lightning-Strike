@@ -28,7 +28,6 @@
 /* 			@import "./css/style.css"; */
 /* 			@import "./css/searchstyle.css"; */
 		</style>
-		
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
 		<script type="text/javascript" language="javascript" src="./jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.tooltip.js"></script>
@@ -130,7 +129,7 @@ for(int i = 0; i < teams.size(); i++){
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class="center ">
 			<%if(projId != 0){ %>
-			<a href="projectProfile.jsp?id=<%=projId%>">
+			<a href="projectProfile.jsp?id=<%=projId%>" style="color:#005580;">
 			<%} %>
 			<%=project %></a>
 			
@@ -145,16 +144,16 @@ for(int i = 0; i < teams.size(); i++){
 						role = "(Project Manager)";
 					}
 					%>
-					<a href="userProfile.jsp?id=<%=std.getID()%>"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
+					<a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
 					<%
 				}
 				%>
 				 <button type="button" id="external" class="btn btn-primary">Add Member</button>
 			</td>
 			<td class="center ">
-			  <a href="#">
+			  <a href="#"  style="color:#005580;">
 			  <%if(supId != 0){ %>
-			<a href="userProfile.jsp?id=<%=supId%>">
+			<a href="userProfile.jsp?id=<%=supId%>"  style="color:#005580;">
 			<%} %>
 			  <%=sup %>
 			  </a>

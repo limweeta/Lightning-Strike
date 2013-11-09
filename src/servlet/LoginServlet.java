@@ -146,7 +146,7 @@ public class LoginServlet extends HttpServlet {
 							link = "details.jsp";
 						} else {
 							type = u.getType();
-							link = "index.jsp";
+							link = "mainPage.jsp";
 						}
 						
 						session.setAttribute("type", type);

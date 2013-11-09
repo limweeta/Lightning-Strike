@@ -20,7 +20,6 @@ html, body {
 background-color: #eeeeee;
 }
 .container {
-align: center;
 width: 600px !important;
 }
 
