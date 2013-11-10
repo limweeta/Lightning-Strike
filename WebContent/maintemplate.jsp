@@ -148,7 +148,7 @@ session.removeValue("message");
 <div class="container">
 		<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="panel-title">Announcements</h2>
+			<h7 class="panel-title">Announcements</h7>
 		</div>
 		<div class="panel-body">
 			<table>
@@ -178,7 +178,7 @@ session.removeValue("message");
 		<% if(type.equalsIgnoreCase("admin")){ %>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="panel-title">Add Announcements</h2>
+			<h7 class="panel-title">Add Announcements</h7>
 		</div>
 		<div class="panel-body">
 			<form action="addAnn" method="post">

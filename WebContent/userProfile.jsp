@@ -21,12 +21,12 @@
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
 	
-	.panel-title .accordion-toggle.collapsed:after {
+	.panel-title .accordion-toggle:after {
     /* symbol for "collapsed" panels */
     font-family:FontAwesome;
 	font-size:16px;
-    content: '\f067';  
-	float:right;
+    content: '\f067'; 
+    float:right; 
 	}
 </style>
 <%
@@ -588,24 +588,18 @@ function toggleSkill(source) {
 		<%
 		if(sessionUsername.equals(uProfile.getUsername())){
 		%>
-		<table>
-		<tr>
-		   <td> <input type="submit" id="editprofile" value="Save Profile" class="btn btn-success"></td>
+		<input type="submit" id="editprofile" value="Save Profile" class="btn btn-success">
 		</form>
 		<%
 		}
 		%>
-		  <td>
-		  </br>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=uProfile.getID()%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
 		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
 		   </form>
-		 </td>
-		</tr>
-		</table>
-<!-- 	</div> -->
+
+		</div> 
 	
 	</div>
 </body>

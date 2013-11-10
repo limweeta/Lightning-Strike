@@ -326,7 +326,7 @@ font-weight: 200;
 					<!-- Modal HTML -->
 					<div id="register" class="modal hide fade">
 					    <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <button type="button" class="close" data-dismiss="modal" >&times;</button>
 					        <h6>Register</h6>
 					    </div>
 					       <form action="register" method="post" onsubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
@@ -364,7 +364,7 @@ font-weight: 200;
 					    </div>
 					   	 </form>
 					   	 
-              <ul class="nav pull-right">
+              <%-- <ul class="nav pull-right">
 	          <!-- <li class="dropdown">
 	            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 	            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
@@ -422,7 +422,7 @@ font-weight: 200;
 	          	</li>
 	          	</ul>
 	          </li>
-	        </ul>
+	        </ul> --%>
            </div>
          </div>
      </div>

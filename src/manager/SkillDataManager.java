@@ -30,6 +30,25 @@ public class SkillDataManager implements Serializable {
 		return skills;
 	}
 	
+	public ArrayList<Skill> retrieveAllSkillsByKeyword(String keyword) {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills WHERE skill_name LIKE '%" + keyword + "%'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String skillName = array.get(1);
+			
+			Skill skill = new Skill(id, skillName);
+			skills.add(skill);
+		}
+		
+		return skills;
+	}
+	
 	// check for conflicting objects
 	
 	public Skill retrieveSkill(String skillName) throws Exception{

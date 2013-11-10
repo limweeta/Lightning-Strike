@@ -4,6 +4,10 @@
 <html>
 	<head>
 	<%@include file="template.jsp"%>
+		<% Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
+	%>
 	<%
 	TeamDataManager tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
@@ -17,6 +21,7 @@
 		usertype = "";
 	}
 	%>
+
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
@@ -50,6 +55,7 @@
 				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" class="btn btn-primary"/></form></p>
 				<% } %>
 			</div>
+			<a href="#advSearchModal" style="float:right; font-family:Arial, sans-serif;font-size: 14px; line-height: 20px;" data-toggle="modal">Advanced Search</a>
 			<% 
 				String message = (String) session.getAttribute("message"); 
 				if(message == null || message.isEmpty()){
@@ -169,5 +175,83 @@ for(int i = 0; i < teams.size(); i++){
 			
 			
 			
-			</div></body></html>
+			</div>
+			<div id="advSearchModal" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h2>Advanced Search</h2>
+					    </div>
+					       <form action="" method="post" accept-charset="UTF-8">
+					    <div class="modal-body">
+					     <label class="control-label" for="projectterm">Project Term</label>
+					    <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select> 
+			     	 <label class="control-label" for="industrytype">Project Industry</label>
+					    <select id="ind" name="ind" class="input-large">
+								 <%
+								  IndustryDataManager idm = new IndustryDataManager();
+								  ArrayList<Industry> industries = idm.retrieveAll();
+								  
+								  for(int i = 0; i < industries.size(); i++){
+									  Industry ind = industries.get(i);
+									  %>
+									  <option value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
+									  <%
+								  }
+								  %>
+						  </select>
+						   <label class="control-label" for="tech">Project Technology</label>
+					    <select id="tech" name="tech" class="input-large">
+								 <%
+											  TechnologyDataManager techdm = new TechnologyDataManager();
+											  ArrayList<Technology> technologies = techdm.retrieveAll();
+											 
+											  for(int i = 0; i < technologies.size(); i++){
+												  Technology tech = technologies.get(i);
+												  %>
+												  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
+												  <% }
+											  %>
+						  </select>
+						  <label class="control-label" for="skills">Project Skills</label>
+						  <select id="skills" name="skills" class="input-large">
+						 		 <%
+										  SkillDataManager skdm = new SkillDataManager();
+										  ArrayList<Skill> skills = skdm.retrieveAll();
+										  
+										  for(int i = 0; i < skills.size(); i++){
+											  Skill skill = skills.get(i);
+											  %>
+											  <option value="<%=skill.getId()%>"><%=skill.getSkillName() %></option>
+										<%
+										  }
+									  %>
+						  </select>
+						  <label class="control-label" for="others">Others</label>
+						  <input type="text" name="others" id="others" class="input-large">
+						</div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Search" />
+					    </div>
+					   	 </form>
+			</div>
+			</body></html>
 		

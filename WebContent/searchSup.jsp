@@ -8,6 +8,11 @@
 	UserDataManager udm = new UserDataManager();
 	ArrayList<User> faculty = udm.retrieveAllFaculty();
 	%>
+	<%
+	Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
+	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
 		
@@ -35,8 +40,9 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h3>Search User</h3>
+				<h3>Search Supervisor</h3>
 			</div>
+			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 			<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -98,5 +104,43 @@ for(int i = 0; i < faculty.size(); i++){
 			
 			
 			
-			</div></body></html>
+			</div>
+			<div id="advSearchModal" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h2>Advanced Search</h2>
+					    </div>
+					       <form action="" method="post" accept-charset="UTF-8">
+					    <div class="modal-body">
+					     <label class="control-label" for="projectterm">Project Term</label>
+					    <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select>
+						  
+						  <label class="control-label" for="others">Others</label>
+						  <input type="text" name="others" id="others" class="input-large">
+						</div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Search" />
+					    </div>
+					   	 </form>
+			</div>
+			</body></html>
 		

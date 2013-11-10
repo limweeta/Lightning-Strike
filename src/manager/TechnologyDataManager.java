@@ -88,6 +88,27 @@ public class TechnologyDataManager implements Serializable {
 		}
 		return technology;
 	}
+	
+	public ArrayList<Technology> retrieveByName(String tech) {
+		Technology technology = null;
+		ArrayList<Technology> techList = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(
+						"select",
+						"SELECT * FROM `is480-matching`.technologies where technologies_name LIKE '%"	+ tech + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int techid = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			technology = new Technology(techid, techName);
+			techList.add(technology);
+		}
+		return techList;
+	}
 
 	public void add(Technology technology) {
 		int id = technology.getId();

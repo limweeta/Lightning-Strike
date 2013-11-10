@@ -21,12 +21,12 @@
 		resize: none;
 		font-size: 1em;
 	} 
-	.panel-title .accordion-toggle.collapsed:after {
+	.panel-title .accordion-toggle:after {
     /* symbol for "collapsed" panels */
     font-family:FontAwesome;
 	font-size:16px;
-    content: '\f067';  
-	float: right;
+    content: '\f067'; 
+    float:right; 
 	}
 </style>
 

@@ -111,6 +111,15 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>SearchProjectServlet</servlet-name>
+    <servlet-class>servlet.SearchProjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchProjectServlet</servlet-name>
+    <url-pattern>/searchProject</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>UpdateTeamServlet</servlet-name>
     <servlet-class>servlet.UpdateTeamServlet</servlet-class>
   </servlet>
@@ -159,6 +168,15 @@
   <servlet-mapping>
     <servlet-name>UpdateCurrentProfileServlet</servlet-name>
     <url-pattern>/updateCurrentProfile</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>GenerateCSVServlet</servlet-name>
+    <servlet-class>servlet.GenerateCSVServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GenerateCSVServlet</servlet-name>
+    <url-pattern>/exportTeam</url-pattern>
   </servlet-mapping>
   
   <servlet>

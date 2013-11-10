@@ -30,6 +30,25 @@ public class IndustryDataManager implements Serializable {
 		return industries;
 	}
 	
+	public ArrayList<Industry> retrieveInd(String industryName) {
+		ArrayList<Industry> industries = new ArrayList<Industry>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from industry where industry_name LIKE '%" + industryName +"%'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String indName = array.get(1);
+			
+			Industry industry = new Industry(id, indName);
+			industries.add(industry);
+		}
+		
+		return industries;
+	}
+	
 	public boolean hasPrefInd(int teamId, int indId) {
 		boolean hasInd = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector

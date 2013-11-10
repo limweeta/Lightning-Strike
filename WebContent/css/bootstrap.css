@@ -768,7 +768,10 @@ h1 {
 }
 
 h2 {
-  font-size: 35.5px;
+    border-bottom: 1px solid #e5e5e5;
+  	font-size: 18px;
+  	line-height: 40px;
+  	color: #4E6CA3;
 }
 
 h3 {
@@ -794,7 +797,11 @@ h6 {
   color: #4E6CA3;
 }
 
-
+h7{
+	color: white;
+	font-size: 24px;
+	font-weight: bold;	
+}
 h1 small {
   font-size: 24.5px;
 }

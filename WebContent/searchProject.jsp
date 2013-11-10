@@ -13,7 +13,13 @@
 	OrganizationDataManager odm = new OrganizationDataManager();
 	
 	ProjectDataManager pdm = new ProjectDataManager();
-	ArrayList<Project> projects = pdm.retrieveCurrent();
+	ArrayList<Project> projects = null;
+	
+	projects = (ArrayList<Project>) request.getAttribute("projectList");
+	
+	if(projects == null){
+		projects = pdm.retrieveCurrent();
+	}
 	
 	SponsorDataManager sdm = new SponsorDataManager();
 	ArrayList<Sponsor> sponsors = sdm.retrieveAll();
@@ -25,6 +31,11 @@
 	if(usertype == null){
 		usertype = "";
 	}
+	%>
+	<%
+	Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -52,6 +63,7 @@
 
 	</head>
 	<body id="dt_example">
+		
 		<div id="container">
 			<div class="full_width big">
 				<h3>Search Projects </h3>
@@ -59,6 +71,7 @@
 				<p style="float:right;"><form action="matchProj" method="post"><input type=submit value="Match my team to a project!" class="btn btn-primary"/></form></p> 
 				<% } %>
 			</div>
+			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 		<% 
 			String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
@@ -182,9 +195,103 @@
 }%>
 		<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
 			</div>
+			
 			<div class="spacer"></div>
 			
 			
 			
-			</div></body></html>
+			</div>
+			
+			<div id="advSearchModal" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h2>Advanced Search</h2>
+					    </div>
+					       <form action="searchProject" method="post" accept-charset="UTF-8">
+					    <div class="modal-body">
+					     <label class="control-label" for="projectterm">Project Term</label>
+					    <select id="term" name="term" class="input-large">
+					    <option value=0>Any</option>
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select> 
+			     	 <label class="control-label" for="industrytype">Project Industry</label>
+					    <select id="ind" name="ind" class="input-large">
+					    <option value=0>Any</option>
+								 <%
+								  IndustryDataManager idm = new IndustryDataManager();
+								  ArrayList<Industry> industries = idm.retrieveAll();
+								  
+								  for(int i = 0; i < industries.size(); i++){
+									  Industry ind = industries.get(i);
+									  %>
+									  <option value="<%=ind.getIndustryId()%>"><%=ind.getIndustryName() %></option>
+									  <%
+								  }
+								  %>
+						  </select>
+						   <label class="control-label" for="tech">Project Technology</label>
+					    <select id="tech" name="tech" class="input-large">
+					    <option value=0>Any</option>
+								 <%
+											  TechnologyDataManager tdm = new TechnologyDataManager();
+											  ArrayList<Technology> technologies = tdm.retrieveAll();
+											 
+											  for(int i = 0; i < technologies.size(); i++){
+												  Technology tech = technologies.get(i);
+												  %>
+												  <option value="<%=tech.getId()%>"><%=tech.getTechName() %></option>
+												  <% }
+											  %>
+						  </select>
+						  <label class="control-label" for="skills">Project Skills</label>
+						  <select id="skills" name="skills" class="input-large">
+						  <option value=0>Any</option>
+						 		 <%
+										  SkillDataManager skdm = new SkillDataManager();
+										  ArrayList<Skill> skills = skdm.retrieveAll();
+										  
+										  for(int i = 0; i < skills.size(); i++){
+											  Skill skill = skills.get(i);
+											  %>
+											  <option value="<%=skill.getId()%>"><%=skill.getSkillName() %></option>
+										<%
+										  }
+									  %>
+						  </select>
+						  <hr />
+						  <label class="control-label" for="skills">Keyword Search</label>
+						  <select id="keywordType" name="keywordType" class="input-large">
+						  	<option>Industry</option>
+						 	<option>Skill</option>
+						 	<option>Technology</option>
+						  </select>
+						  
+						  <input type=text name="keyword" placeholder="Keyword">
+						  
+						</div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Search" />
+					    </div>
+					   	 </form>
+			</div>
+			
+			</body>
+			</html>
 		

@@ -291,6 +291,7 @@ color: white;
                		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
 		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Team</a></li>
 		          	<li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Match to Team</a></li>
+               		<li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
                		<li class="dropdown"><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Supervisor</a></li>
                		<li class="dropdown"><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Reviewer</a></li>
               		<li class="dropdown"><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Suspend Team</a></li>	
@@ -300,8 +301,6 @@ color: white;
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./sponsorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
-               		<li><a href="./mentorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Mentor Feedback</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
@@ -311,7 +310,8 @@ color: white;
                		<li><a href="./searchSponsor.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
                		<li><a href="./myProjects.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Projects</a></li>
-               		<li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
+               		<li><a href="./sponsorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
+               		<li><a href="./mentorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Mentor Feedback</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
@@ -322,6 +322,12 @@ color: white;
                		<li><a href="./myTeams.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Teams</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Team</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
+               	</ul>
+               </li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Term<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="admin.jsp#term" style="font-size: 20px; color: white;font-weight: 200;">Add Term</a></li>
+               		<li><a href="./export.jsp" style="font-size: 20px; color: white;font-weight: 200;">Export</a></li>
                	</ul>
                </li>
               <!--  <li><a href="#" >Schedule</a></li>
@@ -352,9 +358,9 @@ color: white;
 	          	</ul>
 	          </li>
 	        </ul>
-             <div id="register" class="modal hide fade">
+<%--              <div id="register" class="modal hide fade">
 					    <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
 					        <h6>Register</h6>
 					    </div>
 					       <form action="register" method="post" onsubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
@@ -391,8 +397,44 @@ color: white;
 					        <input class="btn btn-primary" style="clear: left; width: 50%; height: 32px; font-size: 13px;" type="submit" name="register" value="Register" />
 					    </div>
 					   	 </form>
-					</div>
+					</div> --%>
            </div>
          </div>
      </div>
+     <div id="register" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h3>Register</h3>
+					    </div>
+					       <form action="register" method="post" accept-charset="UTF-8">
+					    <div class="modal-body">
+					    <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" /></br>
+							  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" /></br>
+							  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" /></br>
+							  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" /></br>
+							  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="Email" size="45" /></br>
+							  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" /></br>
+							  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" /></br>
+							  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" /></br>
+							  <select id="orgType" name="orgType" class="input-large">
+								<%
+							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
+								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
+										  
+								    	  for(int i = 0; i < orgs.size(); i++){
+								    		Organization org = orgs.get(i); 
+								    		String orgType = org.getOrgType();
+										   %>
+										    	<option value="<%=orgType%>"><%=orgType%></option>
+										    <%
+										    }
+										    %>
+							  </select></br>  
+							  <font color="red">*All Fields Are Mandatory</font>
+						</div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Register" />
+					    </div>
+					   	 </form>
+			</div>
 </html>

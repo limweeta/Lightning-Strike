@@ -4,7 +4,11 @@
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
-
+<%
+if(session.getAttribute("username") != null){
+	response.sendRedirect("mainPage.jsp");
+}
+%>
 </head>
 
 <style type="text/css">
@@ -57,14 +61,17 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 			<h1>IS480 Matching System</h1>
 			
 							<a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">
-							<button type="button" id="SSO" class="btn btn-primary">Single Sign On</button>
+							<button type="button" id="SSO" class="btn btn-primary">Student/Faculty Sign In</button>
 							</a>
 			
 		   		
 							  <a href="#myModal" data-toggle="modal">
-							  <button type="button" id="external" class="btn btn-primary">External Sign In</button>&nbsp;&nbsp;
+							  <button type="button" id="external" class="btn btn-primary">Sponsor Sign In</button>
 							  </a>
 						 
+						 	<a href="./mainPage.jsp">
+							<button type="button" id="guest" class="btn btn-primary">Guest</button>
+							</a>
 <!-- 					<a href="#myModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
 					<!-- Modal HTML -->
 					<div id="myModal" class="modal hide fade">

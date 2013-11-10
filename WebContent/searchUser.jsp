@@ -5,6 +5,11 @@
 	<head>
 	<%@include file="template.jsp"%>
 	<%
+	Calendar now = Calendar.getInstance();
+	int currYear = now.get(Calendar.YEAR);
+	int currMth = now.get(Calendar.MONTH);
+	%>
+	<%
 	StudentDataManager sdm = new StudentDataManager();
 	TeamDataManager tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
@@ -40,7 +45,9 @@
 		<div id="container">
 			<div class="full_width big">
 				<h3>Search User</h3>
+				
 			</div>
+			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 			<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
@@ -142,5 +149,70 @@ for(int i = 0; i < students.size(); i++){
 			
 			
 			
-			</div></body></html>
+			</div>
+			<div id="advSearchModal" class="modal hide fade">
+					    <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h2>Advanced Search</h2>
+					    </div>
+					       <form action="" method="post" accept-charset="UTF-8">
+					    <div class="modal-body">
+					     <label class="control-label" for="projectterm">Project Term</label>
+					    <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select>
+						    <label class="control-label" for="secMaj">Second Major</label>
+						  <select id="secMaj" name="secMaj" class="input-large">
+						 		<%
+			
+						    	  SecondMajorDataManager secondMajordm = new SecondMajorDataManager();
+							    	  ArrayList<SecondMajor> secondMajors  = secondMajordm.retrieveAll();
+								  
+						    	  for(int i = 0; i < secondMajors.size(); i++){
+						    		SecondMajor showSecondMajor = secondMajors.get(i);
+						    		String secMaj = showSecondMajor.getSecondMajor();
+							%>
+								   <option value="<%=secMaj%>" selected="selected"><%=secMaj%></option>
+								   <%} %>
+						  </select>
+						  <label class="control-label" for="skills">Skills</label>
+						  <select id="skills" name="skills" class="input-large">
+						 		 <%
+										  SkillDataManager skdm = new SkillDataManager();
+										  ArrayList<Skill> skills = skdm.retrieveAll();
+										  
+										  for(int i = 0; i < skills.size(); i++){
+											  Skill skill = skills.get(i);
+											  %>
+											  <option value="<%=skill.getId()%>"><%=skill.getSkillName() %></option>
+										<%
+										  }
+									  %>
+						  </select>
+						  <label class="control-label" for="others">Others</label>
+						  <input type="text" name="others" id="others" class="input-large">
+						</div>
+					    <div class="modal-footer">
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Search" />
+					    </div>
+					   	 </form>
+			</div>
+			</body></html>
 		

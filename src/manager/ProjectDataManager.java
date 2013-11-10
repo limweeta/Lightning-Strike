@@ -40,6 +40,137 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	public ArrayList<Project> retrieveAllByFilter(int term, int ind, int tech, int skill) {
+		ArrayList<Project> projects = new ArrayList<Project>();
+		String query = "select * from projects p, project_technologies pt, project_preferred_skills ps WHERE p.id = pt.project_id AND p.id = ps.project_id";
+		
+		if(term != 0){
+			query += " AND p.intended_term_id = " + term;
+		}
+		
+		if(ind != 0){
+			query += " AND p.industry_id = " + ind;
+		}
+		
+		if(tech != 0){
+			query += " AND pt.technology_id = " + tech;
+		}
+		
+		if(skill != 0){
+			query += " AND ps.skill_id = " + skill;
+		}
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			int id 				= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
+			
+			
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
+			projects.add(proj);
+		}
+		
+		return projects;
+	}
+	
+	public ArrayList<Project> retrieveAllByKeyword(String keyword, String keywordType) {
+		String query = "";
+		
+		if(keywordType.equalsIgnoreCase("industry")){
+			IndustryDataManager idm = new IndustryDataManager();
+			
+			ArrayList<Industry> indList = idm.retrieveInd(keyword);
+			
+			query = "SELECT * FROM projects p, industry i WHERE p.industry_id = i.industry_id AND (";
+			
+			for(int i = 0; i < indList.size(); i++){
+				Industry ind = indList.get(i);
+				query += " i.industry_id = " + ind.getIndustryId();
+				
+				try{
+					ind = indList.get(i+1);
+					query += " OR";
+				}catch(Exception e){}
+			}
+			query += ")";
+		}else if(keywordType.equalsIgnoreCase("technology")){
+			TechnologyDataManager tdm = new TechnologyDataManager();
+			
+			ArrayList<Technology> techList = tdm.retrieveByName(keyword);
+			
+			query = "SELECT * FROM projects p, project_technologies pt WHERE p.id = pt.project_id AND (";
+			
+			for(int i = 0; i < techList.size(); i++){
+				Technology tech = techList.get(i);
+				query += " pt.technology_id = " + tech.getId();
+				
+				try{
+					tech = techList.get(i+1);
+					query += " OR";
+				}catch(Exception e){}
+			}
+			query += ")";
+		}else if(keywordType.equalsIgnoreCase("skills")){
+			SkillDataManager skdm = new SkillDataManager();
+			
+			ArrayList<Skill> skillList = skdm.retrieveAllSkillsByKeyword(keyword);
+			
+			query = "SELECT * FROM projects p, project_preferred_skills ps WHERE p.id = ps.project_id AND (";
+			
+			for(int i = 0; i < skillList.size(); i++){
+				Skill skill = skillList.get(i);
+				query += " ps.skill_id = " + skill.getId();
+				
+				try{
+					skill = skillList.get(i+1);
+					query += " OR";
+				}catch(Exception e){}
+			}
+			query += ")";
+		}
+		
+		ArrayList<Project> projects = new ArrayList<Project>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+
+			int id 				= 	Integer.parseInt(array.get(0));
+			int coyId 			= 	Integer.parseInt(array.get(1));
+			int teamId 			= 	Integer.parseInt(array.get(2));
+			int sponsorId 		= 	Integer.parseInt(array.get(3));
+			String projName		= 	array.get(4);
+			String projDesc		= 	array.get(5);
+			String status		= 	array.get(6);
+			int industry		= 	Integer.parseInt(array.get(7));
+			int creatorId 		= 	Integer.parseInt(array.get(8));
+			int intendedTermId	= 	Integer.parseInt(array.get(9));
+			
+			
+			Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
+			projects.add(proj);
+		}
+		
+		return projects;
+	}
+	
 	public ArrayList<Project> retrieveAllFromSponsor(Sponsor sponsor) {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id = " + sponsor.getID());
