@@ -342,7 +342,7 @@ color: white ;
 								    		Organization org = orgs.get(i); 
 								    		String orgType = org.getOrgType();
 										   %>
-										    	<option value="<%=orgType%>"><%=orgType%></option>
+										    	<option value="<%=org.getId()%>"><%=orgType%></option>
 										    <%
 										    }
 										    %>

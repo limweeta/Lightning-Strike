@@ -269,7 +269,7 @@
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
 		
-				<form action="removeMember" method="post" class="form-horizontal">
+	<form action="removeMember" method="post" class="form-horizontal">
 		<div class="control-group">
 		  <label class="control-label" for="members">Members</label>
 		  <div class="controls">
@@ -310,6 +310,17 @@
 		
 		<!-- Text input-->
 		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
+		<div class="control-group">
+		  <label class="control-label" for="project">Term</label>
+		  <div class="controls">
+		  <%
+			TermDataManager termdm = new TermDataManager();
+			Term term = termdm.retrieve(team.getTermId());
+		  %>
+		  	<span class="label label-info"><%=term.getAcadYear() + " T" + term.getSem()%></span>
+		  	<input type="hidden" name="termId" value="<%=term.getId() %>">
+		  </div>
+		</div>
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
@@ -493,7 +504,7 @@
 		    </div>
 		  </div>
 	  </div>
-		</form>
+		
 	  <br />
 		<table>
 		<tr>
@@ -504,7 +515,7 @@
 				<td class="space">
 		    	<input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
 				</td>
-
+</form>
 			<%
 			
 				}

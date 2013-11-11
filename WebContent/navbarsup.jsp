@@ -37,6 +37,11 @@ color: white ;
 		  });
 		});
 		
+		function switchRole(){
+			
+			$('switchRoles').show();
+		}
+		
 		function trim(s)
 		{
 		  return s.replace(/^\s+|\s+$/, '');
@@ -151,6 +156,16 @@ color: white ;
 	          		&nbsp; Logout
 	          	</a>
 	          	</li>
+	          	<li id="switchRoles" style="display:none;">
+	          	<form action="#" method="post">
+		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+		  				<option value="Admin">Admin</option>
+		  				<option value="Sponsor">Sponsor</option>
+		  				<option value="Supervisor">Supervisor</option>
+		  				<option value="Course Coordinator">Course Coordinator</option>
+		  			</select>
+				</form>
+	          </li>
 	          	</ul>
 	          </li>
 	        </ul>

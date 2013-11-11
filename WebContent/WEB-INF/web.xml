@@ -214,6 +214,15 @@
     <url-pattern>/addTerm</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>SwitchRoleServlet</servlet-name>
+    <servlet-class>servlet.SwitchRoleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SwitchRoleServlet</servlet-name>
+    <url-pattern>/switchRole</url-pattern>
+  </servlet-mapping>
+  
    <servlet>
     <servlet-name>RemoveTeamMemberServlet</servlet-name>
     <servlet-class>servlet.RemoveTeamMemberServlet</servlet-class>

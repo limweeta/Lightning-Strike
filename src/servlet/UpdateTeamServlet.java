@@ -38,6 +38,9 @@ public class UpdateTeamServlet extends HttpServlet {
 		String[] members = request.getParameterValues("members");
 		String[] roles = request.getParameterValues("roles");
 		
+		String[] industry = request.getParameterValues("industry");
+		String[] technology = request.getParameterValues("technology");
+		
 		int supId = 0;
 		try{
 			supId = Integer.parseInt(request.getParameter("supId"));
@@ -58,7 +61,7 @@ public class UpdateTeamServlet extends HttpServlet {
 			updateTeam.setTermId(termId);
 			
 			//UPDATE SQL
-			tdm.modify(updateTeam);
+			tdm.modify(updateTeam, industry, technology);
 			tdm.modifyStudents(updateTeam, members, roles);
 		}catch(Exception e){
 			

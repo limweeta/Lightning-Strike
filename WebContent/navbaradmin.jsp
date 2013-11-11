@@ -20,6 +20,7 @@ color: white;
 
 		String afullName = (String)session.getAttribute("fullname");
 		String ausername = (String) session.getAttribute("username");
+		String atype = (String) session.getAttribute("type");
 	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -35,6 +36,11 @@ color: white;
 		    e.stopPropagation();
 		  });
 		});
+		
+		function switchRole(){
+			
+			$('#switchRoles').show();
+		}
 		
 		function validateRegisterOnSubmit(theForm) {
 			var reason = "";
@@ -279,9 +285,6 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-		          <li><a href="./createProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Create</a></li>
-		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Project</a></li>
-		          <li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Match to Project</a></li>
 		          <li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Delete Project</a></li>
 		          </ul>
 		        </li>
@@ -289,10 +292,7 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Team</a></li>
-		          	<li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Match to Team</a></li>
-               		<li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
-               		<li class="dropdown"><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Supervisor</a></li>
+		          	<li class="dropdown"><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Supervisor</a></li>
                		<li class="dropdown"><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Reviewer</a></li>
               		<li class="dropdown"><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Suspend Team</a></li>	
                	</ul>
@@ -300,7 +300,6 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
@@ -308,18 +307,12 @@ color: white;
                	<ul class="dropdown-menu">
                		<li><a href="#register" data-toggle="modal" style="font-size: 20px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./myProjects.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Projects</a></li>
-               		<li><a href="./sponsorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
-               		<li><a href="./mentorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Mentor Feedback</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./myTeams.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Teams</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Assign Team</a></li>
                		<li><a href="./admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
@@ -329,6 +322,10 @@ color: white;
                		<li><a href="admin.jsp#term" style="font-size: 20px; color: white;font-weight: 200;">Add Term</a></li>
                		<li><a href="./export.jsp" style="font-size: 20px; color: white;font-weight: 200;">Export</a></li>
                	</ul>
+               </li>
+               <li class="dropdown">
+               	<a href="admin.jsp" style="font-size: 20px; color: white;font-weight: 200;">Admin</a>
+            
                </li>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->
@@ -343,7 +340,7 @@ color: white;
 	          	</a>
 	          	<ul class="dropdown-menu pull-right">
 	          	<li>
-	          	<a href="#" style="font-size: 20px; color: white;font-weight: 200;">
+	          	<a href="#" style="font-size: 20px; color: white;font-weight: 200;" onclick="switchRole()">
 	          		<i class="fa fa-caret-square-o-down"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
@@ -357,47 +354,24 @@ color: white;
 	          	</li>
 	          	</ul>
 	          </li>
+	          <li id="switchRoles" style="display:none;">
+	          	<form action="switchRole" method="post">
+		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+		  				<%
+		  				RoleDataManager rdm = new RoleDataManager();
+		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(ausername, atype);
+		  				
+		  				for(int i = 0; i < roleTypes.size(); i++){
+		  					%>
+		  					<option><%=roleTypes.get(i) %></option>
+		  					<%
+		  				}
+		  				%>
+		  			</select>
+				</form>
+	          </li>
 	        </ul>
-<%--              <div id="register" class="modal hide fade">
-					    <div class="modal-header">
-					        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
-					        <h6>Register</h6>
-					    </div>
-					       <form action="register" method="post" onsubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
-					    <div class="modal-body">
-					    	  <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" /></br>
-							  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" /></br>
-							  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" /></br>
-							  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" /></br>
-							  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="Email" size="45" /></br>
-							  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" /></br>
-							  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" /></br>
-							  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" /></br>
-							  <select id="orgType" name="orgType" class="input-large">
-								<%
-							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
-								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
-										  
-								    	  for(int i = 0; i < orgs.size(); i++){
-								    		Organization org = orgs.get(i); 
-								    		String orgType = org.getOrgType();
-										   %>
-										    	<option value="<%=orgType%>"><%=orgType%></option>
-										    <%
-										    }
-										    %>
-							  </select></br>  
-							  <font color="red">*All Fields Are Mandatory</font>
-							  <div id="loginError" class="error"></div>
-							  <div class="field-container">
-									<input type="hidden" class="right rounded" name="type" id="type" value="sponsor" />
-							  </div>
-					    </div>
-					    <div class="modal-footer">
-					        <input class="btn btn-primary" style="clear: left; width: 50%; height: 32px; font-size: 13px;" type="submit" name="register" value="Register" />
-					    </div>
-					   	 </form>
-					</div> --%>
+
            </div>
          </div>
      </div>
@@ -425,7 +399,7 @@ color: white;
 								    		Organization org = orgs.get(i); 
 								    		String orgType = org.getOrgType();
 										   %>
-										    	<option value="<%=orgType%>"><%=orgType%></option>
+										    	<option value="<%=org.getId()%>"><%=orgType%></option>
 										    <%
 										    }
 										    %>
@@ -437,4 +411,5 @@ color: white;
 					    </div>
 					   	 </form>
 			</div>
+			
 </html>

@@ -177,17 +177,7 @@
 						  </div>
 						</div>
 						
-						<!-- </div></br> -->
-						<!-- <div class="span3"> -->
-						<!-- Text input--><!-- 
-						<div class="control-group">
-						  <label class="control-label" for="projId">Project Name</label>
-						  <div class="controls">
-						    <input id="projName" name="projName" type="text" class="input-large">
-						  </div>
-						</div> -->
-						<!-- </div> -->
-						<!-- <div class="span4"> -->
+						
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="assignSup">Supervisor</label>

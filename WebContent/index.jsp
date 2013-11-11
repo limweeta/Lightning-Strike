@@ -89,6 +89,20 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 					    </div>
 					   	 </form>
 					</div>
+					<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			<div class="alert alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
+			<%
+			session.removeValue("message");
+			} %>
 		</div>
 	</div>
 </div>

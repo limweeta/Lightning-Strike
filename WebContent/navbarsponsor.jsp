@@ -21,6 +21,7 @@ color: white ;
 
 		String spFullName = (String)session.getAttribute("fullname");
 		String spUsername = (String) session.getAttribute("username");
+		String spType = (String) session.getAttribute("type");
 	%>
 	<link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -36,6 +37,11 @@ color: white ;
 		    e.stopPropagation();
 		  });
 		});
+		
+		function switchRole(){
+			
+			$('#switchRoles').show();
+		}
 		
 		function validateRegisterOnSubmit(theForm) {
 			var reason = "";
@@ -286,7 +292,7 @@ color: white ;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-		          <li><a href="./sponsorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
+		          <li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
                	</ul>
                </li>
               
@@ -298,7 +304,6 @@ color: white ;
                
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="#register" data-toggle="modal" style="font-size: 20px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
                		<li><a href="./myProjects.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Projects</a></li>
@@ -336,6 +341,22 @@ color: white ;
 	          	</li>
 	          	</ul>
 	          </li>
+	           <li id="switchRoles" style="display:none;">
+	          	<form action="switchRole" method="post">
+		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+		  				<%
+		  				RoleDataManager rdm = new RoleDataManager();
+		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(spUsername, spType);
+		  				
+		  				for(int i = 0; i < roleTypes.size(); i++){
+		  					%>
+		  					<option><%=roleTypes.get(i) %></option>
+		  					<%
+		  				}
+		  				%>
+		  			</select>
+				</form>
+	          </li>
 	        </ul>
            </div>
          </div>
@@ -364,7 +385,7 @@ color: white ;
 								    		Organization org = orgs.get(i); 
 								    		String orgType = org.getOrgType();
 										   %>
-										    	<option value="<%=orgType%>"><%=orgType%></option>
+										    	<option value="<%=org.getId()%>"><%=orgType%></option>
 										    <%
 										    }
 										    %>

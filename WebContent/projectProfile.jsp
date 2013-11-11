@@ -239,8 +239,6 @@
 			<%
 			session.removeValue("message");
 			} %>
-		<!-- Form Name -->
-		<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
 		<h5>Project Profile &nbsp;&nbsp;
 				<%if(reqProj.getStatus().equals("Open")){ %>
 					<span class="label label-success" style="padding:10px;">Open</span></br>
@@ -299,6 +297,9 @@
 				 </div> 
 				  <br />
 			<% } %>	
+			<!-- Form Name -->
+		<form action="updateProject" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">	
+		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="projectname">Project Name</label>
@@ -607,42 +608,21 @@
 		    </div>
 		  </div>
 	  </div>
-	  	</form>
+	 
 		</br></br>
 <!-- 		<div class="control-group">
 		  <label class="control-label" for="applyproject"></label>
 		  <div class="controls"> -->
 		  <table>			  <tr>
 			  <td class = "space" align = "center">
-				  <form action="applyProj" method="post">
-				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
-				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
-				  	<%if(eligibleToApply){ %>
-				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
-				  	<%
-				  	}else{
-				  		String errMsg = "";
-				  		if(udm.isSponsor(username)){
-				  			errMsg = "Only students can apply for a project";
-			  		}
-			  		%>
-				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled">
-				 		<font color=red size=-1><i><%=errMsg %></i></font>
-			  		<%
-				  	}
-				  	%>
-				  </form>
-				</td>  
-<!-- 		  </div>
-		</div> -->
-		<%
+				  <%
 		try{
 			if(username.equals(udm.retrieve(creatorId).getUsername())){
 				%>
 				<td class = "space" align = "justify">
 				<input type="hidden" name="projId" value="<%=reqProj.getId() %>">
 				<!-- Button -->
-			    <input type="submit" id="update" value="Update" class="btn btn-success">
+			    <input type="submit" id="update" value="Update" class="btn btn-success"></form>
 				</td>
 				<td class = "space" align = "center">
 				<form method="post" action="deleteProject" >
@@ -654,8 +634,30 @@
 		<%
 			}
 			}catch(Exception e){}
-		}
+		
 		%>
+				</td> 
+				
+				<form action="applyProj" method="post">
+				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
+				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
+				  	<%if(eligibleToApply){ %>
+				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
+				  	<%
+				  	}else{
+				  		String errMsg = "";
+				  		if(udm.isSponsor(username)){
+				  			errMsg = "Only students can apply for a project";
+			  		}
+			  		%>
+				  		<br /><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled">
+				 		<font color=red size=-1><i><%=errMsg %></i></font>
+			  		<%
+				  	}
+	}
+				  	%>
+				  </form>
+		
 		</tr>
 		</table>
 				

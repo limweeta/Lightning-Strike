@@ -99,8 +99,6 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
 	<body>
 		<div id="content-container">
 			<div id="content">
-				<div class="span10 well">
-				<div class="span8">
 					<form class="form-horizontal" method="post" name="teamFeedback">
 
 						<!-- Form Name -->
@@ -277,9 +275,7 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
 						
 						</form>
 					</div>
-					<br/>
 				</div>
-			</div>
-		</div>
+
 	</body>
 </html>

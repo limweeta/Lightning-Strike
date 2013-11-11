@@ -110,8 +110,7 @@ color: white ;
 		          	<li><a href="./createTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Create</a></li>
 		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Team</a></li>
 		          	<li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Match to Team</a></li>
-		          	<li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
-               	</ul>
+		          		</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
@@ -128,6 +127,8 @@ color: white ;
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSponsor.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="./sponsorFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
+               
                	</ul>
                </li>
               <!--  <li><a href="#" >Schedule</a></li>

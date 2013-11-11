@@ -651,6 +651,34 @@ public class TeamDataManager implements Serializable {
 				+ "WHERE id = " + team.getId());
 	}
 	
+	
+	public void modify(Team team, String[] industry, String[] technology){
+		MySQLConnector.executeMySQL("update", "UPDATE teams SET "
+				+ "team_name = '" + team.getTeamName() + "', "
+				+ "team_limit = " + team.getTeamLimit() + ", "
+				+ "pm_id = " + team.getPmId() + ", "
+				+ "supervisor_id = " + team.getSupId() + ", "
+				+ "reviewer1 = " + team.getRev1Id() + ", "
+				+ "reviewer2 = " + team.getRev2Id() + ", "
+				+ "team_id = " + team.getTermId() + " "
+				+ "WHERE id = " + team.getId());
+		
+		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + team.getId());
+		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_industry WHERE team_id = " + team.getId());
+		
+		for(int i = 0; i < industry.length; i++){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
+					+ "(`team_id`, `industry_id`) "
+					+ "VALUES (" + team.getId() + ", " + Integer.parseInt(industry[i]) + ");");
+		}
+		
+		for(int i = 0; i < technology.length; i++){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_technology` "
+					+ "(`team_id`, `technology_id`) "
+					+ "VALUES (" + team.getId() + ", " + Integer.parseInt(technology[i]) + ");");
+		}
+	}
+	
 	public void modifyStudents(Team team, String[] members, String[] roles){
 		//CLEAR ALL CURRENT TEAM MEMBERS INFO
 		for(int i = 0; i < members.length; i++){

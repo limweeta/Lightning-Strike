@@ -10,7 +10,32 @@ public class RoleDataManager implements Serializable {
 
 	public RoleDataManager() {
 	}
-
+	
+	public ArrayList<String> retrieveUserRole(String username, String type) {
+		ArrayList<String> types = new ArrayList<String>();
+		UserDataManager udm = new UserDataManager();
+		User u = null;
+		
+		try{
+			u = udm.retrieve(username);
+		}catch(Exception e){}
+		
+		types.add(type);
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT additional_type FROM additional_role WHERE user_id = " + u.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			String roleName = array.get(0);
+			
+			types.add(roleName);
+		}
+		
+		return types;
+	}
+	
 	public ArrayList<Role> retrieveAll() {
 		ArrayList<Role> roles = new ArrayList<Role>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT * FROM `is480-matching`.role ");
