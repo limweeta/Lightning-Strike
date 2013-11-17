@@ -61,9 +61,12 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 			<h1>IS480 Matching System</h1>
 			
 							<a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">
-							<button type="button" id="SSO" class="btn btn-primary">Student/Faculty Sign In</button>
+							<button type="button" id="SSO" class="btn btn-primary">Student</button>
 							</a>
-			
+							
+							<a href="http://elearntools.smu.edu.sg/Tools/SSO/login.ashx?id=IS480MSvm">
+							<button type="button" id="SSO" class="btn btn-primary">Faculty</button>
+							</a>
 		   		
 							  <a href="#myModal" data-toggle="modal">
 							  <button type="button" id="external" class="btn btn-primary">Sponsor Sign In</button>

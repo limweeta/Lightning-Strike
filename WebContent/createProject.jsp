@@ -283,12 +283,31 @@ int currMth = now.get(Calendar.MONTH);
 									     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
 								     </tr>
 							    	<tr class="spaceunder">
+							    	<h2>Language</h2>
 										<%
 											  SkillDataManager skdm = new SkillDataManager();
-											  ArrayList<Skill> skills = skdm.retrieveAll();
+											  ArrayList<Skill> skills = skdm.retrieveAllLang();
 											  
 											  for(int i = 0; i < skills.size(); i++){
 												  Skill skill = skills.get(i);
+												  %><td>
+												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+												  </td><td></td>
+												  <%
+												  if((i+1) % 3 == 0){
+													  %></tr><tr class="spaceunder">
+											<%
+												  }
+											  }
+											  %>
+								  	</tr>
+								  	<tr class="spaceunder">
+							    	<h2>Others</h2>
+										<%
+											  ArrayList<Skill> otherSkills = skdm.retrieveAllLang();
+											  
+											  for(int i = 0; i < otherSkills.size(); i++){
+												  Skill skill = otherSkills.get(i);
 												  %><td>
 												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
 												  </td><td></td>

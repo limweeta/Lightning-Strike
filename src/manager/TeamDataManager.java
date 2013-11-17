@@ -426,6 +426,40 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	public ArrayList<Integer> retrieveTeamSkillsByOthers(Team team){
+		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk, skills s WHERE s.id=sk.skill_id AND sk.user_id = std.id AND std.team_id = " + team.getId() + " AND s.skill_type NOT LIKE 'Language';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId	= Integer.parseInt(array.get(0));
+			
+			teamSkills.add(skillId);
+			
+		}
+		return teamSkills;
+	}
+	
+	public ArrayList<Integer> retrieveTeamSkillsByLanguage(Team team){
+		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk, skills s WHERE s.id=sk.skill_id AND sk.user_id = std.id AND std.team_id = " + team.getId() + " AND s.skill_type LIKE 'Language';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int skillId	= Integer.parseInt(array.get(0));
+			
+			teamSkills.add(skillId);
+			
+		}
+		return teamSkills;
+	}
+	
 	public ArrayList<Integer> retrieveTeamSkills(Team team){
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + team.getId() + ";");
@@ -647,7 +681,7 @@ public class TeamDataManager implements Serializable {
 				+ "supervisor_id = " + team.getSupId() + ", "
 				+ "reviewer1 = " + team.getRev1Id() + ", "
 				+ "reviewer2 = " + team.getRev2Id() + ", "
-				+ "team_id = " + team.getTermId() + " "
+				+ "term_id = " + team.getTermId() + " "
 				+ "WHERE id = " + team.getId());
 	}
 	

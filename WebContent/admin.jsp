@@ -343,7 +343,7 @@
             <div class="span8 well">
 				<div class="row">
 					
-						<form name="moveTeam" action="changeTeamTerm" method="post" class="form-horizontal">
+						<form name="moveTeam" action="moveTeam" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Move Team</legend>
 						<div class="span7">

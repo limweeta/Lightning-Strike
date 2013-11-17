@@ -11,6 +11,44 @@ public class SkillDataManager implements Serializable {
 	
 	public SkillDataManager() {}
 	
+	public ArrayList<Skill> retrieveAllOthers() {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills WHERE skill_type NOT LIKE 'Language'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String skillName = array.get(1);
+			
+			Skill skill = new Skill(id, skillName);
+			skills.add(skill);
+		}
+		
+		return skills;
+	}
+	
+	public ArrayList<Skill> retrieveAllLang() {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills WHERE skill_type LIKE 'Language'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String skillName = array.get(1);
+			
+			Skill skill = new Skill(id, skillName);
+			skills.add(skill);
+		}
+		
+		return skills;
+	}
+	
 	public ArrayList<Skill> retrieveAll() {
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills");

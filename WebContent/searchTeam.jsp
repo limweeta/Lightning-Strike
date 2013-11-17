@@ -74,6 +74,7 @@
 	<thead>
 		<tr role="row">
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Team Name</th>
+			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Term</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Project</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Members</th>	
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
@@ -83,6 +84,7 @@
 	<tfoot>
 		<tr>
 			<th rowspan="1" colspan="1">Team Name</th>
+			<th rowspan="1" colspan="1">Term</th>
 			<th rowspan="1" colspan="1">Project</th>
 			<th rowspan="1" colspan="1">Members</th>
 			<th rowspan="1" colspan="1">Supervisor</th>
@@ -91,13 +93,16 @@
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
 RoleDataManager roledm = new RoleDataManager();
+TermDataManager termdm = new TermDataManager();
 int count = 0;
 for(int i = 0; i < teams.size(); i++){
 	Team team = teams.get(i);
 	String name = team.getTeamName();
 	String sup = "";
 	int supId = 0;
-	
+	int termId = team.getTermId();
+	Term term = termdm.retrieve(termId);
+	String termname = "";
 	String project = "";
 	int projId = 0;
 	try{
@@ -106,6 +111,12 @@ for(int i = 0; i < teams.size(); i++){
 	}catch(Exception e){
 		project = "No registered project yet";
 		projId = 0;
+	}
+	
+	try{
+		termname = term.getAcadYear() + " T" + term.getSem();
+	}catch(Exception e){
+		termname = "Not specified";
 	}
 	
 	try{
@@ -133,6 +144,7 @@ for(int i = 0; i < teams.size(); i++){
 %>
 	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
+			<td class="center "><%=term.getAcadYear() + " T" + term.getSem() %></a></td>
 			<td class="center ">
 			<%if(projId != 0){ %>
 			<a href="projectProfile.jsp?id=<%=projId%>" style="color:#005580;">
@@ -186,7 +198,6 @@ for(int i = 0; i < teams.size(); i++){
 					     <label class="control-label" for="projectterm">Project Term</label>
 					    <select id="term" name="term" class="input-large">
 						    	  <%
-						    	  TermDataManager termdm = new TermDataManager();
 						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
 								  int currTermId = termdm.retrieveTermId(currYear, currMth);
 								  

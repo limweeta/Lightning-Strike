@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import model.*;
 import manager.*;
 
@@ -59,16 +61,23 @@ public class UpdateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectDesc");
 		String projStatus = request.getParameter("projStatus");
 		
-		String[] skills		= request.getParameterValues("skill");
+		String[] skillsLang		= request.getParameterValues("skillLang");
+		String[] skillsOthers	= request.getParameterValues("skillOthers");
 		String[] technologies = request.getParameterValues("technology");
 		
-		if(skills == null){
-			skills = new String[0];
+		if(skillsLang == null){
+			skillsLang = new String[0];
+		}
+		
+		if(skillsOthers == null){
+			skillsOthers = new String[0];
 		}
 		
 		if(technologies == null){
 			technologies = new String[0];
 		}
+		
+		String[] skills = (String[]) ArrayUtils.addAll(skillsLang, skillsOthers);
 		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
 		int termId = 0; 

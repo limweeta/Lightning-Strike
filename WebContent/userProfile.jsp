@@ -588,16 +588,17 @@ function toggleSkill(source) {
 		<%
 		if(sessionUsername.equals(uProfile.getUsername())){
 		%>
-		<input type="submit" id="editprofile" value="Save Profile" class="btn btn-success">
+		<input type="submit" id="editprofile" value="Save" class="btn btn-success">
 		</form>
 		<%
 		}
 		%>
+		<!-- 
 		  <form action="inviteStudent" method="post">
-		  	<input type="hidden" name="studentId" value="<%=uProfile.getID()%>">
-		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
+		  	<input type="hidden" name="studentId" value="">
+		  	<input type="hidden" name="visitorTeamId" value="">
 		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
-		   </form>
+		   </form> -->
 
 		</div> 
 	

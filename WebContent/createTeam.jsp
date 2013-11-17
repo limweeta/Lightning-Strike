@@ -20,13 +20,13 @@
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
 	
-	.panel-title .accordion-toggle.collapsed:after {
+.panel-title .accordion-toggle:after {
     /* symbol for "collapsed" panels */
     font-family:FontAwesome;
 	font-size:16px;
-    content: '\f067';  
-	float:right;
-}
+    content: '\f067'; 
+    float:right; 
+	}
 </style>
 
 <head>

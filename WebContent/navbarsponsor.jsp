@@ -277,41 +277,41 @@ color: white ;
 	%>
 	
 	<div class="navbar navbar-inverse navbar-fixed-top">
-         <a href="./index.jsp" style="font-size: 20px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
+         <a href="./index.jsp" style="font-size: 18px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
-		          <li><a href="./searchProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-		          <li><a href="./createProject.jsp" style="font-size: 20px; color: white;font-weight: 200;">Create</a></li>
-		          <li><a href="#" style="font-size: 20px; color: white;font-weight: 200;">Delete Project</a></li>
+		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+		          <li><a href="./createProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
+		          <li><a href="#" style="font-size: 16px; color: white;font-weight: 200;">Delete</a></li>
 		          </ul>
 		        </li>
 		      
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchTeam.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-		          <li><a href="./teamFeedback.jsp" style="font-size: 20px; color: white;font-weight: 200;">Team Feedback</a></li>
+               		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
               
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchUser.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="./searchUser.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
                
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchSponsor.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 20px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./myProjects.jsp" style="font-size: 20px; color: white;font-weight: 200;">My Projects</a></li>
+               		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Profile</a></li>
+               		<li><a href="./myProjects.jsp" style="font-size: 16px; color: white;font-weight: 200;">My Projects</a></li>
+               		<li><a href="./sponsorFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
                	</ul>
                </li>
-                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
+                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchSup.jsp" style="font-size: 20px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
               <!--  <li><a href="#" >Schedule</a></li>
@@ -319,31 +319,32 @@ color: white ;
              </ul>
               <ul class="nav pull-right">
 	          <li>
-	          	<a class="navbar-username" href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 20px; color: white;font-weight: 200;"><%=spFullName%> - <%=userType%></a>
+	          	<a class="navbar-username" href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 16px; color: white;font-weight: 200;"><%=spFullName%> - <%=userType%></a>
 	          </li>
 	          <li class="dropdown">
-	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 20px; color: white;font-weight: 200;">
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-cogs"></i>
 	          	</a>
 	          	<ul class="dropdown-menu pull-right">
 	          	<li>
-	          	<a href="#" style="font-size: 20px; color: white;font-weight: 200;">
+	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;" onclick="switchRole()">
 	          		<i class="fa fa-caret-square-o-down"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
 	          	</li>
 	          	<li>
 	          	<form id="logout" action="logout" method="post"></form>
-	          	<a href="#" onclick="logout.submit()" style="font-size: 20px; color: white;font-weight: 200;">
+	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;"  >
 	          		<i class="fa fa-power-off"></i>
 	          		&nbsp; Logout
 	          	</a>
 	          	</li>
 	          	</ul>
 	          </li>
-	           <li id="switchRoles" style="display:none;">
+	            <li id="switchRoles" style="display:none;">
 	          	<form action="switchRole" method="post">
 		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+		  			<option value="#">Choose one...</option>
 		  				<%
 		  				RoleDataManager rdm = new RoleDataManager();
 		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(spUsername, spType);

@@ -70,12 +70,19 @@
   	  }
   	}
 
-    function toggleSkill(source) {
-    	  checkboxes = document.getElementsByName('skill');
+    function toggleSkillLang(source) {
+    	  checkboxes = document.getElementsByName('skillLang');
     	  for(var i=0, n=checkboxes.length;i<n;i++) {
     	    checkboxes[i].checked = source.checked;
     	  }
     	}
+    
+    function toggleSkillOthers(source) {
+  	  checkboxes = document.getElementsByName('skillOthers');
+  	  for(var i=0, n=checkboxes.length;i<n;i++) {
+  	    checkboxes[i].checked = source.checked;
+  	  }
+  	}
 	</script>	
     	<%
     		User sessUser = null;
@@ -528,23 +535,24 @@
 		      <div class="panel-body">
 		 			<table>
 						<tr class="spaceunder">
-						     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+						     <td><input type="checkbox" onclick="toggleSkillLang(this)" />&nbsp;<span class="label label-default">Select All</span></td>
 					     </tr>
 				    	<tr class="spaceunder">
+				    	<h2>Language</h2>
 							<%
-							  ArrayList<Skill> skills = skdm.retrieveAll();
+							  ArrayList<Skill> skills = skdm.retrieveAllLang();
 							  
 							  for(int i = 0; i < skills.size(); i++){
 								  Skill skill2 = skills.get(i);
 								  
 								  if(skdm.hasSkill(skill, skill2)){
 								  %><td>
-								  <input type="checkbox" name="skill" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  <input type="checkbox" name="skillLang" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
 								  </td><td></td>
 								   <%
 								  }else{
 								  %><td>
-								  <input type="checkbox" name="skill" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  <input type="checkbox" name="skillLang" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
 								  </td><td></td>
 								  <%  
 									}
@@ -557,6 +565,42 @@
 							  }
 								  %>
 					  	</tr>
+					  
+					</table>
+					
+					<table>
+						<tr class="spaceunder">
+						     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+					     </tr>
+				    	<tr class="spaceunder">
+				    	<h2>Others</h2>
+							<%
+							  ArrayList<Skill> otherSkills = skdm.retrieveAllOthers();
+							  
+							  for(int i = 0; i < otherSkills.size(); i++){
+								  Skill skill2 = otherSkills.get(i);
+								  
+								  if(skdm.hasSkill(skill, skill2)){
+								  %><td>
+								  <input type="checkbox" name="skillOthers" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="skillOthers" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								  %>
+					  	</tr>
+					  
 					</table>
 		 	  </div>
 		    </div>

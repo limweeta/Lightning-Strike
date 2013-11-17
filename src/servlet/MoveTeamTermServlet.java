@@ -29,7 +29,7 @@ public class MoveTeamTermServlet extends HttpServlet {
 		
 		TeamDataManager tdm = new TeamDataManager();
 		
-		int termId = Integer.parseInt(request.getParameter("termId"));
+		int termId = Integer.parseInt(request.getParameter("term"));
 		
 		String teamName = request.getParameter("teamName");
 		

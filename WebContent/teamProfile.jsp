@@ -41,6 +41,10 @@
 	<% 
 		String usertype = (String) session.getAttribute("type");
 	
+		Calendar now = Calendar.getInstance();
+		int currYear = now.get(Calendar.YEAR);
+		int currMth = now.get(Calendar.MONTH);
+	
 	if(usertype == null || usertype.isEmpty()){
 		usertype = "";
 	}
@@ -60,10 +64,10 @@
 		Team team = null;
 		
 	
-		if(teamId == 0){
+		if(teamId == 0 || (!usertype.equalsIgnoreCase("admin") && !usertype.equalsIgnoreCase("sponsor") && !usertype.equalsIgnoreCase("student"))){
 			session.setAttribute("message", "You need to have a team to view that page.");
 			response.sendRedirect("searchTeam.jsp");
-		}else if(tdm.retrieve(teamId) == null){
+		}else if(tdm.retrieve(teamId) == null || (!usertype.equalsIgnoreCase("admin") && !usertype.equalsIgnoreCase("sponsor") && !usertype.equalsIgnoreCase("student"))){
 			session.setAttribute("message", "Not a valid team");
 			response.sendRedirect("searchTeam.jsp");
 		}else{
@@ -314,11 +318,35 @@
 		  <label class="control-label" for="project">Term</label>
 		  <div class="controls">
 		  <%
-			TermDataManager termdm = new TermDataManager();
-			Term term = termdm.retrieve(team.getTermId());
-		  %>
+    	  TermDataManager termdm = new TermDataManager();
+	            		if(sessUserId == team.getPmId()){
+	       %>
+		  <select id="term" name="term" class="input-large">
+		    	  <%
+		    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+					Term term = termdm.retrieve(team.getTermId());
+					int termId = term.getId();
+				  
+		    	  for(int i = 0; i < terms.size(); i++){
+		    		Term showTerm = terms.get(i); 
+		    		if((termId) == showTerm.getId()){	
+		    	%>
+		    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+		    	 <%
+		    		}else{
+    			%>
+		    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+		    	 <%	
+		    		}
+		    	  }
+		    	 %>
+		</select> 
+		<%} else{ 
+					Term term = termdm.retrieve(team.getTermId());%>
 		  	<span class="label label-info"><%=term.getAcadYear() + " T" + term.getSem()%></span>
 		  	<input type="hidden" name="termId" value="<%=term.getId() %>">
+		  	<%} %>
+		  	
 		  </div>
 		</div>
 		<div class="control-group">
@@ -346,6 +374,39 @@
 			</a></span>
 		  </div>
 		</div><br />
+		
+		<div class="control-group">
+		  <label class="control-label" for="supervisor">Reviewers</label>
+		  <div class="controls">
+			<%
+			int rev1Id = team.getRev1Id(); 
+			int rev2Id = team.getRev2Id(); 
+			String rev1Name = "Not assigned";
+			String rev1ProfileLink = "#";
+			String rev2Name = "Not assigned";
+			String rev2ProfileLink = "#";
+			  try{
+				  rev1Name = udm.retrieve(rev1Id).getFullName();
+				  rev1ProfileLink = "userProfile.jsp?id=" + rev1Id;
+			  }catch(Exception e){
+				  rev1ProfileLink = "#";
+				  rev1Name = "Not assigned";
+			  }
+			  
+			  try{
+				  rev2Name = udm.retrieve(rev2Id).getFullName();
+				  rev2ProfileLink = "userProfile.jsp?id=" + rev2Id;
+			  }catch(Exception e){
+				  rev2ProfileLink = "#";
+				  rev2Name = "Not assigned";
+			  }
+			%>
+			<span class="label label-info"><a href="<%=rev1ProfileLink%>" style="color: #FFFFFF"><%=rev1Name %><br /><br />
+			
+			<span class="label label-info"><a href="<%=rev2ProfileLink%>" style="color: #FFFFFF"><%=rev2Name %><br />
+			</a></span>
+		  </div>
+		</div><br />
 		<!-- @CHLOE PUT SKILLS IN THE SAME AS INDUSTRY AND TECH -->
 		
 	<div class="panel-group" id="accordion">
@@ -361,13 +422,38 @@
 			      <div class="panel-body">
 				    	<table>
 					    	<tr class="spaceunder">
+					    	<h2>Language</h2>
 								<%
 					            SkillDataManager skdm = new SkillDataManager();
-					            ArrayList<Integer> skillset = tdm.retrieveTeamSkills(team);
-					            System.out.println(skillset.size());
-					            for(int k = 0; k < skillset.size(); k++){
+					            ArrayList<Integer> skillsetLang = tdm.retrieveTeamSkillsByLanguage(team);
+					            System.out.println(skillsetLang.size());
+					            for(int k = 0; k < skillsetLang.size(); k++){
 					            	int count2 = k + 1;
-					            	int skillId = skillset.get(k);
+					            	int skillId = skillsetLang.get(k);
+					            	Skill skill = skdm.retrieve(skillId);
+					            	%><td>
+									 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
+									  </td><td></td>
+									   <%
+									  if((k+1) % 3 == 0){
+									  %>
+								  </tr><tr class="spaceunder">
+								  <%
+									  }
+					            }
+								  %>
+						  	</tr>
+						</table>
+						
+						<table>
+					    	<tr class="spaceunder">
+					    	<h2>Others</h2>
+								<%
+					            ArrayList<Integer> skillsetOthers = tdm.retrieveTeamSkillsByOthers(team);
+					            System.out.println(skillsetOthers.size());
+					            for(int k = 0; k < skillsetOthers.size(); k++){
+					            	int count2 = k + 1;
+					            	int skillId = skillsetOthers.get(k);
 					            	Skill skill = skdm.retrieve(skillId);
 					            	%><td>
 									 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;

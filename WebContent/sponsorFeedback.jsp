@@ -17,7 +17,18 @@
 	#teamLimit{
 		width:5em;
 	} */
-
+	.container > .content {
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+	
 </style>
 
 <head>
@@ -28,10 +39,8 @@
 
 </head>
 	<body>
-		<div id="content-container">
+		<div id="container">
 			<div id="content">
-				<div class="span10 well">
-				<div class="span8">
 					<form class="form-horizontal" method="post" name="sponsorFeedback">
 
 						<!-- Form Name -->
@@ -181,7 +190,7 @@
 						<div class="feedback">
 						   <table>
 						   <tr>
-							<font face="Arial"  size="3"><b>Current Status of the Application (Please Choose)</b></font>
+							<font face="Arial"  size="3"><b>How often do you meet with the team? (Please Choose)</b></font>
 							<table class="table table-bordered">
 							<tr>
 							<td><font face="Arial" size="2">Daily</font></td>
@@ -251,7 +260,5 @@
 					</div>
 					<br/>
 				</div>
-			</div>
-		</div>
 	</body>
 </html>
