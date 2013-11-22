@@ -102,6 +102,15 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>InviteTeamServlet</servlet-name>
+    <servlet-class>servlet.InviteTeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InviteTeamServlet</servlet-name>
+    <url-pattern>/inviteTeam</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>MoveTeamTermServlet</servlet-name>
     <servlet-class>servlet.MoveTeamTermServlet</servlet-class>
   </servlet>

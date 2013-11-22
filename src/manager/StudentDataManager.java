@@ -86,7 +86,7 @@ public class StudentDataManager implements Serializable {
 	
 	public ArrayList<Student> retrieveAll() {
 		ArrayList<Student> students = new ArrayList<Student>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE users.type LIKE 'Student';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		

@@ -30,7 +30,7 @@ public class UpdateTeamServlet extends HttpServlet {
 		TeamDataManager tdm = new TeamDataManager();
 		
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		int termId = Integer.parseInt(request.getParameter("termId"));
+		int termId = Integer.parseInt(request.getParameter("term"));
 		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
 		int pmId = Integer.parseInt(request.getParameter("pmId"));
 		

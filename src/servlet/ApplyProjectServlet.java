@@ -51,7 +51,7 @@ public class ApplyProjectServlet extends HttpServlet {
 			}else if(eligibleToApply){
 				pdm.applyProj(teamId, projId);
 				//SEND NOTIFICATION TO CREATOR
-						
+				/*	
 				ServletContext context = getServletContext();
 				String host = context.getInitParameter("host");
 				String port = context.getInitParameter("port");
@@ -63,7 +63,7 @@ public class ApplyProjectServlet extends HttpServlet {
 			    		+ "\n Click <a href=\"202.161.45.127/is480-matching/projectProfile.jsp?id=" + projId + "\">here</a> to view";
 			     
 			     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
-			     
+			     */
 				session.setAttribute("message", "You have successfully applied for the project.");
 			}
 		}catch(Exception e){}

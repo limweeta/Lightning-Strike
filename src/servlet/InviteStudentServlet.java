@@ -55,7 +55,7 @@ public class InviteStudentServlet extends HttpServlet {
 		     
 		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/
-			session.setAttribute("message", "You have requested to join " + team.getTeamName());
+			session.setAttribute("message", "You have invited " + std.getFullName() + " to join your team");
 		
 		}catch(Exception e){}
 		

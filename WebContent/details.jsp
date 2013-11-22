@@ -41,7 +41,7 @@ function toggleSkill(source) {
   <script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
   <script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
   	<%
-		String type 					= (String) session.getAttribute("type");
+		String usertype 				= (String) session.getAttribute("type");
 		StudentDataManager sdm 			= new StudentDataManager();
 		ArrayList<String> majorList 	= sdm.retrieveAllMajors();
 	%>	

@@ -681,7 +681,7 @@
 		
 		%>
 				</td> 
-				
+				</form>
 				<form action="applyProj" method="post">
 				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
 				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />

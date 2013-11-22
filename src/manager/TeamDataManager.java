@@ -58,6 +58,21 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public boolean hasInvited(int teamId, int sponsorId){
+		boolean invited = false;
+		
+		if(sponsorId != 0){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM invite_team WHERE team_id = " + teamId + " AND sponsor_id = " + sponsorId);
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if (iterator.hasNext()){
+				invited = true;
+			}
+		}
+		return invited;
+	}
+	
 	public String getTeamStatus(Team team){
 		String status = "";
 		
@@ -694,7 +709,7 @@ public class TeamDataManager implements Serializable {
 				+ "supervisor_id = " + team.getSupId() + ", "
 				+ "reviewer1 = " + team.getRev1Id() + ", "
 				+ "reviewer2 = " + team.getRev2Id() + ", "
-				+ "team_id = " + team.getTermId() + " "
+				+ "term_id = " + team.getTermId() + " "
 				+ "WHERE id = " + team.getId());
 		
 		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + team.getId());
@@ -744,6 +759,11 @@ public class TeamDataManager implements Serializable {
 	
 	public void removeStudentRequest(int userId, int teamId){
 		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
+	}
+	
+	public void inviteTeam(int sponsorId, int teamId){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO invite_team (team_id, sponsor_id) "
+				+ "VALUES(" + sponsorId + ", " + teamId + ")");
 	}
 	
 	public void studentInvite(int userId, int teamId){

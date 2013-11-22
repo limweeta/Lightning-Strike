@@ -53,6 +53,23 @@
 	font-size:16px;
     content: '\f067';  
 }
+
+.container {
+width: 600px !important;
+}
+
+.container > .content {
+text-align: center;
+background-color: #ffffff;
+padding: 20px;
+margin: 0 -20px;
+-webkit-border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+border-radius: 10px 10px 10px 10px;
+-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
 </style>
 <!-- <script>
 function dropdown(){
@@ -70,37 +87,12 @@ function dropdown2(){
 }
 </script> -->
 <body>
-
-		<div class="panel-group" id="accordion">
-		  <div class="panel panel-default">
-			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a class="accordion-toggle"  data-toggle="collapse" data-target="#collapseFive" data-parent="#accordion" href="#collapseFive">
-			          <!-- <i id="plus" class="fa fa-plus"></i><i id="minus" class="fa fa-minus" style="display: none"></i>  -->Team Skills 
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseFive" class="panel-collapse collapse">
-			      <div class="panel-body">
-				    	
-					</div>
-			    </div>
-			  </div>
-			  </div>
-			  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-		          <!-- <i id="plus2" class="fa fa-plus"></i><i id="minus2" class="fa fa-minus" style="display: none"></i> --> Preferred Skills
-		        </a>
-		      </h4>
-		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse">
-		      <div class="panel-body">
-		 			</div>
-		    </div>
-		  </div>
-
+		<div class="container">
+			<div class="alert alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong>WASSUP</strong>
+			</div>
+		</div>
 	<%-- <select id="teamlimit" name="teamlimit" class="input-large" onchange="alterTeamLimit()">
 						      <option value="4" selected>4</option>
 						      <option value="5">5</option>

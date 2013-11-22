@@ -80,7 +80,7 @@ public class UpdateProjectServlet extends HttpServlet {
 		String[] skills = (String[]) ArrayUtils.addAll(skillsLang, skillsOthers);
 		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
-		int termId = 0; 
+		int termId = 0;  
 		
 		try{
 			termId = Integer.parseInt(request.getParameter("term"));

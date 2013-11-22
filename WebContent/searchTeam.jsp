@@ -78,6 +78,8 @@
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Project</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Members</th>	
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Invite</th>
+		
 		</tr>
 	</thead>
 	
@@ -88,12 +90,23 @@
 			<th rowspan="1" colspan="1">Project</th>
 			<th rowspan="1" colspan="1">Members</th>
 			<th rowspan="1" colspan="1">Supervisor</th>
+			<th rowspan="1" colspan="1">Invite</th>
 		</tr>
 	</tfoot>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
 RoleDataManager roledm = new RoleDataManager();
 TermDataManager termdm = new TermDataManager();
+
+int sponsorId = 0;
+
+try{
+	sponsorId = udm.retrieve(username).getID();
+	
+}catch(Exception e){
+	sponsorId = 0;
+}
+
 int count = 0;
 for(int i = 0; i < teams.size(); i++){
 	Team team = teams.get(i);
@@ -104,6 +117,9 @@ for(int i = 0; i < teams.size(); i++){
 	Term term = termdm.retrieve(termId);
 	String termname = "";
 	String project = "";
+	
+	boolean hasInvited = tdm.hasInvited(team.getId(), sponsorId);
+	
 	int projId = 0;
 	try{
 		project = pdm.retrieveProjectsByTeam(team.getId()).getProjName();
@@ -159,14 +175,13 @@ for(int i = 0; i < teams.size(); i++){
 					String role = "";
 					
 					if(std.getRole() == 1){
-						role = "(Project Manager)";
+						role = "(PM)";
 					}
 					%>
 					<a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
 					<%
 				}
 				%>
-				 <button type="button" id="external" class="btn btn-primary">Add Member</button>
 			</td>
 			<td class="center ">
 			  <a href="#"  style="color:#005580;">
@@ -175,6 +190,22 @@ for(int i = 0; i < teams.size(); i++){
 			<%} %>
 			  <%=sup %>
 			  </a>
+			</td>
+			<td>
+				<form action="inviteTeam" method="post">
+					<input type="hidden" name="teamId" value="<%=team.getId() %>" />
+					<%
+					if(!hasInvited){
+					%>
+					<input type="submit" value="Invite Team to view your projects" class="btn btn-primary" /> 
+					<%
+					}else{
+						%>
+					You have already invited this team to view your project
+						<%
+					}
+					%>
+				</form>
 			</td>
 	</tr>
 <%

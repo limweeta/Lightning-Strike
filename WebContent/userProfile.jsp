@@ -365,8 +365,6 @@ function toggleSkill(source) {
 	<%} %>
 	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=uProfile.getID()%>">
-	
-		
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
@@ -591,15 +589,16 @@ function toggleSkill(source) {
 		<input type="submit" id="editprofile" value="Save" class="btn btn-success">
 		</form>
 		<%
+		}else{
+		%></form>
+		  <form action="inviteStudent" method="post">
+		  	<input type="hidden" name="studentId" value="<%=profileid%>">
+		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
+		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
+		   </form>
+		<%
 		}
 		%>
-		<!-- 
-		  <form action="inviteStudent" method="post">
-		  	<input type="hidden" name="studentId" value="">
-		  	<input type="hidden" name="visitorTeamId" value="">
-		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
-		   </form> -->
-
 		</div> 
 	
 	</div>

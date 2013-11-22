@@ -41,7 +41,13 @@ function toggleSkill(source) {
 	  }
 	}
 	
-
+function toggleSkillOthers(source) {
+	  checkboxes = document.getElementsByName('skillOthers');
+	  for(var i=0, n=checkboxes.length;i<n;i++) {
+	    checkboxes[i].checked = source.checked;
+	  }
+	}
+	
 </script>
 
 <style type="text/css">
@@ -62,12 +68,12 @@ function toggleSkill(source) {
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
 	
-	.panel-title .accordion-toggle.collapsed:after {
+.panel-title .accordion-toggle:after {
     /* symbol for "collapsed" panels */
     font-family:FontAwesome;
 	font-size:16px;
-    content: '\f067';  
-    float:right;
+    content: '\f067'; 
+    float:right; 
 	}
 </style>
 <%
@@ -76,14 +82,13 @@ int currYear = now.get(Calendar.YEAR);
 int currMth = now.get(Calendar.MONTH);
 %>
 <head>
-		<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="js/jquery.autocomplete.js"></script>  
+
     <link rel="stylesheet" href="./css/bootstrap.css"  type="text/css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="./js/bootstrap.js"></script>
 	<%@ include file="template.jsp" %>
 	<%	boolean invalidAccess = false;
 		if(username == null){
@@ -96,7 +101,7 @@ int currMth = now.get(Calendar.MONTH);
 	String usertype = (String) session.getAttribute("type");
 	
 	if(usertype == null){
-		usertype = "";
+		usertype = "";	
 	}
 	boolean hasProj = false;
 	
@@ -137,7 +142,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Sponsor</label>
 						  <div class="controls"><input type="hidden" name="sponsorId" value="<%=sponsor.getID()%>">
-						    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-large" readonly="readonly">
+						    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-xlarge" readonly="readonly">
 						    
 						  </div>
 						</div>
@@ -146,7 +151,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Company</label>
 						  <div class="controls"><input type="hidden" name="coyId" value="<%=company.getID()%>">
-						    <input id="company" name="company" type="text" value="<%=coyName %>" class="input-large" readonly="readonly">
+						    <input id="company" name="company" type="text" value="<%=coyName %>" class="input-xlarge" readonly="readonly">
 						    
 						  </div>
 						</div>
@@ -157,7 +162,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Project Name</label>
 						  <div class="controls">
-						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-large">
+						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-xlarge">
 						    
 						  </div>
 						</div>
@@ -166,7 +171,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectterm">Project Term</label>
 						  <div class="controls">
-						   <select id="term" name="term" class="input-large">
+						   <select id="term" name="term" class="input-xlarge">
 						    	  <%
 						    	  TermDataManager termdm = new TermDataManager();
 						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
@@ -202,7 +207,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectstatus">Project Status</label>
 						  <div class="controls">
-						    <select id="projectstatus" name="projectstatus" class="input-large" disabled>
+						    <select id="projectstatus" name="projectstatus" class="input-xlarge" disabled>
 						      <option>Open</option>
 						      <option>Closed</option>
 						      <option>Completed</option>
@@ -214,7 +219,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="industrytype">Industry Type</label>
 						  <div class="controls">
-						    <select id="industrytype" name="industrytype" class="input-large">
+						    <select id="industrytype" name="industrytype" class="input-xlarge">
 								 <%
 								  IndustryDataManager idm = new IndustryDataManager();
 								  ArrayList<Industry> industries = idm.retrieveAll();
@@ -243,7 +248,7 @@ int currMth = now.get(Calendar.MONTH);
 						      <div class="panel-body">
 							    	<table>
 										<tr class="spaceunder">
-										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
 									     </tr>
 								    	<tr class="spaceunder">
 											<%
@@ -253,7 +258,7 @@ int currMth = now.get(Calendar.MONTH);
 											  for(int i = 0; i < technologies.size(); i++){
 												  Technology tech = technologies.get(i);
 												  %><td>
-												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
 												  </td><td></td>
 												   <%
 												  if((i+1) % 3 == 0){
@@ -301,6 +306,11 @@ int currMth = now.get(Calendar.MONTH);
 											  }
 											  %>
 								  	</tr>
+								  	</table>
+								  	<table>
+								  	<tr class="spaceunder">
+									     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+								     </tr>
 								  	<tr class="spaceunder">
 							    	<h2>Others</h2>
 										<%
@@ -309,7 +319,7 @@ int currMth = now.get(Calendar.MONTH);
 											  for(int i = 0; i < otherSkills.size(); i++){
 												  Skill skill = otherSkills.get(i);
 												  %><td>
-												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+												  <input type="checkbox" name="skillOthers" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
 												  </td><td></td>
 												  <%
 												  if((i+1) % 3 == 0){

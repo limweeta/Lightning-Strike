@@ -38,6 +38,7 @@ public class RejectStudentServlet extends HttpServlet {
 		try{
 			t = tdm.retrieve(teamId);
 			st = stdm.retrieve(stdId);
+			tdm.removeStudentRequest(stdId, teamId);
 			
 			/*
 			ServletContext context = getServletContext();
