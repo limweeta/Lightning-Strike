@@ -38,7 +38,8 @@
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script src="js/jquery.autocomplete.js"></script>  
     
-	<% 
+	<% 	
+		User sessUser = null;
 		String usertype = (String) session.getAttribute("type");
 	
 		Calendar now = Calendar.getInstance();
@@ -102,7 +103,7 @@
 			}
 
 		   	String sessionUsername = (String) session.getAttribute("username");
-		  	User sessUser = null;
+		  	
 			
 			try{
 				 sessUser =  udm.retrieve(sessionUsername);
@@ -622,21 +623,19 @@
 		}
 		%>
 		
-		<%if(usertype.equalsIgnoreCase("Student")){ %>
+		<%
+		StudentDataManager sdm = new StudentDataManager();
+		if(usertype.equalsIgnoreCase("Student")){ 
+		%>
 			<td class="space">
 			<form action="stdRequest" method="post">
 				<input type="hidden" name="teamId" value="<%=teamId %>">
 				<input type="hidden" name="userId" value="<%=sessUserId %>">
 				<% 
 				try{
-					if(!tdm.emptySlots(team)){ %>
-			  		<input type="submit" value="Request to Join" class="btn btn-warning" disabled="disabled"><br />
-			  		<font size=-1 color=red><i>Team is full</i></font>
-			  		<% }else{
-			  			%>
-			  		<input type="submit" value="Request to Join" class="btn btn-warning">	
-			  			<%
-			  		}
+					if(tdm.emptySlots(team) && !sdm.hasTeam(sessUser)){ %>
+			  		<input type="submit" value="Request to Join" class="btn btn-warning">
+			  		<% }
 				}catch(Exception e){}
 		  		%>
 		  		

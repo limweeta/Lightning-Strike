@@ -1,6 +1,7 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <html>
 <style type="text/css">
 	@import "./css/template.css";
@@ -70,13 +71,18 @@ session.removeValue("message");
 				<%
 				AnnouncementDataManager adm = new AnnouncementDataManager();
 				ArrayList<Announcement> announcements = adm.retrieveAll();
-				
 				for(int i=0; i < announcements.size(); i++){
 					Announcement ann = announcements.get(i);
+					String fullTimestamp = ann.getTimestamp();
+					String date = fullTimestamp.substring(0, 10);
+					String time = fullTimestamp.substring(11, 16);
+					
+					String timestampStr = date + ", " + time + " ";
+					
 					%>
 					<tr>
 						<td align="center"><%=i+1 %></td>
-						<td align="center"><%=ann.getTimestamp() %></td>
+						<td align="center"><%=timestampStr %></td>
 						<td align="center"><%=ann.getAnnouncement() %></td>
 					</tr>
 					<%

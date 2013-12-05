@@ -430,7 +430,7 @@ public class ProjectDataManager implements Serializable {
 		return proj;
 	}
 	
-	public boolean isEligibleForApplication(int teamId){
+	public boolean isEligibleForApplication(int teamId, int userId, int projId){
 		boolean hasProj = false;
 		boolean hasApplied = false;
 		
@@ -457,6 +457,14 @@ public class ProjectDataManager implements Serializable {
 				if(iterator.hasNext()){
 					hasProj = true;
 				}
+			}
+			
+			map = MySQLConnector.executeMySQL("select", "select * from projects where id = " + projId + " AND creator_id = " + userId + ";");
+			keySet = map.keySet();
+			iterator = keySet.iterator();
+			
+			if(iterator.hasNext()){
+				hasProj = true;
 			}
 			
 			if(hasProj || hasApplied){

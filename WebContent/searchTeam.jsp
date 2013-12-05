@@ -170,16 +170,22 @@ for(int i = 0; i < teams.size(); i++){
 			</td>
 			<td class="center " valign="top">
 				<%
-				for(int j = 0; j < members.size(); j++){
-					Student std = members.get(j);
-					String role = "";
-					
-					if(std.getRole() == 1){
-						role = "(PM)";
-					}
+				if(members.size() < 1){
 					%>
-					<a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
+					No team members yet
 					<%
+				}else{
+					for(int j = 0; j < members.size(); j++){
+						Student std = members.get(j);
+						String role = "";
+						
+						if(std.getRole() == 1){
+							role = "(PM)";
+						}
+						%>
+						<a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
+						<%
+					}
 				}
 				%>
 			</td>
@@ -196,9 +202,15 @@ for(int i = 0; i < teams.size(); i++){
 					<input type="hidden" name="teamId" value="<%=team.getId() %>" />
 					<%
 					if(!hasInvited){
+						if(!tdm.hasProj(team)){
 					%>
 					<input type="submit" value="Invite Team to view your projects" class="btn btn-primary" /> 
 					<%
+						}else{
+							%>
+					Team is already undertaking a project
+							<%
+						}
 					}else{
 						%>
 					You have already invited this team to view your project

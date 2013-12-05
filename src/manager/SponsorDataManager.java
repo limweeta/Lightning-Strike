@@ -102,7 +102,28 @@ public class SponsorDataManager implements Serializable {
 		
 		System.out.println("sponsor added successfully");
 	}
+	
+	public ArrayList<Team> getInvitedTeams(Sponsor sponsor){
+		ArrayList<Team> invitedTeams = new ArrayList<Team>();
+		Team team = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM invite_team WHERE sponsor_id = " + sponsor.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		TeamDataManager tdm = new TeamDataManager();
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int teamid = Integer.parseInt(array.get(1));
+			
+			try {
+				team = tdm.retrieve(teamid);
+				invitedTeams.add(team);
+			} catch (Exception e) {}
+			
+		}
+		return invitedTeams;
 		
+	}
 	
 	public Sponsor getSponsorFromList(ArrayList<Sponsor> array, int sponsorId){
 		

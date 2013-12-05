@@ -541,12 +541,35 @@ function toggleSkill(source) {
 		  </div>
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Sponsor")){ 
+		Sponsor sponsor = sponsordm.retrieve(username);
 		Company company = cdm.retrieve(profileid);
 		int orgId = company.getOrgType();
 		OrganizationDataManager odm = new OrganizationDataManager();
 		Organization org = odm.retrieve(orgId);
 		String orgType = org.getOrgType();
+		
+		ArrayList<Team> invitedTeams = sponsordm.getInvitedTeams(sponsor);
 		%>
+		<div class="control-group">
+		  <label class="control-label" for="coyName">Invited Teams </label>
+		  <div class="controls">
+		    <%
+		    if(invitedTeams.size() < 1){
+		    	%>
+		    	You have not invited any teams to view your project
+		    	<%
+		    }else{
+		    	for(int i = 0; i < invitedTeams.size(); i++){
+		    		Team team = invitedTeams.get(i);
+		    		%>
+		    		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a><br />
+		    		<%
+		    	}
+		    }
+		    %>
+		  </div>
+		</div>
+		
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Company </label>
 		  <div class="controls">

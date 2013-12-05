@@ -58,6 +58,21 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public boolean hasProj(Team team){
+		boolean hasProj = false;
+		
+		if(team != null){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM projects WHERE team_id = " + team.getId());
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if (iterator.hasNext()){
+				hasProj = true;
+			}
+		}
+		return hasProj;
+	}
+	
 	public boolean hasInvited(int teamId, int sponsorId){
 		boolean invited = false;
 		
@@ -171,6 +186,45 @@ public class TeamDataManager implements Serializable {
 		}
 		
 		return teams;
+	}
+	
+	public Map<Integer, Integer> analyticsRetrieveTeamByTerm() {
+		ArrayList<Integer> rawList = new ArrayList<Integer>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		HashMap<Integer, Integer> numOfTeamsByTerm = new HashMap<Integer, Integer>();
+		int nullCounter = 0;
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			try{
+				int termId 		= Integer.parseInt(array.get(7));
+				int pmId 		= Integer.parseInt(array.get(3));
+				int supId 		= Integer.parseInt(array.get(4));
+				int rev1Id 		= Integer.parseInt(array.get(5));
+				int rev2Id 		= Integer.parseInt(array.get(6));
+				rawList.add(termId);
+			}catch(Exception e){
+				nullCounter ++;
+				numOfTeamsByTerm.put(0, nullCounter);
+			}
+
+		}
+		
+		Integer counter = 0;
+		for(int i  = 0; i < rawList.size(); i++){
+			if(numOfTeamsByTerm.containsKey(rawList.get(i))){
+				counter = numOfTeamsByTerm.get(rawList.get(i));
+				numOfTeamsByTerm.put(rawList.get(i), counter + 1);
+			}else{
+				counter  = 1;
+				numOfTeamsByTerm.put(rawList.get(i), counter);
+			}
+		}
+		Map<Integer, Integer> sortedMap = new TreeMap<Integer, Integer>(numOfTeamsByTerm);
+		return sortedMap;
 	}
 	
 	public ArrayList<Team> retrieveAll() {

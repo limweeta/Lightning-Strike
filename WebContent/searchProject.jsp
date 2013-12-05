@@ -156,12 +156,17 @@
 			String organization = "";
 			String sponsor = "";
 			
+			int testSponsorId = 0 ;
+			String testCoyName = ""; 
+			
 			if(sponsorid == 0){
 				sponsor = "Not Available";
 			}else{
 				SponsorDataManager spdm = new SponsorDataManager();
 				
 				try{
+					testSponsorId = proj.getSponsorId();
+					testCoyName = cdm.retrieve(proj.getSponsorId()).getCoyName();
 					sponsor = cdm.retrieve(proj.getSponsorId()).getCoyName();
 					organization = odm.retrieve(cdm.retrieve(sponsorid).getOrgType()).getOrgType();
 					
@@ -177,7 +182,8 @@
 			}else{
 				rowclass = "gradeA odd";
 			}
-		
+		    System.out.println(testSponsorId);
+		    System.out.println(testCoyName);
 	%>
 	<tr class="">
 			<td class="sorting_1"><%=strTerm %></td>

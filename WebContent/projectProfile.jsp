@@ -134,7 +134,7 @@
 	
 	try{
 		userTeamId = stdm.retrieve(sessionUser2.getID()).getTeamId();
-		eligibleToApply = pdm.isEligibleForApplication(userTeamId);
+		eligibleToApply = pdm.isEligibleForApplication(userTeamId, sessionUser2.getID(), reqId);
 	}catch(Exception e){
 		userTeamId = 0;
 		eligibleToApply = false;
@@ -686,17 +686,8 @@
 				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
 				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
 				  	<%if(eligibleToApply){ %>
-				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning">
+				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning"></form>
 				  	<%
-				  	}else{
-				  		String errMsg = "";
-				  		if(udm.isSponsor(username)){
-				  			errMsg = "Only students can apply for a project";
-			  		}
-			  		%>
-				  		<br /><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning" disabled="disabled">
-				 		<font color=red size=-1><i><%=errMsg %></i></font>
-			  		<%
 				  	}
 	}
 				  	%>
