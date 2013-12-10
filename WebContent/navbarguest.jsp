@@ -135,20 +135,17 @@ color: white ;
 		}
 
 		function validatePhone(fld) {
-		    var error = "";
-		    var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
-
-		   if (fld.value == "") {
-		        error = "You didn't enter a phone number.\n";
-		        fld.style.background = 'Yellow';
-		    } else if (isNaN(parseInt(stripped))) {
-		        error = "The phone number contains illegal characters.\n";
-		        fld.style.background = 'Yellow';
-		    } else if (!(stripped.length == 8)) {
-		        error = "The phone number is too short.\n";
-		        fld.style.background = 'Yellow';
-		    } 
-		    return error;
+			{  
+			  var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;  
+			  if(fld.value.match(phoneno))  
+			     {  
+			       return true;    
+			     }  
+			   else  
+			     {  
+			       alert("Not a valid Phone Number");  
+				    return error; 
+			     }    
 		}
 
 		function validateEmail(fld) {
@@ -323,7 +320,7 @@ color: white ;
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					        <h3>Register</h3>
 					    </div>
-					       <form action="register" method="post" accept-charset="UTF-8">
+					       <form action="register" method="post"  onsubmit = "return validateRegisterOnSubmit(this)" accept-charset="UTF-8">
 					    <div class="modal-body">
 					    <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" /></br>
 							  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" /></br>

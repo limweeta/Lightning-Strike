@@ -157,16 +157,22 @@
 	</script>
 	<body>
 	<div class="container">
+	<div class="content">
 				<% String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
 						}else{
 				%>
-						<font size=-1 color="red"><i><%=message %></i></font>
-						<%
-						session.removeValue("message");
-						} %>
-		<div class="content">
+						<div class="alert alert-success" align="center">
+						  <button type="button" class="close" data-dismiss="alert">&times;</button>
+						  <strong><%=message %></strong>
+						</div>
+				<%
+				session.removeValue("message");
+				} %>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			
+		
 		<h3><%=team.getTeamName()%>&nbsp;Status: <%=status %></h3>
 		
 		<div class="panel-group" id="accordion">
@@ -634,7 +640,7 @@
 				<% 
 				try{
 					if(tdm.emptySlots(team) && !sdm.hasTeam(sessUser)){ %>
-			  		<input type="submit" value="Request to Join" class="btn btn-warning">
+			  		<input type="submit" value="Request to Join" class="btn btn-warning" onclick="disabled">
 			  		<% }
 				}catch(Exception e){}
 		  		%>

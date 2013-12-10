@@ -10,7 +10,21 @@ public class TermDataManager implements Serializable {
 
 	public TermDataManager() {
 	}
-
+	
+	public int retrieveCurrTerm(String date) throws Exception {
+		int termid = 0;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(	"select","SELECT * FROM eligible_term where start_date >= '"+ date + "' AND end_date <= '" + date + "'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			termid = Integer.parseInt(array.get(1));
+		}
+		return termid;
+	}
+	
 	public ArrayList<Term> retrieveAll() {
 		ArrayList<Term> terms = new ArrayList<Term>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT * FROM `is480-matching`.term ORDER BY id ASC");

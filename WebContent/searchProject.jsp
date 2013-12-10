@@ -65,6 +65,20 @@
 	<body id="dt_example">
 		
 		<div id="container">
+			<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			<div class="alert alert-success" align="center">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
+			<%
+			session.removeValue("message");
+			} %>
 			<div class="full_width big">
 				<h3>Search Projects </h3>
 				<% if(usertype.equalsIgnoreCase("Student")){ %>
@@ -73,12 +87,12 @@
 			</div>
 			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 		<% 
-			String message = (String) session.getAttribute("message"); 
-			if(message == null || message.isEmpty()){
-				message = "";
+			String errmessage = (String) session.getAttribute("message"); 
+			if(errmessage == null || errmessage.isEmpty()){
+				errmessage = "";
 			}else{
 		%>
-			<font size=-1 color="red"><i><%=message %></i></font>
+			<font size=-1 color="red"><i><%=errmessage %></i></font>
 		<%
 			session.removeValue("message");
 			} 

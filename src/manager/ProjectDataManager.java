@@ -412,7 +412,7 @@ public class ProjectDataManager implements Serializable {
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
 			
-			int id2 				= 	Integer.parseInt(array.get(0));
+			int id2 			= 	Integer.parseInt(array.get(0));
 			int coyId 			= 	Integer.parseInt(array.get(1));
 			int teamId 			= 	Integer.parseInt(array.get(2));
 			int sponsorId 		= 	Integer.parseInt(array.get(3));

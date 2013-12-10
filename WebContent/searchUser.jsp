@@ -68,6 +68,7 @@
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Team Name</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Project</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Invite</th>
 		</tr>
 	</thead>
 	
@@ -127,17 +128,20 @@ for(int i = 0; i < students.size(); i++){
 			<%if(teamId != 0){ %>
 			<a href="teamProfile.jsp?id=<%=teamId%>">
 			<%} %>
-			<%=teamName %></td>
+			<%=teamName %></a></td>
 			<td class="center">
 			<%if(projId != 0){ %>
 			<a href="projectProfile.jsp?id=<%=projId%>">
 			<%} %>
-			<%=projName %></td>
+			<%=projName %></a></td>
 			<td class="center">
 			<%if(supId != 0){ %>
 			<a href="userProfile.jsp?id=<%=supId%>">
 			<%} %>
-			<%=supname %></td>
+			<%=supname %></a></td>
+			<td class="center">
+			<a href="#">Invite</a>
+			</td>
 	</tr>
 <%
 }

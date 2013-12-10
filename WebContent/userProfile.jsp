@@ -489,9 +489,6 @@ function toggleSkill(source) {
 								boolean checked = false;
 								for(int i = 0; i < allSkills.size(); i++){
 									checked = false;
-									%>
-									
-									<%
 									Skill hasSkill = allSkills.get(i);
 									count++;
 									for(int j  = 0; j < userSkills.size(); j++){

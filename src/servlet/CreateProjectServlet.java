@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import model.*;
 import manager.*;
 
@@ -56,15 +58,21 @@ public class CreateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectdescription");
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
-		String[] skills = request.getParameterValues("skill");
+		String[] skillsLang = request.getParameterValues("skill");
+		String[] skillsOthers = request.getParameterValues("skillOthers");
 		
 		if(technologies == null){
 			technologies = new String[0];
 		}
 		
-		if(skills == null){
-			skills = new String[0];
+		if(skillsLang == null){
+			skillsLang = new String[0];
 		}
+		
+		if(skillsOthers == null){
+			skillsOthers = new String[0];
+		}
+		
 		
 		String status = "Open";
 		
@@ -93,6 +101,7 @@ public class CreateProjectServlet extends HttpServlet {
 			creator_id = 0;
 		}
 		
+		String[] skills = (String[]) ArrayUtils.addAll(skillsLang, skillsOthers);
 		
 		if(isNameTaken || projName.isEmpty()){
 			session.setAttribute("message", "Project name cannot be empty or is already taken. Please try another name");
@@ -145,6 +154,7 @@ public class CreateProjectServlet extends HttpServlet {
 			}catch(Exception e){
 				//System.out.println("No technology");
 			}
+			session.setAttribute("message", "Project successfully created");
 			response.sendRedirect("projectProfile.jsp?id="+id);
 		}
 	}

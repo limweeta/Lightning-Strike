@@ -48,18 +48,31 @@
 	</head>
 	<body id="dt_example">
 		<div id="container">
-		
+				<% String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			<div class="alert alert-success" align="center">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
+			<%
+			session.removeValue("message");
+			} %>
 			<div class="full_width big">
 				<h3>Search Teams </h3>
 				<% if(usertype.equalsIgnoreCase("Student")){ %>
-				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" class="btn btn-primary"/></form></p>
+				<p align="right" style="float:right;"><form action="matchTeam" method="post"><input type=submit value="Match me to a team!" class="btn btn-success"/></form></p>
 				<% } %>
 			</div>
 			<a href="#advSearchModal" style="float:right; font-family:Arial, sans-serif;font-size: 14px; line-height: 20px;" data-toggle="modal">Advanced Search</a>
 			<% 
-				String message = (String) session.getAttribute("message"); 
-				if(message == null || message.isEmpty()){
-					message = "";
+				String errmessage = (String) session.getAttribute("message"); 
+				if(errmessage == null || errmessage.isEmpty()){
+					errmessage = "";
 				}else{
 			%>
 				<font size="-1" color="red"><i><%=message %></i></font>
@@ -195,6 +208,7 @@ for(int i = 0; i < teams.size(); i++){
 			<a href="userProfile.jsp?id=<%=supId%>"  style="color:#005580;">
 			<%} %>
 			  <%=sup %>
+			  </a>
 			  </a>
 			</td>
 			<td>

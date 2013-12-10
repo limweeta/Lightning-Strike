@@ -34,15 +34,19 @@ public class ApplyProjectServlet extends HttpServlet {
 		TeamDataManager tdm = new TeamDataManager();
 		UserDataManager udm = new UserDataManager();
 		
+		User sessionUser = null;
+		
 		Project p = null;
 		Team team = null;
 		boolean eligibleToApply = false;
 		
 		try{
+			sessionUser = udm.retrieve((String)session.getAttribute("username"));
+			
 			team = tdm.retrieve(teamId);
 			p = pdm.retrieve(projId);
 			
-			eligibleToApply = pdm.isEligibleForApplication(teamId);
+			eligibleToApply = pdm.isEligibleForApplication(teamId, sessionUser.getID(), p.getId());
 			
 			User u = udm.retrieve(p.getCreatorId());
 			

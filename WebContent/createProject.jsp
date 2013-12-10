@@ -127,7 +127,7 @@ int currMth = now.get(Calendar.MONTH);
 						session.removeValue("message");
 						} %>
 						<!-- Form Name -->
-						<legend>Create Project</legend>
+						<legend>Create Project&nbsp;<font size="3" color="red">*Fields are mandatory</font></legend>
 						<%
 						if(usertype.equalsIgnoreCase("sponsor")){
 							CompanyDataManager cdm = new CompanyDataManager();
@@ -138,6 +138,7 @@ int currMth = now.get(Calendar.MONTH);
 							String sponsorName = sponsor.getFullName();
 							String coyName = company.getCoyName();
 						%>
+						
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Sponsor</label>
@@ -160,7 +161,7 @@ int currMth = now.get(Calendar.MONTH);
 						%>
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projectname">Project Name</label>
+						  <label class="control-label" for="projectname">*Project Name</label>
 						  <div class="controls">
 						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-xlarge">
 						    
@@ -169,7 +170,7 @@ int currMth = now.get(Calendar.MONTH);
 						
 						<!-- Select Basic -->
 						<div class="control-group">
-						  <label class="control-label" for="projectterm">Project Term</label>
+						  <label class="control-label" for="projectterm">*Project Term</label>
 						  <div class="controls">
 						   <select id="term" name="term" class="input-xlarge">
 						    	  <%
@@ -197,7 +198,7 @@ int currMth = now.get(Calendar.MONTH);
 						
 						<!-- Textarea -->
 						<div class="control-group">
-						  <label class="control-label" for="projectdescription">Project Description</label>
+						  <label class="control-label" for="projectdescription">*Project Description</label>
 						  <div class="controls">                     
 						    <textarea id="projectdescription" name="projectdescription"></textarea>
 						  </div>
@@ -314,7 +315,7 @@ int currMth = now.get(Calendar.MONTH);
 								  	<tr class="spaceunder">
 							    	<h2>Others</h2>
 										<%
-											  ArrayList<Skill> otherSkills = skdm.retrieveAllLang();
+											  ArrayList<Skill> otherSkills = skdm.retrieveAllOthers();
 											  
 											  for(int i = 0; i < otherSkills.size(); i++){
 												  Skill skill = otherSkills.get(i);

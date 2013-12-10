@@ -48,6 +48,20 @@
   </head>
 <body>
 <%
+SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+Date date2 = new Date();
+String currDate = sdf.format(date2);
+
+TermDataManager termdm = new TermDataManager();
+Term currTerm = null;
+Term nextEligibleTerm = null;
+try{
+	currTerm = termdm.retrieve(termdm.retrieveCurrTerm(currDate));
+	session.setAttribute("currTermId", termdm.retrieveCurrTerm(currDate));
+}catch(Exception e){
+	e.printStackTrace();
+}
+
 String message = (String) session.getAttribute("message");
 if(message == null || message.isEmpty()){
 	message = "";
@@ -56,6 +70,13 @@ if(message == null || message.isEmpty()){
 <font color=red><i><%=message %></i></font>
 <%
 session.removeValue("message");
+%>
+<%
+if(currTerm != null){
+%>
+<%="We are currently in " + currTerm.getAcadYear() + " T" + currTerm.getSem() %>
+<%
+}
 %>
 <div class="container">
 		<div class="panel panel-primary">
@@ -75,14 +96,18 @@ session.removeValue("message");
 					Announcement ann = announcements.get(i);
 					String fullTimestamp = ann.getTimestamp();
 					String date = fullTimestamp.substring(0, 10);
+					String year = date.substring(0, 4);
+					String month = date.substring(5, 7);
+					String day = date.substring(8, 10);
+					String datefmt = day + "/" + month + "/" + year;
 					String time = fullTimestamp.substring(11, 16);
 					
-					String timestampStr = date + ", " + time + " ";
+					String timestampStr = datefmt + " " + time + " ";
 					
 					%>
 					<tr>
 						<td align="center"><%=i+1 %></td>
-						<td align="center"><%=timestampStr %></td>
+						<td align="center" style="padding: 5px; padding-right:20px"><%=timestampStr %></td>
 						<td align="center"><%=ann.getAnnouncement() %></td>
 					</tr>
 					<%

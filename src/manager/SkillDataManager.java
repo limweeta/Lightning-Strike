@@ -27,6 +27,12 @@ public class SkillDataManager implements Serializable {
 			skills.add(skill);
 		}
 		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
+		
 		return skills;
 	}
 	
@@ -46,6 +52,12 @@ public class SkillDataManager implements Serializable {
 			skills.add(skill);
 		}
 		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
+		
 		return skills;
 	}
 	
@@ -64,6 +76,12 @@ public class SkillDataManager implements Serializable {
 			Skill skill = new Skill(id, skillName);
 			skills.add(skill);
 		}
+		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
 		
 		return skills;
 	}

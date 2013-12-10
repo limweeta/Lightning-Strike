@@ -26,6 +26,7 @@ public class DeleteProjectServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		ProjectDataManager pdm = new ProjectDataManager();
 		UserDataManager udm = new UserDataManager();
@@ -64,10 +65,11 @@ public class DeleteProjectServlet extends HttpServlet {
 			    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 		    }
 		    */
+			
 		}catch(Exception e){}finally{
 			pdm.remove(projID);
 		}
-		
+		session.setAttribute("message", "Project deleted");
 		RequestDispatcher rd = request.getRequestDispatcher("searchProject.jsp");
 		rd.forward(request, response);
 	}

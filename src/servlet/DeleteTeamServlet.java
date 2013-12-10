@@ -34,6 +34,7 @@ public class DeleteTeamServlet extends HttpServlet {
 		Student std = null;
 		Team team = null;
 		ArrayList<Integer> membersId = new ArrayList<Integer>();
+		HttpSession session = request.getSession();
 		
 		try{
 			team = tdm.retrieve(teamId);
@@ -69,7 +70,7 @@ public class DeleteTeamServlet extends HttpServlet {
 		tdm.deleteAppliedProjsIfTeamDeleted(teamId);
 		
 		tdm.remove(teamId);
-		
+		session.setAttribute("message", "Team deleted");
 		response.sendRedirect("searchTeam.jsp");
 	}
 }
