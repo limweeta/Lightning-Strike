@@ -30,6 +30,27 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	<div class="container">
 	<div class="content">
 		<h3>My Teams</h3>
+		
+		<div class="control-group">
+		  <label class="control-label" for="coyName">Supervising Teams </label>
+		  <div class="controls">
+		    <%
+		    TeamDataManager tdm = new TeamDataManager();
+			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(sessionUsername);
+			
+			if(teams.size() < 1){
+				out.println("No teams under supervision");
+			}else{
+				for(int i = 0; i < teams.size(); i++){
+					Team t = teams.get(i);
+					%>
+					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
+					<%
+				}
+			}
+			%>
+		  </div>
+		</div>
 	</div>
 	</div>
 </body>

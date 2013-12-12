@@ -132,7 +132,7 @@ function toggleSkill(source) {
                 fld.style.background = 'White';
             }
             return error;   
-        }
+        }	
 	</script>	
 </head>
 <%
@@ -272,9 +272,9 @@ function toggleSkill(source) {
 		<%if (usertype.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		        <a class="accordion-toggle">
 		          Team Invitations (<%=teamRequests.size() %>)
 		        </a>
 		      </h4>
@@ -322,9 +322,9 @@ function toggleSkill(source) {
 		
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		        <a class="accordion-toggle">
 		          Team Requests (<%=teamInvites.size() %>)
 		        </a>
 		      </h4>
@@ -611,14 +611,16 @@ function toggleSkill(source) {
 		<%
 		}else{
 		%></form>
-		  <form action="inviteStudent" method="post">
-		  	<input type="hidden" name="studentId" value="<%=profileid%>">
-		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
-		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info">
-		   </form>
 		<%
 		}
 		%>
+		<%if(sessiontype=="Student"){ %>
+		  <form action="inviteStudent" method="post">
+		  	<input type="hidden" name="studentId" value="<%=profileid%>">
+		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
+		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info" onclick="this.disabled=true;this.value='Invited';">
+		   </form>
+		<%}%>
 		</div> 
 	
 	</div>

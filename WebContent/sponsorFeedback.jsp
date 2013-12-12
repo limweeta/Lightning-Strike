@@ -1,6 +1,7 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <html>
 <style type="text/css">
 	h1{
@@ -38,6 +39,12 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 </head>
+<%
+DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+Date date = new Date();
+
+String currDateStr = dateFormat.format(date);
+%>
 	<body>
 		<div id="container">
 			<div id="content">

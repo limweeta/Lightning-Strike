@@ -36,15 +36,31 @@
 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 Date date = new Date();
 
+UserDataManager udm = new UserDataManager();
+
 String currDateStr = dateFormat.format(date);
 
 String sessionFullname = (String) session.getAttribute("fullname");
+String sessionUser = (String) session.getAttribute("username");
 
 StudentDataManager sdm = new StudentDataManager();
 ArrayList<String> fullNameList = sdm.retrieveFullNameList();
 
 TeamDataManager tdm = new TeamDataManager();
 ArrayList<String> teamNameList = tdm.retrieveTeamNames();
+ArrayList<String> teamMembers = new ArrayList<String>();
+
+String teamName = "";
+
+try{
+	int teamId = tdm.retrieveTeamIdByUser(udm.retrieve(sessionUser));
+	teamName = tdm.retrieve(teamId).getTeamName();
+	
+	teamMembers = tdm.retrieveStudentsInTeam(teamName);
+}catch(Exception e){
+	teamName = "No Team Yet";
+	teamMembers = new ArrayList<String>();
+}
 %>
  <script type="text/javascript">
     $(function() {
@@ -57,14 +73,6 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
     	                       %>
     	                                      ];
 
-        
-        var teamNameList = [
-                               <%
-                               for(int i = 0; i < teamNameList.size(); i++){
-                               	out.println("\""+teamNameList.get(i)+"\",");
-                               }
-                               %>
-                                              ];
         
         $( "#username1" ).autocomplete({
             source: studentNameList
@@ -89,11 +97,7 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
         $( "#username6" ).autocomplete({
             source: studentNameList
           });
-        
-        $( "#teamName" ).autocomplete({
-            source: teamNameList
-          });
-        
+     
         
       });
 	</script>	
@@ -115,7 +119,7 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
  						<div class="control-group">
 						  <label class="control-label" for="team">Team </label>
 						  <div class="controls">
-						    <input id="teamName" name="teamName" type="text" placeholder="Team" class="input-large" onChange="populateMembers()" >
+						    <input id="teamName" name="teamName" type="text" class="input-large" value="<%=teamName%>" readonly="readonly">
 						 </div>
  						</div>
  						<div class="control-group">
@@ -164,104 +168,43 @@ ArrayList<String> teamNameList = tdm.retrieveTeamNames();
 						
 						<div class="feedback">
 							<table class="table table-bordered">
-							<tr>
-							<td><font face="Arial" size="3"><b>Name of member</b></font></td>
-							<td><font face="Arial" size="3"><b>Rating(0-8)</b></font></td>
-							<td><font face="Arial" size="3"><b>Comments </b></font></td>
-							</tr>
-							<tr>
-							<td><input id="username1" name="member1" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td> 
-								<select name="rating1" id="rating1">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
+							<%
+							if(teamMembers.size() == 0){
+								%>
+								<h2><font color="red">No team to assess</font></h2>
+								<%
+							}else{
+								for(int j = 0; j < teamMembers.size(); j++){
+									String memberName = teamMembers.get(j);
 									%>
-								</select>
-							</td>
-							<td><textarea name="comments1" id="comments1"></textarea></td>
-							</tr>
-							<tr>
-							<td><input id="username2" name="member2" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td> 
-								<select name="rating2" id="rating2">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
-									%>
-								</select>
-							</td>
-							<td><textarea name="comments2" id="comments2"></textarea></td>
-							</tr>
-							<tr>
-							<td><input id="username3" name="member3" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td> 
-								<select name="rating3" id="rating3">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
-									%>
-								</select>
-							</td>
-							<td><textarea name="comments3" id="comments3"></textarea></td>
-							</tr>
-							<tr>
-							<td><input id="username4" name="member4" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td> 
-								<select name="rating4" id="rating4">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
-									%>
-								</select>
-							</td>
-							<td><textarea name="comments4" id="comments4"></textarea></td>
-							</tr>
-							<tr>
-							<td><input id="username5" name="member5" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td> 
-								<select name="rating5" id="rating5">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
-									%>
-								</select>
-							</td>
-							<td><textarea name="comments5" id="comments5"></textarea></td>
-							</tr>
-							<tr>
-							<td><input id="username6" name="member6" type="text" placeholder="Member's Name" class="input-large" ></td>
-							<td>
-								<select name="rating6" id="rating6">
-									<% 
-									for(int i = 1; i < 9; i++){
-										%>
-										<option value="<%=i%>"><%=i %></option>
-										<%
-									}
-									%>
-								</select>
-							</td>
-							<td><textarea name="comments6" id="comments6"></textarea></td>
-							</tr>
+									<tr>
+									<td><font face="Arial" size="3"><b>Name of member</b></font></td>
+									<td><font face="Arial" size="3"><b>Rating(0-8)</b></font></td>
+									<td><font face="Arial" size="3"><b>Comments </b></font></td>
+									</tr>
+									<tr>
+									<td><input id="username<%=j+1%>" name="member<%=j+1%>" type="text" value="<%=memberName %>" class="input-large" readonly="readonly"></td>
+									<td> 
+										<select name="rating<%=j+1%>" id="rating<%=j+1%>">
+											<% 
+											for(int i = 1; i < 9; i++){
+												%>
+												<option value="<%=i%>"><%=i %></option>
+												<%
+											}
+											%>
+										</select>
+									</td>
+									<td><textarea name="comments<%=j+1%>" id="comments<%=j+1%>"></textarea></td>
+									</tr>
+									<%
+								}
+							}
+					%>
+							
 							</table>
 						</div>
-						</br>
+						<br />
 						<!-- Button -->
 						<table>
 							<tr></tr>

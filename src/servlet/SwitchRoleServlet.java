@@ -29,8 +29,8 @@ public class SwitchRoleServlet extends HttpServlet {
 		
 		String roleType = request.getParameter("role");
 		session.setAttribute("type", roleType);
+		//session.setAttribute("message", "You are now using the system as " + roleType);
 		
-		
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("mainPage.jsp");
 	}
 }

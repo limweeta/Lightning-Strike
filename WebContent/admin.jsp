@@ -25,6 +25,7 @@
         <li><a href="#suspended" data-toggle="tab">Suspended Users</a></li>
         <li><a href="#term" data-toggle="tab">Term</a></li>
         <li><a href="#team" data-toggle="tab">Team</a></li>
+        <li><a href="#deleteSponsor" data-toggle="tab">Delete Sponsor</a></li>
     </ul>
   <%
 	  UserDataManager udm = new UserDataManager();
@@ -350,7 +351,19 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamName">Team Name</label>
 						  <div class="controls">
-						    <input id="teamName2" name="teamName" type="text" class="input-large">
+						    <select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TeamDataManager teamdm = new TeamDataManager();
+						    	  ArrayList<Team> teams  = teamdm.retrieveAll();
+								  
+						    	  for(int i = 0; i < teams.size(); i++){
+						    		Team showTeam = teams.get(i);
+						    		%>
+						    	  <option value="<%=showTeam.getId()%>" selected><%=showTeam.getTeamName()%></option>
+						    	 <%
+						    	  }
+						    	 %>
+						    </select> 
 						  </div>
 						</div>
 						<div class="control-group">
@@ -382,6 +395,33 @@
 						<div class="control-group">
 						  <div class="controls">
 						    <input type="submit" value="Move Team" class="btn btn-success">
+						  </div>
+						</div>
+						</br>
+						</div>
+						</fieldset>
+					</form>
+					</div>
+				</div>	
+			</div>
+			<div class="tab-pane" id="deleteSponsor">
+            <h1>Delete Sponsor</h1>
+            <div class="span8 well">
+				<div class="row">
+					
+						<form name="deleteSponsor" action="" method="post" class="form-horizontal">
+						<fieldset>
+						<legend>Delete Sponsor</legend>
+						<div class="span7">
+						<div class="control-group">
+						  <label class="control-label" for="deleteSponsor">Delete Sponsor</label>
+						  <div class="controls">
+						   		<input type="text" value="Sponsor Username" name="sponsorUsername">
+						  </div>
+						</div>
+						<div class="control-group">
+						  <div class="controls">
+						    <input type="submit" value="Remove" class="btn btn-warning">
 						  </div>
 						</div>
 						</br>

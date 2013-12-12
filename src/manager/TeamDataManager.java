@@ -53,7 +53,8 @@ public class TeamDataManager implements Serializable {
 			matchScore.put(tmpUser.getID(), numOfMatches);
 		}
 		
-		//SORT HASHMAP
+		Map<Integer, Integer> sortedMap = new TreeMap<Integer, Integer>(matchScore);
+		
 		
 		return teams;
 	}
@@ -254,7 +255,7 @@ public class TeamDataManager implements Serializable {
 	
 	public ArrayList<Integer> retrieveStudentsInTeam(Team team) {
 		ArrayList<Integer> membersId = new ArrayList<Integer>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id =" + team.getId());
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -276,7 +277,7 @@ public class TeamDataManager implements Serializable {
 			team = retrieveTeamByName(teamName);
 		}catch(Exception e){}
 		ArrayList<String> members = new ArrayList<String>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select u.full_name from users u, studentss WHERE s.id = u.id AND s.team_id =" + team.getId());
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select u.full_name from users u, students s WHERE s.id = u.id AND s.team_id =" + team.getId());
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -700,7 +701,7 @@ public class TeamDataManager implements Serializable {
 		int rev2		= 	team.getRev2Id();
 		int termId		= 	team.getTermId();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`teams` "
-				+ "(`id`, `team_name`, `team_limit`, `pm_id`, `supervisor_id`, `reviewer1`, `reviewer2`, `term_id`) "
+				+ "(`id`, `team_name`, `team_limit`, `pm_id`, `supervisor_id`, `reviewer1_id`, `reviewer2_id`, `term_id`) "
 				+ "VALUES (" + teamId + ", '" + teamName + "', " + teamLimit + ", " + pmId + ", " + supId + ", " + rev1 + ", " + rev2 + ", " + termId + ");");
 		
 		for(int i = 0; i < prefIndustry.length; i++){
@@ -830,7 +831,7 @@ public class TeamDataManager implements Serializable {
 	}
 	
 	public void removeTeamInvite(int userId, int teamId){
-		MySQLConnector.executeMySQL("delete", "DELETE FROM team_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
+		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
 	}
 	
 	

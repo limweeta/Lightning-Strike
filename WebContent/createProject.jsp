@@ -161,7 +161,7 @@ int currMth = now.get(Calendar.MONTH);
 						%>
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projectname">*Project Name</label>
+						  <label class="control-label" for="projectname"><font color="red">*</font>Project Name</label>
 						  <div class="controls">
 						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-xlarge">
 						    
@@ -170,7 +170,7 @@ int currMth = now.get(Calendar.MONTH);
 						
 						<!-- Select Basic -->
 						<div class="control-group">
-						  <label class="control-label" for="projectterm">*Project Term</label>
+						  <label class="control-label" for="projectterm"><font color="red">*</font>Project Term</label>
 						  <div class="controls">
 						   <select id="term" name="term" class="input-xlarge">
 						    	  <%
@@ -198,7 +198,7 @@ int currMth = now.get(Calendar.MONTH);
 						
 						<!-- Textarea -->
 						<div class="control-group">
-						  <label class="control-label" for="projectdescription">*Project Description</label>
+						  <label class="control-label" for="projectdescription"><font color="red">*</font>Project Description</label>
 						  <div class="controls">                     
 						    <textarea id="projectdescription" name="projectdescription"></textarea>
 						  </div>
@@ -238,14 +238,14 @@ int currMth = now.get(Calendar.MONTH);
 						<!-- Select Basic -->
 					<div class="panel-group" id="accordion">
 					  <div class="panel panel-default">
-						    <div class="panel-heading">
+						    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 						      <h4 class="panel-title">
-						        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+						        <a class="accordion-toggle">
 						          Technology
 						        </a>
 						      </h4>
 						    </div>
-						    <div id="collapseOne" class="panel-collapse collapse">
+						    <div id="collapseOne" class="panel-collapse collapse in">
 						      <div class="panel-body">
 							    	<table>
 										<tr class="spaceunder">
@@ -275,14 +275,14 @@ int currMth = now.get(Calendar.MONTH);
 						    </div>
 						  </div>
 						  <div class="panel panel-default">
-					    <div class="panel-heading">
+					    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 					      <h4 class="panel-title">
-					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+					        <a class="accordion-toggle">
 					          Preferred Skills
 					        </a>
 					      </h4>
 					    </div>
-					    <div id="collapseTwo" class="panel-collapse collapse">
+					    <div id="collapseTwo" class="panel-collapse collapse in">
 					      <div class="panel-body">
 					 			<table>
 									<tr class="spaceunder">

@@ -124,7 +124,7 @@ public class RegisterServlet extends HttpServlet {
 			}
 		
 			
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("mainPage.jsp");
 		}
 	}
 }

@@ -42,7 +42,7 @@ public class InviteStudentServlet extends HttpServlet {
 			
 			tdm.studentRequest(userId, teamId);
 			
-			/*
+			
 			ServletContext context = getServletContext();
 			String host = context.getInitParameter("host");
 			String port = context.getInitParameter("port");
@@ -54,7 +54,7 @@ public class InviteStudentServlet extends HttpServlet {
 		    		+ "\n Click 202.161.45.127/is480-matching/teamProfile.jsp?id=" + teamId + " to view";
 		     
 		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
-			*/
+			
 			session.setAttribute("message", "You have invited " + std.getFullName() + " to join your team");
 		
 		}catch(Exception e){}

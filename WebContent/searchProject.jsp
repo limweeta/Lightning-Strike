@@ -191,6 +191,14 @@
 				
 			}
 			
+			String teamProfileLink = "teamProfile.jsp?id=";
+			
+			if(teamid == 0){
+				teamProfileLink = "#";
+			}else{
+				teamProfileLink += teamid;
+			}
+			
 			if(count % 2 == 0){
 				rowclass = "gradeA even";
 			}else{
@@ -204,7 +212,7 @@
 			<td class="center"><a style="color:#000000" href="projectProfile.jsp?id=<%=id %>"><%=name %></a></td>
 			<td class="center "><%=desc %></td>
 			<td class="center "><a href="userProfile.jsp?id=<%=sponsorid%>"><%=sponsor %></a></td>
-			<td class="center "><a href="teamProfile.jsp?id=<%=teamid%>"><%=teamName %></a></td>
+			<td class="center "><a href="<%=teamProfileLink%>"><%=teamName %></a></td>
 			<td class="center "><%=sponsor %></td>
 	</tr>
 	<%

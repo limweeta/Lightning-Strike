@@ -140,7 +140,7 @@ for(int i = 0; i < students.size(); i++){
 			<%} %>
 			<%=supname %></a></td>
 			<td class="center">
-			<a href="#">Invite</a>
+			<a href="#">Invite to team</a>
 			</td>
 	</tr>
 <%

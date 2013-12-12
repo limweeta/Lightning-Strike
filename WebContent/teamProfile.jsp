@@ -173,14 +173,24 @@
 <%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
 			
 		
-		<h3><%=team.getTeamName()%>&nbsp;Status: <%=status %></h3>
+		<h5><%=team.getTeamName()%>&nbsp;&nbsp;
+				<%if(status.equals("Started")||status.equals("Accepted")||status.equals("Registered")){ %>
+					<span class="label label-success" style="padding:10px;"><%=status %></span></br>
+				<%}else if(status.equals("Rejected")||status.equals("Removed")){ %>
+					<span class="label label-danger" style="padding:10px;"><%=status %></span></br>
+				<%}else if(status.equals("Suspended")){%>
+					<span class="label label-warning" style="padding:10px;"><%=status %></span></br>
+				<%}else if(status.equals("Completed")){%>
+					<span class="label label-default" style="padding:10px;"><%=status %></span></br>
+				<%} %>
+				</h5>
 		
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		          Students Request (<%=studentRequests.size() %>)
+		        <a class="accordion-toggle">
+		          Students Request (<%=studentInvites.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -189,11 +199,11 @@
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(studentRequests.size() == 0){
+		  if(studentInvites.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < studentRequests.size(); i++){
-		  		Student student = studentRequests.get(i);
+		  	for(int i = 0; i < studentInvites.size(); i++){
+		  		Student student = studentInvites.get(i);
 		  		%>
 		  		<td>
 		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
@@ -227,10 +237,10 @@
 		
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-		          Students Invited (<%=studentInvites.size() %>)
+		        <a class="accordion-toggle">
+		          Students Invited (<%=studentRequests.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -239,11 +249,11 @@
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(studentInvites.size() == 0){
+		  if(studentRequests.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < studentInvites.size(); i++){
-		  		Student student = studentInvites.get(i);
+		  	for(int i = 0; i < studentRequests.size(); i++){
+		  		Student student = studentRequests.get(i);
 		  		%>
 		  		<td>
 		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
@@ -372,13 +382,15 @@
 			  try{
 				  supervisorName = udm.retrieve(supId).getFullName();
 				  profileLink = "userProfile.jsp?id=" + supId;
+				  %>
+			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %></a></span>
+				  <%
 			  }catch(Exception e){
 				  profileLink = "#";
 				  supervisorName = "No supervisor yet";
 			  }
 			%>
-			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %>
-			</a></span>
+			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %></a></span>
 		  </div>
 		</div><br />
 		
@@ -418,14 +430,14 @@
 		
 	<div class="panel-group" id="accordion">
 		<div class="panel panel-default">
-			    <div class="panel-heading">
+			    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFive" style="cursor:pointer;">
 			      <h4 class="panel-title">
-			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+			        <a class="accordion-toggle">
 			          Team Skills 
 			        </a>
 			      </h4>
 			    </div>
-			    <div id="collapseFive" class="panel-collapse collapse">
+			    <div id="collapseFive" class="panel-collapse collapse in">
 			      <div class="panel-body">
 				    	<table>
 					    	<tr class="spaceunder">
@@ -480,14 +492,14 @@
 			  </div>
 			  </br>
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+		        <a class="accordion-toggle">
 		          Preferred Industry
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseThree" class="panel-collapse collapse">
+		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
 		 			<table>
 						<tr class="spaceunder">
@@ -539,14 +551,14 @@
 		  </div>
 		  <br />
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour" style="cursor:pointer">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+		        <a class="accordion-toggle">
 		          Preferred Technology
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseFour" class="panel-collapse collapse">
+		    <div id="collapseFour" class="panel-collapse collapse in">
 		      <div class="panel-body">
 			    	<table>
 						<tr class="spaceunder">
@@ -630,7 +642,7 @@
 		%>
 		
 		<%
-		StudentDataManager sdm = new StudentDataManager();
+		StudentDataManager stdm = new StudentDataManager();
 		if(usertype.equalsIgnoreCase("Student")){ 
 		%>
 			<td class="space">
@@ -639,7 +651,7 @@
 				<input type="hidden" name="userId" value="<%=sessUserId %>">
 				<% 
 				try{
-					if(tdm.emptySlots(team) && !sdm.hasTeam(sessUser)){ %>
+					if(tdm.emptySlots(team) && !stdm.hasTeam(sessUser)){ %>
 			  		<input type="submit" value="Request to Join" class="btn btn-warning" onclick="disabled">
 			  		<% }
 				}catch(Exception e){}

@@ -62,15 +62,20 @@ try{
 	e.printStackTrace();
 }
 
-String message = (String) session.getAttribute("message");
+String message = (String) session.getAttribute("message"); 
 if(message == null || message.isEmpty()){
 	message = "";
-}
+}else{
 %>
-<font color=red><i><%=message %></i></font>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong><%=message %></strong>
+</div>
+
 <%
 session.removeValue("message");
-%>
+} %>
 <%
 if(currTerm != null){
 %>

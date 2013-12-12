@@ -40,19 +40,12 @@
 } 
  */
 .panel-title .accordion-toggle:after {
-    /* symbol for "opening" panels */
-	font-family:FontAwesome;
-	font-size:16px;
-    content: '\f068';    /* adjust as needed, taken from bootstrap.css */
-    float: right;        /* adjust as needed */
-
-}
-.panel-title .accordion-toggle.collapsed:after {
     /* symbol for "collapsed" panels */
     font-family:FontAwesome;
 	font-size:16px;
-    content: '\f067';  
-}
+    content: '\f067'; 
+    float:right; 
+	}
 
 .container {
 width: 600px !important;
@@ -86,43 +79,45 @@ function dropdown2(){
 	
 }
 </script> -->
-<body>
-		<div class="container">
-			<div class="alert alert-success">
-			  <button type="button" class="close" data-dismiss="alert">&times;</button>
-			  <strong>WASSUP</strong>
-			</div>
-		</div>
-	<%-- <select id="teamlimit" name="teamlimit" class="input-large" onchange="alterTeamLimit()">
-						      <option value="4" selected>4</option>
-						      <option value="5">5</option>
-						      <option value="6">6</option>
-						    </select>
-						    
-						    
-						    <script>
-						    function alterTeamLimit() {
-						    	alert('hello');
-						    
-						    }
-						    </script>
-						    
-			<select id="orgType" name="orgType" class="input-large">
 
-			<%
-		    	  OrganizationDataManager orgdm = new OrganizationDataManager();
-			    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
-					  
-			    	  for(int i = 0; i < orgs.size(); i++){
-			    		Organization org = orgs.get(i); 
-			    		String orgType = org.getOrgType();
-					   %>
-					    	<option value="<%=orgType%>"><%=orgType%></option>
-					    <%
-					    }
-					    %>
-					
-		     </select>   --%>
+<body>
+<div class="panel panel-default">
+			    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
+			      <h4 class="panel-title">
+			        <a class="accordion-toggle">
+			          Preferred Technology
+			        </a>
+			      </h4>
+			    </div>
+			    <div id="collapseTwo" class="panel-collapse collapse in">
+			      <div class="panel-body">
+				    	<table>
+							<tr class="spaceunder">
+							     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
+						     </tr>
+					    	<tr class="spaceunder">
+								<%
+								  TechnologyDataManager tdm = new TechnologyDataManager();
+								  ArrayList<Technology> technologies = tdm.retrieveAll();
+								 
+								  for(int i = 0; i < technologies.size(); i++){
+									  Technology tech = technologies.get(i);
+									  %><td>
+									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
+									   <%
+									  if((i+1) % 3 == 0){
+									  %>
+								  </tr><tr class="spaceunder">
+								  <%
+									  }
+								  }
+								  %>
+						  	</tr>
+						</table> 
+					</div>
+			    </div>
+			  </div>
 </body>
 
 </html>

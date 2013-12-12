@@ -51,7 +51,7 @@ color: white ;
 	}
 	User u = null;
 	Student s = null;
-	StudentDataManager sdm = new StudentDataManager();
+	StudentDataManager stdm = new StudentDataManager();
 	if(sessionUser == null || sessionUser.isEmpty()){
 		userIdNav = 0;
 		projIdNav = 0;
@@ -62,7 +62,7 @@ color: white ;
 		userIdNav = u.getID();
 		
 		
-		s = sdm.retrieve(userIdNav);
+		s = stdm.retrieve(userIdNav);
 		
 		TeamDataManager tdmNav = new TeamDataManager();
 		teamIdNav = tdmNav.retrieveTeamIdByUser(u);
@@ -104,7 +104,9 @@ color: white ;
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
 		          <li><a href="./createProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
 		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Project</a></li>
+		          <%if(stdm.hasTeam(s)){ %>
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Project</a></li>
+		          <%} %>
 		          </ul>
 		        </li>
 		      
@@ -113,7 +115,7 @@ color: white ;
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
 		          	<li><a href="./createTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
 		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Team</a></li>
-		          	<%if(!sdm.hasTeam(s)){
+		          	<%if(!stdm.hasTeam(s)){
 		          	%>
 		          	<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
 		          	<%} %>

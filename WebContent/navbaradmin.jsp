@@ -307,13 +307,14 @@ color: white;
                	<ul class="dropdown-menu">
                		<li><a href="#register" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+               		<li><a href="./admin.jsp#deleteSponsor" style="font-size: 16px; color: white;font-weight: 200;">Delete</a></li>
+<!--                		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li> -->
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+<!--                		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li> -->
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Term<b class="caret"></b></a>

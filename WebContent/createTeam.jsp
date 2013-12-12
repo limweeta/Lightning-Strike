@@ -391,14 +391,14 @@
 						
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
-		    <div class="panel-heading">
+		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 		      <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		        <a class="accordion-toggle">
 		          Preferred Industry
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseOne" class="panel-collapse collapse">
+		    <div id="collapseOne" class="panel-collapse collapse in">
 		      <div class="panel-body">
 		 			<table>
 						<tr class="spaceunder">
@@ -428,13 +428,13 @@
 		  </div>
 		  <div class="panel panel-default">
 			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+			      <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
+			        <a class="accordion-toggle" >
 			          Preferred Technology
 			        </a>
 			      </h4>
 			    </div>
-			    <div id="collapseTwo" class="panel-collapse collapse">
+			    <div id="collapseTwo" class="panel-collapse collapse in">
 			      <div class="panel-body">
 				    	<table>
 							<tr class="spaceunder">
