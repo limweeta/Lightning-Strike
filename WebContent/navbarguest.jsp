@@ -273,11 +273,13 @@ color: white ;
 	%>
 	
 		<div class="navbar navbar-inverse navbar-fixed-top">
-         <a href="./index.jsp" style="font-size: 18px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
-         <div class="navbar-inner">
+          <a href="./index.jsp" style="font-size: 18px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">
+			<img src="https://db.tt/9CiHK6oq" style="height:25px; width:135px; display:inline-block;border:0; vertical-align:middle;">
+			</a>
+		 <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown" ><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
 		          </ul>
@@ -288,30 +290,35 @@ color: white ;
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
+              
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchUser.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
+               
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="#register" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
+                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-               </ul>
-                <ul class="nav pull-right">
-	          <li>
-	          		<a class="navbar-username" style="font-size: 16px; color: white;font-weight: 200;"><%=gfullName%></a>	
-	          </li>
-	        </ul>
               <!--  <li><a href="#" >Schedule</a></li>
                <li><a href="#" >Analytics</a></li> -->
+             </ul>
+              <ul class="nav pull-right">
+	          <li>
+	          	<a class="navbar-username" href="#" style="font-size: 16px; color: white;font-weight: 200;"><%=gfullName%></a>
+	          </li>
+	          <li class="dropdown">
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-cogs"></i>
+	          	</a>
+	        </ul>
            </div>
          </div>
      </div>
@@ -343,7 +350,7 @@ color: white ;
 										    <%
 										    }
 										    %>
-							  </select></br>  
+								  </select></br>  
 							  <font color="red">*All Fields Are Mandatory</font>
 						</div>
 					    <div class="modal-footer">

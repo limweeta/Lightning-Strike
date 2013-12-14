@@ -52,7 +52,7 @@ public class AcceptTeamServlet extends HttpServlet {
 			
 			pdm.modify(p);
 			
-			/*
+			
 			ServletContext context = getServletContext();
 			String host = context.getInitParameter("host");
 			String port = context.getInitParameter("port");
@@ -64,7 +64,7 @@ public class AcceptTeamServlet extends HttpServlet {
 		    		+ "\n Click 202.161.45.127/is480-matching/projectProfile.jsp?id=" + projId + " to view";
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
-			*/
+			
 			 //SEND EMAIL TO REJECT OTHER TEAMS
 
 		     

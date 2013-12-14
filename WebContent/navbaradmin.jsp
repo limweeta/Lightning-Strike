@@ -278,7 +278,9 @@ color: white;
 	%>
 	
 	<div class="navbar navbar-inverse navbar-fixed-top">
-         <a href="./index.jsp" style="font-size: 18px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">IS480 Matching</a>
+         <a href="./index.jsp" style="font-size: 18px; color: white;font-weight: 200;text-decoration: none; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">
+			<img src="https://db.tt/9CiHK6oq" style="height:25px; width:135px; display:inline-block;border:0; vertical-align:middle;">
+		</a>
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
