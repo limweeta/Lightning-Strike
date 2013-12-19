@@ -19,13 +19,13 @@
 <!-------->
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#assignRev" data-toggle="tab">Assign Reviewer</a></li>
-        <li><a href="#assignSup" data-toggle="tab">Assign Supervisor</a></li>
-        <li><a href="#suspend" data-toggle="tab">Suspend User</a></li>
-        <li><a href="#suspended" data-toggle="tab">Suspended Users</a></li>
-        <li><a href="#term" data-toggle="tab">Term</a></li>
-        <li><a href="#team" data-toggle="tab">Team</a></li>
-        <li><a href="#deleteSponsor" data-toggle="tab">Delete Sponsor</a></li>
+        <li class="active"><a href="./admin.jsp#assignRev" data-toggle="tab" data-target="#assignRev">Assign Reviewer</a></li>
+        <li><a href="admin.jsp#assignSup" data-toggle="tab" data-target="#assignSup">Assign Supervisor</a></li>
+        <li><a href="admin.jsp#suspend" data-toggle="tab" data-target="#suspend">Suspend User</a></li>
+        <li><a href="admin.jsp#suspended" data-toggle="tab" data-target="#suspended">Suspended Users</a></li>
+        <li><a href="admin.jsp#term" data-toggle="tab" data-target="#term">Term</a></li>
+        <li><a href="admin.jsp#team" data-toggle="tab" data-target="#team">Team</a></li>
+        <li><a href="admin.jsp#deleteSponsor" data-toggle="tab" data-target="#deleteSponsor">Delete Sponsor</a></li>
     </ul>
   <%
 	  UserDataManager udm = new UserDataManager();
@@ -38,6 +38,9 @@
 	  
 	  TeamDataManager tdm = new TeamDataManager();
 	  ArrayList<String> teamNameList = tdm.retrieveTeamNames();
+	  
+	  SponsorDataManager sponsordm = new SponsorDataManager();
+	  ArrayList<String> sponsorUsernameList = sponsordm.retrieveSponsorUsernames();
   %>
   <%
 	Calendar now = Calendar.getInstance();
@@ -50,6 +53,14 @@
     	                       <%
     	                       for(int i = 0; i < usernameList.size(); i++){
     	                       	out.println("\""+usernameList.get(i)+"\",");
+    	                       }
+    	                       %>
+    	                                      ];
+    	
+    	var sponsorNameList = [
+    	                       <%
+    	                       for(int i = 0; i < sponsorUsernameList.size(); i++){
+    	                       	out.println("\""+sponsorUsernameList.get(i)+"\",");
     	                       }
     	                       %>
     	                                      ];
@@ -78,6 +89,10 @@
             source: teamNameList
           });
         
+        $( "#sponsorUsername" ).autocomplete({
+            source: sponsorNameList
+          });
+        
         $( "#teamName2" ).autocomplete({
             source: teamNameList
           });
@@ -98,6 +113,25 @@
             source: facultyNameList
           });
         
+      });
+    
+    $(function() {
+        $( "#from" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 3,
+          onClose: function( selectedDate ) {
+            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+          }
+        });
+        $( "#to" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 3,
+          onClose: function( selectedDate ) {
+            $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+          }
+        });
       });
 	</script>	
     <div id="my-tab-content" class="tab-content">
@@ -234,7 +268,7 @@
             <h1>Suspended Users</h1>
 					<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h2 class="panel-title">Suspended Users</h2>
+						<h7 class="panel-title">Suspended Users</h7>
 					</div>
 					<div class="panel-body">
 						<table width="100%">
@@ -306,20 +340,32 @@
 						<div class="span7">
 						<div class="control-group">
 					
-						  	 <label class="control-label" for="teamName">Academic Year</label>
+						  	 <label class="control-label" for="acadYear">Term Name</label>
 							  <div class="controls">
-							    <input id="acadYear" name="acadYear" type="text" class="input-large">
+							    <input id="year" name="acadYear" type="text" placeholder="Academic Year" class="input-large">
 							  </div>
-						  	<br />
-						  	 <label class="control-label" for="teamName">Semester</label>
+							  </br>
 							  <div class="controls">
-							    <input id="semester" name="semester" type="text" class="input-large">
-							  </div><br />
+							    <input id="sem" name="semester" type="text" placeholder="Semester" class="input-large">
+							  </div>
+						<br />
+						<div class="control-group">
+					
+						  	 <label class="control-label" for="acadYear">Academic Year</label>
+							  <div class="controls">
+							    <input id="from" name="startDate" type="text" placeholder="Start Date" class="input-large">
+							  </div>
+							  </br>
+							  <div class="controls">
+							    <input id="to" name="endDate" type="text" placeholder="End Date" class="input-large">
+							  </div>
+						</div>
+						<br />
 						  <div class="controls">
 						    <input type="submit" value="Add Term" class="btn btn-success">
 						  </div>
 						</div>
-						</br>
+						
 						</div>
 						</fieldset>
 					</form>
@@ -327,7 +373,31 @@
 						<fieldset>
 						<legend>Manage Term</legend>
 						<div class="span7">
+						 <label class="control-label" for="acadTerm">Academic Term</label>
 						<div class="control-group">
+							<div class="controls">
+							<select id="term" name="term" class="input-large">
+						    	  <%
+						    	  TermDataManager termdm = new TermDataManager();
+						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
+								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+								  
+						    	  for(int i = 0; i < terms.size(); i++){
+						    		Term showTerm = terms.get(i); 
+						    		if((currTermId + 1) == showTerm.getId()){	
+						    	%>
+						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%
+						    		}else{
+				    			%>
+						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+						    	 <%	
+						    		}
+						    	  }
+						    	 %>
+						    </select> 
+						    </div>
+						    </br>
 						  <div class="controls">
 						    <input type="submit" value="Manage Term" class="btn btn-success">
 						  </div>
@@ -371,13 +441,13 @@
 						  <div class="controls">
 						   <select id="term" name="term" class="input-large">
 						    	  <%
-						    	  TermDataManager termdm = new TermDataManager();
-						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
-								  int currTermId = termdm.retrieveTermId(currYear, currMth);
+						    	  TermDataManager termDm = new TermDataManager();
+						    	  ArrayList<Term> ts  = termDm.retrieveFromNextSem();
+								  int currTId = termDm.retrieveTermId(currYear, currMth);
 								  
-						    	  for(int i = 0; i < terms.size(); i++){
-						    		Term showTerm = terms.get(i); 
-						    		if((currTermId + 1) == showTerm.getId()){	
+						    	  for(int i = 0; i < ts.size(); i++){
+						    		Term showTerm = ts.get(i); 
+						    		if((currTId + 1) == showTerm.getId()){	
 						    	%>
 						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
 						    	 <%
@@ -389,7 +459,7 @@
 						    	  }
 						    	 %>
 						    </select> 
-						    <input type=hidden name="eligibleTerm" value="<%=currTermId+1%>" >
+						    <input type=hidden name="eligibleTerm" value="<%=currTId+1%>" >
 						  </div>
 						</div>
 						<div class="control-group">
@@ -409,14 +479,14 @@
             <div class="span8 well">
 				<div class="row">
 					
-						<form name="deleteSponsor" action="" method="post" class="form-horizontal">
+						<form name="deleteSponsor" action="deleteSponsor" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Delete Sponsor</legend>
 						<div class="span7">
 						<div class="control-group">
 						  <label class="control-label" for="deleteSponsor">Delete Sponsor</label>
 						  <div class="controls">
-						   		<input type="text" value="Sponsor Username" name="sponsorUsername">
+						   		<input id="sponsorUsername" type="text" placeholder="Sponsor Username" name="sponsorUsername">
 						  </div>
 						</div>
 						<div class="control-group">

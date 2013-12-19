@@ -8,6 +8,17 @@
 		font-family:Impact;
 		font-size:1.75em;
 	}
+	.container > .content {
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
 /* 	#teamName{
 		width:49.8em;
 		font-size:1em;
@@ -25,11 +36,10 @@
 <head>
 
 	<%@ include file="template.jsp" %>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-	
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  	<script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
-  	<script src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+    <script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="js/jquery.autocomplete.js"></script>  
 
 </head>
 <%
@@ -102,7 +112,7 @@ try{
       });
 	</script>	
 	<body>
-		<div id="content-container">
+		<div id="container">
 			<div id="content">
 					<form class="form-horizontal" method="post" name="teamFeedback">
 

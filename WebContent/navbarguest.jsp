@@ -279,30 +279,30 @@ color: white ;
 		 <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
 		          </ul>
 		        </li>
 		      
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
               
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchUser.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="./searchStudent.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
                
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
                </li>
-                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
+                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                	</ul>
@@ -312,11 +312,11 @@ color: white ;
              </ul>
               <ul class="nav pull-right">
 	          <li>
-	          	<a class="navbar-username" href="#" style="font-size: 16px; color: white;font-weight: 200;"><%=gfullName%></a>
+	          	<a class="navbar-username" href="#" style="font-size: 16px; color: white;font-weight: bold;"><%=gfullName%></a>
 	          </li>
 	          <li class="dropdown">
-	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: 200;">
-	          		<i class="fa fa-cogs"></i>
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: bold;">
+	          		<i class="fa fa-cogs fa-lg"></i>
 	          	</a>
 	        </ul>
            </div>

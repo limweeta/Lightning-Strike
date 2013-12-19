@@ -343,7 +343,7 @@ To
 
  
  
- <div class="ui-widget">
+ <div>
 		<p>
 		Raw Data:<br />
 		
@@ -368,76 +368,6 @@ Project By Skills -- Map Format: Year, Skill Id, Project Id
 
 
 for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : projSkillMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
-<hr />
-Project By Technology -- Map Format: Year, Technology Id, Project Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : projTechMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
-<hr />
-Project By Industry -- Map Format: Year, Industry Id, Project Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : projIndMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
-<hr />
-Team By Industry -- Map Format: Year, Industry Id, Team Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : teamIndMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
-<hr />
-Team By Technology -- Map Format: Year, Technology Id, Team Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : teamTechMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
-<hr />
-Student By Skills -- Map Format: Year, Skill Id, Student Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : studentSkillMap.entrySet())
 {
 	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
 }

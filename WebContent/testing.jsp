@@ -81,7 +81,7 @@ function dropdown2(){
 </script> -->
 
 <body>
-<div class="panel panel-default">
+<%-- <div class="panel panel-default">
 			    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 			      <h4 class="panel-title">
 			        <a class="accordion-toggle">
@@ -117,7 +117,79 @@ function dropdown2(){
 						</table> 
 					</div>
 			    </div>
-			  </div>
+			  </div> --%>
+			  <div class="navbar navbar-inverse navbar-fixed-top">
+         <a href="./index.jsp" style="font-size: 18px; float: left; display: block; padding: 10px 40px 10px; margin-left: -20px;">
+			<img src="https://db.tt/9CiHK6oq" style="height:25px; width:135px; display:inline-block;border:0; vertical-align:middle;">
+		</a>
+           <div class="container">
+             <ul class="nav">
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Project<b class="caret"></b></a>
+		        <ul class="dropdown-menu">
+		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+		          <li><a href="./createProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
+		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Project</a></li>
+		          <%if(stdm.hasTeam(s)){ %>
+		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Project</a></li>
+		          <%} %>
+		          </ul>
+		        </li>
+		      
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Team<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+		          	<li><a href="./createTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
+		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Team</a></li>
+		          	<%if(!stdm.hasTeam(s)){
+		          	%>
+		          	<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
+		          	<%} %>
+		          	<li><a href="./teamFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Team Feedback</a></li>
+		          		</ul>
+               </li>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Student<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="./searchUser.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Profile</a></li>
+               		
+               	</ul>
+               </li>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Supervisor<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+               	</ul>
+               </li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: 200;">Sponsor<b class="caret"></b></a>
+               	<ul class="dropdown-menu">
+               		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
+               		<li><a href="./teamSponsorFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Sponsor Feedback</a></li>
+               
+               	</ul>
+               </li>
+              <!--  <li><a href="#" >Schedule</a></li>
+               -->
+             </ul>
+              <ul class="nav pull-right">
+	          <li>
+	          	<a class="navbar-username" href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 16px; color: white;font-weight: 200;"><%=sFullName%> - <%=userType%></a>
+	          </li>
+	          <li class="dropdown">
+	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-cogs"></i>
+	          	</a>
+	          	<ul class="dropdown-menu pull-right">
+	          	<li>
+	          	<form id="logout" action="logout" method="post"></form>
+	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-power-off"></i>
+	          		&nbsp; Logout
+	          	</a>
+	          	</li>
+	          	</ul>
+	          </li>
+	        </ul>
+           </div>
+         </div>
 </body>
 
 </html>

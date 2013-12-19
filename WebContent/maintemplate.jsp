@@ -84,6 +84,61 @@ if(currTerm != null){
 }
 %>
 <div class="container">
+		<%if(!type.equalsIgnoreCase("admin")||type.equalsIgnoreCase("course coordinator")){ %>
+		<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h7 class="panel-title">Getting Started</h7>
+		</div>
+		<div class="panel-body">
+		<table>
+		<%if(type.equals("Student")){ %>
+				<th>Welcome to the IS480 Matching Site!</th>
+				<tr>
+					<td>Step 1: You need to have a team. There are several ways of doing so. You can create a team, join a team or match yourself to a team. (All under the Team tab)
+					</td>
+				</tr>
+				<tr>
+					<td>Step 2: You need to have a project. There are several ways of doing so. You can create a project (self-proposed), apply for a project or match yourself to a project. (All under the Project tab)
+					</td>
+				</tr>
+				<tr>
+					<td>You can check out more details about the teams, projects, sponsors and supervisors by using the available Searches. For help, you can click <a href="#">here</a>.
+					</td>
+				</tr>
+		<%}else if(type.equals("Sponsor")){ %>
+				<th>Welcome to the IS480 Matching Site!</th>
+				
+				<tr>
+					<td>Step 1: You need to have a project. You can do so by going to Create Project under the Project tab.
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Step 2: You can invite teams to take on your projects by going to the Search Team page. If the teams are interested to take on the projects, you will receive their requests to take on your projects. You can then choose whether to accept or reject their request.
+					</td>
+				</tr>
+				
+				<tr>
+					<td>You can check out more details about the teams and projects by using the available Searches. For help, you can click <a href="#">here</a>.
+					</td>
+				</tr>
+		<%}else if(type.equals("Supervisor")){ %>
+			
+				<th>Welcome to the IS480 Matching Site!</th>
+				<tr>
+					<td>You can check out the teams that you are supervising by clicking on My Teams under the Team tab.
+					</td>
+				</tr>
+				<tr>
+					<td>You can check out more details about the teams and projects by using the available Searches. For help, you can click <a href="#">here</a>.
+					</td>
+				</tr>
+			
+		<%} %>
+			</table>
+			</div>
+		</div>
+		<%} %>
 		<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h7 class="panel-title">Announcements</h7>

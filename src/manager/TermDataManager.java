@@ -138,7 +138,7 @@ public class TermDataManager implements Serializable {
 		String acadYear = term.getAcadYear();
 		int sem = term.getSem();
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`term` (academic_year, semester)"
+				"INSERT INTO `is480-matching`.`term` (academic_year, semester, start_date, end_date)"
 				+ " VALUES ('" + acadYear + "', " + sem + ");");
 	}
 

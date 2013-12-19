@@ -66,6 +66,13 @@ public class CompanyDataManager implements Serializable {
 	}
 
 	public void modify(Company company) {
+		MySQLConnector.executeMySQL("update",
+				"UPDATE companies "
+				+ "SET company_name = '" + company.getCoyName() + "', "
+				+ "company_address = '" + company.getCoyAdd() + "', "
+				+ "company_contact_num = " + company.getCoyContactNum() + ", "
+				+ "org_type = " + company.getOrgType() + " "
+				+ " WHERE id = " + company.getID()); 
 	}
 
 	public void remove(int ID) {

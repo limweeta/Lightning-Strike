@@ -326,11 +326,11 @@
 	<form action="updateTeam" class="form-horizontal" method=post onsubmit = "return validateFormOnSubmit(this)">
 		<input type="hidden" name="pmId" value="<%=team.getPmId()%>">
 		<!-- Form Name -->
-		<input type="hidden" name="teamName" value="<%=team.getTeamName()%>">
 		<input type="hidden" name="teamId" value="<%=teamId %>">
 		
 		<!-- Text input-->
 		<input type="hidden" name="teamLimit" value="<%=team.getTeamLimit() %>">
+		
 		<div class="control-group">
 		  <label class="control-label" for="project">Term</label>
 		  <div class="controls">
@@ -382,9 +382,6 @@
 			  try{
 				  supervisorName = udm.retrieve(supId).getFullName();
 				  profileLink = "userProfile.jsp?id=" + supId;
-				  %>
-			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %></a></span>
-				  <%
 			  }catch(Exception e){
 				  profileLink = "#";
 				  supervisorName = "No supervisor yet";
@@ -546,6 +543,7 @@
 								  %>
 					  	</tr>
 					</table>
+					<input type="text" name="industry" placeholder="Others">
 		 	  </div>
 		    </div>
 		  </div>
@@ -578,12 +576,10 @@
 									count1++;
 									for(int j  = 0; j < allTech.size(); j++){
 										if(techdm.hasPrefTech(teamId, hasTech.getId())){
-											checked=true;
+											checked1=true;
 										}
-										%>
-										<%
 									}
-									if(checked){
+									if(checked1){
 								%>
 								<td>
 								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allTech.get(i).getTechName() %></span>&nbsp;&nbsp;
@@ -605,6 +601,7 @@
 							  %>
 					  	</tr>
 					</table> 
+					<input type="text" name="technology" placeholder="Others">
 				</div>
 		    </div>
 		  </div>
@@ -652,7 +649,7 @@
 				<% 
 				try{
 					if(tdm.emptySlots(team) && !stdm.hasTeam(sessUser)){ %>
-			  		<input type="submit" value="Request to Join" class="btn btn-warning" onclick="disabled">
+			  		<input type="submit" value="Request to Join" class="btn btn-warning" onclick="this.disabled=true;this.value='Request Sent';">
 			  		<% }
 				}catch(Exception e){}
 		  		%>

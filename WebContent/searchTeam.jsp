@@ -89,10 +89,15 @@
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Team Name</th>
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 128px;">Term</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 177px;">Project</th>
-			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Members</th>	
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 200px;">Members</th>	
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
+			<%
+			if(usertype.equalsIgnoreCase("Sponsor")){
+			%>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Invite</th>
-		
+			<%
+			}
+			%>
 		</tr>
 	</thead>
 	
@@ -103,7 +108,13 @@
 			<th rowspan="1" colspan="1">Project</th>
 			<th rowspan="1" colspan="1">Members</th>
 			<th rowspan="1" colspan="1">Supervisor</th>
+			<%
+			if(usertype.equalsIgnoreCase("Sponsor")){
+			%>
 			<th rowspan="1" colspan="1">Invite</th>
+			<%
+			}
+			%>
 		</tr>
 	</tfoot>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -174,14 +185,14 @@ for(int i = 0; i < teams.size(); i++){
 	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class="center "><%=term.getAcadYear() + " T" + term.getSem() %></a></td>
-			<td class="center ">
+			<td class="center" style="word-wrap:break-word;">
 			<%if(projId != 0){ %>
 			<a href="projectProfile.jsp?id=<%=projId%>" style="color:#005580;">
 			<%} %>
 			<%=project %></a>
 			
 			</td>
-			<td class="center " valign="top">
+			<td valign="top" style="width:200px;">
 				<%
 				if(members.size() < 1){
 					%>
@@ -191,12 +202,13 @@ for(int i = 0; i < teams.size(); i++){
 					for(int j = 0; j < members.size(); j++){
 						Student std = members.get(j);
 						String role = "";
-						
+						int num = j+1;
+						String no = num + ". ";
 						if(std.getRole() == 1){
 							role = "(PM)";
 						}
 						%>
-						<a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
+						<%=no %><a href="userProfile.jsp?id=<%=std.getID()%>" style="color:#005580;"><%=std.getFullName() %></a><font size=-2><%=role %></font><br />
 						<%
 					}
 				}
@@ -211,7 +223,10 @@ for(int i = 0; i < teams.size(); i++){
 			  </a>
 			  </a>
 			</td>
-			<td>
+			<%
+			if(usertype.equalsIgnoreCase("Sponsor")){
+			%>
+			<td class="center">
 				<form action="inviteTeam" method="post">
 					<input type="hidden" name="teamId" value="<%=team.getId() %>" />
 					<%
@@ -233,6 +248,9 @@ for(int i = 0; i < teams.size(); i++){
 					%>
 				</form>
 			</td>
+			<%
+			}
+			%>
 	</tr>
 <%
 }

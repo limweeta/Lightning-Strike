@@ -143,7 +143,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Sponsor</label>
 						  <div class="controls"><input type="hidden" name="sponsorId" value="<%=sponsor.getID()%>">
-						    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-xlarge" readonly="readonly">
+						    <input id="sponsor" name="sponsor" type="text" value="<%=sponsorName %>" class="input-xlarge" readonly="readonly" maxlength="50">
 						    
 						  </div>
 						</div>
@@ -152,7 +152,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname">Company</label>
 						  <div class="controls"><input type="hidden" name="coyId" value="<%=company.getID()%>">
-						    <input id="company" name="company" type="text" value="<%=coyName %>" class="input-xlarge" readonly="readonly">
+						    <input id="company" name="company" type="text" value="<%=coyName %>" class="input-xlarge" readonly="readonly" maxlength="60">
 						    
 						  </div>
 						</div>
@@ -163,7 +163,7 @@ int currMth = now.get(Calendar.MONTH);
 						<div class="control-group">
 						  <label class="control-label" for="projectname"><font color="red">*</font>Project Name</label>
 						  <div class="controls">
-						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-xlarge">
+						    <input id="projectname" name="projectname" type="text" onkeyup="validateProjName()" placeholder="Project Name" class="input-xlarge" maxlength="30">
 						    
 						  </div>
 						</div>
@@ -237,57 +237,20 @@ int currMth = now.get(Calendar.MONTH);
 						</div>
 						<!-- Select Basic -->
 					<div class="panel-group" id="accordion">
-					  <div class="panel panel-default">
-						    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
-						      <h4 class="panel-title">
-						        <a class="accordion-toggle">
-						          Technology
-						        </a>
-						      </h4>
-						    </div>
-						    <div id="collapseOne" class="panel-collapse collapse in">
-						      <div class="panel-body">
-							    	<table>
-										<tr class="spaceunder">
-										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
-									     </tr>
-								    	<tr class="spaceunder">
-											<%
-											  TechnologyDataManager tdm = new TechnologyDataManager();
-											  ArrayList<Technology> technologies = tdm.retrieveAll();
-											 
-											  for(int i = 0; i < technologies.size(); i++){
-												  Technology tech = technologies.get(i);
-												  %><td>
-												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
-												  </td><td></td>
-												   <%
-												  if((i+1) % 3 == 0){
-												  %>
-											  </tr><tr class="spaceunder">
-											  <%
-												  }
-											  }
-											  %>
-									  	</tr>
-									</table> 
-								</div>
-						    </div>
-						  </div>
-						  <div class="panel panel-default">
-					    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
+						<div class="panel panel-default">
+					    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 					      <h4 class="panel-title">
 					        <a class="accordion-toggle">
 					          Preferred Skills
 					        </a>
 					      </h4>
 					    </div>
-					    <div id="collapseTwo" class="panel-collapse collapse in">
+					    <div id="collapseOne" class="panel-collapse collapse in">
 					      <div class="panel-body">
 					 			<table>
-									<tr class="spaceunder">
+									<!-- <tr class="spaceunder">
 									     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-								     </tr>
+								     </tr> -->
 							    	<tr class="spaceunder">
 							    	<h2>Language</h2>
 										<%
@@ -308,10 +271,11 @@ int currMth = now.get(Calendar.MONTH);
 											  %>
 								  	</tr>
 								  	</table>
+								  	<input type="text" name="skillNew" placeholder="Others" maxlength="40">
 								  	<table>
-								  	<tr class="spaceunder">
+								  	<!-- <tr class="spaceunder">
 									     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-								     </tr>
+								     </tr> -->
 								  	<tr class="spaceunder">
 							    	<h2>Others</h2>
 										<%
@@ -331,9 +295,48 @@ int currMth = now.get(Calendar.MONTH);
 											  %>
 								  	</tr>
 								</table>
+								<input type="text" name="skillNew" placeholder="Others" maxlength="40">
 					 	  </div>
 					    </div>
 					  </div>
+					  <div class="panel panel-default">
+						    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
+						      <h4 class="panel-title">
+						        <a class="accordion-toggle">
+						          Technology
+						        </a>
+						      </h4>
+						    </div>
+						    <div id="collapseTwo" class="panel-collapse collapse in">
+						      <div class="panel-body">
+							    	<table>
+										<!-- <tr class="spaceunder">
+										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
+									     </tr> -->
+								    	<tr class="spaceunder">
+											<%
+											  TechnologyDataManager tdm = new TechnologyDataManager();
+											  ArrayList<Technology> technologies = tdm.retrieveAll();
+											 
+											  for(int i = 0; i < technologies.size(); i++){
+												  Technology tech = technologies.get(i);
+												  %><td>
+												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
+												  </td><td></td>
+												   <%
+												  if((i+1) % 3 == 0){
+												  %>
+											  </tr><tr class="spaceunder">
+											  <%
+												  }
+											  }
+											  %>
+									  	</tr>
+									</table> 
+									<input type="text" name="technologyNew" placeholder="Others" maxlength="50">
+								</div>
+						    </div>
+						  </div>
 					  </div>
 						
 						<%
@@ -364,18 +367,15 @@ int currMth = now.get(Calendar.MONTH);
 						<table>
 						<tr>
 						  <%
-							if(hasProj){
+							if(!hasProj || usertype.equalsIgnoreCase("Sponsor")){
 						  %>
-						  <td class = "space" align = "justify">
-						    <input type="submit" id="createproject" Value="Create Project" class="btn btn-success" disabled="disabled"><br />
-						  </td>	
-						    <font color=red size=-1><i>You are already undertaking a project</i></font>
+						    <td class="space" align="justify">	
+								<input type="submit" id="createproject" Value="Create Project" class="btn btn-success" />
+							</td>
 						  <%
 							}else{
 								%>
-								<td class="space" align="justify">	
-								<input type="submit" id="createproject" Value="Create Project" class="btn btn-success" />
-								</td>
+							You are not eligible to create a project.
 								<%
 							}
 						  %>

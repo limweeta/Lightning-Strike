@@ -16,12 +16,12 @@
  
     <context-param>
         <param-name>user</param-name>
-        <param-value>danialkoh@gmail.com</param-value>
+        <param-value>is480matching@gmail.com</param-value>
     </context-param>
  
     <context-param>
         <param-name>pass</param-name>
-        <param-value>s8929915b</param-value>
+        <param-value>lightningstrike</param-value>
     </context-param>
   
   <servlet>
@@ -59,7 +59,14 @@
     <servlet-name>AddAnnouncementServlet</servlet-name>
     <url-pattern>/addAnn</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>DeleteSponsorServlet</servlet-name>
+    <servlet-class>servlet.DeleteSponsorServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteSponsorServlet</servlet-name>
+    <url-pattern>/deleteSponsor</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>servlet.LoginServlet</servlet-class>

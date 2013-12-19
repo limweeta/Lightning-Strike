@@ -175,12 +175,12 @@
     	  return false;
     	  }
     	
-    	var teamDesc = document.forms["createTeam"]["teamdesc"].value;
+    	/* var teamDesc = document.forms["createTeam"]["teamdesc"].value;
     	if (teamDesc == null || teamDesc == "")
     	  {
     	  alert("Team description must be filled out");
     	  return false;
-    	  }
+    	  } */
     }
     
     /* function showHide(){
@@ -222,7 +222,7 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
-						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" >
+						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" maxlength="30" >
 						    
 						  </div>
 						</div>
@@ -281,7 +281,7 @@
 						<div class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div id="members" class="controls">
-						    <input id="username2" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username2" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -303,7 +303,7 @@
 						<div id="mem3" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username3" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username3" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -325,7 +325,7 @@
 						<div id="mem4" class="control-group">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username4" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username4" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -347,7 +347,7 @@
 						<div id="mem5" class="control-group" style="display: none">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username5" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username5" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -370,7 +370,7 @@
 						<div id="mem6" class="control-group" style="display:none">
 						  <label class="control-label" for="textinput">Member</label>
 						  <div class="controls">
-						    <input id="username6" name="username" type="text" placeholder="User Name" class="input-large">
+						    <input id="username6" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
 						  </div>
 						  <label class="control-label" for="selectbasic">Role</label>
 						  <div class="controls">
@@ -401,9 +401,9 @@
 		    <div id="collapseOne" class="panel-collapse collapse in">
 		      <div class="panel-body">
 		 			<table>
-						<tr class="spaceunder">
+						<!-- <tr class="spaceunder">
 						     <td><input type="checkbox" onclick="toggleInd(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr>
+					     </tr> -->
 				    	<tr class="spaceunder">
 							<%
 								  IndustryDataManager idm = new IndustryDataManager();
@@ -423,6 +423,9 @@
 								  %>
 					  	</tr>
 					</table>
+					
+					  	<input type="text" name="industryNew" placeholder="Others" maxlength="50">
+					
 		 	  </div>
 		    </div>
 		  </div>
@@ -437,9 +440,9 @@
 			    <div id="collapseTwo" class="panel-collapse collapse in">
 			      <div class="panel-body">
 				    	<table>
-							<tr class="spaceunder">
+							<!-- <tr class="spaceunder">
 							     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-						     </tr>
+						     </tr> -->
 					    	<tr class="spaceunder">
 								<%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
@@ -460,6 +463,7 @@
 								  %>
 						  	</tr>
 						</table> 
+						<input type="text" name="technologyNew" placeholder="Others" maxlength="50">
 					</div>
 			    </div>
 			  </div>

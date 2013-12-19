@@ -8,14 +8,19 @@
 	Calendar now = Calendar.getInstance();
 	int currYear = now.get(Calendar.YEAR);
 	int currMth = now.get(Calendar.MONTH);
-	%>
-	<%
+	
 	StudentDataManager sdm = new StudentDataManager();
 	TeamDataManager tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
 	UserDataManager udm = new UserDataManager();
 	
 	ArrayList<Student> students = sdm.retrieveAll();
+	
+	Team userTeam = null;
+	try{
+		User u = udm.retrieve(username);
+		userTeam = tdm.retrieve(tdm.retrievebyStudent(u.getID()));
+	}catch(Exception e){}
 	%>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel="shortcut icon" type="image/ico" href="http://www.sprymedia.co.uk/media/images/favicon.ico">
@@ -44,7 +49,7 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h3>Search User</h3>
+				<h3>Search Student</h3>
 				
 			</div>
 			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
@@ -68,7 +73,13 @@
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Team Name</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Project</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
+			<% 
+			if(tdm.emptySlots(userTeam)){
+			%>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Invite</th>
+			<%
+			}
+			%>
 		</tr>
 	</thead>
 	
@@ -139,9 +150,15 @@ for(int i = 0; i < students.size(); i++){
 			<a href="userProfile.jsp?id=<%=supId%>">
 			<%} %>
 			<%=supname %></a></td>
-			<td class="center">
-			<a href="#">Invite to team</a>
-			</td>
+			<% 
+			if(tdm.emptySlots(userTeam)){
+			%>
+				<td class="center">
+				<a href="#">Invite to team</a>
+				</td>
+			<%
+			}
+			%>
 	</tr>
 <%
 }

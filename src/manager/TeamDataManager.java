@@ -378,25 +378,30 @@ public class TeamDataManager implements Serializable {
 	
 	public boolean emptySlots(Team team){
 		boolean result = false;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select COUNT(id) from students WHERE team_id = " + team.getId());
 		
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		int numOfStudents = 0;
-
-		if (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			numOfStudents = Integer.parseInt(array.get(0));
-		}
-		
-		if(numOfStudents < team.getTeamLimit()){
-			result = true;
-		}else{
+		if(team == null){
 			result = false;
+		}else{
+		
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select COUNT(id) from students WHERE team_id = " + team.getId());
+			
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			int numOfStudents = 0;
+	
+			if (iterator.hasNext()){
+				String key = iterator.next();
+				ArrayList<String> array = map.get(key);	
+				numOfStudents = Integer.parseInt(array.get(0));
+			}
+			
+			if(numOfStudents < team.getTeamLimit()){
+				result = true;
+			}else{
+				result = false;
+			}
 		}
-
 		return result;
 		
 	}

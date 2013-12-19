@@ -76,20 +76,34 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 					
 				}
 			}
-		}else if(type.equalsIgnoreCase("Sponsor") || type.equalsIgnoreCase("Admin") || type.equalsIgnoreCase("Faculty")){
+		}else if(type.equalsIgnoreCase("Sponsor")){
 			try{
-				String fullname = request.getParameter("fullname");
-				user = udm.retrieve(userId);
-				user.setContactNum(contact);
-				user.setFullName(fullname);
-				user.setEmail(email);
+				CompanyDataManager cdm = new CompanyDataManager();
 				
-				udm.modify(user);
-				session.setAttribute("message", "Profile Updated");
+				int orgId = Integer.parseInt(request.getParameter("orgType"));
+				int coyId = Integer.parseInt(request.getParameter("coyId"));
+				
+				Company coy = cdm.retrieve(coyId);
+				coy.setOrgType(orgId);
+				
+				cdm.modify(coy);
 			}catch(Exception e){
 				
 			}
 		}
+		
+		try{
+			String fullname = request.getParameter("fullname");
+			
+			user = udm.retrieve(userId);
+			user.setContactNum(contact);
+			user.setFullName(fullname);
+			user.setEmail(email);
+			
+			udm.modify(user);
+			session.setAttribute("message", "Profile Updated");
+		}catch(Exception e){}
+		
 		RequestDispatcher rd = request.getRequestDispatcher("userProfile.jsp?id="+userId);
 		rd.forward(request, response);
 	}

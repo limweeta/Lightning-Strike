@@ -22,14 +22,15 @@
 <%
 String sessionUsername = (String) session.getAttribute("username");
 UserDataManager udm = new UserDataManager();
-User u = udm.retrieve(sessionUsername);
-int uId = u.getID();
+User userS = udm.retrieve(sessionUsername);
+int uId = userS.getID();
 SponsorDataManager sdm = new SponsorDataManager();
-Sponsor s = sdm.retrieve(sessionUsername);
+Sponsor sponsor = sdm.retrieve(sessionUsername);
 if(sessionUsername == null || sessionUsername.isEmpty()){
 	sessionUsername = "";
 }
 %>
+<%@ include file="template.jsp" %>
 <body>
 	<div class="container">
 	<div class="content">
@@ -40,7 +41,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		  <div class="controls">
 		    <%
 		    ProjectDataManager pdm = new ProjectDataManager();
-			ArrayList<Project> projects = pdm.retrieveAllFromSponsor(s);
+			ArrayList<Project> projects = pdm.retrieveAllFromSponsor(sponsor);
 			
 			if(projects.size() < 1){
 				out.println("No projects");

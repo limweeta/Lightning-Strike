@@ -44,7 +44,7 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<h3>Search User</h3>
+				<h3>Search Sponsor</h3>
 			</div>
 				<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 			<% String message = (String) session.getAttribute("message"); 

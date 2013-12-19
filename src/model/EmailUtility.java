@@ -3,15 +3,26 @@ package model;
 import java.util.Date;
 import java.util.Properties;
  
+
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
  
 /**
@@ -45,21 +56,43 @@ public class EmailUtility {
                 return new PasswordAuthentication(userName, password);
             }
         });
- 	
+ 	/*
 	try {
-        	// creates a new e-mail message
-        	Message msg = new MimeMessage(session);
-        	msg.setFrom(new InternetAddress(userName));
-        	InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
-        	msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
-        	msg.setSubject(subject);
-        	msg.setSentDate(new Date());
-        	msg.setText(message);
+    /*    	// creates a new e-mail message
+		// HTML we want to send.
+		String html =
+		        "<html>" +
+		        "  <head>" +
+		        "    <style type='text/css'>" +
+		        "      body {background-color:blue}" +
+		        "      p {color:white}" +
+		        "    </style>" +
+		        "  </head>" +
+		        "  <body>"  +
+		        "    <p>Dear Bill</p>\n" +
+		        "    <p>This is a test mail.</p>" +
+		        "  </body>" +
+		        "</html>";
 
-		// sends the e-mail
-        	Transport.send(msg);
+		// Create Email content
+		Multipart multipart = new MimeMultipart("related");
+
+		// Create the HTML message part and add it to the email content.
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(html, "text/html");
+		multipart.addBodyPart(messageBodyPart);
+		
+		//not sure about this 3 statements i coded
+		MimeBodyPart msgBodyPart = new MimeBodyPart();
+		msgBodyPart.setContent(message,"message");
+		multipart.addBodyPart(msgBodyPart);
+
+		// Setting Content-Type does not seem to be required.
+		// I guess it is determined from the file type
+*/
+        	
         	// Test values taken in (remove)
-    		System.out.println("host:" + host);
+/*    		System.out.println("host:" + host);
     		System.out.println("port:" + port);
     		System.out.println("userName:" + userName);
     		System.out.println("password:" + password);
@@ -67,10 +100,8 @@ public class EmailUtility {
     		System.out.println("subject:" + subject);
     		System.out.println("message:" + message);
     		System.out.println("host:" + props.get("mail.smtp.host"));
-	}
-
-	catch (MessagingException e) {
+	}catch (MessagingException e) {
 		throw new RuntimeException(e);
-	}
+	}*/
     }
 }

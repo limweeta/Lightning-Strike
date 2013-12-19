@@ -44,6 +44,13 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 Date date = new Date();
 
 String currDateStr = dateFormat.format(date);
+/* 
+String sessionFullname = (String) session.getAttribute("fullname");
+String sessionUser = (String) session.getAttribute("username");
+
+SponsorDataManager sdm = new SponsorDataManager();
+TeamDataManager tdm = new TeamDataManager();
+ */
 %>
 	<body>
 		<div id="container">

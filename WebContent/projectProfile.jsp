@@ -570,11 +570,11 @@
 					  	</tr>
 					  
 					</table>
-					
+					<input type="text" name="skillLang" placeholder="Others">
 					<table>
-						<tr class="spaceunder">
+						<!-- <tr class="spaceunder">
 						     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr>
+					     </tr> -->
 				    	<tr class="spaceunder">
 				    	<h2>Others</h2>
 							<%
@@ -589,7 +589,8 @@
 								  </td><td></td>
 								   <%
 								  }else{
-								  %><td>
+								  %>
+								  <td>
 								  <input type="checkbox" name="skillOthers" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
 								  </td><td></td>
 								  <%  
@@ -603,8 +604,8 @@
 							  }
 								  %>
 					  	</tr>
-					  
 					</table>
+					<input type="text" name="skillOthers" placeholder="Others">
 		 	  </div>
 		    </div>
 		  </div>
@@ -619,9 +620,9 @@
 		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
 			    	<table>
-						<tr class="spaceunder">
+						<!-- <tr class="spaceunder">
 						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr>
+					     </tr> -->
 				    	<tr class="spaceunder">
 							<%
 							 ArrayList<Technology> technologies = techdm.retrieveAll();
@@ -650,7 +651,7 @@
 							  %>
 					  	</tr>
 					</table> 
-					
+					<input type="text" name="technology" placeholder="Others">
 				</div>
 		    </div>
 		  </div>

@@ -26,6 +26,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 	sessionUsername = "";
 }
 %>
+<%@ include file="template.jsp" %>
 <body>
 	<div class="container">
 	<div class="content">

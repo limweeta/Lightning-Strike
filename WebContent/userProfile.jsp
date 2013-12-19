@@ -84,23 +84,20 @@ function toggleSkill(source) {
             return error;
         }
 
-        function validatePhone(fld) {
-            var error = "";
-            var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
-
-           if (fld.value == "") {
-                error = "You didn't enter a phone number.\n";
-                fld.style.background = 'Yellow';
-            } else if (isNaN(parseInt(stripped))) {
-                error = "The phone number contains illegal characters.\n";
-                fld.style.background = 'Yellow';
-            } /* else if (!(stripped.length == 8)) {
-                error = "The phone number is too short.\n";
-                fld.style.background = 'Yellow';
-            }  */
-            return error;
-        }
-
+        function validatePhone(fld)  
+        {  
+          var error  = "";
+          var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;  
+          if(!(fld.value.match(phoneno))){  
+        	  error = "Invalid phone number.\n"; 
+        	  fld.style.background="Yellow";
+          }else if(fld.value=""){  
+        	  error = "You didn't enter a phone number.\n";  
+        	  fld.style.background="Yellow"; 
+          }  
+          return error;
+        }  
+        
         function validateEmail(fld) {
             var error="";
             var tfld = trim(fld.value);                        // value of field with whitespace trimmed off
@@ -133,6 +130,12 @@ function toggleSkill(source) {
             }
             return error;   
         }	
+        function others() {
+        	var selected = $('#orgType').val();
+        	if(selected=="Others"){
+        		$('#otherOrgType').show();
+        	}
+        }
 	</script>	
 </head>
 <%
@@ -370,32 +373,34 @@ function toggleSkill(source) {
 		  <label class="control-label" for="fullname">Name</label>
 		  <div class="controls">
 		 <%if(sessionUsername.equals(uProfile.getUsername())){ %>
-		    <input id="fullname" name="fullname" type="text" value="<%=uProfile.getFullName()%>" class="input-large">
+		    <input id="fullname" name="fullname" type="text" value="<%=uProfile.getFullName()%>" class="input-large" maxlength="50">
 		 <% }else{%>
 		    <%=uProfile.getFullName()%>
 		 <% 
 		 	
 		 }	 
 		%>
-		 
+		 <div class="control-group">
+		  <label class="control-label" for="contactno">Contact</label>
+		  <div class="controls">
+			<%
+				if(sessionUsername.equals(uProfile.getUsername())){
+			%>
+		    	<input id="contactno" name="contactno" type="text" value="<%=uProfile.getContactNum()%>" class="input-large" maxlength="30">
+		    <%}else{ %>
+		    	<%=uProfile.getContactNum()%>
+		    <%} %>
+		  </div>
+		</div>
 		 
 		  </div>
 		</div>
 		<!-- </div></br> --></br>
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
-		<div class="control-group">
-		  <label class="control-label" for="contactno">Contact</label>
-		  <div class="controls">
-			<%
-				if(sessionUsername.equals(uProfile.getUsername())){
-			%>
-		    	<input id="contactno" name="contactno" type="text" value="<%=uProfile.getContactNum()%>" class="input-large">
-		    <%}else{ %>
-		    	<%=uProfile.getContactNum()%>
-		    <%} %>
-		  </div>
-		</div>
+		<%if(!usertype.equals("Sponsor")){ %>
+		
+		<%} %>
 		<!-- </div> --></br>
 		<!-- <div class="span4"> -->
 		<!-- Text input-->
@@ -403,7 +408,7 @@ function toggleSkill(source) {
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
 		  <%if(sessionUsername.equals(uProfile.getUsername())){ %>
-		    <input id="email" name="email" type="text" value="<%=uProfile.getEmail()%>" class="input-xlarge">
+		    <input id="email" name="email" type="text" value="<%=uProfile.getEmail()%>" class="input-xlarge" maxlength="50">
 		     <% }else{%>
 		    <a href="mailto:<%=uProfile.getEmail()%>"><%=uProfile.getEmail()%></a>
 		 <% 	
@@ -412,7 +417,7 @@ function toggleSkill(source) {
 		    <input type="hidden" name="type" value="<%=type%>">
 		  </div>
 		</div>
-	<% if(usertype.equalsIgnoreCase("faculty")){ 
+	<% if(usertype.equalsIgnoreCase("supervisor")){ 
 		ArrayList<Team> supervisedTeams = tdm.retrievebyFaculty(profileid);
 	%>
 		<div class="control-group">
@@ -570,14 +575,33 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Company </label>
 		  <div class="controls">
-		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge">
+		  <input type="hidden" name="coyId" value="<%=company.getID()%>">
+		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge" maxlength="60">
 		  </div>
 		</div>
 		<div class="control-group">
 		  <label class="control-label" for="orgType">Organization Type </label>
 		  <div class="controls">
-		    <input id="orgType" name="orgType" type="text" value="<%=orgType%>" readonly="readonly" class="input-xlarge">
+		    <select id="orgType" name="orgType" class="input-large"onChange="others()">
+			  		<option value="" selected="selected" disabled style="color:#BDBDBD;">Choose Organization Type</option>
+				<%
+			    	  OrganizationDataManager orgdm = new OrganizationDataManager();
+				    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
+						  
+				    	  for(int i = 0; i < orgs.size(); i++){
+				    		Organization o = orgs.get(i); 
+				    		String oType = o.getOrgType();
+						   %>
+						    	<option value="<%=o.getId()%>"><%=oType%></option>
+						    <%} %>
+					<option value="Others">Others</option>
+			  </select>
 		  </div>
+		</div>
+		<div  id="otherOrgType" class="control-group" style="display:none;">
+			<div class="controls">
+				<input type="text" name="orgType" class="input-large"placeholder="Organization Type" size="45" maxlength="50"/>
+			</div>
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Faculty") || usertype.equalsIgnoreCase("Admin")){ %>
 		<div class="control-group">
@@ -614,7 +638,7 @@ function toggleSkill(source) {
 		<%
 		}
 		%>
-		<%if(sessiontype=="Student"){ %>
+		<%if(sessiontype.equalsIgnoreCase("Student")){ %>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=profileid%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">

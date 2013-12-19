@@ -51,9 +51,12 @@ public class AddTermServlet extends HttpServlet {
 		String acadYear = request.getParameter("acadYear");
 		int sem = Integer.parseInt(request.getParameter("semester"));
 		
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+		
 		TermDataManager termdm = new TermDataManager();
 		
-		Term term = new Term(acadYear, sem);
+		Term term = new Term(acadYear, sem, startDate, endDate);
 		
 		termdm.add(term);
 		session.setAttribute("message", "Term " + acadYear + " T" + sem + " added");

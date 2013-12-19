@@ -27,6 +27,12 @@ public class IndustryDataManager implements Serializable {
 			industries.add(industry);
 		}
 		
+		Collections.sort(industries, new Comparator<Industry>() {
+	        @Override public int compare(Industry i1, Industry i2) {
+	            	return i1.getIndustryName().compareTo(i2.getIndustryName());
+	        }
+		});
+		
 		return industries;
 	}
 	

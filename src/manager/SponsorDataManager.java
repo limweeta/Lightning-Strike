@@ -36,6 +36,28 @@ public class SponsorDataManager implements Serializable {
 		return sponsors;
 	}
 	
+	public ArrayList<String> retrieveSponsorUsernames() {
+		ArrayList<String> sponsors = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM users WHERE type LIKE 'Sponsor'");
+		Set<String> keySet = map.keySet(); 
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String username = array.get(1);
+			
+			sponsors.add(username);
+		}
+		
+		Collections.sort(sponsors, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareTo(s2);
+	        }
+		});
+		return sponsors;
+	}
+	
 	public Sponsor retrieve(int id) throws Exception{
 		Sponsor sponsor = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.sponsors on users.id=sponsors.user_id where sponsors.user_id= " + id + ";");
@@ -153,8 +175,10 @@ public class SponsorDataManager implements Serializable {
 		
 	}
 	
-	public void remove(int ID){
-		
+	public void remove(Sponsor sponsor){
+		MySQLConnector.executeMySQL("delete", "DELETE FROM users WHERE id = " + sponsor.getID());
+		MySQLConnector.executeMySQL("delete", "DELETE FROM sponsors WHERE user_id = " + sponsor.getID());
+		MySQLConnector.executeMySQL("delete", "DELETE FROM companies WHERE id = " + sponsor.getID());
 	}
 	
 	public void removeAll() {
