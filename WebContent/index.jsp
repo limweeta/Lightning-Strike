@@ -12,6 +12,9 @@
 if(session.getAttribute("username") != null){
 	response.sendRedirect("mainPage.jsp");
 }
+if(session.getAttribute("type") == null){
+	session.setAttribute("type", "guest");
+}
 %>
 </head>
 <script type="text/javascript">

@@ -114,7 +114,7 @@ try{
 	<body>
 		<div id="container">
 			<div id="content">
-					<form class="form-horizontal" method="post" name="teamFeedback">
+					<form class="form-horizontal" method="post" name="teamFeedback" action="teamFeedback">
 
 						<!-- Form Name -->
 						<legend>Team Feedback</legend>
@@ -122,8 +122,8 @@ try{
 						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="name">Grader's Name</label>
-						  <div class="controls">
-						    <input id="name" name="name" type="text" value="<%=sessionFullname %>" class="input-large" readonly="readonly">
+						  <div class="controls"><input type="hidden" value="<%=sessionUser %>" name="graderUser">
+						    <input id="gradername" name="gradername" type="text" value="<%=sessionFullname %>" class="input-large" readonly="readonly">
 						 </div>
  						</div>
  						<div class="control-group">
@@ -186,16 +186,18 @@ try{
 							}else{
 								for(int j = 0; j < teamMembers.size(); j++){
 									String memberName = teamMembers.get(j);
+									User u = udm.retrieve(memberName);
+									String memberUsername = "";
 									%>
 									<tr>
 									<td><font face="Arial" size="3"><b>Name of member</b></font></td>
 									<td><font face="Arial" size="3"><b>Rating(0-8)</b></font></td>
 									<td><font face="Arial" size="3"><b>Comments </b></font></td>
 									</tr>
-									<tr>
-									<td><input id="username<%=j+1%>" name="member<%=j+1%>" type="text" value="<%=memberName %>" class="input-large" readonly="readonly"></td>
+									<tr><input type="hidden" value="<%=memberUsername %>" name="username">
+									<td><input id="member" name="member" type="text" value="<%=memberName %>" class="input-large" readonly="readonly"></td>
 									<td> 
-										<select name="rating<%=j+1%>" id="rating<%=j+1%>">
+										<select name="rating" id="rating">
 											<% 
 											for(int i = 1; i < 9; i++){
 												%>
@@ -205,7 +207,7 @@ try{
 											%>
 										</select>
 									</td>
-									<td><textarea name="comments<%=j+1%>" id="comments<%=j+1%>"></textarea></td>
+									<td><textarea name="comments" id="comments"></textarea></td>
 									</tr>
 									<%
 								}

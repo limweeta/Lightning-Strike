@@ -68,6 +68,22 @@
     <url-pattern>/deleteSponsor</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>TeamFeedbackServlet</servlet-name>
+    <servlet-class>servlet.TeamFeedbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeamFeedbackServlet</servlet-name>
+    <url-pattern>/teamFeedback</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SponsorFeedbackServlet</servlet-name>
+    <servlet-class>servlet.SponsorFeedbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SponsorFeedbackServlet</servlet-name>
+    <url-pattern>/sponsorFeedback</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>servlet.LoginServlet</servlet-class>
   </servlet>

@@ -112,7 +112,8 @@ color: white ;
 		          <li><a href="./createProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
 		          <li><a href="./projectProfile.jsp?id=<%=projIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Project</a></li>
 		          <%if(stdm.hasTeam(s)){ %>
-		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Project</a></li>
+		          <li>
+		          <a href="./matchProj" style="font-size: 16px; color: white;font-weight: 200;">Match to Project</a></li>
 		          <%} %>
 		         </ul>
 		        </li>
@@ -124,7 +125,7 @@ color: white ;
 		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Team</a></li>
 		          	<%if(!stdm.hasTeam(s)){
 		          	%>
-		          	<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
+		          	<li><a href="./matchTeam" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
 		          	<%} %>
 		          	<li><a href="./teamFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Team Feedback</a></li>
                	</ul>

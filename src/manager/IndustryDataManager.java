@@ -36,6 +36,38 @@ public class IndustryDataManager implements Serializable {
 		return industries;
 	}
 	
+	public ArrayList<Industry> retrieveIndustryByTeam(int teamid) {
+		ArrayList<Industry> industries = new ArrayList<Industry>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select industry_id from team_preferred_industry WHERE team_id = " + teamid);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		IndustryDataManager idm = new IndustryDataManager();
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			
+			try{
+			Industry retrievedInd = idm.retrieve(id);
+			
+
+			String industryName = retrievedInd.getIndustryName();
+			
+			Industry industry = new Industry(id, industryName);
+			industries.add(industry);
+			}catch(Exception e){}
+		}
+		
+		Collections.sort(industries, new Comparator<Industry>() {
+	        @Override public int compare(Industry i1, Industry i2) {
+	            	return i1.getIndustryName().compareTo(i2.getIndustryName());
+	        }
+		});
+		
+		return industries;
+	}
+	
+	
 	public ArrayList<Industry> retrieveInd(String industryName) {
 		ArrayList<Industry> industries = new ArrayList<Industry>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from industry where industry_name LIKE '%" + industryName +"%'");

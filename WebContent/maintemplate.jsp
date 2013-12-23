@@ -39,9 +39,9 @@
 			
 				<%@ include file="navbarsup.jsp" %>
 				
-			<%}else if(type.equalsIgnoreCase("faculty")){%>
+			<%}else if(type.equalsIgnoreCase("guest")){%>
 			
-				<%@ include file="navbarsup.jsp" %>
+				<%@ include file="navbarguest.jsp" %>
 			
 		<%} %>
 	</br></br>

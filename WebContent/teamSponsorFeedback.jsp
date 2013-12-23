@@ -1,6 +1,7 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <html>
 <style type="text/css">
 	h1{
@@ -27,10 +28,83 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 </head>
+<%
+StudentDataManager stdm = new StudentDataManager();
+TeamDataManager tdm = new TeamDataManager();
+SponsorDataManager spdm = new SponsorDataManager();
+CompanyDataManager coydm = new CompanyDataManager();
+
+Student student = null;
+
+try{
+	student = stdm.retrieve(username);
+}catch(Exception e){
+	session.setAttribute("message", "Only students may leave feedback for sponsors");
+	response.sendRedirect("index.jsp");
+}
+
+String teamName = "";
+String sponsorName = "";
+String coy = "";
+String email = "";
+String contactno = "";
+
+int sponsorid = 0;
+
+Team team = null;
+Sponsor sponsor = null;
+Company company = null;
+try{
+	team = tdm.retrieve(tdm.retrievebyStudent(student.getID()));
+	
+	teamName = team.getTeamName();
+	
+}catch(Exception e){
+	session.setAttribute("message", "You need to a team to leave feedback for sponsors");
+}
+
+try{
+	sponsor = spdm.retrieveSponsorByTeam(team.getId());
+	
+	sponsorid = sponsor.getID();
+	sponsorName = sponsor.getFullName();
+	email = sponsor.getEmail();
+	contactno = sponsor.getContactNum();
+}catch(Exception e){
+	session.setAttribute("message", "You need to have completed a project to leave feedback for sponsors");
+}
+
+try{
+	company = coydm.retrieve(sponsor.getCoyId());
+	
+	coy = company.getCoyName();
+}catch(Exception e){
+	if(coy == null && sponsor != null){
+		coy = "N/A";
+	}else{
+		session.setAttribute("message", "You need to have a sponsor to leave this feedback");
+	}
+}
+
+String status = "";
+
+try{
+	status = tdm.getTeamStatus(team);
+}catch(Exception e){
+	status = "";
+}
+
+Calendar now = Calendar.getInstance();
+int currYear = now.get(Calendar.YEAR);
+int currMth = now.get(Calendar.MONTH);
+int currDay = now.get(Calendar.DAY_OF_MONTH);
+
+String dateStr = Integer.toString(currDay) + "/" + Integer.toString(currMth) + "/" + Integer.toString(currYear);
+%>
 	<body>
 		<div id="container">
 			<div id="content">
-					<form class="form-horizontal" method="post" name="sponsorFeedback">
+					<form class="form-horizontal" method="post" action="sponsorFeedback" name="sponsorFeedback" id="sponsorFeedback">
 
 						<!-- Form Name -->
 						<legend>Sponsor Feedback</legend>
@@ -39,39 +113,34 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
-						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" >
+						    <input id="teamname" name="teamname" type="text" value="<%=teamName %>" class="input-large" readonly="readonly"  >
 						 </div>
  						</div>
  						<div class="control-group">
 						  <label class="control-label" for="sponsorname">Sponsor Name</label>
 						  <div class="controls">
-						    <input id="sponsorname" name="sponsorname" type="text" placeholder="Sponsor Name" class="input-large" >
-						 </div>
- 						</div>
- 						<div class="control-group">
-						  <label class="control-label" for="org">Organization</label>
-						  <div class="controls">
-						    <input id="org" name="org" type="text" placeholder="Organization" class="input-large" >
+						  	<input type="hidden" name="sponsorid" value="<%=sponsorid%>">
+						    <input id="sponsorname" name="sponsorname" type="text" value="<%=sponsorName %>" class="input-large" readonly="readonly"  >
 						 </div>
  						</div>
 						<div class="control-group">
 						  <label class="control-label" for="date">Date</label>
 						  <div class="controls">
-						    <input id="date" name="date" type="text" placeholder="Date(DDMMYYYY)" class="input-large" >
+						    <input id="date" name="date" type="text" value="<%=dateStr %>" class="input-large" readonly="readonly" >
 						    
 						 </div>
 						</div>
 						<div class="control-group">
 						  <label class="control-label" for="contactNo">Contact Number</label>
 						  <div class="controls">
-						    <input id="contactNo" name="contactNo" type="text" placeholder="Contact Number" class="input-large" >
+						    <input id="contactNo" name="contactNo" type="text" value="<%=contactno %>" class="input-large" readonly="readonly"  >
 						    
 						 </div>
 						</div>
 						<div class="control-group">
 						  <label class="control-label" for="email">Email</label>
 						  <div class="controls">
-						    <input id="email" name="email" type="text" placeholder="Email" class="input-large" >
+						    <input id="email" name="email" type="text" value="<%=email %>" class="input-large" readonly="readonly"  >
 						    
 						 </div>
 						</div>
@@ -101,7 +170,17 @@
 						<div class="feedback">
 							<table class="table table-bordered">
 							<tr>
-							<td><input id="tech" name="tech" type="text" class="input-mini" ></td>
+							<td>
+								<select name=tech style="width:60px">
+							<%
+							for (int i = 1; i < 6; i++){
+								%>
+								<option value="<%=i%>"><%=i %></option>
+								<%
+							}
+							%>
+								</select>
+							</td>
 							<td><font face="Arial"  size="3"><b>Technical Knowledge</b></font></br>
 							<font face="Arial"  size="3">
 							<ul>
@@ -111,7 +190,17 @@
 							</td>
 							</tr>
 							<tr>
-							<td><input id="dom" name="dom" type="text" class="input-mini" ></td>
+							<td>
+								<select name=domain style="width:60px">
+							<%
+							for (int i = 1; i < 6; i++){
+								%>
+								<option value="<%=i%>"><%=i %></option>
+								<%
+							}
+							%>
+								</select>
+							</td>
 							<td><font face="Arial"  size="3"><b>Domain Knowledge</b></font></br>
 							<font face="Arial"  size="3">
 							<ul>
@@ -121,7 +210,17 @@
 							</td>
 							</tr>
 							<tr>
-							<td><input id="proj" name="proj" type="text" class="input-mini" ></td>
+							<td>
+								<select name=project style="width:60px">
+							<%
+							for (int i = 1; i < 6; i++){
+								%>
+								<option value="<%=i%>"><%=i %></option>
+								<%
+							}
+							%>
+								</select>
+							</td>
 							<td><font face="Arial"  size="3"><b>Project Knowledge</b></font></br>
 							<font face="Arial"  size="3">
 							<ul>
@@ -131,7 +230,17 @@
 							</td>
 							</tr>
 							<tr>
-							<td><input id="com" name="com" type="text" class="input-mini" ></td>
+							<td>
+								<select name=company style="width:60px">
+							<%
+							for (int i = 1; i < 6; i++){
+								%>
+								<option value="<%=i%>"><%=i %></option>
+								<%
+							}
+							%>
+								</select>
+							</td>
 							<td><font face="Arial"  size="3"><b>Company Knowledge</b></font></br>
 							<font face="Arial"  size="3">
 							<ul>
@@ -158,11 +267,11 @@
 							<td><font face="Arial" size="2">Once a Month</font></td>
 							</tr>
 							<tr>
-							<td><input type="radio" name="often" id="often" value="daily"></td>
-							<td><input type="radio" name="often" id="often" value="23timesw"></td>
-							<td><input type="radio" name="often" id="often" value="weekly"></td>
-							<td><input type="radio" name="often" id="often" value="23timesm"></td>
-							<td><input type="radio" name="often" id="often" value="monthly"></td>
+							<td><input type="radio" name="often" id="often" value="Daily"></td>
+							<td><input type="radio" name="often" id="often" value="2-3 Times a Week"></td>
+							<td><input type="radio" name="often" id="often" value="Weekly"></td>
+							<td><input type="radio" name="often" id="often" value="2-3 Times a Month"></td>
+							<td><input type="radio" name="often" id="often" value="Monthly"></td>
 							</tr>
 							</table>
 							</tr>
@@ -175,9 +284,9 @@
 							<td><font face="Arial" size="2">Video Conferencing</font></td>
 							</tr>
 							<tr>
-							<td><input type="radio" name="comm" id="comm" value="face"></td>
-							<td><input type="radio" name="comm" id="comm" value="voice"></td>
-							<td><input type="radio" name="comm" id="comm" value="weekly"></td>
+							<td><input type="radio" name="comm" id="comm" value="Face to face"></td>
+							<td><input type="radio" name="comm" id="comm" value="Voice Communication"></td>
+							<td><input type="radio" name="comm" id="comm" value="Video Conferencing"></td>
 							</tr>
 							</table>
 							</td>
@@ -211,7 +320,19 @@
 							<tr></tr>
 							<tr>
 							<td class = "space" align = "justify">&nbsp;
+							<%
+							if(!status.equalsIgnoreCase("Completed")){
+							%>
 						    <input type="submit" id="teamSponsorFeedback" value="Submit Feedback" class="btn btn-success" disabled="disabled">
+						    <br />
+						    <font size=-2 color=red>You have yet to complete your project</font>
+						    <%
+							}else{
+								%>
+							<input type="submit" id="teamSponsorFeedback" value="Submit Feedback" class="btn btn-success">	
+								<%
+							}
+						    %>
 						    </td>
 
 						    </tr>

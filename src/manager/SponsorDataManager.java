@@ -36,6 +36,29 @@ public class SponsorDataManager implements Serializable {
 		return sponsors;
 	}
 	
+	public Sponsor retrieveSponsorByTeam(int teamId) {
+		Sponsor sponsor = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT sponsor_id FROM projects WHERE team_id = " + teamId);
+		Set<String> keySet = map.keySet(); 
+		Iterator<String> iterator = keySet.iterator();
+		
+		SponsorDataManager spdm = new SponsorDataManager();
+		
+		if (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int sponsorId = Integer.parseInt(array.get(0));
+			
+			try{
+				sponsor = spdm.retrieve(sponsorId);
+			}catch(Exception e){}
+		}else{
+			sponsor = null;
+		}
+		
+		return sponsor;
+	}
+	
 	public ArrayList<String> retrieveSponsorUsernames() {
 		ArrayList<String> sponsors = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM users WHERE type LIKE 'Sponsor'");
