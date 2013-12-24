@@ -40,6 +40,19 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	public boolean isUndertakingProject(String username, int projId) {
+		boolean isUndertaking = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects p, students s, team t WHERE p.team_id = t.id AND s.id = u.id AND t.id = s.team_id AND u.username LIKE '" + username + "' AND p.id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			isUndertaking = true;
+		}
+		
+		return isUndertaking;
+	}
+	
 	public ArrayList<Project> retrieveAllByFilter(int term, int ind, int tech, int skill) {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		String query = "select * from projects p, project_technologies pt, project_preferred_skills ps WHERE p.id = pt.project_id AND p.id = ps.project_id";

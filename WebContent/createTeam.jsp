@@ -28,7 +28,6 @@
     float:right; 
 	}
 </style>
-
 <head>
 
 	<%@ include file="template.jsp" %>
@@ -60,7 +59,7 @@
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
-			}else if(usertype.equalsIgnoreCase("Faculty")){
+			}else if(usertype.equalsIgnoreCase("Supervisor")){
 				session.setAttribute("message", "Only students can create teams");
 				invalidAccess = true;
 				response.sendRedirect("searchTeam.jsp");
@@ -95,33 +94,31 @@
     		$('#mem6').hide();
     	}
     }
-    
-    $("#country").change(function() 
-    	     { 
-    	         var _selected = $("#country").val();
-    	         var options = 
-    	         {
-    	             type: "POST",
-    	             url: "SearchPage.aspx/StateBy",
-    	             data: "{'countryId':'" + _selected + "'}",
-    	             contentType: "application/json; charset=utf-8",
-    	             dataType: "json",
 
-    	             success: function(msg) {
-    	                $('#state').empty(); 
-    	                 var returnedArray = msg.d;
+    $(document).ready(function(){
+        var next = 1;
+        $(".add-more").click(function(e){
+            e.preventDefault();
+            var addto = "#technologyNew";
+            next = next + 1;
+            var newIn = '<br /><br /><input id="technologyNew" name="technologyNew" type="text">';
+            var newInput = $(newIn);
+            $(addto).after(newInput);
+        });
+    });
 
+    $(document).ready(function(){
+        var next = 1;
+        $(".add-more2").click(function(e){
+            e.preventDefault();
+            var addto = "#industryNew";
+            next = next + 1;
+            var newIn = '<br /><br /><input id="industryNew" name="industryNew" type="text">';
+            var newInput = $(newIn);
+            $(addto).after(newInput);
+        });
+    });
 
-    	                 state = $("#state");
-    	                 for (var i = 0; i < returnedArray.length; ++i) {
-    	                     state.append("<option value='" + returnedArray[i].Id + "'>" + returnedArray[i].Name + "</option>");
-    	                 }
-    	             }
-    	         };
-    	         $.ajax(options);
-    	     });
-    
-    
     
     $(function() {
         var studentNameList = [
@@ -423,8 +420,16 @@
 								  %>
 					  	</tr>
 					</table>
-					
-					  	<input type="text" name="industryNew" placeholder="Others" maxlength="50">
+					<br />
+					<h2>Not in the list? Add here</h2>
+					<div id="profs"> 
+                <div class="input-append">
+                    <input autocomplete="off" id="industryNew" name="industryNew" type="text" />
+                    <button id="b1" class="btn btn-info add-more2" type="button">+</button>
+                </div>
+	            <br>
+	            <small>Press + to add another field</small>
+	            </div>
 					
 		 	  </div>
 		    </div>
@@ -439,31 +444,51 @@
 			    </div>
 			    <div id="collapseTwo" class="panel-collapse collapse in">
 			      <div class="panel-body">
-				    	<table>
-							<!-- <tr class="spaceunder">
-							     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-						     </tr> -->
-					    	<tr class="spaceunder">
 								<%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
-								  ArrayList<Technology> technologies = tdm.retrieveAll();
+								  int numOfCat = tdm.retrieveNoOfTechCat();
+								
+								  ArrayList<Technology> technologies = new ArrayList<Technology>();
 								 
-								  for(int i = 0; i < technologies.size(); i++){
-									  Technology tech = technologies.get(i);
-									  %><td>
-									  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
-									  </td><td></td>
-									   <%
-									  if((i+1) % 3 == 0){
+								  for(int i = 1; i <= numOfCat; i++){
+									  technologies = tdm.retrieveTechCatId(i);
+									  String catName = tdm.retrieveTechCatName(i);
 									  %>
-								  </tr><tr class="spaceunder">
-								  <%
-									  }
+										<table>
+											<h2><%=catName %></h2>
+											
+											<tr class="spaceunder"> 
+									  <%
+									  for(int j = 0; j < technologies.size(); j++){
+									  Technology tech = technologies.get(j);
+									  %>
+									  <td>
+									  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+									  </td>
+									   <%
+										  if((j+1) % 5 == 0){
+										  %>
+									  </tr><tr class="spaceunder">
+									  <%
+										  }
+									 }
+									  %>
+									  </tr></table> 
+									  <%
 								  }
 								  %>
-						  	</tr>
-						</table> 
-						<input type="text" name="technologyNew" placeholder="Others" maxlength="50">
+								  <br />
+								  
+								  <h2>Not in the list? Add here</h2>
+			<div id="profs"> 
+                <div class="input-append">
+                    <input autocomplete="off" id="technologyNew" name="technologyNew" type="text" />
+                    <button id="b1" class="btn btn-info add-more" type="button">+</button>
+                </div>
+            <br>
+            <small>Press + to add another field</small>
+            </div>
+          
 					</div>
 			    </div>
 			  </div>

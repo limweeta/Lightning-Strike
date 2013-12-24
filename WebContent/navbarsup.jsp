@@ -114,7 +114,6 @@ color: white ;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-		          	<li><a href="./createTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Student<b class="caret"></b></a>
@@ -147,13 +146,19 @@ color: white ;
 	          	</a>
 	          	<ul class="dropdown-menu pull-right">
 	          	<li>
+	          	<a href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-user"></i>
+	          		&nbsp; My Profile
+	          	</a>
+	          	</li>
+	          	<li>
 	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;"  onclick="switchRole()">
 	          		<i class="fa fa-users"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
 	          	</li>
 	          	<li>
-	          	<form id="logout" action="logout" method="post"></form>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
 	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-power-off"></i>
 	          		&nbsp; Logout

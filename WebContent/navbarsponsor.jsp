@@ -314,13 +314,19 @@ color: white ;
 	          	</a>
 	          	<ul class="dropdown-menu pull-right">
 	          	<li>
+	          	<a href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-user"></i>
+	          		&nbsp; My Profile
+	          	</a>
+	          	</li>
+	          	<li>
 	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;" onclick="switchRole()">
 	          		<i class="fa fa-users"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
 	          	</li>
 	          	<li>
-	          	<form id="logout" action="logout" method="post"></form>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
 	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;"  >
 	          		<i class="fa fa-power-off"></i>
 	          		&nbsp; Logout
@@ -349,40 +355,4 @@ color: white ;
            </div>
          </div>
      </div>
-     <div id="register" class="modal hide fade">
-					    <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					        <h3>Register</h3>
-					    </div>
-					       <form action="register" method="post" accept-charset="UTF-8">
-					    <div class="modal-body">
-					    	  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="*Full Name" size="45" /></br>
-					    	  <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="*Username" size="45" /></br>
-							  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="*Password" size="45" /></br>
-							  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="*Contact Number" size="45" /></br>
-							  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="*Email" size="45" /></br>
-							  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" /></br>
-							  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" /></br>
-							  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" /></br>
-							  <select id="orgType" name="orgType" class="input-large">
-								<%
-							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
-								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
-										  
-								    	  for(int i = 0; i < orgs.size(); i++){
-								    		Organization org = orgs.get(i); 
-								    		String orgType = org.getOrgType();
-										   %>
-										    	<option value="<%=org.getId()%>"><%=orgType%></option>
-										    <%
-										    }
-										    %>
-							  </select></br>  
-							  <font color="red">*All Fields Are Mandatory</font>
-						</div>
-					    <div class="modal-footer">
-					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Register" />
-					    </div>
-					   	 </form>
-			</div>
 </html>

@@ -5,6 +5,14 @@
 <html>
 <style type="text/css">
 	@import "./css/template.css";
+	
+	tr.odd{
+		background-color: #E2E4FF;
+	}
+	
+	tr.even{
+		background-color: white;
+	}
 </style>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
@@ -152,6 +160,7 @@ if(currTerm != null){
 				<%
 				AnnouncementDataManager adm = new AnnouncementDataManager();
 				ArrayList<Announcement> announcements = adm.retrieveAll();
+				int count=0;
 				for(int i=0; i < announcements.size(); i++){
 					Announcement ann = announcements.get(i);
 					String fullTimestamp = ann.getTimestamp();
@@ -164,8 +173,16 @@ if(currTerm != null){
 					
 					String timestampStr = datefmt + " " + time + " ";
 					
+					String rowclass="";
+					count++;
+					if(count % 2 == 0){
+						rowclass = "even";
+					}else{
+						rowclass = "odd";
+					}
+					
 					%>
-					<tr>
+					<tr class=<%=rowclass %>>
 						<td align="center"><%=i+1 %></td>
 						<td align="center" style="padding: 5px; padding-right:20px"><%=timestampStr %></td>
 						<td align="center"><%=ann.getAnnouncement() %></td>

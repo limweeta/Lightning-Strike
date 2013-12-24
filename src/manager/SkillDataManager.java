@@ -36,6 +36,56 @@ public class SkillDataManager implements Serializable {
 		return skills;
 	}
 	
+	public ArrayList<Skill> retrieveAllLang(int projId) {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills s, project_preferred_skills pps WHERE pps.skill_id = s.id AND s.skill_type LIKE 'Language' AND pps.project_id = " + projId );
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String skillName = array.get(1);
+			
+			Skill skill = new Skill(id, skillName);
+			skills.add(skill);
+		}
+		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
+		
+		return skills;
+	}
+	
+	public ArrayList<Skill> retrieveAllOthers(int projId) {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills s, project_preferred_skills pps WHERE pps.skill_id = s.id AND s.skill_type NOT LIKE 'Language' AND pps.project_id = " + projId );
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String skillName = array.get(1);
+			
+			Skill skill = new Skill(id, skillName);
+			skills.add(skill);
+		}
+		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
+		
+		return skills;
+	}
+	
 	public ArrayList<Skill> retrieveAllLang() {
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills WHERE skill_type LIKE 'Language'");
@@ -102,10 +152,31 @@ public class SkillDataManager implements Serializable {
 			skills.add(skill);
 		}
 		
+		Collections.sort(skills, new Comparator<Skill>() {
+	        @Override public int compare(Skill s1, Skill s2) {
+	            	return s1.getSkillName().compareTo(s2.getSkillName());
+	        }
+		});
+		
 		return skills;
 	}
 	
 	// check for conflicting objects
+	
+	public int retrieveSkillId(String skillName){
+		int skillId = 0;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from skills where skill_name LIKE '" + skillName + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			skillId = Integer.parseInt(array.get(0));
+			
+		}
+		return skillId;
+	}
 	
 	public Skill retrieveSkill(String skillName) throws Exception{
 		Skill retrievedSkill = null;
@@ -148,6 +219,11 @@ public class SkillDataManager implements Serializable {
 				+ "VALUES (" + skillId + ", '" + skillName + ");");
 	}
 	
+	public void add(String skillName, String skillType){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`skills`(skill_name, skill_type) "
+				+ "VALUES ('" + skillName + "', '" + skillType + ");");
+	}
+	
 	public boolean hasSkill(ArrayList<String> skills, Skill skillCheck) throws Exception{
 		boolean hasTech = false;
 			for(int i = 0; i < skills.size(); i++){
@@ -188,6 +264,56 @@ public class SkillDataManager implements Serializable {
 			
 		}
 		
+		
+		
+		return userSkills;
+	}
+	
+	public ArrayList<String> getUserLangSkills(User u){
+		ArrayList<String> userSkills = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from user_skills us, skills s WHERE s.id = us.skill_id AND s.skill_type LIKE 'Language' AND us.user_id = " + u.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			int userId = Integer.parseInt(array.get(1));
+			int skillId = Integer.parseInt(array.get(2));
+			
+			Skill skill = null;
+			String skillName = "";
+			try{
+				skill = retrieve(skillId);
+				skillName = skill.getSkillName();
+				userSkills.add(skillName);
+			}catch(Exception e){}
+		}
+		return userSkills;
+	}
+	
+	public ArrayList<String> getUserOtherSkills(User u){
+		ArrayList<String> userSkills = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from user_skills us, skills s WHERE s.id = us.skill_id AND s.skill_type NOT LIKE 'Language' AND us.user_id = " + u.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			int userId = Integer.parseInt(array.get(1));
+			int skillId = Integer.parseInt(array.get(2));
+			
+			Skill skill = null;
+			String skillName = "";
+			try{
+				skill = retrieve(skillId);
+				skillName = skill.getSkillName();
+				userSkills.add(skillName);
+			}catch(Exception e){}
+		}
 		return userSkills;
 	}
 	

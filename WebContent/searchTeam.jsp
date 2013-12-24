@@ -7,15 +7,20 @@
 		<% Calendar now = Calendar.getInstance();
 	int currYear = now.get(Calendar.YEAR);
 	int currMth = now.get(Calendar.MONTH);
-	%>
-	<%
+	
 	TeamDataManager tdm = new TeamDataManager();
 	ProjectDataManager pdm = new ProjectDataManager();
-	ArrayList<Team> teams = tdm.retrieveAll();
+	ArrayList<Team> teams = null;
 	UserDataManager udm = new UserDataManager();
 	StudentDataManager stdm = new StudentDataManager();
 	
 	String usertype = (String) session.getAttribute("type");
+	
+	teams = (ArrayList<Team>) request.getAttribute("teamList");
+	
+	if(teams == null){
+		teams = tdm.retrieveAll();
+	}
 	
 	if(usertype == null){
 		usertype = "";
@@ -268,10 +273,11 @@ for(int i = 0; i < teams.size(); i++){
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					        <h2>Advanced Search</h2>
 					    </div>
-					       <form action="" method="post" accept-charset="UTF-8">
+					       <form action="searchTeam" method="post" accept-charset="UTF-8">
 					    <div class="modal-body">
 					     <label class="control-label" for="projectterm">Project Term</label>
 					    <select id="term" name="term" class="input-large">
+					    <option>Any</option>
 						    	  <%
 						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
 								  int currTermId = termdm.retrieveTermId(currYear, currMth);
@@ -290,8 +296,8 @@ for(int i = 0; i < teams.size(); i++){
 						    	  }
 						    	 %>
 						    </select> 
-			     	 <label class="control-label" for="industrytype">Project Industry</label>
-					    <select id="ind" name="ind" class="input-large">
+			     	 <label class="control-label" for="industrytype">Preferred Industry</label>
+					    <select id="ind" name="ind" class="input-large" size=5 multiple="multiple">
 								 <%
 								  IndustryDataManager idm = new IndustryDataManager();
 								  ArrayList<Industry> industries = idm.retrieveAll();
@@ -304,8 +310,8 @@ for(int i = 0; i < teams.size(); i++){
 								  }
 								  %>
 						  </select>
-						   <label class="control-label" for="tech">Project Technology</label>
-					    <select id="tech" name="tech" class="input-large">
+						   <label class="control-label" for="tech">Preferred Technology</label>
+					    <select id="tech" name="tech" class="input-large" size=5 multiple="multiple">
 								 <%
 											  TechnologyDataManager techdm = new TechnologyDataManager();
 											  ArrayList<Technology> technologies = techdm.retrieveAll();
@@ -317,8 +323,8 @@ for(int i = 0; i < teams.size(); i++){
 												  <% }
 											  %>
 						  </select>
-						  <label class="control-label" for="skills">Project Skills</label>
-						  <select id="skills" name="skills" class="input-large">
+						  <label class="control-label" for="skills">Member Skills</label>
+						  <select id="skills" name="skills" class="input-large" size=5 multiple="multiple">
 						 		 <%
 										  SkillDataManager skdm = new SkillDataManager();
 										  ArrayList<Skill> skills = skdm.retrieveAll();
@@ -331,8 +337,9 @@ for(int i = 0; i < teams.size(); i++){
 										  }
 									  %>
 						  </select>
-						  <label class="control-label" for="others">Others</label>
-						  <input type="text" name="others" id="others" class="input-large">
+						 
+						 <!-- <label class="control-label" for="others">Others</label>
+						  <input type="text" name="others" id="others" class="input-large"> --> 
 						</div>
 					    <div class="modal-footer">
 					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Search" />

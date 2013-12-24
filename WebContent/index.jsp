@@ -203,10 +203,11 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 					   	 </form>
 					   	 
 					</div>
+					</br></br>
 					<% String message = (String) session.getAttribute("message"); 
 			if(message == null || message.isEmpty()){
 				message = "";
-			}else{
+			}else if(message.equals("Account successfully created")){
 		%>
 <%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
 			<div class="alert alert-success" align="center">
@@ -216,12 +217,19 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 			
 			<%
 			session.removeValue("message");
+			}else{%>
+				<div class="alert alert-danger" align="center">
+				  <button type="button" class="close" data-dismiss="alert">&times;</button>
+				  <strong><%=message %></strong>
+				</div>
+			<% 
+			session.removeValue("message");
 			} %>
 		</div>
 		 <div id="registerModal" class="modal hide fade">
 					    <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					        <h3>Register</h3>
+					        <h6>Register</h6>
 					    </div>
 					       <form action="register" method="post" accept-charset="UTF-8" onsubmit="return validateForm(this)">
 					    <div class="modal-body">
@@ -248,11 +256,11 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 									<option value="Others">Others</option>
 							  </select></br>
 							  <input type="text" name="orgType" id="otherOrgType" class="input-large" style="margin-bottom: 20px; height:30px; display:none; " placeholder="Organization Type" size="45" maxlength="50"/>
-							  </br>
+							  
 							  <font color="red">*Fields Are Mandatory</font>
 						</div>
 					    <div class="modal-footer">
-					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Register" />
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="register" value="Register" />
 					    </div>
 					   	 </form>
 			</div>

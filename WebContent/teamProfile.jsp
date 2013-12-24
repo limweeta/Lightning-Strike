@@ -308,7 +308,7 @@
             	int roleId = student.getRole();
             	Role r = rdm.retrieve(roleId);
             	%>
-            	|<%=r.getRoleName() %>  </span><br /><br />
+            	| <%=r.getRoleName() %>  </span><br /><br />
 	            	<%
 	            		if(sessUserId == student.getID()){
 	            	%>
@@ -444,20 +444,23 @@
 								<%
 					            SkillDataManager skdm = new SkillDataManager();
 					            ArrayList<Integer> skillsetLang = tdm.retrieveTeamSkillsByLanguage(team);
-					            System.out.println(skillsetLang.size());
-					            for(int k = 0; k < skillsetLang.size(); k++){
-					            	int count2 = k + 1;
-					            	int skillId = skillsetLang.get(k);
-					            	Skill skill = skdm.retrieve(skillId);
-					            	%><td>
-									 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
-									  </td><td></td>
-									   <%
-									  if((k+1) % 3 == 0){
-									  %>
-								  </tr><tr class="spaceunder">
-								  <%
-									  }
+					            if(skillsetLang.size() < 1){
+					            	out.println("No skills indicated");
+					            }else{
+						            for(int k = 0; k < skillsetLang.size(); k++){
+						            	int count2 = k + 1;
+						            	int skillId = skillsetLang.get(k);
+						            	Skill skill = skdm.retrieve(skillId);
+						            	%><td>
+										 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
+										  </td><td></td>
+										   <%
+										  if((k+1) % 3 == 0){
+										  %>
+									  </tr><tr class="spaceunder">
+									  <%
+										  }
+						            }
 					            }
 								  %>
 						  	</tr>
@@ -468,21 +471,24 @@
 					    	<h2>Others</h2>
 								<%
 					            ArrayList<Integer> skillsetOthers = tdm.retrieveTeamSkillsByOthers(team);
-					            System.out.println(skillsetOthers.size());
-					            for(int k = 0; k < skillsetOthers.size(); k++){
-					            	int count2 = k + 1;
-					            	int skillId = skillsetOthers.get(k);
-					            	Skill skill = skdm.retrieve(skillId);
-					            	%><td>
-									 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
-									  </td><td></td>
-									   <%
-									  if((k+1) % 3 == 0){
-									  %>
-								  </tr><tr class="spaceunder">
-								  <%
-									  }
-					            }
+								 if(skillsetOthers.size() < 1){
+						            	out.println("No skills indicated");
+						     	}else{
+						            for(int k = 0; k < skillsetOthers.size(); k++){
+						            	int count2 = k + 1;
+						            	int skillId = skillsetOthers.get(k);
+						            	Skill skill = skdm.retrieve(skillId);
+						            	%><td>
+										 <span class = "label label-default"><%=skill.getSkillName()%></span>&nbsp;&nbsp;
+										  </td><td></td>
+										   <%
+										  if((k+1) % 3 == 0){
+										  %>
+									  </tr><tr class="spaceunder">
+									  <%
+										  }
+						            }
+						     	}
 								  %>
 						  	</tr>
 						</table> 

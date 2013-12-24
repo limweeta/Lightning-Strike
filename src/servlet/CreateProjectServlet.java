@@ -58,21 +58,77 @@ public class CreateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectdescription");
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
-		String[] skillsLang = request.getParameterValues("skill");
-		String[] skillsOthers = request.getParameterValues("skillOthers");
+		String[] skillsAll = request.getParameterValues("skill");
+		
+		String[] skillOthersNew = request.getParameterValues("skillOthersNew");
+		String[] skillLangNew = request.getParameterValues("skillLangNew");
+		String[] technologyNew = request.getParameterValues("techNew");
 		
 		if(technologies == null){
 			technologies = new String[0];
 		}
 		
-		if(skillsLang == null){
-			skillsLang = new String[0];
+		String[] allTech = new String[technologies.length + technologyNew.length];
+		
+		if(technologyNew.length > 0){
+			String[] newTech = new String[technologyNew.length]; 
+			
+			TechnologyDataManager techdm = new TechnologyDataManager();
+			for(int i = 0; i < technologyNew.length; i++){
+				String techName = technologyNew[i];
+				techdm.add(techName);
+				
+				newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+			}
+			
+			allTech = (String[]) ArrayUtils.addAll(technologies, newTech);
+
+		}else{
+			allTech = technologies;
 		}
 		
-		if(skillsOthers == null){
-			skillsOthers = new String[0];
+		if(skillsAll == null){
+			skillsAll = new String[0];
 		}
 		
+		String[] allSkills = new String[skillsAll.length + skillLangNew.length + skillOthersNew.length];
+		boolean merged = false;
+		if(skillLangNew.length > 0){
+			String[] newLang = new String[skillLangNew.length]; 
+			
+			SkillDataManager skdm = new SkillDataManager();
+			for(int i = 0; i < skillLangNew.length; i++){
+				String skillName = skillLangNew[i];
+				skdm.add(skillName, "Language");
+				
+				newLang[i] = Integer.toString(skdm.retrieveSkillId(skillName));
+			}
+			
+			allSkills = (String[]) ArrayUtils.addAll(skillsAll, newLang);
+			merged = true;
+
+		}else{
+			allSkills = skillsAll;
+		}
+		
+		if(skillOthersNew.length > 0){
+			String[] newOthers = new String[skillOthersNew.length]; 
+			
+			SkillDataManager skdm = new SkillDataManager();
+			for(int i = 0; i < skillLangNew.length; i++){
+				String skillName = skillOthersNew[i];
+				skdm.add(skillName, "Others");
+				
+				newOthers[i] = Integer.toString(skdm.retrieveSkillId(skillName));
+			}
+			
+			allSkills = (String[]) ArrayUtils.addAll(allSkills, newOthers);
+			
+		}else{
+			if(!merged){
+				allSkills = skillsAll;
+			}
+		}
 		
 		String status = "Open";
 		
@@ -101,8 +157,6 @@ public class CreateProjectServlet extends HttpServlet {
 			creator_id = 0;
 		}
 		
-		String[] skills = (String[]) ArrayUtils.addAll(skillsLang, skillsOthers);
-		
 		if(isNameTaken || projName.isEmpty()){
 			session.setAttribute("message", "Project name cannot be empty or is already taken. Please try another name");
 			response.sendRedirect("createProject.jsp");
@@ -116,11 +170,11 @@ public class CreateProjectServlet extends HttpServlet {
 			Project proj = new Project(id, company_id, team_id, sponsor_id, projName, projDesc, status, industry, creator_id, intendedTermId);
 			pdm.add(proj);
 			
-			pdm.addPreferredSkills(id, skills);
+			pdm.addPreferredSkills(id, allSkills);
 			
 			try{
-				for(int j = 0; j < technologies.length; j++){
-					Technology tech = tdm.retrieve(Integer.parseInt(technologies[j]));
+				for(int j = 0; j < allTech.length; j++){
+					Technology tech = tdm.retrieve(Integer.parseInt(allTech[j]));
 					
 					ArrayList<Technology> techs = tdm.retrieveAll();
 					int nextId = 0;
@@ -128,9 +182,7 @@ public class CreateProjectServlet extends HttpServlet {
 						Technology tmpTech = techs.get(i);
 						if(nextId <= tmpTech.getId()){
 							nextId = tmpTech.getId() + 1;
-							
 						}
-						
 					}
 					pdm.addTech(id, tech.getId());
 				}

@@ -353,6 +353,15 @@
     <servlet-name>AcceptInviteServlet</servlet-name>
     <url-pattern>/acceptInvite</url-pattern>
   </servlet-mapping>  
+  
+  <servlet>
+    <servlet-name>GenerateAnalyticsCSVServlet</servlet-name>
+    <servlet-class>servlet.GenerateAnalyticsCSVServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GenerateAnalyticsCSVServlet</servlet-name>
+    <url-pattern>/generateAnalyticsCSV</url-pattern>
+  </servlet-mapping>
    
   <servlet>
     <servlet-name>RejectInviteServlet</servlet-name>

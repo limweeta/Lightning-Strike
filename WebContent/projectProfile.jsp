@@ -537,13 +537,14 @@
 		    <div id="collapseTwo" class="panel-collapse collapse in">
 		      <div class="panel-body">
 		 			<table>
-						<tr class="spaceunder">
-						     <td><input type="checkbox" onclick="toggleSkillLang(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr>
 				    	<tr class="spaceunder">
 				    	<h2>Language</h2>
-							<%
-							  ArrayList<Skill> skills = skdm.retrieveAllLang();
+				    	<%
+				    	ArrayList<Skill> skills = new ArrayList<Skill>();
+				    	
+				    	if(pdm.isUndertakingProject(username, reqId)){
+				    	
+							  skills = skdm.retrieveAllLang();
 							  
 							  for(int i = 0; i < skills.size(); i++){
 								  Skill skill2 = skills.get(i);
@@ -567,10 +568,33 @@
 								  }
 							  }
 								  %>
-					  	</tr>
-					  
-					</table>
+								  
 					<input type="text" name="skillLang" placeholder="Others">
+					  	</tr>
+					  <%
+				    	}else{
+				    		skills = skdm.retrieveAllLang(reqId);
+				    		
+				    		if(skills.size() < 1){
+				    			out.println("No skills indicated");
+				    		}else{
+					    		for(int i = 0; i < skills.size(); i++){
+					    			Skill skillPublic = skills.get(i);
+					    			%>
+					    			<td>
+									 <span class="label label-default"><%=skillPublic.getSkillName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
+									  <% 
+									  if((i+1) % 3 == 0){
+										  %>
+										  </tr><tr class="spaceunder">
+										  <%
+									  }
+									}
+					    		}
+					    	}
+					  %>
+					</table>
 					<table>
 						<!-- <tr class="spaceunder">
 						     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
@@ -578,8 +602,10 @@
 				    	<tr class="spaceunder">
 				    	<h2>Others</h2>
 							<%
-							  ArrayList<Skill> otherSkills = skdm.retrieveAllOthers();
+							  ArrayList<Skill> otherSkills = new ArrayList<Skill>();
 							  
+							if(pdm.isUndertakingProject(username, reqId)){
+								otherSkills = skdm.retrieveAllOthers();
 							  for(int i = 0; i < otherSkills.size(); i++){
 								  Skill skill2 = otherSkills.get(i);
 								  
@@ -602,10 +628,35 @@
 									  <%
 								  }
 							  }
+							  %>
+					<input type="text" name="skillOthers" placeholder="Others">
+							  <%
+							}else{
+								
+						    		otherSkills = skdm.retrieveAllOthers(reqId);
+						    		
+						    		if(skills.size() < 1){
+						    			out.println("No skills indicated");
+						    		}else{
+							    		for(int i = 0; i < otherSkills.size(); i++){
+							    			Skill skillPublic = otherSkills.get(i);
+							    			%>
+							    			<td>
+											 <span class="label label-default"><%=skillPublic.getSkillName() %></span>&nbsp;&nbsp;
+											  </td><td></td>
+											  <% 
+											  if((i+1) % 3 == 0){
+												  %>
+												  </tr><tr class="spaceunder">
+												  <%
+											  }
+											}
+							    		}
+							    	
+							}
 								  %>
 					  	</tr>
 					</table>
-					<input type="text" name="skillOthers" placeholder="Others">
 		 	  </div>
 		    </div>
 		  </div>
@@ -619,39 +670,86 @@
 		    </div>
 		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
-			    	<table>
-						<!-- <tr class="spaceunder">
-						     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr> -->
-				    	<tr class="spaceunder">
-							<%
-							 ArrayList<Technology> technologies = techdm.retrieveAll();
-							  
-							  for(int i = 0; i < technologies.size(); i++){
-								  Technology tech2 = technologies.get(i);
+		     					 <%
+								ArrayList<Technology> technologies = new ArrayList<Technology>();
+		     					int numOfCat = techdm.retrieveNoOfTechCat();
+		     					
+		     					 if(pdm.isUndertakingProject(username, reqId)){
 								  
-								  if(techdm.hasTech(tech, tech2)){
-								  %><td>
-								  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								   <%
-								  }else{
-								  %><td>
-								  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								  <%  
-									}
-								  
-								  if((i+1) % 3 == 0){
-								  %>
-							  </tr><tr class="spaceunder">
-							  <%
+								  for(int i = 1; i <= numOfCat; i++){
+									  technologies = techdm.retrieveTechCatId(i);
+									  String catName = techdm.retrieveTechCatName(i);
+									  %>
+										<table>
+											<h2><%=catName %></h2>
+											
+											<tr class="spaceunder"> 
+									  <%
+									  for(int j = 0; j < technologies.size(); j++){
+										  Technology tech2 = technologies.get(j);
+										 
+										  if(techdm.hasTech(tech, tech2)){
+											  %><td>
+											  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+											  </td><td></td>
+											   <%
+											  }else{
+											  %><td>
+											  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+											  </td><td></td>
+										  <%
+											  if((j+1) % 5 == 0){
+											  %>
+										  </tr><tr class="spaceunder">
+										  <%
+											  }
+										 }
+										%>
+									  </tr></table> 
+									  <%
+								  	}
 								  }
-							  }
-							  %>
-					  	</tr>
-					</table> 
-					<input type="text" name="technology" placeholder="Others">
+								 %>
+								 <input type="text" name="technology" placeholder="Others">
+								 <%
+		     					}else{
+									
+									  for(int i = 1; i <= numOfCat; i++){
+										  technologies = techdm.retrieveTechCatIdByProject(i, reqId);
+										  String catName = techdm.retrieveTechCatName(i);
+										  %>
+											<table>
+												<h2><%=catName %></h2>
+												
+												<tr class="spaceunder"> 
+										  <%
+										  if(technologies.size() < 1){
+											  out.println("No technology indicated");
+										  }else{
+											  for(int j = 0; j < technologies.size(); j++){
+											  Technology techPublic = technologies.get(j);
+											  %>
+											  <td>
+											  	<span class="label label-default">
+											  	<%=techPublic.getTechName() %></span>&nbsp;&nbsp;
+											  </td>
+											   <%
+												  if((j+1) % 5 == 0){
+												  %>
+											  </tr><tr class="spaceunder">
+											  <%
+												  }
+											 }
+										  }
+											  %>
+										  </tr></table> 
+										  <%
+									  }
+									  %>
+		     				<%	}
+								  %>
+			    	
+					
 				</div>
 		    </div>
 		  </div>

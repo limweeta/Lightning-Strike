@@ -90,6 +90,44 @@ int currMth = now.get(Calendar.MONTH);
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<%@ include file="template.jsp" %>
+	<script type="text/javascript">
+	$(document).ready(function(){
+        var next = 1;
+        $(".add-more").click(function(e){
+            e.preventDefault();
+            var addto = "#skillOthersNew";
+            next = next + 1;
+            var newIn = '<br /><br /><input id="skillOthersNew" name="skillOthersNew" type="text">';
+            var newInput = $(newIn);
+            $(addto).after(newInput);
+        });
+    });
+	
+	$(document).ready(function(){
+        var next = 1;
+        $(".add-more2").click(function(e){
+            e.preventDefault();
+            var addto = "#skillLangNew";
+            next = next + 1;
+            var newIn = '<br /><br /><input id="skillLangNew" name="skillLangNew" type="text">';
+            var newInput = $(newIn);
+            $(addto).after(newInput);
+        });
+    });
+	
+	$(document).ready(function(){
+        var next = 1;
+        $(".add-more3").click(function(e){
+            e.preventDefault();
+            var addto = "#techNew";
+            next = next + 1;
+            var newIn = '<br /><br /><input id="techNew" name="techNew" type="text">';
+            var newInput = $(newIn);
+            $(addto).after(newInput);
+        });
+    });
+	</script>
+	
 	<%	boolean invalidAccess = false;
 		if(username == null){
 			session.setAttribute("message", "You need to be logged in to create a project");
@@ -248,9 +286,7 @@ int currMth = now.get(Calendar.MONTH);
 					    <div id="collapseOne" class="panel-collapse collapse in">
 					      <div class="panel-body">
 					 			<table>
-									<!-- <tr class="spaceunder">
-									     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-								     </tr> -->
+									
 							    	<tr class="spaceunder">
 							    	<h2>Language</h2>
 										<%
@@ -271,11 +307,17 @@ int currMth = now.get(Calendar.MONTH);
 											  %>
 								  	</tr>
 								  	</table>
-								  	<input type="text" name="skillNew" placeholder="Others" maxlength="40">
+								  	<h3>Not in the list? Add here</h3>
+								<div id="profs"> 
+					                <div class="input-append">
+					                    <input autocomplete="off" id="skillLangNew" name="skillLangNew" type="text" />
+					                    <button id="b1" class="btn btn-info add-more2" type="button">+</button>
+					                </div>
+						            <br>
+						            <small>Press + to add another field</small>
+						            </div>
 								  	<table>
-								  	<!-- <tr class="spaceunder">
-									     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-								     </tr> -->
+								  	
 								  	<tr class="spaceunder">
 							    	<h2>Others</h2>
 										<%
@@ -284,7 +326,7 @@ int currMth = now.get(Calendar.MONTH);
 											  for(int i = 0; i < otherSkills.size(); i++){
 												  Skill skill = otherSkills.get(i);
 												  %><td>
-												  <input type="checkbox" name="skillOthers" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
 												  </td><td></td>
 												  <%
 												  if((i+1) % 3 == 0){
@@ -294,8 +336,17 @@ int currMth = now.get(Calendar.MONTH);
 											  }
 											  %>
 								  	</tr>
-								</table>
-								<input type="text" name="skillNew" placeholder="Others" maxlength="40">
+								</table><br />
+								
+								<h3>Not in the list? Add here</h3>
+								<div id="profs"> 
+					                <div class="input-append">
+					                    <input autocomplete="off" id="skillOthersNew" name="skillOthersNew" type="text" />
+					                    <button id="b1" class="btn btn-info add-more" type="button">+</button>
+					                </div>
+						            <br>
+						            <small>Press + to add another field</small>
+						            </div>
 					 	  </div>
 					    </div>
 					  </div>
@@ -309,31 +360,50 @@ int currMth = now.get(Calendar.MONTH);
 						    </div>
 						    <div id="collapseTwo" class="panel-collapse collapse in">
 						      <div class="panel-body">
-							    	<table>
-										<!-- <tr class="spaceunder">
-										     <td><input type="checkbox" onclick="toggleTech(this)" />&nbsp;Select All</td>
-									     </tr> -->
-								    	<tr class="spaceunder">
-											<%
-											  TechnologyDataManager tdm = new TechnologyDataManager();
-											  ArrayList<Technology> technologies = tdm.retrieveAll();
-											 
-											  for(int i = 0; i < technologies.size(); i++){
-												  Technology tech = technologies.get(i);
-												  %><td>
-												  <input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<%=tech.getTechName() %>&nbsp;&nbsp;
-												  </td><td></td>
-												   <%
-												  if((i+1) % 3 == 0){
-												  %>
-											  </tr><tr class="spaceunder">
-											  <%
-												  }
-											  }
-											  %>
-									  	</tr>
-									</table> 
-									<input type="text" name="technologyNew" placeholder="Others" maxlength="50">
+							    	<%
+								  TechnologyDataManager tdm = new TechnologyDataManager();
+								  int numOfCat = tdm.retrieveNoOfTechCat();
+								
+								  ArrayList<Technology> technologies = new ArrayList<Technology>();
+								 
+								  for(int i = 1; i <= numOfCat; i++){
+									  technologies = tdm.retrieveTechCatId(i);
+									  String catName = tdm.retrieveTechCatName(i);
+									  %>
+										<table>
+											<h2><%=catName %></h2>
+											
+											<tr class="spaceunder"> 
+									  <%
+									  for(int j = 0; j < technologies.size(); j++){
+									  Technology tech = technologies.get(j);
+									  %>
+									  <td>
+									  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+									  </td>
+									   <%
+										  if((j+1) % 5 == 0){
+										  %>
+									  </tr><tr class="spaceunder">
+									  <%
+										  }
+									 }
+									  %>
+									  </tr></table> 
+									  <%
+								  }
+								  %>
+								  <br />
+								  
+								  <h3>Not in the list? Add here</h3>
+								<div id="profs"> 
+					                <div class="input-append">
+					                    <input autocomplete="off" id="techNew" name="techNew" type="text" />
+					                    <button id="b1" class="btn btn-info add-more3" type="button">+</button>
+					                </div>
+						            <br>
+						            <small>Press + to add another field</small>
+						            </div>
 								</div>
 						    </div>
 						  </div>
@@ -348,18 +418,7 @@ int currMth = now.get(Calendar.MONTH);
 							
 							CompanyDataManager cdm = new CompanyDataManager();
 							Company coy = cdm.retrieve(sponsor.getID());
-						%>
-						<!--  
-						<div class="control-group">
-						  <label class="control-label" for="organization">Project Organization</label>
-						  <div class="controls">
-						    <input id="organization" name="coyName" type="text" value="<%=coy.getCoyName() %>" class="input-large" disabled="disabled" />
-						    <input type="hidden" name="organization" value="<%=sponsor.getID()%>" />
-						  </div>
-						</div>
-						<br />
-						-->
-						<%
+						
 						}catch(Exception e){}
 						%>
 						</br></br>

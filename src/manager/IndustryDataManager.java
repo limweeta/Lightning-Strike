@@ -67,6 +67,21 @@ public class IndustryDataManager implements Serializable {
 		return industries;
 	}
 	
+	public int retrieveIndId(String industryName) {
+		int indId = 0;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from industry where industry_name LIKE '%" + industryName +"%'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			indId = Integer.parseInt(array.get(0));
+			
+		}
+		
+		return indId;
+	}
 	
 	public ArrayList<Industry> retrieveInd(String industryName) {
 		ArrayList<Industry> industries = new ArrayList<Industry>();
@@ -127,6 +142,11 @@ public class IndustryDataManager implements Serializable {
 		String industryName = 	industry.getIndustryName();
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`industry` "
 				+ "VALUES (" + industryId + ", '" + industryName + ");");
+	}
+	
+	public void add(String industryName){
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`industry` (industry_name) "
+				+ "VALUES ('" + industryName + ");");
 	}
 	
 	public void modify(){

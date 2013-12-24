@@ -40,7 +40,8 @@ color: white;
 		function switchRole(){
 			
 			$('#switchRoles').show();
-		}
+		}	
+		
 		
 		function validateRegisterOnSubmit(theForm) {
 			var reason = "";
@@ -284,9 +285,17 @@ color: white;
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown">
-               	<a href="admin.jsp" style="font-size: 16px; color: white;font-weight: bold;">Admin</a>
-               </li>
+               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Admin<b class="caret"></b></a>
+  			   	 <ul class="dropdown-menu">
+		          <li><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
+		          <li><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
+				  <li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+				  <li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>		         
+		          <li><a href="./adminTerm.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Term</a></li>
+		          <li><a href="./adminTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Team</a></li>
+		          <li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete Sponsor</a></li>
+		         </ul>
+  			   </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
@@ -342,13 +351,19 @@ color: white;
 	          	</a>
 	          	<ul class="dropdown-menu pull-right">
 	          	<li>
+	          	<a href="userProfile.jsp?id=<%=u.getID()%>" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-user"></i>
+	          		&nbsp; My Profile
+	          	</a>
+	          	</li>
+	          	<li>
 	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;" onclick="switchRole()">
 	          		<i class="fa fa-users"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
 	          	</li>
 	          	<li>
-	          	<form id="logout" action="logout" method="post"></form>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
 	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-power-off"></i>
 	          		&nbsp; Logout
@@ -357,8 +372,8 @@ color: white;
 	          	</ul>
 	          </li>
 	          <li id="switchRoles" style="display:none;">
-	          	<form action="switchRole" method="post">
-		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+	          	<form id="switchRole" action="switchRole" method="post">
+		  			<select id="role" name="role" class="input-small" onChange="this.form.submit()" >
 		  			<option value="#">Choose one...</option>
 		  				<%
 		  				RoleDataManager rdm = new RoleDataManager();

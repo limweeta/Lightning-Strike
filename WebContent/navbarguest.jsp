@@ -318,6 +318,14 @@ color: white ;
 	          	<a class="dropdown-toggle navbar-title" data-toggle="dropdown" href="#" style="font-size: 16px; color: white;font-weight: bold;">
 	          		<i class="fa fa-cogs fa-lg"></i>
 	          	</a>
+	          	<ul class="dropdown-menu pull-right">
+	          	<li>
+	          	<a href="./index.jsp" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-reply"></i>
+	          		&nbsp; Back to Main Page
+	          	</a>
+	          	</li>
+	          	</ul>
 	        </ul>
            </div>
          </div>

@@ -11,6 +11,39 @@ public class TechnologyDataManager implements Serializable {
 	public TechnologyDataManager() {
 	}
 	
+	public ArrayList<Technology> retrieveTechCatIdByProject(int catid, int projId){
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		
+		switch (catid){
+			case 1:
+				technologies = retrievePlatformTechByProj(projId);
+				break;
+			case 2:
+				technologies = retrieveDevToolsTechByProj(projId);
+				break;
+			case 3:
+				technologies = retrieveLanguageTechByProj(projId);
+				break;
+			case 4:
+				technologies = retrieveFrameworkTechByProj(projId);
+				break;
+			case 5:
+				technologies = retrieveOtherTechByProj(projId);
+				break;
+			default:
+				technologies = new ArrayList<Technology>();
+				break;
+		}
+		
+		Collections.sort(technologies, new Comparator<Technology>() {
+	        @Override public int compare(Technology t1, Technology t2) {
+	            	return t1.getTechName().compareTo(t2.getTechName());
+	        }
+		});
+		
+		return technologies;
+	}
+	
 	public ArrayList<Technology> retrieveTechCatId(int catid){
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		
@@ -43,6 +76,21 @@ public class TechnologyDataManager implements Serializable {
 		
 		return technologies;
 	}
+	
+	public String retrieveTechCatName(int catid) {
+		String catName = "";
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT category_name FROM `is480-matching`.tech_category WHERE id = " + catid);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			catName = array.get(0);
+		}
+		return catName;
+	}
+	
 	
 	public int retrieveNoOfTechCat() {
 		int numOfTechCat = 0;
@@ -99,6 +147,13 @@ public class TechnologyDataManager implements Serializable {
 			Technology technology = new Technology(id, techName);
 			technologies.add(technology);
 		}
+		
+		Collections.sort(technologies, new Comparator<Technology>() {
+	        @Override public int compare(Technology t1, Technology t2) {
+	            	return t1.getTechName().compareTo(t2.getTechName());
+	        }
+		});
+		
 		return technologies;
 	}
 	
@@ -192,6 +247,96 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	public ArrayList<Technology> retrievePlatformTechByProj(int projId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT * FROM technologies t, project_technologies pt WHERE t.id = pt.technology_id AND t.tech_cat_id = 1 and pt.project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveDevToolsTechByProj(int projId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT * FROM technologies t, project_technologies pt WHERE t.id = pt.technology_id AND t.tech_cat_id = 2 and pt.project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveLanguageTechByProj(int projId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT * FROM technologies t, project_technologies pt WHERE t.id = pt.technology_id AND t.tech_cat_id = 3 and pt.project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveFrameworkTechByProj(int projId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT * FROM technologies t, project_technologies pt WHERE t.id = pt.technology_id AND t.tech_cat_id = 4 and pt.project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveOtherTechByProj(int projId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT * FROM technologies t, project_technologies pt WHERE t.id = pt.technology_id AND t.tech_cat_id = 5 and pt.project_id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
 	public boolean hasTech(ArrayList<String> tech, Technology techCheck){
 		boolean hasTech = false;
 			for(int i = 0; i < tech.size(); i++){
@@ -252,6 +397,24 @@ public class TechnologyDataManager implements Serializable {
 		return technology;
 	}
 	
+	public int retrieveTechId(String tech) {
+		int techId = 0;
+		ArrayList<Technology> techList = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(
+						"select",
+						"SELECT * FROM `is480-matching`.technologies where technologies_name LIKE '%"	+ tech + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			techId = Integer.parseInt(array.get(0));
+		}
+		
+		return techId;
+	}
+	
 	public ArrayList<Technology> retrieveByName(String tech) {
 		Technology technology = null;
 		ArrayList<Technology> techList = new ArrayList<Technology>();
@@ -280,6 +443,12 @@ public class TechnologyDataManager implements Serializable {
 				"INSERT INTO `is480-matching`.`technologies` VALUES ("	+ id + ", '" + tech  + "');");
 	}
 
+	public void add(String newTech) {
+		MySQLConnector.executeMySQL("insert",
+				"INSERT INTO `is480-matching`.`technologies` (technology, tech_sub_cat_id, tech_cat_id)"
+				+ " VALUES ('"	+ newTech + "', NULL, 5);");
+	}
+	
 	public void modify(Technology technology) {
 	}
 

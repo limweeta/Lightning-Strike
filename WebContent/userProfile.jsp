@@ -84,6 +84,7 @@ function toggleSkill(source) {
             return error;
         }
 
+        /*
         function validatePhone(fld)  
         {  
           var error  = "";
@@ -97,7 +98,7 @@ function toggleSkill(source) {
           }  
           return error;
         }  
-        
+        */
         function validateEmail(fld) {
             var error="";
             var tfld = trim(fld.value);                        // value of field with whitespace trimmed off
@@ -146,8 +147,11 @@ function toggleSkill(source) {
 	String sessiontype = (String) session.getAttribute("type");
 	
 	SkillDataManager skdm = new SkillDataManager();
-	ArrayList<Skill> allSkills = skdm.retrieveAll();
+	ArrayList<Skill> langSkills = skdm.retrieveAllLang();
+	ArrayList<Skill> otherSkills = skdm.retrieveAllOthers();
 	ArrayList<String> userSkills = new ArrayList<String>(); 
+	ArrayList<String> userLangSkills = new ArrayList<String>(); 
+	ArrayList<String> userOtherSkills = new ArrayList<String>(); 
 	
 	boolean invalidAccess = false;
 	
@@ -163,7 +167,8 @@ function toggleSkill(source) {
 		uProfile = udm.retrieve(profileid);
 		usertype = uProfile.getType();
 		userSkills = skdm.getUserSkills(uProfile);
-		
+		userLangSkills = skdm.getUserLangSkills(uProfile);
+		userOtherSkills = skdm.getUserOtherSkills(uProfile);
 		requestedUserName = uProfile.getUsername();
 	}catch(Exception e){
 		session.setAttribute("message","Please choose a valid profile to view");
@@ -208,13 +213,15 @@ function toggleSkill(source) {
 	int teamId = 0;
 	int visitorTeamId = 0;
 	String teamName = "";
-	
+	String teamProfLink = "#";
 	try{
 		teamId = tdm.retrievebyStudent(uProfile.getID());
 		teamName = tdm.retrieve(teamId).getTeamName();
+		teamProfLink = "teamProfile.jsp?id=" + teamId;
 	}catch(Exception e){
 		teamId = 0;
 		teamName = "No team yet";
+		teamProfLink = "#";
 	}
 	
 	try{
@@ -229,21 +236,28 @@ function toggleSkill(source) {
 	String projName = "";
 	int projId =0;
 	
+	String projProfLink = "#";
+	
 	if(teamId != 0){
 		try{
 			proj = pdm.getProjFromTeam(teamId);
 			projName = proj.getProjName();
 			projId = proj.getId();
+			
+			projProfLink = "projectProfile.jsp?id=" + projId;
 		}catch(Exception e){
 			projName = "No project yet";
+			projProfLink = "#";
 		}
 	}else{
 		try{
 			proj = pdm.retrieveProjIdFromCreator(profileid);
 			projName = proj.getProjName();
 			projId = proj.getId();
+			projProfLink = "projectProfile.jsp?id=" + projId;
 		}catch(Exception e){
 			projName = "No project yet";
+			projProfLink = "#";
 		}
 	}
 	
@@ -380,6 +394,8 @@ function toggleSkill(source) {
 		 	
 		 }	 
 		%>
+			</div>
+		</div>
 		 <div class="control-group">
 		  <label class="control-label" for="contactno">Contact</label>
 		  <div class="controls">
@@ -392,16 +408,13 @@ function toggleSkill(source) {
 		    <%} %>
 		  </div>
 		</div>
-		 
-		  </div>
-		</div>
-		<!-- </div></br> --></br>
+		<!-- </div></br> -->
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
 		<%if(!usertype.equals("Sponsor")){ %>
 		
 		<%} %>
-		<!-- </div> --></br>
+		<!-- </div> -->
 		<!-- <div class="span4"> -->
 		<!-- Text input-->
 		<div class="control-group">
@@ -434,7 +447,7 @@ function toggleSkill(source) {
 		</div>
 	<% } %>	
 		<%if(usertype.equalsIgnoreCase("Student")){%>
-		<!-- </div> --></br>
+		<!-- </div> -->
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
 		<div class="control-group">
@@ -482,19 +495,20 @@ function toggleSkill(source) {
 		        </a>
 		      </h4>
 		    </div>
-		    <div id="collapseThree" class="panel-collapse collapse">
+		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
-		 			<table>
-						<tr class="spaceunder">
-						     <td><input type="checkbox" onclick="toggleSkill(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr>
-				    	<tr class="spaceunder">
 							<%
+							if(username.equalsIgnoreCase(requestedUserName)){
 							    int count = 0;
 								boolean checked = false;
-								for(int i = 0; i < allSkills.size(); i++){
+								%>
+								<table>
+								<h2>Language</h2>
+				    	<tr class="spaceunder">
+				    	<%
+								for(int i = 0; i < langSkills.size(); i++){
 									checked = false;
-									Skill hasSkill = allSkills.get(i);
+									Skill hasSkill = langSkills.get(i);
 									count++;
 									for(int j  = 0; j < userSkills.size(); j++){
 										if(hasSkill.getSkillName().trim().equals(userSkills.get(j).trim())){
@@ -506,12 +520,12 @@ function toggleSkill(source) {
 									if(checked){
 									%>
 								<td>
-								  <input type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  <input type="checkbox" name="skills" value="<%=langSkills.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=langSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
 								  </td><td></td>
 								   <%
 								  }else{
 								  %><td>
-								  <input type="checkbox" name="skills" value="<%=allSkills.get(i).getId() %>">&nbsp;<span class="label label-default"><%=allSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  <input type="checkbox" name="skills" value="<%=langSkills.get(i).getId() %>">&nbsp;<span class="label label-default"><%=langSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
 								  </td><td></td>
 								  <%  
 									}
@@ -521,9 +535,89 @@ function toggleSkill(source) {
 									  <%
 								  }
 							  }
+								%>
+								</tr></table>
+								<table>
+								<h2>Others</h2>
+				    	<tr class="spaceunder">
+								<%
+								for(int i = 0; i < otherSkills.size(); i++){
+									checked = false;
+									Skill hasSkill = otherSkills.get(i);
+									count++;
+									for(int j  = 0; j < userSkills.size(); j++){
+										if(hasSkill.getSkillName().trim().equals(userSkills.get(j).trim())){
+											checked=true;
+										}
+										%>
+										<%
+									}
+									if(checked){
+									%>
+								<td>
+								  <input type="checkbox" name="skills" value="<%=otherSkills.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=otherSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								   <%
+								  }else{
+								  %><td>
+								  <input type="checkbox" name="skills" value="<%=otherSkills.get(i).getId() %>">&nbsp;<span class="label label-default"><%=otherSkills.get(i).getSkillName() %></span>&nbsp;&nbsp;
+								  </td><td></td>
+								  <%  
+									}
+								  if((i+1) % 3 == 0){
+									  %>
+									  </tr><tr class="spaceunder">
+									  <%
+								  }
+							  }
+								%>
+								</tr></table>
+								<%
+							}else{
+								%>
+								<table>
+								<h2>Language</h2>
+				    	<tr class="spaceunder">
+								<%
+								if(userLangSkills.size() < 1){
+									out.println("No skill indicated");
+								}else{
+									
+									for(int i  = 0; i < userLangSkills.size(); i++){
+										Skill skill = skdm.retrieveSkill(userLangSkills.get(i));
+										%>
+										<td>
+									 <span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
+								<%
+									}
+								}
+								%>
+							  	</tr>
+								</table>
+								<table>
+								<h2>Others</h2>
+				    	<tr class="spaceunder">
+								<%
+								if(userLangSkills.size() < 1){
+									out.println("No skill indicated");
+								}else{
+										
+									for(int i  = 0; i < userOtherSkills.size(); i++){
+										Skill skill = skdm.retrieveSkill(userOtherSkills.get(i));
+										%>
+										<td>
+									 <span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
+									  </td><td></td>
+										<%
+									}
+								}
+								%>
+							  	</tr>
+								</table>
+							<%
+							}
 								  %>
-					  	</tr>
-					</table>
 		 	  </div>
 		    </div>
 		  </div>
@@ -533,13 +627,13 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
-		  	<a href="teamProfile.jsp?id=<%=teamId%>"><span class="label label-info"><%=teamName%></span></a>
+		  	<a href="<%=teamProfLink%>"><span class="label label-info"><%=teamName%></span></a>
 		  </div>
 		</div></br>
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
-		  	<a href="projectProfile.jsp?id=<%=projId%>"><span class="label label-info"><%=projName%></span></a>
+		  	<a href="<%=projProfLink%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Sponsor")){ 
@@ -638,7 +732,7 @@ function toggleSkill(source) {
 		<%
 		}
 		%>
-		<%if(sessiontype.equalsIgnoreCase("Student")){ %>
+		<%if(sessiontype.equalsIgnoreCase("Student")&&!sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=profileid%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">

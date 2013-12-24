@@ -253,6 +253,80 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public ArrayList<Team> retrieveAllByFilter(int term, String[] tech, String[] ind, String[] skills) {
+	
+		String query = "select * from teams t, team_preferred_industry tpi, team_preferred_technology tpt, students s, user_skills us"
+				+ " WHERE t.id = tpi.team_id AND t.id = tpt.team_id AND s.team_id = t.id AND s.id = us.user_id";
+		
+		if(term != 0){
+			query += " AND t.term_id = " + term;
+		}
+		
+		if(ind != null && ind.length > 0){
+			query += " AND (";
+			for(int i = 0; i < ind.length; i++){
+				query += " tpi.industry_id = " + ind[i];
+				try{
+					String j = ind[i+1];
+					query += " OR";
+				}catch(Exception e){}
+			}
+			
+			query += ")";
+			
+		}
+		
+		if(tech != null && tech.length > 0){
+			query += " AND (";
+			for(int i = 0; i < tech.length; i++){
+				query += " tpt.technology_id = " + tech[i];
+				try{
+					String j = tech[i+1];
+					query += " OR";
+				}catch(Exception e){}
+			}
+			
+			query += ")";
+		}
+		
+		if(skills != null && skills.length > 0){
+			query += " AND (";
+			for(int i = 0; i < skills.length; i++){
+				query += " us.skill_id = " + skills[i];
+				try{
+					String j = skills[i+1];
+					query += " OR";
+				}catch(Exception e){}
+			}
+			
+			query += ")";
+		}
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		ArrayList<Team> teams = new ArrayList<Team>();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
+			
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			teams.add(team);
+		}
+		System.out.println(query);
+		return teams;
+	}
+	
 	public ArrayList<Integer> retrieveStudentsInTeam(Team team) {
 		ArrayList<Integer> membersId = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
@@ -516,6 +590,21 @@ public class TeamDataManager implements Serializable {
 			teamSkills.add(skillId);
 			
 		}
+		
+		Collections.sort(teamSkills, new Comparator<Integer>() {
+	        @Override public int compare(Integer i1, Integer i2) {
+	        	SkillDataManager skdm = new SkillDataManager();
+	        		Skill skill1 = null;
+	        		Skill skill2 = null;
+					try {
+						skill1 = skdm.retrieve(i1);
+						skill2 = skdm.retrieve(i2);
+					} catch (Exception e) {}
+	            	return skill1.getSkillName().compareTo(skill2.getSkillName());
+	        }
+		});
+		
+		
 		return teamSkills;
 	}
 	
@@ -533,6 +622,20 @@ public class TeamDataManager implements Serializable {
 			teamSkills.add(skillId);
 			
 		}
+		
+		Collections.sort(teamSkills, new Comparator<Integer>() {
+	        @Override public int compare(Integer i1, Integer i2) {
+	        	SkillDataManager skdm = new SkillDataManager();
+	        		Skill skill1 = null;
+	        		Skill skill2 = null;
+					try {
+						skill1 = skdm.retrieve(i1);
+						skill2 = skdm.retrieve(i2);
+					} catch (Exception e) {}
+	            	return skill1.getSkillName().compareTo(skill2.getSkillName());
+	        }
+		});
+		
 		return teamSkills;
 	}
 	

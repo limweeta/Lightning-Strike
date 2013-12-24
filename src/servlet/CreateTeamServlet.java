@@ -6,6 +6,8 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import model.*;
 import manager.*;
 
@@ -56,12 +58,51 @@ public class CreateTeamServlet extends HttpServlet {
 		String[] prefIndustry = request.getParameterValues("industry");
 		String[] prefTech = request.getParameterValues("technology");
 		
-		int numOfActiveMembers = 0;
+		String[] industryNew = request.getParameterValues("industryNew");
+		String[] technologyNew = request.getParameterValues("technologyNew");
 		
+		String[] allIndustry = new String[prefIndustry.length + industryNew.length];
+		String[] allTech = new String[prefTech.length + technologyNew.length];
+		
+		if(industryNew.length > 0){
+			String[] newInd = new String[industryNew.length]; 
+			
+			IndustryDataManager idm = new IndustryDataManager();
+			for(int i = 0; i < industryNew.length; i++){
+				String indName = industryNew[i];
+				idm.add(indName);
+				
+				newInd[i] = Integer.toString(idm.retrieveIndId(indName));
+			}
+			
+			allIndustry = (String[]) ArrayUtils.addAll(prefIndustry, newInd);
+
+		}else{
+			allIndustry = prefIndustry;
+		}
+		
+		if(technologyNew.length > 0){
+			String[] newTech = new String[technologyNew.length]; 
+			
+			TechnologyDataManager techdm = new TechnologyDataManager();
+			for(int i = 0; i < technologyNew.length; i++){
+				String techName = technologyNew[i];
+				techdm.add(techName);
+				
+				newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+			}
+			
+			allTech = (String[]) ArrayUtils.addAll(prefTech, newTech);
+
+		}else{
+			allTech = prefTech;
+		}
+		
+		int numOfActiveMembers = 0;
 		
 		boolean isNameTaken = tdm.isTeamNameTaken(teamName);
 		
-		boolean[] invalidMembers =new boolean[teamMembers.length];
+		boolean[] invalidMembers = new boolean[teamMembers.length];
 		
 		for(int i = 0; i < teamMembers.length; i++){
 			try{
@@ -103,8 +144,6 @@ public class CreateTeamServlet extends HttpServlet {
 			}
 		}
 		
-		System.out.println(teamMembers.length);
-		System.out.println(numOfInvalidMembers);
 		
 		if(isNameTaken || teamName.isEmpty()){
 			session.setAttribute("message", "Team name cannot be empty or is already taken. Please try another name");
@@ -153,7 +192,7 @@ public class CreateTeamServlet extends HttpServlet {
 					
 				}catch(Exception e){}
 			}
-			tdm.add(team, prefIndustry, prefTech);
+			tdm.add(team, allIndustry, allTech);
 			response.sendRedirect("teamProfile.jsp?id="+teamid);
 		}	
 	}

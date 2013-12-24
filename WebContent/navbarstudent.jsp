@@ -163,7 +163,7 @@ color: white ;
 	          	</a>
 	          	</li>
 	          	<li>
-	          	<form id="logout" action="logout" method="post"></form>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
 	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-power-off"></i>
 	          		&nbsp; Logout

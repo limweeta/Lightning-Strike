@@ -5267,7 +5267,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .modal-header {
-  padding: 9px 15px;
+  padding: 9px -1px;
   border-bottom: 1px solid #eee;
 }
 
