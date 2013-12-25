@@ -60,6 +60,14 @@
     <url-pattern>/addAnn</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>DeleteTermServlet</servlet-name>
+    <servlet-class>servlet.DeleteTermServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteTermServlet</servlet-name>
+    <url-pattern>/deleteTerm</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>DeleteSponsorServlet</servlet-name>
     <servlet-class>servlet.DeleteSponsorServlet</servlet-class>
   </servlet>

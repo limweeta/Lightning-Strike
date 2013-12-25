@@ -56,12 +56,25 @@ public class AddTermServlet extends HttpServlet {
 		
 		TermDataManager termdm = new TermDataManager();
 		
-		Term term = new Term(acadYear, sem, startDate, endDate);
+		boolean existingTerm = false;
 		
-		termdm.add(term);
-		session.setAttribute("message", "Term " + acadYear + " T" + sem + " added");
-		response.sendRedirect("admin.jsp");
+		try{
+			existingTerm = termdm.isTermNameTaken(acadYear, sem);
+			
+			if(!existingTerm){
+				Term term = new Term(acadYear, sem, startDate, endDate);
+				
+				termdm.add(term);
+				session.setAttribute("message", "AY " + acadYear + " T" + sem + " added");
+			}else{
+				session.setAttribute("message", "Term already exists in the database");
+			}
+			
+		}catch(Exception e){
+			session.setAttribute("message", "An error occured. Please try again.");
+		}
 		
+		response.sendRedirect("adminTerm.jsp");
 	}
 }
 

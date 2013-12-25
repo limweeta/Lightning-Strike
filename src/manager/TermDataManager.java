@@ -14,15 +14,27 @@ public class TermDataManager implements Serializable {
 	public int retrieveCurrTerm(String date) throws Exception {
 		int termid = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
-				.executeMySQL(	"select","SELECT * FROM eligible_term where start_date >= '"+ date + "' AND end_date <= '" + date + "'");
+				.executeMySQL(	"select","SELECT * FROM term where start_date >= '"+ date + "' AND end_date <= '" + date + "'");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		if (iterator.hasNext()) {
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);
-			termid = Integer.parseInt(array.get(1));
+			termid = Integer.parseInt(array.get(0));
 		}
 		return termid;
+	}
+	
+	public boolean isTermNameTaken(String acadYear, int sem) throws Exception {
+		boolean nameTaken = false;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(	"select","SELECT * FROM term where academic_year LIKE '"+ acadYear + "' AND semester = " + sem);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			nameTaken = true;
+		}
+		return nameTaken;
 	}
 	
 	public ArrayList<Term> retrieveAll() {
@@ -36,8 +48,10 @@ public class TermDataManager implements Serializable {
 			int id = Integer.parseInt(array.get(0));
 			String acadYear = array.get(1);
 			int sem = Integer.parseInt(array.get(2));
+			String startDate = array.get(3);
+			String endDate = array.get(4);
 			
-			Term term = new Term(id, acadYear, sem);
+			Term term = new Term(id, acadYear, sem, startDate, endDate);
 			terms.add(term);
 		}
 		Collections.sort(terms, new Comparator<Term>() {
@@ -139,13 +153,15 @@ public class TermDataManager implements Serializable {
 		int sem = term.getSem();
 		MySQLConnector.executeMySQL("insert",
 				"INSERT INTO `is480-matching`.`term` (academic_year, semester, start_date, end_date)"
-				+ " VALUES ('" + acadYear + "', " + sem + ");");
+				+ " VALUES ('" + acadYear + "', " + sem + ", '" + term.getStartDate() + " 00:00:00', '" + term.getEndDate() + " 23:59:59');");
 	}
 
 	public void modify(Company company) {
 	}
 
-	public void remove(int ID) {
+	public void remove(int termid) {
+		MySQLConnector.executeMySQL("delete",
+				"DELETE FROM term WHERE id = " + termid);
 	}
 
 	public void removeAll() {

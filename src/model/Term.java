@@ -21,6 +21,14 @@ public class Term {
 		this.endDate = endDate;
 	}
 	
+	public Term(int id, String acadYear, int sem, String startDate, String endDate){
+		this.id = id;
+		this.acadYear = acadYear;
+		this.sem = sem;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
 	public Term(int id, String acadYear, int sem){
 		this.id = id;
 		this.acadYear = acadYear;

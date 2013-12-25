@@ -60,28 +60,29 @@ TeamDataManager tdm = new TeamDataManager();
 IndustryDataManager idm = new IndustryDataManager();
 SkillDataManager skdm = new SkillDataManager();
 TechnologyDataManager techdm = new TechnologyDataManager();
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : data.entrySet())
-{
-	text += "<u>" + entry.getKey() + "</u> <br /> ";
-	TreeMap<Integer, ArrayList<Integer>> mapValue = entry.getValue();
-	for (Map.Entry<Integer, ArrayList<Integer>> entryValue : mapValue.entrySet()){
-		ArrayList<Integer> rawMap = entryValue.getValue();
-		if(factor.equalsIgnoreCase("Skill")){
-			Skill skill = skdm.retrieve(entryValue.getKey());
-			text += skill.getSkillName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
-		}else if(factor.equalsIgnoreCase("Industry")){
-			Industry industry = idm.retrieve(entryValue.getKey());
-			text += industry.getIndustryName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
-		}else if(factor.equalsIgnoreCase("Tech")){
-			Technology technology = techdm.retrieve(entryValue.getKey());
-			text += technology.getTechName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+if(data != null){
+	for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : data.entrySet())
+	{
+		text += "<u>" + entry.getKey() + "</u> <br /> ";
+		TreeMap<Integer, ArrayList<Integer>> mapValue = entry.getValue();
+		for (Map.Entry<Integer, ArrayList<Integer>> entryValue : mapValue.entrySet()){
+			ArrayList<Integer> rawMap = entryValue.getValue();
+			if(factor.equalsIgnoreCase("Skill")){
+				Skill skill = skdm.retrieve(entryValue.getKey());
+				text += skill.getSkillName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+			}else if(factor.equalsIgnoreCase("Industry")){
+				Industry industry = idm.retrieve(entryValue.getKey());
+				text += industry.getIndustryName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+			}else if(factor.equalsIgnoreCase("Tech")){
+				Technology technology = techdm.retrieve(entryValue.getKey());
+				text += technology.getTechName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+			}
 		}
+		text += "<br />";
 	}
-	text += "<br />";
+	out.println("<h2>" + title + "</h2>");
+	out.println(text);
 }
-out.println("<h2>" + title + "</h2>");
-out.println(text);
 %>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>

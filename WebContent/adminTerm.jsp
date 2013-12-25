@@ -127,9 +127,40 @@
       });
 	</script>	
 <%@include file="template.jsp"%>
- 
+ <style type="text/css" title="currentStyle">
+			@import "./DataTables-1.9.4/media/css/demo_page.css";
+			@import "./DataTables-1.9.4/media/css/demo_table.css";
+			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
+/* 			@import "./css/style.css"; */
+/* 			@import "./css/searchstyle.css"; */
+		</style>
+		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" language="javascript" src="./jquery-ui-1.10.3.custom/development-bundle/ui/jquery.ui.tooltip.js"></script>
+		<script type="text/javascript" language="javascript" src="./jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				
+				$('#example').dataTable();
+			} );
+		</script>
 </head>
 <body>
+<%
+String message = (String) session.getAttribute("message"); 
+if(message == null || message.isEmpty()){
+	message = "";
+}else{
+%>
+<div class="alert alert-success" align="center">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+<%
+session.removeAttribute("message");
+}
+%>
 	<div class="container" id="content-container">
 		<div class="content">
 			<form name="addTerm" action="addTerm" method="post" class="form-horizontal">
@@ -149,7 +180,7 @@
 						<br />
 						<div class="control-group">
 					
-						  	 <label class="control-label" for="acadYear">Academic Year</label>
+						  	 <label class="control-label" for="acadYear">Period</label>
 							  <div class="controls">
 							    <input id="from" name="startDate" type="text" placeholder="Start Date" class="input-large">
 							  </div>
@@ -167,41 +198,71 @@
 						</div>
 						</fieldset>
 					</form>
-					<form name="manageTerm" action="" method="post" class="form-horizontal">
+					<form name="deleteTerm" action="deleteTerm" method="post" class="form-horizontal">
 						<fieldset>
-						<legend>Manage Term</legend>
+						<legend>Academic Terms</legend>
+<%
+TermDataManager termdm = new TermDataManager();
+ArrayList<Term> allTerms = termdm.retrieveAll();
+%>
 						<div class="span7">
-						 <label class="control-label" for="acadTerm">Academic Term</label>
+						 
 						<div class="control-group">
-							<div class="controls">
-							<select id="term" name="term" class="input-large">
-						    	  <%
-						    	  TermDataManager termdm = new TermDataManager();
-						    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();
-								  int currTermId = termdm.retrieveTermId(currYear, currMth);
-								  
-						    	  for(int i = 0; i < terms.size(); i++){
-						    		Term showTerm = terms.get(i); 
-						    		if((currTermId + 1) == showTerm.getId()){	
-						    	%>
-						    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
-						    	 <%
-						    		}else{
-				    			%>
-						    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
-						    	 <%	
-						    		}
-						    	  }
-						    	 %>
-						    </select> 
+							
+			<div id="demo">
+<div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
+	<thead>
+		<tr role="row">
+			<th class="center" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Delete</th>
+			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 12px;">Term</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Start Date</th>
+			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">End Date</th>	
+			
+		</tr>
+	</thead>
+	
+	<tfoot>
+		<tr>
+			<th rowspan="1" colspan="1">Delete</th>
+			<th rowspan="1" colspan="1">Term</th>
+			<th rowspan="1" colspan="1">Start Date</th>
+			<th rowspan="1" colspan="1">End Date</th>
+			
+		</tr>
+	</tfoot>
+<tbody role="alert" aria-live="polite" aria-relevant="all">
+<%
+for(int i = 0; i < allTerms.size(); i++){
+	Term term = allTerms.get(i);
+	int termId = term.getId();
+	String termName = "AY" + term.getAcadYear() + " T" + term.getSem();
+	String startDate = term.getStartDate();
+	String endDate = term.getEndDate();
+%>
+	<tr class="">
+			<td class="center"><input type="checkbox" name="termId" value="<%=termId%>" /></td>
+			<td class="center "><%=termName %></td>
+			<td class="center">
+			<%=startDate %>
+			</td>
+			<td class="center">
+			<%=endDate %>	
+			</td>
+			
+	</tr>
+<%
+}
+%>
+
+		</tbody></table> 
+		<br />
+		<input type="submit" value="Delete selected terms" class="btn btn-success" />
+
 						    </div>
 						    </br>
-						  <div class="controls">
-						    <input type="submit" value="Manage Term" class="btn btn-success">
-						  </div>
+						  
 						</div>
 						</br>
-						</div>
 						</fieldset>
 					</form>
 		</div>
