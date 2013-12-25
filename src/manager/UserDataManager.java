@@ -13,7 +13,7 @@ public class UserDataManager implements Serializable {
 	public ArrayList<User> retrieveAllFaculty() {
 		ArrayList<User> Users = new ArrayList<User>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users"
-				+ " WHERE type LIKE 'Faculty' OR type LIKE 'Admin'");
+				+ " WHERE type LIKE 'Supervisor' OR type LIKE 'Admin'");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -30,6 +30,12 @@ public class UserDataManager implements Serializable {
 			User User = new User(id, username, fullName, contactNum, email, type);
 			Users.add(User);
 		}
+		
+		Collections.sort(Users, new Comparator<User>() {
+	        @Override public int compare(User u1, User u2) {
+	            	return u1.getFullName().compareTo(u2.getFullName());
+	        }
+		});
 		
 		return Users;
 	}
@@ -200,14 +206,54 @@ public class UserDataManager implements Serializable {
 		return isSuspended;
 	}
 	
-	public void suspend(User User){
+	public String getDateSuspended(String username){
+		String dateSuspended = "";
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT date FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "' ORDER BY date DESC");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if(iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			dateSuspended = array.get(0);
+		}
+		return dateSuspended;
+	}
+	
+	public String getReason(String username){
+		String reason = "";
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT reason FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "' ORDER BY date DESC");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if(iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			
+			reason = array.get(0);
+		}
+		return reason;
+	}
+	
+	public void suspend(User User, String reason){
 		
 		String username = User.getUsername();
 		
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`suspended_list` (`username`) VALUES ('" + username + "');");
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`suspended_list` (`username`, `reason`, `date`) VALUES ('" + username + "', '" + reason + "', CURRENT_TIMESTAMP);");
 		
 		
 	}
+	
+	public void unsuspend(User User){
+		
+		String username = User.getUsername();
+		
+		MySQLConnector.executeMySQL("delete", "DELETE FROM suspended_list WHERE username LIKE '" + username + "';");
+		
+		
+	}
+	
 	
 	public boolean isSponsor(String username){
 		boolean isSponsor = false;

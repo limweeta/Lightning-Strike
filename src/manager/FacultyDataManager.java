@@ -16,7 +16,7 @@ public class FacultyDataManager implements Serializable {
 		HashMap<String, ArrayList<String>> map = MySQLConnector
 				.executeMySQL(
 						"select",
-						"SELECT * FROM `is480-matching`.users WHERE type LIKE 'Faculty' OR type LIKE 'Admin';");
+						"SELECT * FROM `is480-matching`.users WHERE type LIKE 'Supervisor' OR type LIKE 'Admin';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while (iterator.hasNext()) {

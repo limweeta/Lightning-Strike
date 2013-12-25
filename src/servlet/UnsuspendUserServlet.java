@@ -10,7 +10,7 @@ import model.*;
 import manager.*;
 
 @SuppressWarnings("serial")
-public class SuspendUserServlet extends HttpServlet {
+public class UnsuspendUserServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
@@ -29,18 +29,20 @@ public class SuspendUserServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserDataManager udm = new UserDataManager();
 		
-		String username = request.getParameter("username");
-		String reason = request.getParameter("reason");
+		String[] userid = request.getParameterValues("userId");
+		
 		User u = null;
 		
 		try{
-			u = udm.retrieve(username);
 			
-			if(udm.isSuspended(username)){
-				 session.setAttribute("message", u.getFullName() + " is already suspended");
+			if(userid == null || userid.length < 1){
+				 session.setAttribute("message", "No users selected to unsuspend");
 			}else{
-				
-				udm.suspend(u, reason);
+				String message = "The following users have been unsuspended: <br />";
+				for(int i = 0; i < userid.length; i++){
+					u = udm.retrieve(Integer.parseInt(userid[i]));
+					udm.unsuspend(u);
+					message += u.getFullName() + "<br />";
 				/*
 				ServletContext context = getServletContext();
 				String host = context.getInitParameter("host");
@@ -55,13 +57,14 @@ public class SuspendUserServlet extends HttpServlet {
 			     
 			    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 				*/
-			    session.setAttribute("message", u.getFullName() + " has been suspended");
+				}
+			    session.setAttribute("message", message);
 			}
 		}catch(Exception e){
 			//INSERT ERROR MESSAGE
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("adminSuspend.jsp");
+		response.sendRedirect("adminSuspended.jsp");
 	}
 }

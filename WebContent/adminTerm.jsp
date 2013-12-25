@@ -108,20 +108,20 @@
       });
     
     $(function() {
-        $( "#from" ).datepicker({
+        $( "#startDate" ).datepicker({
           defaultDate: "+1w",
           changeMonth: true,
           numberOfMonths: 3,
           onClose: function( selectedDate ) {
-            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            $( "#endDate" ).datepicker( "option", "minDate", selectedDate );
           }
         });
-        $( "#to" ).datepicker({
+        $( "#endDate" ).datepicker({
           defaultDate: "+1w",
           changeMonth: true,
           numberOfMonths: 3,
           onClose: function( selectedDate ) {
-            $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+            $( "#startDate" ).datepicker( "option", "maxDate", selectedDate );
           }
         });
       });
@@ -182,11 +182,11 @@ session.removeAttribute("message");
 					
 						  	 <label class="control-label" for="acadYear">Period</label>
 							  <div class="controls">
-							    <input id="from" name="startDate" type="text" placeholder="Start Date" class="input-large">
+							    <input id="startDate" name="startDate" type="text" placeholder="Start Date" class="input-large">
 							  </div>
 							  </br>
 							  <div class="controls">
-							    <input id="to" name="endDate" type="text" placeholder="End Date" class="input-large">
+							    <input id="endDate" name="endDate" type="text" placeholder="End Date" class="input-large">
 							  </div>
 						</div>
 						<br />

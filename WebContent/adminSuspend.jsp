@@ -33,8 +33,7 @@
 	  
 	  SponsorDataManager sponsordm = new SponsorDataManager();
 	  ArrayList<String> sponsorUsernameList = sponsordm.retrieveSponsorUsernames();
-  %>
-  <%
+ 
 	Calendar now = Calendar.getInstance();
 	int currYear = now.get(Calendar.YEAR);
 	int currMth = now.get(Calendar.MONTH);
@@ -145,6 +144,13 @@
 						    <input id="username" name="username" type="text" class="input-large">
 						  </div>
 						</div>
+						
+						<div class="control-group">
+						  <label class="control-label" for="userName">Reason</label>
+						  <div class="controls">
+						    <input id="reason" name="reason" type="text" class="input-large">
+						  </div>
+						</div>
 						<!-- Button -->
 						<div class="control-group">
 						  <div class="controls">
@@ -154,6 +160,21 @@
 						</div></br>
 						</fieldset>
 					</form>
+					<a href="adminSuspended.jsp">View List of Suspended Users</a>
+					<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 		</div>
 	</div>
 </body>

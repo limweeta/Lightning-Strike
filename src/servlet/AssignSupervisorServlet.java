@@ -49,6 +49,7 @@ public class AssignSupervisorServlet extends HttpServlet {
 			}
 		}
 		
+		
 		if(supUser == null || supUser.isEmpty()){
 			supUser = (String) session.getAttribute("assignSupName");
 		}
@@ -58,15 +59,21 @@ public class AssignSupervisorServlet extends HttpServlet {
 		User u = null;
 		
 		try{
-			u = udm.retrieveByFullName(supUser);
-			supId = u.getID();
+			supId = Integer.parseInt(supUser);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
 			Team team = tdm.retrieve(teamId);
-			
+			u = udm.retrieve(supId);
 			team.setSupId(supId);
 			tdm.modify(team);
-		}catch(Exception e){
 			
+			session.setAttribute("message", u.getFullName() + " has been assigned to " + team.getTeamName() + " as their supervisor");
+		}catch(Exception e){
+			session.setAttribute("message", "Oops! An error occurred somewhere. Please try again");
 		}
-		response.sendRedirect("teamProfile.jsp?id="+teamId);
+		response.sendRedirect("adminAssignSup.jsp");
 	}
 }

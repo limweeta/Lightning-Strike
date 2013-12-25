@@ -298,7 +298,16 @@
     <servlet-name>SuspendUserServlet</servlet-name>
     <url-pattern>/suspendUser</url-pattern>
   </servlet-mapping>
-
+	
+  <servlet>
+    <servlet-name>UnsuspendUserServlet</servlet-name>
+    <servlet-class>servlet.UnsuspendUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UnsuspendUserServlet</servlet-name>
+    <url-pattern>/unsuspendUser</url-pattern>
+  </servlet-mapping>	
+	
   <servlet>
     <servlet-name>AcceptTeamServlet</servlet-name>
     <servlet-class>servlet.AcceptTeamServlet</servlet-class>

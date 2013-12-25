@@ -21,93 +21,16 @@
 </style>
  <%
 	  UserDataManager udm = new UserDataManager();
-	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
 	  
 	  ArrayList<User> suspendedUserList = udm.retrieveSuspendedUsers();
 	  
-	  StudentDataManager sdm = new StudentDataManager();
-	  ArrayList<String> usernameList = sdm.retrieveUsernameList();
-	  
-	  TeamDataManager tdm = new TeamDataManager();
-	  ArrayList<String> teamNameList = tdm.retrieveTeamNames();
-	  
-	  SponsorDataManager sponsordm = new SponsorDataManager();
-	  ArrayList<String> sponsorUsernameList = sponsordm.retrieveSponsorUsernames();
-  %>
-  <%
+
 	Calendar now = Calendar.getInstance();
 	int currYear = now.get(Calendar.YEAR);
 	int currMth = now.get(Calendar.MONTH);
 %>
 <script type="text/javascript">
-    $(function() {
-    	var studentNameList = [
-    	                       <%
-    	                       for(int i = 0; i < usernameList.size(); i++){
-    	                       	out.println("\""+usernameList.get(i)+"\",");
-    	                       }
-    	                       %>
-    	                                      ];
-    	
-    	var sponsorNameList = [
-    	                       <%
-    	                       for(int i = 0; i < sponsorUsernameList.size(); i++){
-    	                       	out.println("\""+sponsorUsernameList.get(i)+"\",");
-    	                       }
-    	                       %>
-    	                                      ];
-    	
-        var facultyNameList = [
-                <%
-                for(int i = 0; i < facultyNameList.size(); i++){
-                	out.println("\""+facultyNameList.get(i)+"\",");
-                }
-                %>
-                               ];
-        
-        var teamNameList = [
-                               <%
-                               for(int i = 0; i < teamNameList.size(); i++){
-                               	out.println("\""+teamNameList.get(i)+"\",");
-                               }
-                               %>
-                                              ];
-        
-        $( "#username" ).autocomplete({
-            source: studentNameList
-          });
-        
-        $( "#teamName" ).autocomplete({
-            source: teamNameList
-          });
-        
-        $( "#sponsorUsername" ).autocomplete({
-            source: sponsorNameList
-          });
-        
-        $( "#teamName2" ).autocomplete({
-            source: teamNameList
-          });
-        
-        $( "#teamName3" ).autocomplete({
-            source: teamNameList
-          });
-        
-        $( "#assignSupName" ).autocomplete({
-          source: facultyNameList
-        });
-        
-        $( "#assignRev1" ).autocomplete({
-            source: facultyNameList
-          });
-        
-        $( "#assignRev2" ).autocomplete({
-            source: facultyNameList
-          });
-        
-      });
-    
-    $(function() {
+     $(function() {
         $( "#from" ).datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -139,24 +62,49 @@
 					</div>
 					<div class="panel-body">
 						<table width="100%">
-							<th>Username</th>
+							<th>Unsuspend</th>
 							<th>Full Name</th>
 							<th>Type</th>
+							<th>Reason</th>
+							<th>Date Suspended</th>
+							<form method="post" action="unsuspendUser">
 						<%
 							for(int i = 0; i < suspendedUserList.size(); i++){
 								User u1 = suspendedUserList.get(i);
+								String reason = udm.getReason(u1.getUsername());
+								String dateSuspended = udm.getDateSuspended(u1.getUsername());
 								%>
 								<tr align=center>
-									<td><a href="userProfile.jsp?id=<%=u1.getID()%>"><%=u1.getUsername() %></a></td>
-									<td><%=u1.getFullName() %></td>
+									<td><input type="checkbox" value="<%=u1.getID() %>" name="userId" /></td>
+									<td><a href="userProfile.jsp?id=<%=u1.getID()%>"><%=u1.getFullName() %></a></td>
 									<td><%=u1.getType() %></td>
+									<td><%=reason %></td>
+									<td><%=dateSuspended %></td>
 								</tr>
 								<%
 							}
 						%>
-						</table>
+						
+						</table><br />
+						<input type="submit" value="Unsuspend" class="btn btn-warning">
+						</form>
 					</div>
 					</div>
+					<a href="adminSuspend.jsp">Suspend Users</a>
+					<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 		</div>
 	</div>
 </body>

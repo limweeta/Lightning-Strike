@@ -228,6 +228,37 @@ public class TeamDataManager implements Serializable {
 		return sortedMap;
 	}
 	
+	public ArrayList<Team> retrieveAllCurrentTeams() {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts WHERE t.id=ts.team_id AND ts.status_id != 6");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
+			
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			teams.add(team);
+		}
+		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	            	return t1.getTeamName().compareTo(t2.getTeamName());
+	        }
+		});
+		
+		return teams;
+	}
+	
 	public ArrayList<Team> retrieveAll() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
@@ -858,8 +889,8 @@ public class TeamDataManager implements Serializable {
 				+ "team_limit = " + team.getTeamLimit() + ", "
 				+ "pm_id = " + team.getPmId() + ", "
 				+ "supervisor_id = " + team.getSupId() + ", "
-				+ "reviewer1 = " + team.getRev1Id() + ", "
-				+ "reviewer2 = " + team.getRev2Id() + ", "
+				+ "reviewer1_id = " + team.getRev1Id() + ", "
+				+ "reviewer2_id = " + team.getRev2Id() + ", "
 				+ "term_id = " + team.getTermId() + " "
 				+ "WHERE id = " + team.getId());
 	}
@@ -871,8 +902,8 @@ public class TeamDataManager implements Serializable {
 				+ "team_limit = " + team.getTeamLimit() + ", "
 				+ "pm_id = " + team.getPmId() + ", "
 				+ "supervisor_id = " + team.getSupId() + ", "
-				+ "reviewer1 = " + team.getRev1Id() + ", "
-				+ "reviewer2 = " + team.getRev2Id() + ", "
+				+ "reviewer1_id = " + team.getRev1Id() + ", "
+				+ "reviewer2_id = " + team.getRev2Id() + ", "
 				+ "term_id = " + team.getTermId() + " "
 				+ "WHERE id = " + team.getId());
 		

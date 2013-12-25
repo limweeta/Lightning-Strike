@@ -34,8 +34,8 @@ public class AssignReviewerServlet extends HttpServlet {
 
 		TeamDataManager tdm = new TeamDataManager();
 		
-		String rev1User = request.getParameter("assignRev1");
-		String rev2User = request.getParameter("assignRev2");
+		int rev1User = Integer.parseInt(request.getParameter("assignRev1"));
+		int rev2User =  Integer.parseInt(request.getParameter("assignRev2"));
 		System.out.println(rev1User);
 		System.out.println(rev2User);
 		int teamId = 0;
@@ -57,19 +57,30 @@ public class AssignReviewerServlet extends HttpServlet {
 		User u = null;
 		
 		try{
-			u = udm.retrieveByFullName(rev1User);
+			String message = "";
+			
+			u = udm.retrieve(rev1User);
 			rev1Id = u.getID();
 			t = tdm.retrieve(teamId);
 			t.setRev1Id(rev1Id);
 			
-			u = udm.retrieveByFullName(rev2User);
+			message += u.getFullName();
+			
+			u = udm.retrieve(rev2User);
 			rev2Id = u.getID();
 			
 			t.setRev2Id(rev2Id);
 			
+			message += " and " + u.getFullName();
+			
 			tdm.modify(t);
+			
+			message += " have been assigned to " + t.getTeamName() + " as their reviewers";
+			
+			session.setAttribute("message", message);
 		}catch(Exception e){
+			session.setAttribute("message", "Oops! An error occurred somewhere. Please try again");
 		}
-		response.sendRedirect("teamProfile.jsp?id="+teamId);
+		response.sendRedirect("adminAssignRev.jsp");
 	}
 }
