@@ -35,7 +35,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String contact = request.getParameter("contactno");
 		
-		char firstNum = contact.charAt(0);
+
 
 		String secondMajor = request.getParameter("secondmajor");
 		User user = null;
@@ -55,9 +55,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 				skills = new String[0];
 			}
 			
-			if(contact.length() != 8){ //check that it starts with 9, 8 or 6
-				session.setAttribute("message", "Please enter a valid phone number");
-			}else if(!sdm.isValidMajor(secondMajor)){
+			if(!sdm.isValidMajor(secondMajor)){
 				session.setAttribute("message", "Please enter a valid second major");
 			}else{
 				Student student = null;

@@ -81,25 +81,18 @@ public class RegisterServlet extends HttpServlet {
 		String type		= "Sponsor";
 		String coyName	= request.getParameter("coyName");
 		String cContact	= request.getParameter("coyContact");
-		int coyContact = Integer.parseInt(cContact);
 		String coyAdd	= request.getParameter("coyAdd");
 		int orgType	= Integer.parseInt(request.getParameter("orgType"));
 		String password	= request.getParameter("password");
 		
 		
-		char firstNum = contactNum.charAt(0);
-		char firstCoyNum = cContact.charAt(0);
 		
 		if(udm.isTaken(username)){
 			session.setAttribute("message", "Please choose another username");
 			response.sendRedirect("index.jsp");
-		}/*else if((firstNum != '9' || firstNum != '8' || contactNum.length() != 8) 
-				|| (firstCoyNum != '9' || firstCoyNum != '8' || cContact.length() != 8) ){
-			session.setAttribute("message", "Please enter a valid phone number");
-			response.sendRedirect("index.jsp");
-		}*/else{
+		}else{
 			try {
-				Company company = new Company(id, coyName, coyAdd, coyContact, orgType);
+				Company company = new Company(id, coyName, coyAdd, cContact, orgType);
 				cdm.add(company);
 				
 				Sponsor newSponsor = new Sponsor(sponsorid, username, fullName, contactNum, email, type, id, password, id);

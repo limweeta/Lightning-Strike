@@ -37,7 +37,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		<h3>My Projects</h3>
 		
 		<div class="control-group">
-		  <label class="control-label" for="coyName">Supervising Teams </label>
+		  <label class="control-label" for="coyName">Sponsored Projects </label>
 		  <div class="controls">
 		    <%
 		    ProjectDataManager pdm = new ProjectDataManager();

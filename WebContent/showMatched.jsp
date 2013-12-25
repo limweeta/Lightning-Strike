@@ -1,6 +1,7 @@
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <html>
 	<head>
 	<%@include file="template.jsp"%>
@@ -67,6 +68,7 @@
 <%
 int count = 0;
 CompanyDataManager cdm = new CompanyDataManager();
+DecimalFormat df = new DecimalFormat("#.##");
 for(int i = 0; i < matchedProjs.size(); i++){
 	ProjectScore projectScore = matchedProjs.get(i);
 	Project project = projectScore.getProject();
@@ -106,7 +108,7 @@ for(int i = 0; i < matchedProjs.size(); i++){
 			<td class="sorting_1"><%=strTerm %></td>
 			<td class=" "><a href="projectProfile.jsp?id=<%=project.getId()%>"><%=name %></td>
 			<td class="center "><%=sponsor %></td>
-			<td class="center "><%=accuracy%>%</td>
+			<td class="center "><%=df.format(accuracy)%>%</td>
 	</tr>
 <%
 }

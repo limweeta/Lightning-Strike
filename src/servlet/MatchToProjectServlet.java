@@ -78,13 +78,12 @@ public class MatchToProjectServlet extends HttpServlet {
 			request.setAttribute("combinedProjMatches", combinedMatches);
 			
 			destPage = "showMatched.jsp";
-			System.out.println(destPage);
 			
 		}catch(Exception e){
 			session.setAttribute("message", "You need a team before we can match you with a project");
 			destPage = "searchProject.jsp";
 		}finally{
-			System.out.println("Redirecting...");
+
 			rd = request.getRequestDispatcher(destPage);
 			rd.forward(request, response);
 		}

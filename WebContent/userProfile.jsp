@@ -165,7 +165,7 @@ function toggleSkill(source) {
 	try{
 		profileid = Integer.parseInt(request.getParameter("id"));
 		uProfile = udm.retrieve(profileid);
-		usertype = uProfile.getType();
+		usertype = (String) session.getAttribute("type");
 		userSkills = skdm.getUserSkills(uProfile);
 		userLangSkills = skdm.getUserLangSkills(uProfile);
 		userOtherSkills = skdm.getUserOtherSkills(uProfile);
@@ -408,15 +408,6 @@ function toggleSkill(source) {
 		    <%} %>
 		  </div>
 		</div>
-		<!-- </div></br> -->
-		<!-- <div class="span3"> -->
-		<!-- Text input-->
-		<%if(!usertype.equals("Sponsor")){ %>
-		
-		<%} %>
-		<!-- </div> -->
-		<!-- <div class="span4"> -->
-		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
@@ -430,22 +421,31 @@ function toggleSkill(source) {
 		    <input type="hidden" name="type" value="<%=type%>">
 		  </div>
 		</div>
-	<% if(usertype.equalsIgnoreCase("supervisor")){ 
-		ArrayList<Team> supervisedTeams = tdm.retrievebyFaculty(profileid);
-	%>
-		<div class="control-group">
-		  <label class="control-label" for="email">Teams Supervised:</label>
-		  <div class="controls">
-		  <% for(int i = 0; i < supervisedTeams.size(); i++){ 
-		  		Team supervisedTeam = supervisedTeams.get(i);
-		  		String supervisedTeamName = supervisedTeam.getTeamName();
-		  		int supervisedTeamId = supervisedTeam.getId();
-		  %>
-		    <a href="teamProfile.jsp?id=<%=supervisedTeamId%>"><%=supervisedTeamName %></a>
-		    <% } %>
-		  </div>
-		</div>
-	<% } %>	
+		<!-- </div></br> -->
+		<!-- <div class="span3"> -->
+		<!-- Text input-->
+		<%if(usertype.equals("Sponsor")){ 
+			Sponsor sponsor = sponsordm.retrieve(username);
+		
+			ArrayList<Project> sponsoredProjects = pdm.retrieveAllFromSponsor(sponsor);
+			%>
+			<div class="control-group">
+			  <label class="control-label" for="email">Projects Sponsored:</label>
+			  <div class="controls">
+			  <% for(int i = 0; i < sponsoredProjects.size(); i++){ 
+			  		Project sponsoredProject = sponsoredProjects.get(i);
+			  		String sponsoredProjName = sponsoredProject.getProjName();
+			  		int sponsoredProjId = sponsoredProject.getId();
+			  %>
+			    <a href="projectProfile.jsp?id=<%=sponsoredProjId%>"><%=sponsoredProjName %></a><br />
+			    <% } %>
+			  </div>
+			</div>
+		<% } %>
+		<!-- </div> -->
+		<!-- <div class="span4"> -->
+		<!-- Text input-->
+			
 		<%if(usertype.equalsIgnoreCase("Student")){%>
 		<!-- </div> -->
 		<!-- <div class="span5"> -->
@@ -697,7 +697,7 @@ function toggleSkill(source) {
 				<input type="text" name="orgType" class="input-large"placeholder="Organization Type" size="45" maxlength="50"/>
 			</div>
 		</div>
-		<%}else if(usertype.equalsIgnoreCase("Faculty") || usertype.equalsIgnoreCase("Admin")){ %>
+		<%}else if(usertype.equalsIgnoreCase("Supervisor")){ %>
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Supervising Teams </label>
 		  <div class="controls">
@@ -743,6 +743,8 @@ function toggleSkill(source) {
 	
 	</div>
 </body>
-<%}%>
+<%}
+
+%>
 
 </html>

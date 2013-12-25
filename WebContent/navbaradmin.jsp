@@ -299,7 +299,6 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-		          <li><a href="#" style="font-size: 16px; color: white;font-weight: 200;">Delete Project</a></li>
 		          </ul>
 		        </li>
 		      

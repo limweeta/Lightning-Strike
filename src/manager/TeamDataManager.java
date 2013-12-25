@@ -134,6 +134,12 @@ public class TeamDataManager implements Serializable {
 			teams.add(addTeam);
 		}
 		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	            	return t1.getTeamName().compareTo(t2.getTeamName());
+	        }
+		});
+		
 		return teams;
 	}
 	
@@ -855,6 +861,10 @@ public class TeamDataManager implements Serializable {
 					+ "(`team_id`, `technology_id`) "
 					+ "VALUES (" + teamId + ", " + Integer.parseInt(prefTech[i]) + ");");
 		}
+		
+		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_status` "
+				+ "(`team_id`, `status_id`) "
+				+ "VALUES (" + teamId + ", 1);");
 		
 	}
 	

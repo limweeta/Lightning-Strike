@@ -6,13 +6,13 @@ public class Company{
 	@Id private int id;
 	private String coyName;
 	private String coyAdd;
-	private int coyContactNum;
+	private String coyContactNum;
 	private int orgType;
   
 	public Company(){}
 	
 	//constructor
-	public Company(int id, String coyName, String coyAdd, int coyContactNum, int orgType){
+	public Company(int id, String coyName, String coyAdd, String coyContactNum, int orgType){
 		this.id				=	id;
 		this.coyName		=	coyName;
 		this.coyAdd			=	coyAdd;
@@ -33,7 +33,7 @@ public class Company{
 		return coyAdd;
 	}
 	
-	public int getCoyContactNum(){
+	public String getCoyContactNum(){
 		return coyContactNum;
 	}
 	
@@ -54,7 +54,7 @@ public class Company{
 		this.coyAdd = coyAdd;
 	}
 	
-	public void setCoyContactNum(int coyContactNum){
+	public void setCoyContactNum(String coyContactNum){
 		this.coyContactNum = coyContactNum;
 	}
 	
