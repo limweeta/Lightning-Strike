@@ -372,7 +372,7 @@ color: white;
 	          	</ul>
 	          </li>
 	          <li id="switchRoles" style="display:none;">
-	          	<form id="switchRole" action="switchRole" method="post">
+	          	<form id="switchRole" action="switchRole" method="post" onsubmit="this.form.reset()">
 		  			<select id="role" name="role" class="input-small" onChange="this.form.submit()" >
 		  			<option value="#">Choose one...</option>
 		  				<%

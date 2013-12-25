@@ -18,6 +18,7 @@
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
+
 </style>
 <%
 	  UserDataManager udm = new UserDataManager();
@@ -133,6 +134,13 @@
 			@import "./DataTables-1.9.4/examples/examples_support/jquery.tooltip.css";
 /* 			@import "./css/style.css"; */
 /* 			@import "./css/searchstyle.css"; */
+			
+	.dataTables_wrapper {
+		position: relative;
+		clear: both;
+		zoom: 1;
+		width: 900px;
+	}
 		</style>
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.js"></script>
 		<script type="text/javascript" charset="utf-8" src="./DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
@@ -201,17 +209,17 @@ session.removeAttribute("message");
 					<form name="deleteTerm" action="deleteTerm" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Academic Terms</legend>
-<%
-TermDataManager termdm = new TermDataManager();
-ArrayList<Term> allTerms = termdm.retrieveAll();
-%>
+						<%
+						TermDataManager termdm = new TermDataManager();
+						ArrayList<Term> allTerms = termdm.retrieveAll();
+						%>
 						<div class="span7">
 						 
 						<div class="control-group">
 							
 			<div id="demo">
-<div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">
-	<thead>
+	<table cellpadding="0" cellspacing="0" border="0" class="display dataTable" style="width: 900px; margin:inherit;"id="example" aria-describedby="example_info">
+		<thead>
 		<tr role="row">
 			<th class="center" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Delete</th>
 			<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 12px;">Term</th>
@@ -258,7 +266,7 @@ for(int i = 0; i < allTerms.size(); i++){
 		<br />
 		<input type="submit" value="Delete selected terms" class="btn btn-success" />
 
-						    </div>
+						  
 						    </br>
 						  
 						</div>

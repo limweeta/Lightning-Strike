@@ -165,7 +165,7 @@ color: white ;
 	          	</a>
 	          	</li>
 	          	 <li id="switchRoles" style="display:none;">
-	          	<form action="switchRole" method="post">
+	          	<form action="switchRole" method="post" onsubmit="this.form.reset()">
 		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
 		  			<option value="#">Choose one...</option>
 		  				<%

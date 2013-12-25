@@ -79,7 +79,7 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 						  			<%
 						  		}
 						  	%>
-						    </select>>
+						    </select>
 						  </div>
 						</div>
 						
