@@ -851,15 +851,23 @@ public class TeamDataManager implements Serializable {
 				+ "VALUES (" + teamId + ", '" + teamName + "', " + teamLimit + ", " + pmId + ", " + supId + ", " + rev1 + ", " + rev2 + ", " + termId + ");");
 		
 		for(int i = 0; i < prefIndustry.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
-					+ "(`team_id`, `industry_id`) "
-					+ "VALUES (" + teamId + ", " + Integer.parseInt(prefIndustry[i]) + ");");
+			try{
+				if(Integer.parseInt(prefIndustry[i]) != 0){
+					MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
+							+ "(`team_id`, `industry_id`) "
+							+ "VALUES (" + teamId + ", " + Integer.parseInt(prefIndustry[i]) + ");");
+				}
+			}catch(Exception e){}
 		}
 		
 		for(int i = 0; i < prefTech.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_technology` "
-					+ "(`team_id`, `technology_id`) "
-					+ "VALUES (" + teamId + ", " + Integer.parseInt(prefTech[i]) + ");");
+			try{
+				if(Integer.parseInt(prefTech[i]) != 0){
+				MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_technology` "
+						+ "(`team_id`, `technology_id`) "
+						+ "VALUES (" + teamId + ", " + Integer.parseInt(prefTech[i]) + ");");
+				}
+			}catch(Exception e){}
 		}
 		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_status` "
@@ -991,6 +999,7 @@ public class TeamDataManager implements Serializable {
 	
 	public void remove(int ID){
 		MySQLConnector.executeMySQL("delete", "Delete FROM teams WHERE id = " + ID);
+		MySQLConnector.executeMySQL("delete", "Delete FROM team_status WHERE team_id = " + ID);
 	}
 	
 	public void removeAll() {

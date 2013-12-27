@@ -203,15 +203,20 @@
 		<div class="container" id="content-container">
 			<div class="content">
 					<form class="form-horizontal" action="createTeam" method="post" name="createTeam" onsubmit="return validateForm()">
-						<% String message = (String) session.getAttribute("message"); 
+						<%
+						String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
 						}else{
 						%>
-						<font size=-1 color="red"><i><%=message %></i></font>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
 						<%
-						session.removeValue("message");
-						} %>
+						session.removeAttribute("message");
+						}
+					%>
 						<!-- Form Name -->
 						<legend>Create Team</legend>
 						

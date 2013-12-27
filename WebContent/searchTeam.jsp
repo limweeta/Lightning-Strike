@@ -159,7 +159,7 @@ for(int i = 0; i < teams.size(); i++){
 	}
 	
 	try{
-		termname = term.getAcadYear() + " T" + term.getSem();
+		termname = "AY" + term.getAcadYear() + " T" + term.getSem();
 	}catch(Exception e){
 		termname = "Not specified";
 	}
@@ -189,7 +189,7 @@ for(int i = 0; i < teams.size(); i++){
 %>
 	<tr class="">
 			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
-			<td class="center "><%=term.getAcadYear() + " T" + term.getSem() %></a></td>
+			<td class="center "><%=termname %></a></td>
 			<td class="center" style="word-wrap:break-word;">
 			<%if(projId != 0){ %>
 			<a href="projectProfile.jsp?id=<%=projId%>" style="color:#005580;">

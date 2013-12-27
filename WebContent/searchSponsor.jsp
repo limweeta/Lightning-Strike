@@ -48,14 +48,19 @@
 			</div>
 				<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 			<% String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-						%>
-						<font size=-1 color="red"><i><%=message %></i></font>
-						<%
-						session.removeValue("message");
-						} %>
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
+			<div class="alert alert-success" align="center">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
+			<%
+			session.removeValue("message");
+			} %>
 			
 			<div id="demo">
 <div id="example_wrapper" class="dataTables_wrapper" role="grid"><table cellspacing="0" border="0" class="display dataTable" id="example" aria-describedby="example_info">

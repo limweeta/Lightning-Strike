@@ -55,6 +55,20 @@
 <body>
 	<div class="container" id="content-container">
 		<div class="content">
+		<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 			<legend>Suspended Users</legend>
 					<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -91,20 +105,7 @@
 					</div>
 					</div>
 					<a href="adminSuspend.jsp">Suspend Users</a>
-					<%
-						String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-					%>
-						<div class="alert alert-success" align="center">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong><%=message %></strong>
-									</div>
-					<%
-						session.removeAttribute("message");
-						}
-					%>
+					
 		</div>
 	</div>
 </body>

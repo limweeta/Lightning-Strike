@@ -84,12 +84,12 @@ function toggleSkill(source) {
             return error;
         }
 
-        /*
+        
         function validatePhone(fld)  
         {  
           var error  = "";
-          var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;  
-          if(!(fld.value.match(phoneno))){  
+          var phoneno = /^[\d\.\-\+]+$/;  
+          if(!(fld.value.match(phoneno))||(fld.value.length<8)){  
         	  error = "Invalid phone number.\n"; 
         	  fld.style.background="Yellow";
           }else if(fld.value=""){  
@@ -98,7 +98,7 @@ function toggleSkill(source) {
           }  
           return error;
         }  
-        */
+        
         function validateEmail(fld) {
             var error="";
             var tfld = trim(fld.value);                        // value of field with whitespace trimmed off
@@ -397,12 +397,12 @@ function toggleSkill(source) {
 			</div>
 		</div>
 		 <div class="control-group">
-		  <label class="control-label" for="contactno">Contact</label>
+		  <label class="control-label" for="contact">Contact</label>
 		  <div class="controls">
 			<%
 				if(sessionUsername.equals(uProfile.getUsername())){
 			%>
-		    	<input id="contactno" name="contactno" type="text" value="<%=uProfile.getContactNum()%>" class="input-large" maxlength="30">
+		    	<input id="contact" name="contact" type="text" value="<%=uProfile.getContactNum()%>" class="input-large" maxlength="30">
 		    <%}else{ %>
 		    	<%=uProfile.getContactNum()%>
 		    <%} %>

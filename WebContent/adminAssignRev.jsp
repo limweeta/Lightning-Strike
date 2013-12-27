@@ -57,6 +57,20 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 <body>
 	<div class="container" id="content-container">
 		<div class="content">
+		<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+						%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+						<%
+						session.removeAttribute("message");
+						}
+					%>
 			<form action="assignReviewer" method="post" class="form-horizontal">
 						<fieldset>
 						
@@ -138,20 +152,7 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 						</div>
 						</fieldset>
 					</form>
-					<%
-						String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-						%>
-						<div class="alert alert-success" align="center">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong><%=message %></strong>
-									</div>
-						<%
-						session.removeAttribute("message");
-						}
-					%>
+					
 		</div>
 
 	</div>

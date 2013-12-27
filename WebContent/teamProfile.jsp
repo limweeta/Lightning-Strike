@@ -362,7 +362,7 @@
 		</select> 
 		<%} else{ 
 					Term term = termdm.retrieve(team.getTermId());%>
-		  	<span class="label label-info"><%=term.getAcadYear() + " T" + term.getSem()%></span>
+		  	<span class="label label-info"><%="AY" + term.getAcadYear() + " T" + term.getSem()%></span>
 		  	<input type="hidden" name="termId" value="<%=term.getId() %>">
 		  	<%} %>
 		  	

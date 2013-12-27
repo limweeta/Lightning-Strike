@@ -55,7 +55,6 @@ public class UpdateProfileServlet extends HttpServlet {
 		
 		String[] skills = request.getParameterValues("skills");
 		
-		char firstNum = contactNum.charAt(0);
 		
 		if(contactNum.length() != 8){
 			session.setAttribute("message", "Please enter a valid phone number");
@@ -70,7 +69,7 @@ public class UpdateProfileServlet extends HttpServlet {
 				udm.addSkills(skills, id);
 				
 			} else {
-				String facultyType = "Faculty";
+				String facultyType = "Supervisor";
 				Faculty faculty = new Faculty(id, username, fullName, contactNum,
 						email, type, facultyType);
 				fdm.add(faculty);

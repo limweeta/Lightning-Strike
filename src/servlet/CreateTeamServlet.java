@@ -61,8 +61,30 @@ public class CreateTeamServlet extends HttpServlet {
 		String[] industryNew = request.getParameterValues("industryNew");
 		String[] technologyNew = request.getParameterValues("technologyNew");
 		
-		String[] allIndustry = new String[prefIndustry.length + industryNew.length];
-		String[] allTech = new String[prefTech.length + technologyNew.length];
+		String[] allIndustry = null;
+		
+		
+		if(industryNew != null && prefIndustry == null){
+			allIndustry = new String[industryNew.length];
+		}else if(prefIndustry != null && industryNew == null){
+			allIndustry = new String[prefIndustry.length];
+		}else if(industryNew != null && prefIndustry != null){
+			allIndustry = new String[prefIndustry.length + industryNew.length];
+		}else{
+			allIndustry = new String[0];
+		}
+			
+		String[] allTech = null;
+		
+		if(technologyNew != null && prefTech == null){
+			allTech = new String[technologyNew.length];
+		}else if(prefTech != null && technologyNew == null){
+			allTech = new String[prefTech.length];
+		}else if(technologyNew != null && prefTech != null){
+			allTech = new String[prefTech.length + technologyNew.length];
+		}else{
+			allTech = new String[0];
+		}
 		
 		if(industryNew.length > 0){
 			String[] newInd = new String[industryNew.length]; 
@@ -70,9 +92,11 @@ public class CreateTeamServlet extends HttpServlet {
 			IndustryDataManager idm = new IndustryDataManager();
 			for(int i = 0; i < industryNew.length; i++){
 				String indName = industryNew[i];
-				idm.add(indName);
-				
-				newInd[i] = Integer.toString(idm.retrieveIndId(indName));
+				if(indName.length() > 2){
+					idm.add(indName);
+					
+					newInd[i] = Integer.toString(idm.retrieveIndId(indName));
+				}
 			}
 			
 			allIndustry = (String[]) ArrayUtils.addAll(prefIndustry, newInd);
@@ -87,9 +111,11 @@ public class CreateTeamServlet extends HttpServlet {
 			TechnologyDataManager techdm = new TechnologyDataManager();
 			for(int i = 0; i < technologyNew.length; i++){
 				String techName = technologyNew[i];
-				techdm.add(techName);
-				
-				newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+				if(techName.length() > 2){
+					techdm.add(techName);
+					
+					newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+				}
 			}
 			
 			allTech = (String[]) ArrayUtils.addAll(prefTech, newTech);
@@ -193,7 +219,7 @@ public class CreateTeamServlet extends HttpServlet {
 				}catch(Exception e){}
 			}
 			tdm.add(team, allIndustry, allTech);
-			response.sendRedirect("teamProfile.jsp?id="+teamid);
+			//response.sendRedirect("teamProfile.jsp?id="+teamid);
 		}	
 	}
 }

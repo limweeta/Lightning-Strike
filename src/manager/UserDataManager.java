@@ -308,7 +308,7 @@ public class UserDataManager implements Serializable {
 		MySQLConnector.executeMySQL("update", "UPDATE users SET "
 				+ "username = '" + user.getUsername() +"', "
 				+ "full_name = '" + user.getFullName() + "', "
-				+ "contact_num = " + user.getContactNum() + ", "
+				+ "contact_num = '" + user.getContactNum() + "', "
 				+ "email = '" + user.getEmail() + "' "
 				+ "WHERE id = " + user.getID());
 	}

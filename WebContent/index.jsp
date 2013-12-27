@@ -64,8 +64,8 @@ function validateFullname(fld) {
 function validatePhone(fld)  
 {  
   var error  = "";
-  var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;  
-  if(!(fld.value.match(phoneno))){  
+  var phoneno = /^[\d\.\-\+]+$/;  
+  if(!(fld.value.match(phoneno))||(fld.value.length<8)){  
 	  error = "Invalid phone number.\n"; 
 	  fld.style.background="Yellow";
   }else if(fld.value=""){  

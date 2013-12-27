@@ -145,8 +145,10 @@ public class IndustryDataManager implements Serializable {
 	}
 	
 	public void add(String industryName){
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`industry` (industry_name) "
-				+ "VALUES ('" + industryName + ");");
+		if(industryName.length() > 2){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`industry` (industry_name) "
+					+ "VALUES ('" + industryName + "');");
+		}
 	}
 	
 	public void modify(){

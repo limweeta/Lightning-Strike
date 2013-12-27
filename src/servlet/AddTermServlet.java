@@ -49,7 +49,7 @@ public class AddTermServlet extends HttpServlet {
 		
 		
 		String acadYear = request.getParameter("acadYear");
-		int sem = Integer.parseInt(request.getParameter("semester"));
+		String sem =request.getParameter("semester");
 		
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");

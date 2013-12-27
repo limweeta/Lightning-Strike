@@ -242,7 +242,11 @@ public class StudentDataManager implements Serializable {
 		int teamId	= student.getTeamId();
 		int preferredRole = student.getPreferredRole();
 		
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES (" + id + ", '" + username + "', '" + fullName + "', " + contactNum + ", '" + email + "', '" + type + "');");
+		MySQLConnector
+		.executeMySQL(
+				"insert",
+				"INSERT INTO `is480-matching`.`users` (`id`, `username`, `full_name`, `contact_num`, `email`, `type`) VALUES ("
+						+ id + ", '" + username + "', '" + fullName + "', '" + contactNum + "', '" + email + "', '" + type + "');");
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role_id`, `team_id`, `preferred_role_id`) VALUES ('" + id + "', '" + secondMajor + "', " + role + ", " + teamId + ", " + preferredRole + ");");
 		System.out.println("student added successfully");
 	}
@@ -290,7 +294,8 @@ public class StudentDataManager implements Serializable {
 	
 	public void modify(User user, Student student, String[] skills){
 		MySQLConnector.executeMySQL("update", "UPDATE users SET "
-				+ "contact_num = " + user.getContactNum() + " "
+				+ "contact_num = '" + user.getContactNum() + "',"
+				+ "email = '" + user.getEmail() + "'"
 				+ "WHERE id = " + user.getID());
 		
 		MySQLConnector.executeMySQL("update", "UPDATE students SET "

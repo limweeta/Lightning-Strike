@@ -130,6 +130,20 @@
 <body>
 	<div class="container" id="content-container">
 		<div class="content">
+		<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 			<form action="suspendUser" method="post" class="form-horizontal">
 						<fieldset>
 						
@@ -161,20 +175,7 @@
 						</fieldset>
 					</form>
 					<a href="adminSuspended.jsp">View List of Suspended Users</a>
-					<%
-						String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-					%>
-						<div class="alert alert-success" align="center">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong><%=message %></strong>
-									</div>
-					<%
-						session.removeAttribute("message");
-						}
-					%>
+					
 		</div>
 	</div>
 </body>

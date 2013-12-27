@@ -76,9 +76,11 @@ public class CreateProjectServlet extends HttpServlet {
 			TechnologyDataManager techdm = new TechnologyDataManager();
 			for(int i = 0; i < technologyNew.length; i++){
 				String techName = technologyNew[i];
-				techdm.add(techName);
+				if(techName.trim().length() > 2){
+					techdm.add(techName);
 				
-				newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+					newTech[i] = Integer.toString(techdm.retrieveTechId(techName));
+				}
 			}
 			
 			allTech = (String[]) ArrayUtils.addAll(technologies, newTech);

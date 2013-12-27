@@ -43,6 +43,7 @@ color: white ;
 			$('switchRoles').show();
 		}
 		
+		
 		function trim(s)
 		{
 		  return s.replace(/^\s+|\s+$/, '');
@@ -150,23 +151,19 @@ color: white ;
 	          		&nbsp; My Profile
 	          	</a>
 	          	</li>
-	          	<li>
-	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;"  onclick="switchRole()">
+	          <!-- 	<li>
+	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-users"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
-	          	</li>
-	          	<li>
-	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
-	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
-	          		<i class="fa fa-power-off"></i>
-	          		&nbsp; Logout
-	          	</a>
-	          	</li>
-	          	 <li id="switchRoles" style="display:none;">
-	          	<form action="switchRole" method="post" onsubmit="this.form.reset()">
+	          	</li> -->
+	          
+	          	
+	          	 <li id="switchRoles" style="padding-top:5px;">
+	          	<form action="switchRole" method="post" onsubmit="this.reset()" style="margin: 0 20 0px;">
+		  			<i class="fa fa-users" style="color:white; padding-right:8px;"></i> 
 		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
-		  			<option value="#">Choose one...</option>
+		  			<option value="#">Role</option>
 		  				<%
 		  				RoleDataManager rdm = new RoleDataManager();
 		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(supUsername, supType);
@@ -180,9 +177,18 @@ color: white ;
 		  			</select>
 				</form>
 	          </li>
-	          	</ul>
+	          
+	          	<li>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
+	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-power-off"></i>
+	          		&nbsp; Logout
+	          	</a>
+	          	</li>
+	          
+	          </ul>
 	          </li>
-	        </ul>
+	          	</ul>
            </div>
          </div>
      </div>

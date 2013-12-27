@@ -2,26 +2,26 @@ package model;
 
 public class Term {
 	private String acadYear;
-	private int sem;
+	private String sem;
 	private int id;
 	private String startDate;
 	private String endDate;
 	
 	public Term(){}
 	
-	public Term(String acadYear, int sem){
+	public Term(String acadYear, String sem){
 		this.acadYear = acadYear;
 		this.sem = sem;
 	}
 	
-	public Term(String acadYear, int sem, String startDate, String endDate){
+	public Term(String acadYear, String sem, String startDate, String endDate){
 		this.acadYear = acadYear;
 		this.sem = sem;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 	
-	public Term(int id, String acadYear, int sem, String startDate, String endDate){
+	public Term(int id, String acadYear, String sem, String startDate, String endDate){
 		this.id = id;
 		this.acadYear = acadYear;
 		this.sem = sem;
@@ -29,7 +29,7 @@ public class Term {
 		this.endDate = endDate;
 	}
 	
-	public Term(int id, String acadYear, int sem){
+	public Term(int id, String acadYear, String sem){
 		this.id = id;
 		this.acadYear = acadYear;
 		this.sem = sem;
@@ -51,7 +51,7 @@ public class Term {
 		return id;
 	}
 	
-	public int getSem(){
+	public String getSem(){
 		return sem;
 	}
 	
@@ -59,7 +59,7 @@ public class Term {
 		this.acadYear = acadYear;
 	}
 	
-	public void setSem(int sem){
+	public void setSem(String sem){
 		this.sem = sem;
 	}
 	

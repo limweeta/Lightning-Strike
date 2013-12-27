@@ -35,13 +35,16 @@ color: white;
 		  $('.dropdown input, .dropdown label').click(function(e) {
 		    e.stopPropagation();
 		  });
+		   
 		});
 		
 		function switchRole(){
-			
 			$('#switchRoles').show();
 		}	
 		
+		function switchRoleHide(){
+			$('#switchRoles').hide();
+		}
 		
 		function validateRegisterOnSubmit(theForm) {
 			var reason = "";
@@ -305,22 +308,22 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-		          	<li class="dropdown"><a href="./admin.jsp#assignSup" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
-               		<li class="dropdown"><a href="./admin.jsp#assignRev" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
-              		<li class="dropdown"><a href="#" style="font-size: 16px; color: white;font-weight: 200;">Suspend Team</a></li>	
+		          	<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
+               		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
+              		<li class="dropdown"><a href="./adminTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Team</a></li>	
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Student<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchStudent.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="./admin.jsp#suspend" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+               		<li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="#register" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="./admin.jsp#deleteSponsor" style="font-size: 16px; color: white;font-weight: 200;">Delete</a></li>
+               		<li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete</a></li>
 <!--                		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li> -->
                	</ul>
                </li>
@@ -332,7 +335,7 @@ color: white;
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Term<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="admin.jsp#term" style="font-size: 16px; color: white;font-weight: 200;">Add Term</a></li>
+               		<li><a href="./adminTerm.jsp" style="font-size: 16px; color: white;font-weight: 200;">Add Term</a></li>
                		<li><a href="./export.jsp" style="font-size: 16px; color: white;font-weight: 200;">Export</a></li>
                	</ul>
                </li>
@@ -355,25 +358,20 @@ color: white;
 	          		&nbsp; My Profile
 	          	</a>
 	          	</li>
-	          	<li>
-	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;" onclick="switchRole()">
+	          	<!-- <li>
+	          	<a href="#" style="font-size: 16px; color: white;font-weight: 200;">
 	          		<i class="fa fa-users"></i>
 	          		&nbsp; Switch Roles
 	          	</a>
-	          	</li>
-	          	<li>
-	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
-	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
-	          		<i class="fa fa-power-off"></i>
-	          		&nbsp; Logout
-	          	</a>
-	          	</li>
-	          	</ul>
-	          </li>
-	          <li id="switchRoles" style="display:none;">
-	          	<form id="switchRole" action="switchRole" method="post" onsubmit="this.form.reset()">
+	          	</li> -->
+	          	
+	          	
+	         
+	          <li id="switchRoles" style="padding-top:5px;">
+	          	<form action="switchRole" method="post" onsubmit="this.reset()" style="margin: 0 20 0px;">
+	          		<i class="fa fa-users" style="color:white; padding-right:8px;"></i> 
 		  			<select id="role" name="role" class="input-small" onChange="this.form.submit()" >
-		  			<option value="#">Choose one...</option>
+		  			<option value="#">Role</option>
 		  				<%
 		  				RoleDataManager rdm = new RoleDataManager();
 		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(ausername, atype);
@@ -387,6 +385,18 @@ color: white;
 		  			</select>
 				</form>
 	          </li>
+	          
+	          <li>
+	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
+	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">
+	          		<i class="fa fa-power-off"></i>
+	          		&nbsp; Logout
+	          	</a>
+	          	</li>
+	          
+	          </ul>
+	           </li>
+	           
 	        </ul>
 
            </div>

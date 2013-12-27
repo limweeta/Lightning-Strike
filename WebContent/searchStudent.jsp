@@ -85,7 +85,14 @@
 	
 <tbody role="alert" aria-live="polite" aria-relevant="all">
 <%
-	int count = 0;
+int count = 0;
+int visitorTeamId = 0;
+
+try{
+	visitorTeamId = tdm.retrievebyStudent(udm.retrieve(username).getID());
+}catch(Exception e){
+	visitorTeamId = 0;
+}
 
 User u = null;
 String supname = "";
@@ -151,10 +158,14 @@ for(int i = 0; i < students.size(); i++){
 			<%} %>
 			<%=supname %></a></td>
 			<% 
-			if(tdm.emptySlots(userTeam)){
+			if(tdm.emptySlots(userTeam) && visitorTeamId == 0 && !sdm.hasTeam(student)){
 			%>
 				<td class="center">
-				<a href="#">Invite to team</a>
+				<form action="inviteStudent" method="post">
+				<input type="hidden" name="userid" value="<%=student.getID()%>">
+				<input type="hidden" name="visitorTeamId" value="<%=student.getID()%>">
+				<input type="submit" value ="Invite to team" class="btn btn-info" />
+				</form>
 				</td>
 			<%
 			}

@@ -323,7 +323,7 @@ String dateStr = Integer.toString(currDay) + "/" + Integer.toString(currMth) + "
 							<%
 							if(!status.equalsIgnoreCase("Completed")){
 							%>
-						    <input type="submit" id="teamSponsorFeedback" value="Submit Feedback" class="btn btn-success" disabled="disabled">
+						    <input type="submit" id="teamSponsorFeedback" value="Submit Feedback" class="btn btn-success">
 						    <br />
 						    <font size=-2 color=red>You have yet to complete your project</font>
 						    <%

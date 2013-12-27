@@ -155,15 +155,20 @@ int currMth = now.get(Calendar.MONTH);
 		<div id="content-container" class="container">
 			<div class="content" align = "justify">
 					<form class="form-horizontal" method=post action="createProject" onsubmit="return validateForm()">
-						<% String message = (String) session.getAttribute("message"); 
+						<%
+						String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){
 							message = "";
 						}else{
-						%>
-						<font size=-1 color="red"><i><%=message %></i></font>
-						<%
-						session.removeValue("message");
-						} %>
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 						<!-- Form Name -->
 						<legend>Create Project&nbsp;<font size="3" color="red">*Fields are mandatory</font></legend>
 						<%

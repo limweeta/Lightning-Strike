@@ -403,7 +403,7 @@ public class TechnologyDataManager implements Serializable {
 		HashMap<String, ArrayList<String>> map = MySQLConnector
 				.executeMySQL(
 						"select",
-						"SELECT * FROM `is480-matching`.technologies where technologies_name LIKE '%"	+ tech + "';");
+						"SELECT * FROM `is480-matching`.technologies where technology LIKE '%"	+ tech + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		if (iterator.hasNext()) {
@@ -421,7 +421,7 @@ public class TechnologyDataManager implements Serializable {
 		HashMap<String, ArrayList<String>> map = MySQLConnector
 				.executeMySQL(
 						"select",
-						"SELECT * FROM `is480-matching`.technologies where technologies_name LIKE '%"	+ tech + "';");
+						"SELECT * FROM `is480-matching`.technologies where technology LIKE '%"	+ tech + "';");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while (iterator.hasNext()) {
@@ -444,9 +444,11 @@ public class TechnologyDataManager implements Serializable {
 	}
 
 	public void add(String newTech) {
-		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`technologies` (technology, tech_sub_cat_id, tech_cat_id)"
-				+ " VALUES ('"	+ newTech + "', NULL, 5);");
+		if(newTech.length() > 2){
+			MySQLConnector.executeMySQL("insert",
+					"INSERT INTO `is480-matching`.`technologies` (technology, tech_sub_cat_id, tech_cat_id)"
+					+ " VALUES ('"	+ newTech + "', NULL, 5);");
+		}
 	}
 	
 	public void modify(Technology technology) {

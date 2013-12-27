@@ -220,8 +220,10 @@ public class SkillDataManager implements Serializable {
 	}
 	
 	public void add(String skillName, String skillType){
-		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`skills`(skill_name, skill_type) "
-				+ "VALUES ('" + skillName + "', '" + skillType + ");");
+		if(skillName.trim().length() > 2){
+			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`skills`(skill_name, skill_type) "
+					+ "VALUES ('" + skillName + "', '" + skillType + ");");
+		}
 	}
 	
 	public boolean hasSkill(ArrayList<String> skills, Skill skillCheck) throws Exception{

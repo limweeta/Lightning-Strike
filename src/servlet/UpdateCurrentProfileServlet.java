@@ -33,7 +33,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		String type = (String) session.getAttribute("type");
 		String email = request.getParameter("email");
-		String contact = request.getParameter("contactno");
+		String contact = request.getParameter("contact");
 		
 
 

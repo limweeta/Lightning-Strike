@@ -47,7 +47,11 @@
 			
 			<%@ include file="navbarsup.jsp" %>
 			
-			<%} %>
+			<%}else if(type.equalsIgnoreCase("guest")){%>
+			
+			<%@ include file="navbarguest.jsp" %>
+		
+	<%} %>
 </br>
   </head>
 

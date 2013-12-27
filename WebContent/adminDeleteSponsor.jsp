@@ -48,6 +48,20 @@
 <body>
 	<div class="container" id="content-container">
 		<div class="content">
+			<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 			<form name="deleteSponsor" action="deleteSponsor" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Delete Sponsor</legend>
@@ -67,20 +81,7 @@
 						</div>
 						</fieldset>
 					</form>
-					<%
-						String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-					%>
-						<div class="alert alert-success" align="center">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong><%=message %></strong>
-									</div>
-					<%
-						session.removeAttribute("message");
-						}
-					%>
+				
 		</div>
 	</div>
 </body>

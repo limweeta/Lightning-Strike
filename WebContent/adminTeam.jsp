@@ -132,6 +132,20 @@
 <body>
 	<div class="container" id="content-container">
 		<div class="content">	
+		<%
+						String message = (String) session.getAttribute("message"); 
+						if(message == null || message.isEmpty()){
+							message = "";
+						}else{
+					%>
+						<div class="alert alert-success" align="center">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong><%=message %></strong>
+									</div>
+					<%
+						session.removeAttribute("message");
+						}
+					%>
 			<form name="moveTeam" action="moveTeam" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Move Team</legend>

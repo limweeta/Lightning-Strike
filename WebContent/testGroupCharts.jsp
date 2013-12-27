@@ -68,14 +68,20 @@ if(data != null){
 		for (Map.Entry<Integer, ArrayList<Integer>> entryValue : mapValue.entrySet()){
 			ArrayList<Integer> rawMap = entryValue.getValue();
 			if(factor.equalsIgnoreCase("Skill")){
+				try{
 				Skill skill = skdm.retrieve(entryValue.getKey());
 				text += skill.getSkillName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+				}catch(Exception e){}
 			}else if(factor.equalsIgnoreCase("Industry")){
+				try{
 				Industry industry = idm.retrieve(entryValue.getKey());
 				text += industry.getIndustryName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+				}catch(Exception e){}
 			}else if(factor.equalsIgnoreCase("Tech")){
+				try{
 				Technology technology = techdm.retrieve(entryValue.getKey());
 				text += technology.getTechName() + " - " + Integer.toString(rawMap.size()) + " <br /> ";
+				}catch(Exception e){}
 			}
 		}
 		text += "<br />";

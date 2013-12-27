@@ -152,7 +152,7 @@
 			int term = proj.getIntendedTermId();
 			
 			TermDataManager tdm = new TermDataManager();
-			String strTerm = tdm.retrieve(term).getAcadYear() + " T" + tdm.retrieve(term).getSem();
+			String strTerm = "AY" + tdm.retrieve(term).getAcadYear() + " T" + tdm.retrieve(term).getSem();
 			
 			count++;
 			String rowclass = "";
