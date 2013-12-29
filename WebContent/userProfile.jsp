@@ -275,7 +275,6 @@ function toggleSkill(source) {
 				message = "";
 			}else{
 		%>
-<%-- 			<font size=-1 color="red"><i><%=message %></i></font> --%>
 			<div class="alert alert-success">
 			  <button type="button" class="close" data-dismiss="alert">&times;</button>
 			  <strong><%=message %></strong>
@@ -285,7 +284,11 @@ function toggleSkill(source) {
 			session.removeValue("message");
 			} %>
 		<!-- Form Name -->
-		<h3>User Profile</h3>
+		<h5>User Profile
+			<%if(udm.isSuspended(uProfile.getUsername())){ %>
+					<span class="label label-danger" style="padding:10px;">User Suspended</span></br>
+			<%} %>
+		</h5>
 		<%if (usertype.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
@@ -386,7 +389,7 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="fullname">Name</label>
 		  <div class="controls">
-		 <%if(sessionUsername.equals(uProfile.getUsername())){ %>
+		 <%if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){ %>
 		    <input id="fullname" name="fullname" type="text" value="<%=uProfile.getFullName()%>" class="input-large" maxlength="50">
 		 <% }else{%>
 		    <%=uProfile.getFullName()%>
@@ -400,7 +403,7 @@ function toggleSkill(source) {
 		  <label class="control-label" for="contact">Contact</label>
 		  <div class="controls">
 			<%
-				if(sessionUsername.equals(uProfile.getUsername())){
+				if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){
 			%>
 		    	<input id="contact" name="contact" type="text" value="<%=uProfile.getContactNum()%>" class="input-large" maxlength="30">
 		    <%}else{ %>
@@ -411,7 +414,7 @@ function toggleSkill(source) {
 		<div class="control-group">
 		  <label class="control-label" for="email">Email</label>
 		  <div class="controls">
-		  <%if(sessionUsername.equals(uProfile.getUsername())){ %>
+		  <%if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){ %>
 		    <input id="email" name="email" type="text" value="<%=uProfile.getEmail()%>" class="input-xlarge" maxlength="50">
 		     <% }else{%>
 		    <a href="mailto:<%=uProfile.getEmail()%>"><%=uProfile.getEmail()%></a>
@@ -446,7 +449,7 @@ function toggleSkill(source) {
 		<!-- <div class="span4"> -->
 		<!-- Text input-->
 			
-		<%if(usertype.equalsIgnoreCase("Student")){%>
+		<%if(usertype.equalsIgnoreCase("Student")||sessiontype.equalsIgnoreCase("Admin")){%>
 		<!-- </div> -->
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
@@ -455,7 +458,7 @@ function toggleSkill(source) {
 		  <div class="controls">
 		  	 
 		  	<%
-				if(sessionUsername.equals(uProfile.getUsername())){
+				if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){
 			%>
 			<select id="secondmaj" name="secondmajor" class="input-large">
 			<%
@@ -498,7 +501,7 @@ function toggleSkill(source) {
 		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
 							<%
-							if(username.equalsIgnoreCase(requestedUserName)){
+							if(username.equalsIgnoreCase(requestedUserName)||sessiontype.equalsIgnoreCase("Admin")){
 							    int count = 0;
 								boolean checked = false;
 								%>
@@ -636,7 +639,7 @@ function toggleSkill(source) {
 		  	<a href="<%=projProfLink%>"><span class="label label-info"><%=projName%></span></a>
 		  </div>
 		</div>
-		<%}else if(usertype.equalsIgnoreCase("Sponsor")){ 
+		<%}else if(usertype.equalsIgnoreCase("Sponsor") ||sessiontype.equalsIgnoreCase("Admin")){ 
 		Sponsor sponsor = sponsordm.retrieve(username);
 		Company company = cdm.retrieve(profileid);
 		int orgId = company.getOrgType();
@@ -699,16 +702,16 @@ function toggleSkill(source) {
 		</div>
 		<%}else if(usertype.equalsIgnoreCase("Supervisor")){ %>
 		<div class="control-group">
-		  <label class="control-label" for="coyName">Supervising Teams </label>
+		  <label class="control-label" for="coyName">Current Supervising Teams </label>
 		  <div class="controls">
 		    <%
-			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(requestedUserName);
+			ArrayList<Team> currentTeams = tdm.retrieveSupervisingCurrentTeams(requestedUserName);
 			
-			if(teams.size() < 1){
+			if(currentTeams.size() < 1){
 				out.println("No teams under supervision");
 			}else{
-				for(int i = 0; i < teams.size(); i++){
-					Team t = teams.get(i);
+				for(int i = 0; i < currentTeams.size(); i++){
+					Team t = currentTeams.get(i);
 					%>
 					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
 					<%
@@ -718,33 +721,52 @@ function toggleSkill(source) {
 		  </div>
 		</div>
 			
-		
+		<div class="control-group">
+		  <label class="control-label" for="coyName">Past Supervising Teams </label>
+		  <div class="controls">
+		    <%
+			ArrayList<Team> pastTeams = tdm.retrieveSupervisingPastTeams(requestedUserName);
+			
+			if(pastTeams.size() < 1){
+				out.println("No teams under supervision");
+			}else{
+				for(int i = 0; i < pastTeams.size(); i++){
+					Team t = pastTeams.get(i);
+					%>
+					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
+					<%
+				}
+			}
+			%>
+		  </div>
+		</div>
 		<%} %>
 		<!-- Button -->
 		<%
-		if(sessionUsername.equals(uProfile.getUsername())){
+		if(sessionUsername.equals(uProfile.getUsername()) || sessiontype.equalsIgnoreCase("Admin")){
 		%>
 		<input type="submit" id="editprofile" value="Save" class="btn btn-success">
 		</form>
 		<%
 		}else{
-		%></form>
+		%>
+		</form>
 		<%
 		}
 		%>
-		<%if(sessiontype.equalsIgnoreCase("Student")&&!sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
+		<% if(sessiontype.equalsIgnoreCase("Student")&&!sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=profileid%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
 		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info" onclick="this.disabled=true;this.value='Invited';">
 		   </form>
-		<%}%>
+		<% }%>
 		</div> 
 	
 	</div>
 </body>
-<%}
-
+<%
+}
 %>
 
 </html>

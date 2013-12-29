@@ -117,6 +117,7 @@
 	
 	StudentDataManager stdm = new StudentDataManager();	
 	
+	int creatorId = 0;
 	String sessionUsername = (String) session.getAttribute("username");
 	User sessionUser2 = udm.retrieve(sessionUsername);
 	int userTeamId = 0;
@@ -214,7 +215,7 @@
 		projManager = "Not Applicable";
 	}
 	
-	int creatorId = reqProj.getCreatorId();
+	creatorId = reqProj.getCreatorId();
 	
 	IndustryDataManager idm = new IndustryDataManager();
 	Industry ind  = idm.retrieve(reqProj.getIndustry());
@@ -569,7 +570,6 @@
 							  }
 								  %>
 								  
-					<input type="text" name="skillLang" placeholder="Others">
 					  	</tr>
 					  <%
 				    	}else{
@@ -596,9 +596,6 @@
 					  %>
 					</table>
 					<table>
-						<!-- <tr class="spaceunder">
-						     <td><input type="checkbox" onclick="toggleSkillOthers(this)" />&nbsp;<span class="label label-default">Select All</span></td>
-					     </tr> -->
 				    	<tr class="spaceunder">
 				    	<h2>Others</h2>
 							<%
@@ -629,7 +626,6 @@
 								  }
 							  }
 							  %>
-					<input type="text" name="skillOthers" placeholder="Others">
 							  <%
 							}else{
 								
@@ -670,55 +666,90 @@
 		    </div>
 		    <div id="collapseThree" class="panel-collapse collapse in">
 		      <div class="panel-body">
-		     					 <%
-								ArrayList<Technology> technologies = new ArrayList<Technology>();
-		     					int numOfCat = techdm.retrieveNoOfTechCat();
-		     					
-		     					 if(pdm.isUndertakingProject(username, reqId)){
-								  
+		      <%
+			  int numOfCat = techdm.retrieveNoOfTechCat();
+			  int numOfSubCat = 0;
+			  ArrayList<Technology> technologies = new ArrayList<Technology>();
+			  ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
+				 if(pdm.isUndertakingProject(username, reqId)){
 								  for(int i = 1; i <= numOfCat; i++){
-									  technologies = techdm.retrieveTechCatId(i);
+									  numOfSubCat = techdm.retrieveNumOfSubCat(i);
 									  String catName = techdm.retrieveTechCatName(i);
 									  %>
-										<table>
-											<h2><%=catName %></h2>
-											
-											<tr class="spaceunder"> 
+										<h2><%=catName %></h2>
+										
 									  <%
-									  for(int j = 0; j < technologies.size(); j++){
-										  Technology tech2 = technologies.get(j);
-										 
-										  if(techdm.hasTech(tech, tech2)){
-											  %><td>
-											  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
-											  </td><td></td>
-											   <%
-											  }else{
-											  %><td>
-											  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
-											  </td><td></td>
-										  <%
-											  if((j+1) % 5 == 0){
-											  %>
-										  </tr><tr class="spaceunder">
-										  <%
-											  }
+										subcatIdList = techdm.retrieveTechSubCatIdList(i);
+										for(int k = 0; k <= subcatIdList.size(); k++){
+											int subcatid = 0; 
+											try{
+												subcatid = subcatIdList.get(k);
+											}catch(Exception e){
+												subcatid = 0;
+											}
+
+											technologies = techdm.retrieveTechSubCatId(i, subcatid);
+											String subcatName = techdm.retrieveTechSubCatName(subcatid);
+											%>
+												<table>
+												<tr class="spaceunder"> 
+												<h4><%=subcatName %></h4>
+											<%
+											if(technologies.size() > 0){
+												for(int l = 0; l < technologies.size(); l++){
+										  			Technology tech2 = technologies.get(l);
+										  			if(techdm.hasTech(tech, tech2)){
+											%><td>
+												  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+												 
+											</td><td></td>
+												   <%
+												  }else{
+												  %><td>
+												  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+												  </td><td></td>
+											  <%
+												  }
+												  if((l+1) % 5 == 0){
+												  %>
+											  </tr><tr class="spaceunder">
+											  <%
+												  }
+											 
 										 }
-										%>
-									  </tr></table> 
-									  <%
-								  	}
+								  }else{
+									  out.println("None indicated");
 								  }
-								 %>
-								 <input type="text" name="technology" placeholder="Others">
-								 <%
-		     					}else{
-									
-									  for(int i = 1; i <= numOfCat; i++){
-										  technologies = techdm.retrieveTechCatIdByProject(i, reqId);
-										  String catName = techdm.retrieveTechCatName(i);
-										  %>
-											<table>
+								  %>
+								   </tr></table>
+								  <%
+										}
+								  }
+								  %>
+								 
+								  <br />
+								  <%
+				 }else{
+					 
+					 for(int i = 1; i <= numOfCat; i++){
+						  numOfSubCat = techdm.retrieveNumOfSubCat(i);
+						  String catName = techdm.retrieveTechCatName(i);
+						  %>
+							<h2><%=catName %></h2>
+							
+						  <%
+							subcatIdList = techdm.retrieveTechSubCatIdList(i);
+							for(int k = 0; k <= subcatIdList.size(); k++){
+								int subcatid = 0; 
+								try{
+									subcatid = subcatIdList.get(k);
+								}catch(Exception e){
+									subcatid = 0;
+								}
+								technologies = techdm.retrieveTechCatIdByProject(i, subcatid, reqId);
+								String subcatName = techdm.retrieveTechSubCatName(subcatid);
+								%>
+									<table>
 												<h2><%=catName %></h2>
 												
 												<tr class="spaceunder"> 
@@ -743,22 +774,19 @@
 										  }
 											  %>
 										  </tr></table> 
-										  <%
-									  }
-									  %>
-		     				<%	}
-								  %>
-			    	
-					
+								<%
+							 }
+					  }
+					 
+				}
+					  
+				 %>
 				</div>
 		    </div>
 		  </div>
 	  </div>
 	 
 		</br></br>
-<!-- 		<div class="control-group">
-		  <label class="control-label" for="applyproject"></label>
-		  <div class="controls"> -->
 		  <table>			  <tr>
 			  <td class = "space" align = "center">
 				  <%
@@ -791,7 +819,8 @@
 				  		</br><input type="submit" id="apply" value="Apply for Project" class="btn btn-warning"></form>
 				  	<%
 				  	}
-	}
+				  	
+		}	
 				  	%>
 				  </form>
 		

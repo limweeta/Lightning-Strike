@@ -33,6 +33,7 @@
           defaultDate: "+1w",
           changeMonth: true,
           numberOfMonths: 3,
+          dateFormat: "yy-mm-dd",
           onClose: function( selectedDate ) {
             $( "#endDate" ).datepicker( "option", "minDate", selectedDate );
           }
@@ -41,6 +42,7 @@
           defaultDate: "+16w",
           changeMonth: true,
           numberOfMonths: 3,
+          dateFormat: "yy-mm-dd",
           onClose: function( selectedDate ) {
             $( "#startDate" ).datepicker( "option", "maxDate", selectedDate );
           }
@@ -78,20 +80,28 @@
 
 	<div class="container" id="content-container">
 		<div class="content">
-		<%
-String message = (String) session.getAttribute("message"); 
-if(message == null || message.isEmpty()){
-	message = "";
-}else{
-%>
-<div class="alert alert-success" align="center">
+			<%
+			String message = (String) session.getAttribute("message"); 
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else if (message.equalsIgnoreCase("Term already exists in the database")||message.equalsIgnoreCase("An error occured. Please try again.")||message.equalsIgnoreCase("No terms selected")||message.equalsIgnoreCase("Oops! An error occurred somewhere")){
+			%>
+			<div class="alert alert-danger" align="center">
 			  <button type="button" class="close" data-dismiss="alert">&times;</button>
 			  <strong><%=message %></strong>
 			</div>
-<%
-session.removeAttribute("message");
-}
-%>
+			<%
+			session.removeAttribute("message");
+			}else{
+			%>
+				<div class="alert alert-success" align="center">
+			 	 <button type="button" class="close" data-dismiss="alert">&times;</button>
+			 	 <strong><%=message %></strong>
+				</div>
+			<%
+			session.removeAttribute("message");	
+			}
+			%>
 			<form name="addTerm" action="addTerm" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Add Term</legend>

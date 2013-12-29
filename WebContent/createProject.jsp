@@ -279,82 +279,7 @@ int currMth = now.get(Calendar.MONTH);
 						  </div>
 						</div>
 						<!-- Select Basic -->
-					<div class="panel-group" id="accordion">
-						<div class="panel panel-default">
-					    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
-					      <h4 class="panel-title">
-					        <a class="accordion-toggle">
-					          Preferred Skills
-					        </a>
-					      </h4>
-					    </div>
-					    <div id="collapseOne" class="panel-collapse collapse in">
-					      <div class="panel-body">
-					 			<table>
-									
-							    	<tr class="spaceunder">
-							    	<h2>Language</h2>
-										<%
-											  SkillDataManager skdm = new SkillDataManager();
-											  ArrayList<Skill> skills = skdm.retrieveAllLang();
-											  
-											  for(int i = 0; i < skills.size(); i++){
-												  Skill skill = skills.get(i);
-												  %><td>
-												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
-												  </td><td></td>
-												  <%
-												  if((i+1) % 3 == 0){
-													  %></tr><tr class="spaceunder">
-											<%
-												  }
-											  }
-											  %>
-								  	</tr>
-								  	</table>
-								  	<h3>Not in the list? Add here</h3>
-								<div id="profs"> 
-					                <div class="input-append">
-					                    <input autocomplete="off" id="skillLangNew" name="skillLangNew" type="text" />
-					                    <button id="b1" class="btn btn-info add-more2" type="button">+</button>
-					                </div>
-						            <br>
-						            <small>Press + to add another field</small>
-						            </div>
-								  	<table>
-								  	
-								  	<tr class="spaceunder">
-							    	<h2>Others</h2>
-										<%
-											  ArrayList<Skill> otherSkills = skdm.retrieveAllOthers();
-											  
-											  for(int i = 0; i < otherSkills.size(); i++){
-												  Skill skill = otherSkills.get(i);
-												  %><td>
-												  <input type="checkbox" name="skill" value="<%=skill.getId()%>">&nbsp;<span class="label label-default"><%=skill.getSkillName() %></span>&nbsp;&nbsp;
-												  </td><td></td>
-												  <%
-												  if((i+1) % 3 == 0){
-													  %></tr><tr class="spaceunder">
-											<%
-												  }
-											  }
-											  %>
-								  	</tr>
-								</table><br />
-								
-								<h3>Not in the list? Add here</h3>
-								<div id="profs"> 
-					                <div class="input-append">
-					                    <input autocomplete="off" id="skillOthersNew" name="skillOthersNew" type="text" />
-					                    <button id="b1" class="btn btn-info add-more" type="button">+</button>
-					                </div>
-						            <br>
-						            <small>Press + to add another field</small>
-						            </div>
-					 	  </div>
-					    </div>
-					  </div>
+					
 					  <div class="panel panel-default">
 						    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 						      <h4 class="panel-title">
@@ -368,34 +293,58 @@ int currMth = now.get(Calendar.MONTH);
 							    	<%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  int numOfCat = tdm.retrieveNoOfTechCat();
-								
+								  int numOfSubCat = 0;
 								  ArrayList<Technology> technologies = new ArrayList<Technology>();
-								 
+								  ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
 								  for(int i = 1; i <= numOfCat; i++){
-									  technologies = tdm.retrieveTechCatId(i);
+									  numOfSubCat = tdm.retrieveNumOfSubCat(i);
 									  String catName = tdm.retrieveTechCatName(i);
 									  %>
-										<table>
-											<h2><%=catName %></h2>
-											
-											<tr class="spaceunder"> 
+										<h2><%=catName %></h2>
+										
 									  <%
-									  for(int j = 0; j < technologies.size(); j++){
-									  Technology tech = technologies.get(j);
-									  %>
-									  <td>
-									  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
-									  </td>
-									   <%
-										  if((j+1) % 5 == 0){
+										subcatIdList = tdm.retrieveTechSubCatIdList(i);
+										for(int k = 0; k <= subcatIdList.size(); k++){
+											int subcatid = 0; 
+											try{
+												subcatid = subcatIdList.get(k);
+											}catch(Exception e){
+												subcatid = 0;
+											}
+
+											technologies = tdm.retrieveTechSubCatId(i, subcatid);
+											String subcatName = tdm.retrieveTechSubCatName(subcatid);
+											%>
+												<table>
+												<tr class="spaceunder"> 
+												<h4><%=subcatName %></h4>
+											<%
+											if(technologies.size() > 0){
+												for(int l = 0; l < technologies.size(); l++){
+										  			Technology tech = technologies.get(l);
 										  %>
-									  </tr><tr class="spaceunder">
-									  <%
-										  }
-									 }
-									  %>
-									  </tr></table> 
-									  <%
+										  <td>
+										  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+										  </td>
+										   <%
+											  if((l+1) % 5 == 0){
+											  %>
+										  </tr><tr class="spaceunder">
+										  <%
+											  	}
+											  }
+											}else{
+												%>
+											<td>
+											No data recorded
+										   </td>	
+												<%
+											}
+											%>
+											 </tr></table> 
+											<%
+										 }
+									 
 								  }
 								  %>
 								  <br />

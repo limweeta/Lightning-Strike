@@ -171,7 +171,7 @@ if(currTerm != null){
 					String datefmt = day + "/" + month + "/" + year;
 					String time = fullTimestamp.substring(11, 16);
 					
-					String timestampStr = datefmt + " " + time + " ";
+					String timestampStr = datefmt + "<br> " + time + " ";
 					
 					String rowclass="";
 					count++;

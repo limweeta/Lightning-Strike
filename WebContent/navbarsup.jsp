@@ -125,7 +125,7 @@ color: white ;
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./myTeams.jsp" style="font-size: 16px; color: white;font-weight: 200;">My Teams</a></li>
+               		<!-- <li><a href="./myTeams.jsp" style="font-size: 16px; color: white;font-weight: 200;">My Teams</a></li> -->
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>

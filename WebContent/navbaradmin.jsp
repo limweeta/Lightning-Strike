@@ -288,7 +288,7 @@ color: white;
          <div class="navbar-inner">
            <div class="container">
              <ul class="nav">
-               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Admin<b class="caret"></b></a>
+               <!-- <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Admin<b class="caret"></b></a>
   			   	 <ul class="dropdown-menu">
 		          <li><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
 		          <li><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
@@ -298,7 +298,7 @@ color: white;
 		          <li><a href="./adminTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Team</a></li>
 		          <li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete Sponsor</a></li>
 		         </ul>
-  			   </li>
+  			   </li> -->
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
@@ -307,9 +307,9 @@ color: white;
 		      
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-		          	<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
-               		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
+               		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li> 
+		          <!--	<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
+               		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li> -->
               		<li class="dropdown"><a href="./adminTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Team</a></li>	
                	</ul>
                </li>
@@ -317,25 +317,30 @@ color: white;
                	<ul class="dropdown-menu">
                		<li><a href="./searchStudent.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+               		<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="#register" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-               		<li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete</a></li>
-<!--                		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li> -->
+               		<li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete Sponsor</a></li>
+					<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+					<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Supervisor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-<!--                		<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li> -->
+               		<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
+               		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
+					<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+					<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Term<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="./adminTerm.jsp" style="font-size: 16px; color: white;font-weight: 200;">Add Term</a></li>
+               		<li><a href="./adminTerm.jsp" style="font-size: 16px; color: white;font-weight: 200;">Manage Term</a></li>
                		<li><a href="./export.jsp" style="font-size: 16px; color: white;font-weight: 200;">Export</a></li>
                	</ul>
                </li>

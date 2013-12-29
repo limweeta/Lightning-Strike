@@ -1,5 +1,6 @@
 <html>
 <head>
+<%@include file="template.jsp"%>
 <script src="script.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   	<script src="./jquery-ui-1.10.3.custom/js/jquery-1.9.1.js"></script>
@@ -125,7 +126,7 @@
         });
       });
 	</script>	
-<%@include file="template.jsp"%>
+
 </head>
 <body>
 	<div class="container" id="content-container">

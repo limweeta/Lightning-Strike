@@ -28,7 +28,7 @@ public class InviteStudentServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		int teamId = Integer.parseInt(request.getParameter("visitorTeamId"));
-		int userId = Integer.parseInt(request.getParameter("studentId"));
+		int userId = Integer.parseInt(request.getParameter("userid"));
 		
 		TeamDataManager tdm = new TeamDataManager();
 		StudentDataManager stdm = new StudentDataManager(); 

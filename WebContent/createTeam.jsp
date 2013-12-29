@@ -271,7 +271,7 @@
 						</div>
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="projectmanager">Project Manager</label>
+						  <label class="control-label" for="projectmanager" style="font-weight:normal;">Project Manager</label>
 						  <div class="controls">
 						    <input id="projectmanager" name="projectmanager" type="text" placeholder="<%=username%>" class="input-large" disabled>
 						    <input type="hidden" id="username" name="username" value="<%=username%>">
@@ -281,13 +281,14 @@
 						
 						<!-- Text input-->
 						<div class="control-group">
-						  <label class="control-label" for="textinput">Member</label>
+						  <label class="control-label" for="textinput" style="font-weight:normal;">Member</label>
 						  <div id="members" class="controls">
 						    <input id="username2" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
-						  </div>
-						  <label class="control-label" for="selectbasic">Role</label>
-						  <div class="controls">
+						<!--   </div>
+						  <label class="control-label" for="selectbasic" style="font-weight:normal;">Role</label>
+						  <div class="controls"> -->
 						    <select id="memberRole" name="memberRole" class="input-large">
+						    <option value="#" selected>Role</option>
 						     <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
@@ -303,13 +304,14 @@
 						</div>
 						<!-- Text input-->
 						<div id="mem3" class="control-group">
-						  <label class="control-label" for="textinput">Member</label>
+						  <label class="control-label" for="textinput" style="font-weight:normal;">Member</label>
 						  <div class="controls">
 						    <input id="username3" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
-						  </div>
-						  <label class="control-label" for="selectbasic">Role</label>
-						  <div class="controls">
+						<!--   </div>
+						  <label class="control-label" for="selectbasic" style="font-weight:normal;">Role</label>
+						  <div class="controls"> -->
 						    <select id="memberRole" name="memberRole" class="input-large">
+						    <option value="#" selected>Role</option>
 						       <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
@@ -325,13 +327,14 @@
 						</div>
 						<!-- Text input-->
 						<div id="mem4" class="control-group">
-						  <label class="control-label" for="textinput">Member</label>
+						  <label class="control-label" for="textinput" style="font-weight:normal;">Member</label>
 						  <div class="controls">
 						    <input id="username4" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
-						  </div>
-						  <label class="control-label" for="selectbasic">Role</label>
-						  <div class="controls">
+						 <!--  </div>
+						  <label class="control-label" for="selectbasic" style="font-weight:normal;">Role</label>
+						  <div class="controls"> -->
 						    <select id="memberRole" name="memberRole" class="input-large">
+						    <option value="#" selected>Role</option>
 						       <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
@@ -347,13 +350,14 @@
 						</div>
 						<!-- Text input-->
 						<div id="mem5" class="control-group" style="display: none">
-						  <label class="control-label" for="textinput">Member</label>
+						  <label class="control-label" for="textinput" style="font-weight:normal;">Member</label>
 						  <div class="controls">
 						    <input id="username5" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
-						  </div>
-						  <label class="control-label" for="selectbasic">Role</label>
-						  <div class="controls">
+						 <!--  </div>
+						  <label class="control-label" for="selectbasic" style="font-weight:normal;">Role</label>
+						  <div class="controls"> -->
 						    <select id="memberRole" name="memberRole" class="input-large">
+						    <option value="#" selected>Role</option>
 						     <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
@@ -370,13 +374,14 @@
 						
 						<!-- Text input-->
 						<div id="mem6" class="control-group" style="display:none">
-						  <label class="control-label" for="textinput">Member</label>
+						  <label class="control-label" for="textinput" style="font-weight:normal;">Member</label>
 						  <div class="controls">
 						    <input id="username6" name="username" type="text" placeholder="User Name" class="input-large" maxlength="25">
-						  </div>
-						  <label class="control-label" for="selectbasic">Role</label>
-						  <div class="controls">
+						 <!--  </div>
+						  <label class="control-label" for="selectbasic" style="font-weight:normal;">Role</label>
+						  <div class="controls"> -->
 						    <select id="memberRole" name="memberRole" class="input-large">
+						    <option value="#" selected>Role</option>
 						      <%
 						     for(int i = 0; i < roles.size(); i++){
 						    	 Role role = roles.get(i);
@@ -452,34 +457,57 @@
 								<%
 								  TechnologyDataManager tdm = new TechnologyDataManager();
 								  int numOfCat = tdm.retrieveNoOfTechCat();
-								
+								  int numOfSubCat = 0;
 								  ArrayList<Technology> technologies = new ArrayList<Technology>();
-								 
+								  ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
 								  for(int i = 1; i <= numOfCat; i++){
-									  technologies = tdm.retrieveTechCatId(i);
+									  numOfSubCat = tdm.retrieveNumOfSubCat(i);
 									  String catName = tdm.retrieveTechCatName(i);
 									  %>
-										<table>
-											<h2><%=catName %></h2>
-											
-											<tr class="spaceunder"> 
+										<h2><%=catName %></h2>
+										
 									  <%
-									  for(int j = 0; j < technologies.size(); j++){
-									  Technology tech = technologies.get(j);
-									  %>
-									  <td>
-									  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
-									  </td>
-									   <%
-										  if((j+1) % 5 == 0){
+										subcatIdList = tdm.retrieveTechSubCatIdList(i);
+										for(int k = 0; k <= subcatIdList.size(); k++){
+											int subcatid = 0; 
+											try{
+												subcatid = subcatIdList.get(k);
+											}catch(Exception e){
+												subcatid = 0;
+											}
+
+											technologies = tdm.retrieveTechSubCatId(i, subcatid);
+											String subcatName = tdm.retrieveTechSubCatName(subcatid);
+											%>
+												<table>
+												<tr class="spaceunder"> 
+												<h4><%=subcatName %></h4>
+											<%
+											if(technologies.size() > 0){
+												for(int l = 0; l < technologies.size(); l++){
+										  			Technology tech = technologies.get(l);
 										  %>
-									  </tr><tr class="spaceunder">
-									  <%
-										  }
-									 }
-									  %>
-									  </tr></table> 
-									  <%
+										  <td>
+										  	<input type="checkbox" name="technology" value="<%=tech.getId()%>">&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
+										  </td>
+										   <%
+											  if((l+1) % 5 == 0){
+											  %>
+										  </tr><tr class="spaceunder">
+										  <%
+											  	}
+											  }
+											}else{
+												%>
+											<td>
+											No data recorded
+										   </td>	
+												<%
+											}
+											%>
+											 </tr></table> 
+											<%
+										 }
 								  }
 								  %>
 								  <br />

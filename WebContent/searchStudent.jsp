@@ -54,14 +54,18 @@
 			</div>
 			<a href="#advSearchModal" style="float:right;" data-toggle="modal">Advanced Search</a>
 			<% String message = (String) session.getAttribute("message"); 
-						if(message == null || message.isEmpty()){
-							message = "";
-						}else{
-						%>
-						<font size=-1 color="red"><i><%=message %></i></font>
-						<%
-						session.removeValue("message");
-						} %>
+			if(message == null || message.isEmpty()){
+				message = "";
+			}else{
+		%>
+			<div class="alert alert-success">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong><%=message %></strong>
+			</div>
+			
+			<%
+			session.removeValue("message");
+			} %>
 			<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
 			
 			<div id="demo">
@@ -158,16 +162,20 @@ for(int i = 0; i < students.size(); i++){
 			<%} %>
 			<%=supname %></a></td>
 			<% 
-			if(tdm.emptySlots(userTeam) && visitorTeamId == 0 && !sdm.hasTeam(student)){
+			if(tdm.emptySlots(userTeam) && visitorTeamId != 0 && !sdm.hasTeam(student)){
 			%>
 				<td class="center">
 				<form action="inviteStudent" method="post">
 				<input type="hidden" name="userid" value="<%=student.getID()%>">
-				<input type="hidden" name="visitorTeamId" value="<%=student.getID()%>">
+				<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">
 				<input type="submit" value ="Invite to team" class="btn btn-info" />
 				</form>
 				</td>
 			<%
+			}else{
+				%>
+				<td class="center">Ineligible</td>
+				<%
 			}
 			%>
 	</tr>
@@ -178,10 +186,8 @@ for(int i = 0; i < students.size(); i++){
 		<!-- DO NOT TOUCH BETWEEN THE COMMENTS (DANIAL) -->
 			</div>
 			<div class="spacer"></div>
-			
-			
-			
 			</div>
+			
 			<div id="advSearchModal" class="modal hide fade">
 					    <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

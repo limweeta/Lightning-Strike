@@ -47,8 +47,8 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		String teamName = request.getParameter("teamname");
 		int teamLimit = Integer.parseInt(request.getParameter("teamlimit"));
-		//int termId = Integer.parseInt(request.getParameter("termId"));
-		int termId = 17;
+		int termId = Integer.parseInt(request.getParameter("term"));
+		
 		int rev1 = 0;
 		int rev2 = 0;
 		
@@ -219,7 +219,8 @@ public class CreateTeamServlet extends HttpServlet {
 				}catch(Exception e){}
 			}
 			tdm.add(team, allIndustry, allTech);
-			//response.sendRedirect("teamProfile.jsp?id="+teamid);
+			session.setAttribute("message", "New Team Created");
+			response.sendRedirect("teamProfile.jsp?id="+teamid);
 		}	
 	}
 }

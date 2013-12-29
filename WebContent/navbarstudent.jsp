@@ -127,7 +127,7 @@ color: white ;
 		          	%>
 		          	<li><a href="./matchTeam" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
 		          	<%} %>
-		          	<li><a href="./teamFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Team Feedback</a></li>
+		          <!-- 	<li><a href="./teamFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Team Feedback</a></li> -->
                	</ul>
                </li>
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>

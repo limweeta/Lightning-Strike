@@ -65,15 +65,13 @@ public class MatchToProjectServlet extends HttpServlet {
 			
 			//Cross Ref with projects.industry_id
 			ArrayList<ProjectScore> matchedIndustry = pdm.matchByIndustry(preferredIndustry);
-			System.out.println("Industry Matched");
+			
 			//Cross Ref with proj_technologies
 			ArrayList<ProjectScore> matchedTechnology= pdm.matchByTechnology(preferredTechnologies);
-			System.out.println("Technology Matched");
+		
 			//Cross Ref with project_preferred_skills
-			ArrayList<ProjectScore> matchedSkills = pdm.matchBySkill(teamSkills);
-			System.out.println("Skills Matched");
 			
-			ArrayList<ProjectScore> combinedMatches = pdm.mergedMatchedProjects(matchedIndustry, matchedSkills, matchedTechnology);
+			ArrayList<ProjectScore> combinedMatches = pdm.mergedMatchedProjects(matchedIndustry, matchedTechnology);
 			System.out.println("Merge Matched");
 			request.setAttribute("combinedProjMatches", combinedMatches);
 			

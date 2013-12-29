@@ -59,6 +59,6 @@ public class DeleteSponsorServlet extends HttpServlet {
 			session.setAttribute("message", "Sponsor deleted");
 		}catch(Exception e){}
 		
-		response.sendRedirect("admin.jsp");
+		response.sendRedirect("adminDeleteSponsor.jsp");
 	}
 }

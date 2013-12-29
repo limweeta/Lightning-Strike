@@ -42,7 +42,7 @@ public class ProjectDataManager implements Serializable {
 	
 	public boolean isUndertakingProject(String username, int projId) {
 		boolean isUndertaking = false;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects p, students s, team t WHERE p.team_id = t.id AND s.id = u.id AND t.id = s.team_id AND u.username LIKE '" + username + "' AND p.id = " + projId);
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects p, students s, teams t, users u WHERE p.team_id = t.id AND s.id = u.id AND t.id = s.team_id AND u.username LIKE '" + username + "' AND p.id = " + projId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -540,68 +540,6 @@ public class ProjectDataManager implements Serializable {
 		return projects;            
 	}
 	
-	public ArrayList<ProjectScore> matchBySkill(ArrayList<Integer> teamSkill){
-		ArrayList<Integer> projectId = new ArrayList<Integer>();
-		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
-		
-		double score = 0.0;
-		double totalScore = 0.0;
-		for(int i = 0; i < teamSkill.size(); i++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE skill_id = " + teamSkill.get(i));
-			Set<String> keySet = map.keySet();
-			Iterator<String> iterator = keySet.iterator();
-			
-			while (iterator.hasNext()){
-				String key = iterator.next();
-				ArrayList<String> array = map.get(key);	
-	
-				int projid 			= 	Integer.parseInt(array.get(1));
-				
-				projectId.add(projid);
-			}
-		}
-		
-		projectId = new ArrayList<Integer>(new HashSet<Integer>(projectId));
-		
-		for(int j = 0; j < projectId.size(); j++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE team_id = 0 AND id = " + projectId.get(j));
-			Set<String> keySet = map.keySet();
-			Iterator<String> iterator = keySet.iterator();
-			
-			while (iterator.hasNext()){
-				String key = iterator.next();
-				ArrayList<String> array = map.get(key);	
-	
-				int id 				= 	Integer.parseInt(array.get(0));
-				int coyId 			= 	Integer.parseInt(array.get(1));
-				int teamId 			= 	Integer.parseInt(array.get(2));
-				int sponsorId 		= 	Integer.parseInt(array.get(3));
-				String projName		= 	array.get(4);
-				String projDesc		= 	array.get(5);
-				String status		= 	array.get(6);
-				int industry		= 	Integer.parseInt(array.get(7));
-				int creatorId 		= 	Integer.parseInt(array.get(8));
-				int intendedTermId	= 	Integer.parseInt(array.get(9));
-				
-				
-				
-				if(teamSkill.size() > totalNumOfSkill(id)){
-					score = totalNumOfSkill(id);
-				}else{
-					score = teamSkill.size();
-				}
-				
-				totalScore = totalNumOfSkill(id);
-				
-				Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
-				ProjectScore ps = new ProjectScore(proj, score, totalScore);
-				projects.add(ps);
-			}
-		}
-		
-		return projects;            
-	}
-	
 	public ArrayList<ProjectScore> matchByTechnology(ArrayList<Integer> preferredTechnologies){
 		ArrayList<Integer> projectId = new ArrayList<Integer>();
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
@@ -664,12 +602,12 @@ public class ProjectDataManager implements Serializable {
 		return projects;            
 	}
 	
-	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> teamSkill, ArrayList<ProjectScore> preferredTechnologies){
+	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> preferredTechnologies){
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		ArrayList<ProjectScore> finalProjects = new ArrayList<ProjectScore>();
 		
 		projects.addAll(preferredIndustry);
-		projects.addAll(teamSkill);
+		
 		projects.addAll(preferredTechnologies);
 		
 		for(int i  = 0; i < projects.size(); i++){
