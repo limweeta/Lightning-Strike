@@ -65,11 +65,11 @@ public class InviteTeamServlet extends HttpServlet {
 		    recipient = sponsor.getEmail();
 		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 		    
-		    tdm.inviteTeam(sponsor.getID(), teamId);
+		    tdm.inviteTeam(teamId, sponsor.getID());
 		    
 			session.setAttribute("message", "You have invited " + team.getTeamName() + " to view your project");
 		}catch(Exception e){
-			session.setAttribute("message", "Only sponsors can invite students");
+			e.printStackTrace();
 		}
 		
 		

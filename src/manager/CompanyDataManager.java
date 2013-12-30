@@ -62,7 +62,7 @@ public class CompanyDataManager implements Serializable {
 		int orgType = company.getOrgType();
 		MySQLConnector.executeMySQL("insert",
 				"INSERT INTO `is480-matching`.`companies` VALUES ("
-						+ id + ", '" + coyName + "', '" + coyAdd + "', " + contactNum + ", " + orgType + ");");
+						+ id + ", '" + coyName + "', '" + coyAdd + "', '" + contactNum + "', " + orgType + ");");
 	}
 
 	public void modify(Company company) {

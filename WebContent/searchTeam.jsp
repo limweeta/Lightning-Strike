@@ -188,7 +188,7 @@ for(int i = 0; i < teams.size(); i++){
 	
 %>
 	<tr class="">
-			<td class="sorting_1"><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
+			<td  class="center "><a href ="teamProfile.jsp?id=<%=team.getId()%>"><%=name %></a></td>
 			<td class="center "><%=termname %></a></td>
 			<td class="center" style="word-wrap:break-word;">
 			<%if(projId != 0){ %>

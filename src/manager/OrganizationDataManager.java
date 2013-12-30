@@ -26,6 +26,13 @@ public class OrganizationDataManager implements Serializable {
 			Organization org = new Organization(id, orgType);
 			orgs.add(org);
 		}
+		
+		Collections.sort(orgs, new Comparator<Organization>() {
+	        @Override public int compare(Organization o1, Organization o2) {
+	            	return o1.getId() - o2.getId();
+	        }
+		});
+		
 		return orgs;
 	}
 	
@@ -59,11 +66,36 @@ public class OrganizationDataManager implements Serializable {
 		return org;
 	}
 
+	public Organization retrieve(String orgName) {
+		Organization org = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(
+						"select",
+						"SELECT * FROM `is480-matching`.organization_type where organization_type.organization_type LIKE '"	+ orgName + "';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int orgid = Integer.parseInt(array.get(0));
+			String orgType = array.get(1);
+			
+			org = new Organization(orgid, orgType);
+		}
+		return org;
+	}
+	
 	public void add(Organization org) {
 		int id = org.getId();
 		String orgName = org.getOrgType();
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`orginization_type` VALUES ("	+ id + ", '" + orgName  + "');");
+				"INSERT INTO `is480-matching`.`organization_type` VALUES ("	+ id + ", '" + orgName  + "');");
+	}
+
+	public void add(String orgName) {
+		MySQLConnector.executeMySQL("insert",
+				"INSERT INTO `is480-matching`.`organization_type` (organization_type)"
+				+ " VALUES ('" + orgName  + "');");
 	}
 
 	public void modify(Organization org) {

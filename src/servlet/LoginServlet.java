@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 		//request.getSession().invalidate();
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plain");
-
+		
 		
 		String callbackUrl = DOMAIN_NAME + (INCLUDE_PORT?":" + request.getServerPort():"")
 				+ request.getRequestURI();

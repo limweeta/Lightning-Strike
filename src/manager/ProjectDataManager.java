@@ -772,13 +772,7 @@ public class ProjectDataManager implements Serializable {
 					+ "VALUES (" + projId + ", " + teamId + ");");
 	}
 	
-	public void addPreferredSkills(int projid, String[] prefSkill){
-		for(int i = 0; i < prefSkill.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`project_preferred_skills` "
-					+ "(`project_id`, `skill_id`) "
-					+ "VALUES (" + projid + ", " + Integer.parseInt(prefSkill[i]) + ");");
-		}
-	}
+	
 	
 	public int numOfSkillNotCovered(ArrayList<Integer> teamSkill, int projId){
 		int numOfSkillCovered = 0;

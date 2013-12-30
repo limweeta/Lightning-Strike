@@ -1045,9 +1045,9 @@ public class TeamDataManager implements Serializable {
 		MySQLConnector.executeMySQL("delete", "DELETE FROM student_request WHERE student_id = " + userId + " AND team_id =  " + teamId);
 	}
 	
-	public void inviteTeam(int sponsorId, int teamId){
+	public void inviteTeam(int teamId, int sponsorId){
 		MySQLConnector.executeMySQL("insert", "INSERT INTO invite_team (team_id, sponsor_id) "
-				+ "VALUES(" + sponsorId + ", " + teamId + ")");
+				+ "VALUES(" + teamId + ", " + sponsorId + ")");
 	}
 	
 	public void studentInvite(int userId, int teamId){

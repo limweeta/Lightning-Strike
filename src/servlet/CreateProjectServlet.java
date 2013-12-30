@@ -58,10 +58,6 @@ public class CreateProjectServlet extends HttpServlet {
 		String projDesc = request.getParameter("projectdescription");
 		int industry = Integer.parseInt(request.getParameter("industrytype"));
 		String[] technologies = request.getParameterValues("technology");
-		String[] skillsAll = request.getParameterValues("skill");
-		
-		String[] skillOthersNew = request.getParameterValues("skillOthersNew");
-		String[] skillLangNew = request.getParameterValues("skillLangNew");
 		String[] technologyNew = request.getParameterValues("techNew");
 		
 		if(technologies == null){
@@ -89,48 +85,9 @@ public class CreateProjectServlet extends HttpServlet {
 			allTech = technologies;
 		}
 		
-		if(skillsAll == null){
-			skillsAll = new String[0];
-		}
 		
-		String[] allSkills = new String[skillsAll.length + skillLangNew.length + skillOthersNew.length];
 		boolean merged = false;
-		if(skillLangNew.length > 0){
-			String[] newLang = new String[skillLangNew.length]; 
-			
-			SkillDataManager skdm = new SkillDataManager();
-			for(int i = 0; i < skillLangNew.length; i++){
-				String skillName = skillLangNew[i];
-				skdm.add(skillName, "Language");
-				
-				newLang[i] = Integer.toString(skdm.retrieveSkillId(skillName));
-			}
-			
-			allSkills = (String[]) ArrayUtils.addAll(skillsAll, newLang);
-			merged = true;
-
-		}else{
-			allSkills = skillsAll;
-		}
 		
-		if(skillOthersNew.length > 0){
-			String[] newOthers = new String[skillOthersNew.length]; 
-			
-			SkillDataManager skdm = new SkillDataManager();
-			for(int i = 0; i < skillLangNew.length; i++){
-				String skillName = skillOthersNew[i];
-				skdm.add(skillName, "Others");
-				
-				newOthers[i] = Integer.toString(skdm.retrieveSkillId(skillName));
-			}
-			
-			allSkills = (String[]) ArrayUtils.addAll(allSkills, newOthers);
-			
-		}else{
-			if(!merged){
-				allSkills = skillsAll;
-			}
-		}
 		
 		String status = "Open";
 		
@@ -172,7 +129,6 @@ public class CreateProjectServlet extends HttpServlet {
 			Project proj = new Project(id, company_id, team_id, sponsor_id, projName, projDesc, status, industry, creator_id, intendedTermId);
 			pdm.add(proj);
 			
-			pdm.addPreferredSkills(id, allSkills);
 			
 			try{
 				for(int j = 0; j < allTech.length; j++){

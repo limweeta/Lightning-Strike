@@ -82,9 +82,30 @@ public class RegisterServlet extends HttpServlet {
 		String coyName	= request.getParameter("coyName");
 		String cContact	= request.getParameter("coyContact");
 		String coyAdd	= request.getParameter("coyAdd");
-		int orgType	= Integer.parseInt(request.getParameter("orgType"));
+		int orgType	= 1;
+		String orgTypeOthers = "";
+		
 		String password	= request.getParameter("password");
 		
+		if(coyName == null || coyName.length() <= 1){
+			coyName = "Not Applicable";
+			cContact = "Not Applicable";
+			coyAdd = "Not Applicable";
+			orgType = 1;
+		}
+		
+
+		try{
+			orgType = Integer.parseInt(request.getParameter("orgType"));
+		}catch(Exception e){
+			orgTypeOthers = request.getParameter("otherOrgType");
+			
+			OrganizationDataManager odm = new OrganizationDataManager();
+			odm.add(orgTypeOthers);
+			Organization newOrg = odm.retrieve(orgTypeOthers);
+			
+			orgType = newOrg.getId();
+		}
 		
 		
 		if(udm.isTaken(username)){

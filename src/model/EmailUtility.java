@@ -56,43 +56,33 @@ public class EmailUtility {
                 return new PasswordAuthentication(userName, password);
             }
         });
- 	/*
+ 	
 	try {
-    /*    	// creates a new e-mail message
-		// HTML we want to send.
-		String html =
-		        "<html>" +
-		        "  <head>" +
-		        "    <style type='text/css'>" +
-		        "      body {background-color:blue}" +
-		        "      p {color:white}" +
-		        "    </style>" +
-		        "  </head>" +
-		        "  <body>"  +
-		        "    <p>Dear Bill</p>\n" +
-		        "    <p>This is a test mail.</p>" +
-		        "  </body>" +
-		        "</html>";
-
-		// Create Email content
-		Multipart multipart = new MimeMultipart("related");
-
-		// Create the HTML message part and add it to the email content.
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent(html, "text/html");
-		multipart.addBodyPart(messageBodyPart);
+		Message msg = new MimeMessage(session);
 		
-		//not sure about this 3 statements i coded
-		MimeBodyPart msgBodyPart = new MimeBodyPart();
-		msgBodyPart.setContent(message,"message");
-		multipart.addBodyPart(msgBodyPart);
+		msg.setFrom(new InternetAddress(userName));
+        InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
+        msg.setRecipients(Message.RecipientType.TO, toAddresses);
+        msg.setSubject(subject);
+        msg.setSentDate(new Date());
 
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(message, "text/html");
+
+        
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+
+        msg.setContent(multipart);
+
+        // sends the e-mail
+        Transport.send(msg);
 		// Setting Content-Type does not seem to be required.
 		// I guess it is determined from the file type
-*/
+		
         	
         	// Test values taken in (remove)
-/*    		System.out.println("host:" + host);
+   		System.out.println("host:" + host);
     		System.out.println("port:" + port);
     		System.out.println("userName:" + userName);
     		System.out.println("password:" + password);
@@ -102,6 +92,6 @@ public class EmailUtility {
     		System.out.println("host:" + props.get("mail.smtp.host"));
 	}catch (MessagingException e) {
 		throw new RuntimeException(e);
-	}*/
+	}
     }
 }

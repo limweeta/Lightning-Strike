@@ -135,6 +135,8 @@ function toggleSkill(source) {
         	var selected = $('#orgType').val();
         	if(selected=="Others"){
         		$('#otherOrgType').show();
+        	}else{
+        		$('#otherOrgType').hide();
         	}
         }
 	</script>	
@@ -433,7 +435,7 @@ function toggleSkill(source) {
 			ArrayList<Project> sponsoredProjects = pdm.retrieveAllFromSponsor(sponsor);
 			%>
 			<div class="control-group">
-			  <label class="control-label" for="email">Projects Sponsored:</label>
+			  <label class="control-label" for="email">Projects</label>
 			  <div class="controls">
 			  <% for(int i = 0; i < sponsoredProjects.size(); i++){ 
 			  		Project sponsoredProject = sponsoredProjects.get(i);
@@ -688,9 +690,19 @@ function toggleSkill(source) {
 				    	  for(int i = 0; i < orgs.size(); i++){
 				    		Organization o = orgs.get(i); 
 				    		String oType = o.getOrgType();
+				    		
+				    		if(orgId != o.getId()){
 						   %>
 						    	<option value="<%=o.getId()%>"><%=oType%></option>
-						    <%} %>
+						    	
+						    <%
+						    }else{
+						    	%>
+						    	<option value="<%=o.getId()%>" selected="selected"><%=oType%></option>
+						    	<%
+						    }
+				    	  }
+						    %>
 					<option value="Others">Others</option>
 			  </select>
 		  </div>

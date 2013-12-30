@@ -70,19 +70,6 @@
   	  }
   	}
 
-    function toggleSkillLang(source) {
-    	  checkboxes = document.getElementsByName('skillLang');
-    	  for(var i=0, n=checkboxes.length;i<n;i++) {
-    	    checkboxes[i].checked = source.checked;
-    	  }
-    	}
-    
-    function toggleSkillOthers(source) {
-  	  checkboxes = document.getElementsByName('skillOthers');
-  	  for(var i=0, n=checkboxes.length;i<n;i++) {
-  	    checkboxes[i].checked = source.checked;
-  	  }
-  	}
 	</script>	
     	<%
     		User sessUser = null;
@@ -222,10 +209,6 @@
 	
 	TechnologyDataManager techdm = new TechnologyDataManager();
 	ArrayList<String> tech = techdm.retrieveByProjId(reqProj.getId());
-	
-	SkillDataManager skdm = new SkillDataManager();
-	ArrayList<String> skill = skdm.getProjSkills(reqProj.getId());
-	
 	
 	ArrayList<Team> appliedTeams = null;
 	
@@ -526,136 +509,7 @@
 		  <%} %>
 		  </div>
 		</div>
-		<div class="panel-group" id="accordion">
-		  <div class="panel panel-default">
-		    <div class="panel-heading">
-		      <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
-		        <a class="accordion-toggle">
-		          Preferred Skills
-		        </a>
-		      </h4>
-		    </div>
-		    <div id="collapseTwo" class="panel-collapse collapse in">
-		      <div class="panel-body">
-		 			<table>
-				    	<tr class="spaceunder">
-				    	<h2>Language</h2>
-				    	<%
-				    	ArrayList<Skill> skills = new ArrayList<Skill>();
-				    	
-				    	if(pdm.isUndertakingProject(username, reqId)){
-				    	
-							  skills = skdm.retrieveAllLang();
-							  
-							  for(int i = 0; i < skills.size(); i++){
-								  Skill skill2 = skills.get(i);
-								  
-								  if(skdm.hasSkill(skill, skill2)){
-								  %><td>
-								  <input type="checkbox" name="skillLang" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								   <%
-								  }else{
-								  %><td>
-								  <input type="checkbox" name="skillLang" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								  <%  
-									}
-								  
-								  if((i+1) % 3 == 0){
-									  %>
-									  </tr><tr class="spaceunder">
-									  <%
-								  }
-							  }
-								  %>
-								  
-					  	</tr>
-					  <%
-				    	}else{
-				    		skills = skdm.retrieveAllLang(reqId);
-				    		
-				    		if(skills.size() < 1){
-				    			out.println("No skills indicated");
-				    		}else{
-					    		for(int i = 0; i < skills.size(); i++){
-					    			Skill skillPublic = skills.get(i);
-					    			%>
-					    			<td>
-									 <span class="label label-default"><%=skillPublic.getSkillName() %></span>&nbsp;&nbsp;
-									  </td><td></td>
-									  <% 
-									  if((i+1) % 3 == 0){
-										  %>
-										  </tr><tr class="spaceunder">
-										  <%
-									  }
-									}
-					    		}
-					    	}
-					  %>
-					</table>
-					<table>
-				    	<tr class="spaceunder">
-				    	<h2>Others</h2>
-							<%
-							  ArrayList<Skill> otherSkills = new ArrayList<Skill>();
-							  
-							if(pdm.isUndertakingProject(username, reqId)){
-								otherSkills = skdm.retrieveAllOthers();
-							  for(int i = 0; i < otherSkills.size(); i++){
-								  Skill skill2 = otherSkills.get(i);
-								  
-								  if(skdm.hasSkill(skill, skill2)){
-								  %><td>
-								  <input type="checkbox" name="skillOthers" value="<%=skill2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								   <%
-								  }else{
-								  %>
-								  <td>
-								  <input type="checkbox" name="skillOthers" value="<%=skill2.getId()%>">&nbsp;<span class="label label-default"><%=skill2.getSkillName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								  <%  
-									}
-								  
-								  if((i+1) % 3 == 0){
-									  %>
-									  </tr><tr class="spaceunder">
-									  <%
-								  }
-							  }
-							  %>
-							  <%
-							}else{
-								
-						    		otherSkills = skdm.retrieveAllOthers(reqId);
-						    		
-						    		if(skills.size() < 1){
-						    			out.println("No skills indicated");
-						    		}else{
-							    		for(int i = 0; i < otherSkills.size(); i++){
-							    			Skill skillPublic = otherSkills.get(i);
-							    			%>
-							    			<td>
-											 <span class="label label-default"><%=skillPublic.getSkillName() %></span>&nbsp;&nbsp;
-											  </td><td></td>
-											  <% 
-											  if((i+1) % 3 == 0){
-												  %>
-												  </tr><tr class="spaceunder">
-												  <%
-											  }
-											}
-							    		}
-							    	
-							}
-								  %>
-					  	</tr>
-					</table>
-		 	  </div>
-		    </div>
-		  </div>
+		
 		  <div class="panel panel-default">
 		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" style="cursor:pointer;">
 		      <h4 class="panel-title">
@@ -750,7 +604,7 @@
 								String subcatName = techdm.retrieveTechSubCatName(subcatid);
 								%>
 									<table>
-												<h2><%=catName %></h2>
+												<h4><%=subcatName %></h4>
 												
 												<tr class="spaceunder"> 
 										  <%
@@ -787,7 +641,9 @@
 	  </div>
 	 
 		</br></br>
-		  <table>			  <tr>
+		<div class="control-group">
+		  <table>
+		  	 <tr>
 			  <td class = "space" align = "center">
 				  <%
 		try{
@@ -810,8 +666,6 @@
 			}catch(Exception e){}
 		
 		%>
-				</td> 
-				</form>
 				<form action="applyProj" method="post">
 				  	<input type="hidden" name="projId" value="<%=reqProj.getId() %>" />
 				  	<input type="hidden" name="teamId" value="<%=userTeamId%>" />
@@ -822,11 +676,9 @@
 				  	
 		}	
 				  	%>
-				  </form>
-		
 		</tr>
 		</table>
-				
+			</div>	
 		</div>
 		</div>
 	</body>

@@ -22,6 +22,8 @@ function others() {
 	var selected = $('#orgType').val();
 	if(selected=="Others"){
 		$('#otherOrgType').show();
+	}else{
+		$('#otherOrgType').hide();
 	}
 }
 
@@ -33,13 +35,24 @@ function validateForm(theForm) {
 	  reason += validateEmail(theForm.email);
 	  reason += validateEmpty(theForm.userName);
 	  reason += validateEmpty(theForm.password);
-		      
+	  reason += validateSelect(theForm.orgType);	
 	  if (reason != "") {
 	    alert("Some fields need correction:\n" + reason);
 	    return false;
 	  }
 
 	  return true;
+}
+function validateSelect(fld){
+	var error="";
+	if(fld.orgType.value == 0){
+		fld.style.background='Yellow';
+		error="Please select an Organization type.\n";
+	}else{
+		fld.style.background='White';
+	}
+	return error;
+	
 }
 
 function validateFullname(fld) {
@@ -242,7 +255,7 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 							  <input type="text" name="coyContact"  id="coyContact" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Contact Number" size="45" maxlength="30"/></br>
 							  <input type="text" name="coyAdd"  id="coyAdd" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Address" size="45" maxlength="80"/></br>
 							  <select id="orgType" name="orgType" class="input-large" style="margin-bottom: 20px; height:30px;" onChange="others()">
-							  		<option value="" selected="selected" disabled style="color:#BDBDBD;">Choose Organization Type</option>
+							  		
 								<%
 							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
 								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
@@ -255,8 +268,8 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 										    <%} %>
 									<option value="Others">Others</option>
 							  </select></br>
-							  <input type="text" name="orgType" id="otherOrgType" class="input-large" style="margin-bottom: 20px; height:30px; display:none; " placeholder="Organization Type" size="45" maxlength="50"/>
-							  
+							  <input type="text" name="otherOrgType" id="otherOrgType" class="input-large" style="margin-bottom: 20px; height:30px; display:none; " placeholder="Organization Type" size="45" maxlength="50"/>
+							  </br>
 							  <font color="red">*Fields Are Mandatory</font>
 						</div>
 					    <div class="modal-footer">
