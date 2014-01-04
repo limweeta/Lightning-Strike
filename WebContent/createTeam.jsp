@@ -481,7 +481,7 @@
 											%>
 												<table>
 												<tr class="spaceunder"> 
-												<h4><%=subcatName %></h4>
+												<font style="color:#4E6CA3; font-weight:bold; font-size: 16px;"><%=subcatName %></font>
 											<%
 											if(technologies.size() > 0){
 												for(int l = 0; l < technologies.size(); l++){
@@ -536,7 +536,9 @@
 							<td class = "space" align = "justify">
 						    <input type="submit" id="createteam" value="Create Team" class="btn btn-success" disabled="disabled">
 						    </td>
-						    <font size=-1 color="red"><i>You already have a team</i></font>
+						    <div class="alert alert-warning">
+							  <strong>You already have a team.</strong>
+							</div>	
 						    <%
 								}else{
 									%> 

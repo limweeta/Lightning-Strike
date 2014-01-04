@@ -44,13 +44,31 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 Date date = new Date();
 
 String currDateStr = dateFormat.format(date);
-/* 
-String sessionFullname = (String) session.getAttribute("fullname");
-String sessionUser = (String) session.getAttribute("username");
+
+String sessionUsername = (String) session.getAttribute("username");
 
 SponsorDataManager sdm = new SponsorDataManager();
 TeamDataManager tdm = new TeamDataManager();
- */
+
+Sponsor sponsor = null;
+String sponsorName = "";
+String coy = "";
+String sponsorNum = "";
+String sponsorEmail = "";
+
+try{
+	sponsor = sdm.retrieve(sessionUsername);
+	
+	sponsorName = sponsor.getFullName();
+	sponsorNum = sponsor.getContactNum();
+	sponsorEmail = sponsor.getEmail();
+	
+	CompanyDataManager cdm = new CompanyDataManager();
+	coy = cdm.retrieve(sponsor.getCoyId()).getCoyName();
+}catch(Exception e){
+	
+}
+
 %>
 	<body>
 		<div id="container">
@@ -64,39 +82,52 @@ TeamDataManager tdm = new TeamDataManager();
 						<div class="control-group">
 						  <label class="control-label" for="teamname">Team Name</label>
 						  <div class="controls">
-						    <input id="teamname" name="teamname" type="text" placeholder="Team Name" class="input-large" >
+						    <%
+						    ArrayList<Team> sponsoredTeams = tdm.retrieveSponsoredTeams(sponsor);
+							
+							if(sponsoredTeams.size() > 0){
+							%>
+								<select name="teamid">
+								<option disabled>Choose a team</option>
+								<%
+									  for(int i  = 0; i < sponsoredTeams.size(); i++){
+										  Team team = sponsoredTeams.get(i);
+										  %>
+										  <option value="<%=team.getId()%>"><%=team.getTeamName() %></option>
+										  <%
+									  }
+							    %>
+							    </select>
+							 <%
+							}else{
+								out.println("No eligible team to submit feedback for.");
+							}
+							 %>
 						 </div>
  						</div>
  						<div class="control-group">
 						  <label class="control-label" for="mentorname">Name</label>
 						  <div class="controls">
-						    <input id="mentorname" name="mentorname" type="text" placeholder="Mentor Name" class="input-large" >
+						    <input id="mentorname" name="mentorname" type="text" value="<%=sponsorName %>" readonly="readonly" class="input-large" >
 						 </div>
  						</div>
  						<div class="control-group">
-						  <label class="control-label" for="org">Organization</label>
+						  <label class="control-label" for="org">Company</label>
 						  <div class="controls">
-						    <input id="org" name="org" type="text" placeholder="Organization" class="input-large" >
+						    <input id="org" name="org" type="text" value="<%=coy %>" readonly="readonly" class="input-large" >
 						 </div>
  						</div>
 						<div class="control-group">
-						  <label class="control-label" for="date">Date</label>
-						  <div class="controls">
-						    <input id="date" name="date" type="text" placeholder="Date(DDMMYYYY)" class="input-large" >
-						    
-						 </div>
-						</div>
-						<div class="control-group">
 						  <label class="control-label" for="contactNo">Contact Number</label>
 						  <div class="controls">
-						    <input id="contactNo" name="contactNo" type="text" placeholder="Contact Number" class="input-large" >
+						    <input id="contactNo" name="contactNo" type="text" value="<%=sponsorNum %>" readonly="readonly" class="input-large" >
 						    
 						 </div>
 						</div>
 						<div class="control-group">
 						  <label class="control-label" for="email">Email</label>
 						  <div class="controls">
-						    <input id="email" name="email" type="text" placeholder="Email" class="input-large" >
+						    <input id="email" name="email" type="text"  value="<%=sponsorEmail %>" readonly="readonly" class="input-large" >
 						    
 						 </div>
 						</div>
@@ -265,7 +296,17 @@ TeamDataManager tdm = new TeamDataManager();
 							<tr></tr>
 							<tr>
 							<td class = "space" align = "justify">&nbsp;
-						    <input type="submit" id="sponsorFeedback" value="Submit Feedback" class="btn btn-success" disabled="disabled">
+							<%
+							if(sponsoredTeams.size() > 0){
+							%>
+						    <input type="submit" id="sponsorFeedback" value="Submit Feedback" class="btn btn-success">
+						    <%
+							}else{
+								%>
+							<input type="submit" id="sponsorFeedback" value="Submit Feedback" class="btn btn-success" disabled="disabled">
+								<%
+							}
+						    %>
 						    </td>
 
 						    </tr>

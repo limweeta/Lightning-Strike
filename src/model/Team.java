@@ -11,6 +11,7 @@ public class Team{
 	private int termId;
 	private int reviewer1_id;
 	private int reviewer2_id;
+	private String wikiLink;
 	
 	public Team(){}
 	
@@ -24,6 +25,18 @@ public class Team{
 		this.termId 			= 	termId;
 		this.reviewer1_id 		= 	reviewer1_id;
 		this.reviewer2_id 		= 	reviewer2_id;
+	}
+	
+	public Team (int id, String teamName, int teamLimit, int pmId, int supId, int reviewer1_id, int reviewer2_id, int termId, String wikiLink){
+		this.id 				= 	id;
+		this.teamName 			= 	teamName;
+		this.teamLimit			=	teamLimit;
+		this.pmId				=	pmId;
+		this.supId 				= 	supId;
+		this.termId 			= 	termId;
+		this.reviewer1_id 		= 	reviewer1_id;
+		this.reviewer2_id 		= 	reviewer2_id;
+		this.wikiLink			= 	wikiLink;
 	}
 	
 	//getter
@@ -60,6 +73,10 @@ public class Team{
 		return reviewer2_id;
 	}
 	
+	public String getWikiLink(){
+		return wikiLink;
+	}
+	
 	//setter
 	public void setId(int id){
 		this.id = id;
@@ -94,4 +111,7 @@ public class Team{
 		this.reviewer2_id 	= 	reviewer2_id;
 	}
 	
+	public void setWikiLink(String wikiLink){
+		this.wikiLink 	= 	wikiLink;
+	}
 }

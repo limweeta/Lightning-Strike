@@ -13,11 +13,13 @@ public class Project{
 	private int industry;
 	private int creator_id;
 	private int intendedTermId;
-  
+	private String wikiLink;
+	
 	public Project(){}
 	
 	//constructor
-	public Project(int id, int coyId, int teamId, int sponsorId, String projName, String projDesc, String status, int industry, int creator_id, int intendedTermId){
+	public Project(int id, int coyId, int teamId, int sponsorId, String projName, String projDesc, 
+			String status, int industry, int creator_id, int intendedTermId){
 		this.id				=	id;
 		this.coyId 			= 	coyId;
 		this.teamId			= 	teamId;
@@ -29,7 +31,22 @@ public class Project{
 		this.creator_id 	= 	creator_id;
 		this.intendedTermId	=	intendedTermId;
 	}
-  
+	
+	public Project(int id, int coyId, int teamId, int sponsorId, String projName, String projDesc, 
+			String status, int industry, int creator_id, int intendedTermId, String wikiLink){
+		this.id				=	id;
+		this.coyId 			= 	coyId;
+		this.teamId			= 	teamId;
+		this.sponsorId 		=	sponsorId;
+		this.projName		=	projName;
+		this.projDesc 		= 	projDesc;
+		this.status			=	status;
+		this.industry		=	industry;
+		this.creator_id 	= 	creator_id;
+		this.intendedTermId	=	intendedTermId;
+		this.wikiLink		=	wikiLink;
+	}
+	
 	public int getId(){
 		return id;
 	}
@@ -71,6 +88,10 @@ public class Project{
 		return intendedTermId;
 	}
 	
+	public String getWikiLink(){
+		return wikiLink;
+	}
+	
 	//setter
 	public void setId(int id){
 		this.id = id;
@@ -110,5 +131,9 @@ public class Project{
 	
 	public void setIntendedTermId(int intendedTermId){
 		this.intendedTermId = intendedTermId;
+	}
+	
+	public void setWikiLink(String wikiLink){
+		this.wikiLink = wikiLink;
 	}
 }

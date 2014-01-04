@@ -33,35 +33,33 @@ function validateForm(theForm) {
 	  reason += validateFullname(theForm.fullName);
 	  reason += validatePhone(theForm.contactNum);
 	  reason += validateEmail(theForm.email);
-	  reason += validateEmpty(theForm.userName);
-	  reason += validateEmpty(theForm.password);
+	  reason += validateUsername(theForm.userName);
+	  reason += validatePassword(theForm.password);
 	  reason += validateSelect(theForm.orgType);	
 	  if (reason != "") {
 	    alert("Some fields need correction:\n" + reason);
 	    return false;
 	  }
-
 	  return true;
 }
 function validateSelect(fld){
 	var error="";
-	if(fld.orgType.value == 0){
+	if(fld.value == "default"){
 		fld.style.background='Yellow';
 		error="Please select an Organization type.\n";
 	}else{
 		fld.style.background='White';
 	}
 	return error;
-	
 }
 
 function validateFullname(fld) {
     var error = "";
     var illegalChars = /[0-9]/; // allow letters ONLY
  
-    if (fld.value == "") {
+    if (fld.value.length == 0) {
         fld.style.background = 'Yellow'; 
-        error = "You didn't enter your full name.\n";
+        error = "Please enter your full name.\n";
     } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
         fld.style.background = 'Yellow'; 
         error = "Your full name is the wrong length.\n";
@@ -78,13 +76,16 @@ function validatePhone(fld)
 {  
   var error  = "";
   var phoneno = /^[\d\.\-\+]+$/;  
-  if(!(fld.value.match(phoneno))||(fld.value.length<8)){  
+  if(!(fld.value.match(phoneno))){  
 	  error = "Invalid phone number.\n"; 
-	  fld.style.background="Yellow";
-  }else if(fld.value=""){  
-	  error = "You didn't enter a phone number.\n";  
-	  fld.style.background="Yellow"; 
-  }  else {
+	  fld.style.background='Yellow';
+  }else if(fld.value.length == 0){  
+	  error = "Please enter a phone number.\n";  
+	  fld.style.background='Yellow'; 
+  }else if(fld.value.length<8){
+	  error="Invalid phone number. \n";
+	  fld.style.background='Yellow';
+  }else {
       fld.style.background = 'White';
   }
   return error;
@@ -96,9 +97,9 @@ function validateEmail(fld) {
     var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
     var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
     
-    if (fld.value == "") {
+    if (fld.value.length == 0) {
         fld.style.background = 'Yellow';
-        error = "You didn't enter an email address.\n";
+        error = "Please enter an email address.\n";
     } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
         fld.style.background = 'Yellow';
         error = "Please enter a valid email address.\n";
@@ -111,17 +112,35 @@ function validateEmail(fld) {
     return error;
 }
 
-function validateEmpty(fld) {
+function validateUsername(fld) {
     var error = "";
   
     if (fld.value.length == 0) {
         fld.style.background = 'Yellow'; 
-        error = "This field cannot be left blank.\n";
+        error = "Please enter your username.\n";
     } else {
         fld.style.background = 'White';
     }
     return error;   
-}	
+}
+
+function validatePassword(fld) {
+    var error = "";
+  
+    if (fld.value.length == 0) {
+        fld.style.background = 'Yellow'; 
+        error = "Please enter your password.\n";
+    } else {
+        fld.style.background = 'White';
+    }
+    return error;   
+}
+
+function trim(s)
+{
+  return s.replace(/^\s+|\s+$/, '');
+} 
+
 </script>
 <style type="text/css">
 a:hover,
@@ -255,7 +274,7 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 							  <input type="text" name="coyContact"  id="coyContact" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Contact Number" size="45" maxlength="30"/></br>
 							  <input type="text" name="coyAdd"  id="coyAdd" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Address" size="45" maxlength="80"/></br>
 							  <select id="orgType" name="orgType" class="input-large" style="margin-bottom: 20px; height:30px;" onChange="others()">
-							  		
+							  		<option value="default" selected>Organization Type</option>
 								<%
 							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
 								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();

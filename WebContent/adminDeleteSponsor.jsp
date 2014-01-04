@@ -32,6 +32,31 @@
 	  ArrayList<String> sponsorUsernameList = sponsordm.retrieveSponsorUsernames();
   %>
 <script type="text/javascript">
+/* function validateForm(theForm) {
+	var reason = "";
+
+	  reason += validateSponsor(theForm.teamId);	
+	  if (reason != "") {
+	    alert("Some fields need correction:\n" + reason);
+	    return false;
+	  }
+
+	  return true;
+}
+
+function validateSponsor(fld) {
+    var error = "";
+
+    if (fld.value.length == 0) {
+        fld.style.background = 'Yellow'; 
+        error = "Please enter a sponsor username. \n";
+    } else {
+        fld.style.background = 'White';
+    }
+    return error; 
+
+} */
+
 $(function() {
 	var studentNameList = [
 	                       <%
@@ -143,7 +168,7 @@ $(function() {
 						session.removeAttribute("message");
 						}
 					%>
-			<form name="deleteSponsor" action="deleteSponsor" method="post" class="form-horizontal">
+			<form name="deleteSponsor" action="deleteSponsor" method="post" class="form-horizontal" >
 						<fieldset>
 						<legend>Delete Sponsor</legend>
 						<div class="span7">

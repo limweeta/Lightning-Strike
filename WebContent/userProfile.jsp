@@ -167,7 +167,7 @@ function toggleSkill(source) {
 	try{
 		profileid = Integer.parseInt(request.getParameter("id"));
 		uProfile = udm.retrieve(profileid);
-		usertype = (String) session.getAttribute("type");
+		usertype = uProfile.getType();
 		userSkills = skdm.getUserSkills(uProfile);
 		userLangSkills = skdm.getUserLangSkills(uProfile);
 		userOtherSkills = skdm.getUserOtherSkills(uProfile);
@@ -385,6 +385,52 @@ function toggleSkill(source) {
 	</div>
 	</div>
 	<%} %>
+	<%if (usertype.equalsIgnoreCase("Sponsor")){
+		Sponsor sponsor = sponsordm.retrieve(profileid);
+		
+		ArrayList<Team> invitedTeams = sponsordm.getInvitedTeams(sponsor);
+		%>
+		
+		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour" style="cursor:pointer;">
+		      <h4 class="panel-title">
+		        <a class="accordion-toggle">
+		          Invited Teams (<%=invitedTeams.size() %>)
+		        </a>
+		      </h4>
+		    </div>
+		<div id="collapseFour" class="panel-collapse collapse">
+		      <div class="panel-body">
+		 			<table width="100%">
+				    	<tr class="spaceunder">
+							 <%
+					  if(invitedTeams.size() < 1){
+						  out.println("You have not invited any teams to view your project");
+					  }else{
+					  	for(int i = 0; i < invitedTeams.size(); i++){
+					  		Team team = invitedTeams.get(i);
+					  		%>
+					  		<td>
+					  		<a href="teamProfile.jsp?id=<%=team.getId()%>"><%=team.getTeamName() %></a> <br /><br />
+					  		</td>
+					  		<%
+					  		if((i+1) % 5 == 0){
+					  			%>
+					  			</tr><tr class="spaceunder">
+					  			<%
+					  		}
+					  	}
+					  }
+					  %>
+		  			 	</tr>
+					</table>
+		 	  </div>
+		  </div>
+		 </div>
+		</div>
+	<%} %>
+	</br>
 	<form action="updateCurrentProfile" method="post" onsubmit = "return validateFormOnSubmit(this)" class="form-horizontal">
 		<input type="hidden" name="userId" value="<%=uProfile.getID()%>">
 		<!-- Text input-->
@@ -430,10 +476,11 @@ function toggleSkill(source) {
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
 		<%if(usertype.equals("Sponsor")){ 
-			Sponsor sponsor = sponsordm.retrieve(username);
+			Sponsor sponsor = sponsordm.retrieve(profileid);
 		
 			ArrayList<Project> sponsoredProjects = pdm.retrieveAllFromSponsor(sponsor);
 			%>
+			<hr />
 			<div class="control-group">
 			  <label class="control-label" for="email">Projects</label>
 			  <div class="controls">
@@ -446,12 +493,13 @@ function toggleSkill(source) {
 			    <% } %>
 			  </div>
 			</div>
+			<hr />
 		<% } %>
 		<!-- </div> -->
 		<!-- <div class="span4"> -->
 		<!-- Text input-->
 			
-		<%if(usertype.equalsIgnoreCase("Student")||sessiontype.equalsIgnoreCase("Admin")){%>
+		<%if(usertype.equalsIgnoreCase("Student")|| sessiontype.equalsIgnoreCase("Admin")){%>
 		<!-- </div> -->
 		<!-- <div class="span5"> -->
 		<!-- Text input-->
@@ -460,7 +508,7 @@ function toggleSkill(source) {
 		  <div class="controls">
 		  	 
 		  	<%
-				if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){
+			if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){
 			%>
 			<select id="secondmaj" name="secondmajor" class="input-large">
 			<%
@@ -489,8 +537,20 @@ function toggleSkill(source) {
 		     
 		  </div>
 		</div>
-
-		  
+		<hr />
+		<div class="control-group">
+		  <label class="control-label" for="team">Team</label>
+		  <div class="controls">
+		  	<a href="<%=teamProfLink%>"><%=teamName%></a>
+		  </div>
+		</div></br>
+		<div class="control-group">
+		  <label class="control-label" for="project">Project</label>
+		  <div class="controls">
+		  	<a href="<%=projProfLink%>"><%=projName%></a>
+		  </div>
+		</div>
+		 <hr />
 		  <div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading">
@@ -629,35 +689,24 @@ function toggleSkill(source) {
 		  </div>
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		 </br> 
-		<div class="control-group">
-		  <label class="control-label" for="team">Team</label>
-		  <div class="controls">
-		  	<a href="<%=teamProfLink%>"><span class="label label-info"><%=teamName%></span></a>
-		  </div>
-		</div></br>
-		<div class="control-group">
-		  <label class="control-label" for="project">Project</label>
-		  <div class="controls">
-		  	<a href="<%=projProfLink%>"><span class="label label-info"><%=projName%></span></a>
-		  </div>
-		</div>
-		<%}else if(usertype.equalsIgnoreCase("Sponsor") ||sessiontype.equalsIgnoreCase("Admin")){ 
-		Sponsor sponsor = sponsordm.retrieve(username);
+		
+		<%}else if(usertype.equalsIgnoreCase("Sponsor") || sessiontype.equalsIgnoreCase("Admin")){ 
 		Company company = cdm.retrieve(profileid);
 		int orgId = company.getOrgType();
 		OrganizationDataManager odm = new OrganizationDataManager();
 		Organization org = odm.retrieve(orgId);
 		String orgType = org.getOrgType();
-		
+		Sponsor sponsor = sponsordm.retrieve(profileid);
 		ArrayList<Team> invitedTeams = sponsordm.getInvitedTeams(sponsor);
 		%>
-		<div class="control-group">
+		
+		 <div class="control-group">
 		  <label class="control-label" for="coyName">Invited Teams </label>
 		  <div class="controls">
 		    <%
 		    if(invitedTeams.size() < 1){
 		    	%>
-		    	You have not invited any teams to view your project
+		    	No teams have been invited
 		    	<%
 		    }else{
 		    	for(int i = 0; i < invitedTeams.size(); i++){
@@ -669,24 +718,36 @@ function toggleSkill(source) {
 		    }
 		    %>
 		  </div>
-		</div>
-		
+		</div> 
+		<hr />
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Company </label>
 		  <div class="controls">
 		  <input type="hidden" name="coyId" value="<%=company.getID()%>">
-		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" readonly="readonly" class="input-xlarge" maxlength="60">
+		  <%
+		  if(sessionUsername.equalsIgnoreCase(sponsor.getUsername())){
+		  %>
+		    <input id="coyName" name="coyname" type="text" value="<%=company.getCoyName()%>" class="input-xlarge" maxlength="60">
+		   <%
+		  }else{
+			  out.println(company.getCoyName());
+		  }
+		   %>
 		  </div>
 		</div>
 		<div class="control-group">
 		  <label class="control-label" for="orgType">Organization Type </label>
 		  <div class="controls">
-		    <select id="orgType" name="orgType" class="input-large"onChange="others()">
-			  		<option value="" selected="selected" disabled style="color:#BDBDBD;">Choose Organization Type</option>
+		  
 				<%
-			    	  OrganizationDataManager orgdm = new OrganizationDataManager();
+		    	  OrganizationDataManager orgdm = new OrganizationDataManager();
+				
+				if(sessionUsername.equalsIgnoreCase(sponsor.getUsername())){
 				    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
-						  
+						  %>
+				<select id="orgType" name="orgType" class="input-large"onChange="others()">
+			  		<option value="" selected="selected" disabled style="color:#BDBDBD;">Choose Organization Type</option>
+						  <%
 				    	  for(int i = 0; i < orgs.size(); i++){
 				    		Organization o = orgs.get(i); 
 				    		String oType = o.getOrgType();
@@ -702,9 +763,16 @@ function toggleSkill(source) {
 						    	<%
 						    }
 				    	  }
-						    %>
-					<option value="Others">Others</option>
+				%>
+				<option value="Others">Others</option>
 			  </select>
+				<%
+				}else{
+					Organization org1 = orgdm.retrieve(orgId);	
+				
+					out.println(org1.getOrgType());
+				}
+						    %>
 		  </div>
 		</div>
 		<div  id="otherOrgType" class="control-group" style="display:none;">
@@ -712,44 +780,54 @@ function toggleSkill(source) {
 				<input type="text" name="orgType" class="input-large"placeholder="Organization Type" size="45" maxlength="50"/>
 			</div>
 		</div>
+		<hr />
 		<%}else if(usertype.equalsIgnoreCase("Supervisor")){ %>
 		<div class="control-group">
-		  <label class="control-label" for="coyName">Current Supervising Teams </label>
+		  <label class="control-label" for="coyName">Current Teams </label>
 		  <div class="controls">
 		    <%
-			ArrayList<Team> currentTeams = tdm.retrieveSupervisingCurrentTeams(requestedUserName);
-			
-			if(currentTeams.size() < 1){
-				out.println("No teams under supervision");
-			}else{
+			ArrayList<Team> currentTeams = tdm.retrieveSupervisingCurrentTeams(requestedUserName);%>
+			<table>
+			<tr class="spaceunder"></tr>
+			<%if(currentTeams.size() < 1){
+			%> <tr><td>
+			<%out.println("No teams under supervision");%>
+			</td></tr>
+			<%}else{
 				for(int i = 0; i < currentTeams.size(); i++){
 					Team t = currentTeams.get(i);
 					%>
-					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
+					<tr><td><a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a></td></tr>
 					<%
 				}
 			}
 			%>
+			</table>
 		  </div>
 		</div>
 			
 		<div class="control-group">
-		  <label class="control-label" for="coyName">Past Supervising Teams </label>
+		  <label class="control-label" for="coyName">Past Teams </label>
 		  <div class="controls">
 		    <%
-			ArrayList<Team> pastTeams = tdm.retrieveSupervisingPastTeams(requestedUserName);
-			
-			if(pastTeams.size() < 1){
-				out.println("No teams under supervision");
-			}else{
+			ArrayList<Team> pastTeams = tdm.retrieveSupervisingPastTeams(requestedUserName);%>
+				 
+			 <table>		
+			 <tr class="spaceunder"></tr>
+			<%if(pastTeams.size() < 1){
+				%> <tr><td>
+				<%out.println("No teams under supervision"); %>
+				</td></tr>
+			<%}else{
 				for(int i = 0; i < pastTeams.size(); i++){
 					Team t = pastTeams.get(i);
 					%>
-					<a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a><br />
+					<tr><td><a href="teamProfile.jsp?id=<%=t.getId()%>"><%=t.getTeamName() %></a></td></tr>
 					<%
 				}
 			}
 			%>
+			</table>
 		  </div>
 		</div>
 		<%} %>
@@ -766,7 +844,7 @@ function toggleSkill(source) {
 		<%
 		}
 		%>
-		<% if(sessiontype.equalsIgnoreCase("Student")&&!sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
+		<% if(usertype.equalsIgnoreCase("Student") && !sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=profileid%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">

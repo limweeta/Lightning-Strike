@@ -83,12 +83,12 @@ public class RoleDataManager implements Serializable {
 		return role;
 	}
 
-	public void add(Role role) {
-		int id = role.getId();
-		String roleName = role.getRoleName();
+	public void add(User u, String role) {
+		int id = u.getID();
+		
 		MySQLConnector.executeMySQL("insert",
-				"INSERT INTO `is480-matching`.`announcement` "
-				+ " VALUES (" + id + ", '" + roleName + "');");
+				"INSERT INTO `is480-matching`.`additional_role` (user_id, additional_type) "
+				+ " VALUES (" + id + ", '" + role + "');");
 	}
 
 	public void modify(Role role) {

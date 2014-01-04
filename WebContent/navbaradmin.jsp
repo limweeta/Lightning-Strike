@@ -46,25 +46,6 @@ color: white;
 			$('#switchRoles').hide();
 		}
 		
-		function validateRegisterOnSubmit(theForm) {
-			var reason = "";
-
-			  reason += validateUsername(theForm.userName);
-			  reason += validateFullname(theForm.fullName);
-			  reason += validatePhone(theForm.contactNum);
-			  reason += validateEmail(theForm.email);
-			  reason += validateEmpty(theForm.coyName);
-			  reason += validatePhone(theForm.coyContact);
-			  reason += validateCoyAdd(theForm.coyAdd);
-			  reason += validatePassword(theForm.password);		      
-			  if (reason != "") {
-			    alert("Some fields need correction:\n" + reason);
-			    return false;
-			  }
-
-			  return true;
-		}
-		
 		function validateSignInOnSubmit(theForm) {
 			var reason = "";
 
@@ -76,25 +57,6 @@ color: white;
 			  }
 
 			  return true;
-		}
-
-		function validateUsername(fld) {
-		    var error = "";
-		    //var illegalChars = /\W/; // allow letters, numbers and underscores
-		 
-		    if (fld.value == "") {
-		        fld.style.background = 'Yellow'; 
-		        error = "You didn't enter a username.\n";
-		    } else if (fld.value.length < 5) {
-		        fld.style.background = 'Yellow'; 
-		        error = "Your username is the too short.\n";
-		    } /* else if (illegalChars.test(fld.value)) {
-		        fld.style.background = 'Yellow'; 
-		        error = "Your username contains illegal characters.\n";
-		    }  */else {
-		        fld.style.background = 'White';
-		    } 
-		    return error;
 		}
 		
 		function validateUserUsername(fld) {
@@ -121,17 +83,44 @@ color: white;
 		    return error;
 		}
 		
+		function validateRegisterOnSubmit(theForm) {
+			var reason = "";
+
+			  reason += validateFullname(theForm.fullName);
+			  reason += validatePhone(theForm.contactNum);
+			  reason += validateEmail(theForm.email);
+			  reason += validateUsername(theForm.userName);
+			  reason += validatePassword(theForm.password);
+			  reason += validateSelect(theForm.orgType);	
+			  if (reason != "") {
+			    alert("Some fields need correction:\n" + reason);
+			    return false;
+			  }
+			  return true;
+		}
+		
+		function validateSelect(fld){
+			var error="";
+			if(fld.value == "default"){
+				fld.style.background='Yellow';
+				error="Please select an Organization type.\n";
+			}else{
+				fld.style.background='White';
+			}
+			return error;
+		}
+
 		function validateFullname(fld) {
 		    var error = "";
 		    var illegalChars = /[0-9]/; // allow letters ONLY
 		 
-		    if (fld.value == "") {
+		    if (fld.value.length == 0) {
 		        fld.style.background = 'Yellow'; 
-		        error = "You didn't enter your full name.\n";
-		    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+		        error = "Please enter your full name.\n";
+		    } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your full name is the wrong length.\n";
-		    } else if (illegalChars.test(fld.value)) {
+		    } */ else if (illegalChars.test(fld.value)) {
 		        fld.style.background = 'Yellow'; 
 		        error = "Your full name contains illegal characters.\n";
 		    } else {
@@ -140,22 +129,24 @@ color: white;
 		    return error;
 		}
 
-		function validatePhone(fld) {
-		    var error = "";
-		    var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
-
-		   if (fld.value == "") {
-		        error = "You didn't enter a phone number.\n";
-		        fld.style.background = 'Yellow';
-		    } else if (isNaN(parseInt(stripped))) {
-		        error = "The phone number contains illegal characters.\n";
-		        fld.style.background = 'Yellow';
-		    } else if (!(stripped.length == 8)) {
-		        error = "The phone number is too short.\n";
-		        fld.style.background = 'Yellow';
-		    } 
-		    return error;
-		}
+		function validatePhone(fld)  
+		{  
+		  var error  = "";
+		  var phoneno = /^[\d\.\-\+]+$/;  
+		  if(!(fld.value.match(phoneno))){  
+			  error = "Invalid phone number.\n"; 
+			  fld.style.background='Yellow';
+		  }else if(fld.value.length == 0){  
+			  error = "Please enter a phone number.\n";  
+			  fld.style.background='Yellow'; 
+		  }else if(fld.value.length<8){
+			  error="Invalid phone number. \n";
+			  fld.style.background='Yellow';
+		  }else {
+		      fld.style.background = 'White';
+		  }
+		  return error;
+		}  
 
 		function validateEmail(fld) {
 		    var error="";
@@ -163,9 +154,9 @@ color: white;
 		    var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
 		    var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
 		    
-		    if (fld.value == "") {
+		    if (fld.value.length == 0) {
 		        fld.style.background = 'Yellow';
-		        error = "You didn't enter an email address.\n";
+		        error = "Please enter an email address.\n";
 		    } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
 		        fld.style.background = 'Yellow';
 		        error = "Please enter a valid email address.\n";
@@ -178,52 +169,29 @@ color: white;
 		    return error;
 		}
 
-		function validateEmpty(fld) {
+		function validateUsername(fld) {
 		    var error = "";
 		  
 		    if (fld.value.length == 0) {
 		        fld.style.background = 'Yellow'; 
-		        error = "You didn't enter your company name.\n";
+		        error = "Please enter your username.\n";
 		    } else {
 		        fld.style.background = 'White';
 		    }
 		    return error;   
 		}
 
-		function validateCoyAdd(fld) {
-		    var error = "";
-		   // var illegalChars = /\W_/; // allow letters and numbers
-		 
-		    if (fld.value == "") {
-		        fld.style.background = 'Yellow'; 
-		        error = "You didn't enter an address.\n";
-		    } else if (fld.value.length < 5) {
-		        fld.style.background = 'Yellow'; 
-		        error = "Your address is the too short.\n";
-		    }else {
-		        fld.style.background = 'White';
-		    } 
-		    return error;
-		}
-
 		function validatePassword(fld) {
 		    var error = "";
-		    //var illegalChars = /[\W_]/; // allow only letters and numbers 
-		 
-		    if (fld.value == "") {
-		        fld.style.background = 'Yellow';
-		        error = "You didn't enter a password.\n";
-		    } else if ((fld.value.length < 7) || (fld.value.length > 15)) {
-		        error = "Your password must be between 7-15 characters. \n";
-		        fld.style.background = 'Yellow';
-		    } else if (!((fld.value.search(/(a-z)+/)) && (fld.value.search(/(0-9)+/)))) {
-		        error = "Your password must contain at least one numeral.\n";
-		        fld.style.background = 'Yellow';
+		  
+		    if (fld.value.length == 0) {
+		        fld.style.background = 'Yellow'; 
+		        error = "Please enter your password.\n";
 		    } else {
 		        fld.style.background = 'White';
 		    }
-		   return error;
-		}  
+		    return error;   
+		}
 
 		function trim(s)
 		{
@@ -302,8 +270,10 @@ color: white;
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Project<b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="./searchProject.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
-		          </ul>
-		        </li>
+		          <li><a href="./adminAddRole.jsp" style="font-size: 16px; color: white;font-weight: 200;">Add Role</a></li>
+		          <li><a href="./adminAddTech.jsp" style="font-size: 16px; color: white;font-weight: 200;">Add Technology</a></li>
+		        </ul>
+		       </li>
 		      
                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Team<b class="caret"></b></a>
                	<ul class="dropdown-menu">
@@ -322,10 +292,10 @@ color: white;
                </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
-               		<li><a href="#register" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
+               		<li><a href="#registerModal" data-toggle="modal" style="font-size: 16px; color: white;font-weight: 200;">Register</a></li>
                		<li><a href="./searchSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                		<li><a href="./adminDeleteSponsor.jsp" style="font-size: 16px; color: white;font-weight: 200;">Delete Sponsor</a></li>
-					<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+					<li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
 					<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
                </li>
@@ -334,7 +304,7 @@ color: white;
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                		<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
                		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
-					<li><a href="./admin.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
+					<li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
 					<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
                </li>
@@ -407,22 +377,23 @@ color: white;
            </div>
          </div>
      </div>
-     <div id="register" class="modal hide fade">
+     <div id="registerModal" class="modal hide fade">
 					    <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					        <h3>Register</h3>
+					        <h6>Register</h6>
 					    </div>
-					       <form action="register" method="post" accept-charset="UTF-8">
+					       <form action="register" method="post" accept-charset="UTF-8" onsubmit="return validateForm(this)">
 					    <div class="modal-body">
-					    <input type="text" name="userName" id="userName" style="margin-bottom: 20px; height:30px;" type="text" name="new[username]" placeholder="Username" size="45" /></br>
-							  <input type="password" name="password"  id="password" style="margin-bottom: 20px; height:30px;" type="password" name="new[password]" placeholder="Password" size="45" /></br>
-							  <input type="text" name="fullName" id="fullName" style="margin-bottom: 20px; height:30px;" type="text" name="new[fullname]" placeholder="Full Name" size="45" /></br>
-							  <input type="text" name="contactNum" id="contactNum" style="margin-bottom: 20px; height:30px;" type="text" name="new[contact]" placeholder="Contact Number" size="45" /></br>
-							  <input type="text" name="email"  id="email" style="margin-bottom: 20px; height:30px;" type="text" name="new[email]" placeholder="Email" size="45" /></br>
-							  <input type="text" name="coyName"  id="coyName" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyname]" placeholder="Company Name" size="45" /></br>
-							  <input type="text" name="coyContact"  id="coyContact" style="margin-bottom: 20px; height:30px;" type="text" name="new[companycontact]" placeholder="Company Contact Number" size="45" /></br>
-							  <input type="text" name="coyAdd"  id="coyAdd" style="margin-bottom: 20px; height:30px;" type="text" name="new[companyadd]" placeholder="Company Address" size="45" /></br>
-							  <select id="orgType" name="orgType" class="input-large">
+						      <input type="text" name="fullName" id="fullName" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Full Name" size="45" maxlength="50"/></br>
+						      <input type="text" name="userName" id="userName" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Username" size="45" maxlength="25"/></br>
+							  <input type="password" name="password"  id="password" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Password" size="45" maxlength="20"/></br>
+							  <input type="text" name="contactNum" id="contactNum" class="input-large" style="margin-bottom: 20px; height:30px;"  placeholder="*Contact Number" size="45" maxlength="30"/></br>
+							  <input type="text" name="email"  id="email" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Email" size="45" maxlength="50"/></br>
+							  <input type="text" name="coyName"  id="coyName" class="input-large" style="margin-bottom: 20px; height:30px;"  placeholder="Company Name" size="45" maxlength="60"/></br>
+							  <input type="text" name="coyContact"  id="coyContact" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Contact Number" size="45" maxlength="30"/></br>
+							  <input type="text" name="coyAdd"  id="coyAdd" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Address" size="45" maxlength="80"/></br>
+							  <select id="orgType" name="orgType" class="input-large" style="margin-bottom: 20px; height:30px;" onChange="others()">
+							  		
 								<%
 							    	  OrganizationDataManager orgdm = new OrganizationDataManager();
 								    	  ArrayList<Organization> orgs  = orgdm.retrieveAll();
@@ -432,14 +403,15 @@ color: white;
 								    		String orgType = org.getOrgType();
 										   %>
 										    	<option value="<%=org.getId()%>"><%=orgType%></option>
-										    <%
-										    }
-										    %>
-							  </select></br>  
-							  <font color="red">*All Fields Are Mandatory</font>
+										    <%} %>
+									<option value="Others">Others</option>
+							  </select></br>
+							  <input type="text" name="otherOrgType" id="otherOrgType" class="input-large" style="margin-bottom: 20px; height:30px; display:none; " placeholder="Organization Type" size="45" maxlength="50"/>
+							  </br>
+							  <font color="red">*Fields Are Mandatory</font>
 						</div>
 					    <div class="modal-footer">
-					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="search" value="Register" />
+					        <input class="btn btn-primary" style="clear: left;  height: 32px; font-size: 13px;" type="submit" name="register" value="Register" />
 					    </div>
 					   	 </form>
 			</div>

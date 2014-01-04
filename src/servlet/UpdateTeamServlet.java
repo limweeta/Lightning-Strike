@@ -27,26 +27,28 @@ public class UpdateTeamServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
+		HttpSession session = request.getSession();
+		
 		TeamDataManager tdm = new TeamDataManager();
 		
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
 		int termId = Integer.parseInt(request.getParameter("term"));
-		int teamLimit = Integer.parseInt(request.getParameter("teamLimit"));
-		int pmId = Integer.parseInt(request.getParameter("pmId"));
 		
-		String teamName = request.getParameter("teamName");
 		String[] members = request.getParameterValues("members");
 		String[] roles = request.getParameterValues("roles");
 		
 		String[] industry = request.getParameterValues("industry");
 		String[] technology = request.getParameterValues("technology");
 		
-		int supId = 0;
-		try{
-			supId = Integer.parseInt(request.getParameter("supId"));
-		}catch(Exception e){
-			supId = 0;
+		if(industry == null){
+			industry = new String[0];
 		}
+		
+		if(technology == null){
+			technology = new String[0];
+		}
+		
+		String link = request.getParameter("link");
 			
 		Team updateTeam = null;
 		
@@ -54,17 +56,17 @@ public class UpdateTeamServlet extends HttpServlet {
 			updateTeam = tdm.retrieve(teamId);
 			
 			//UPDATE VALUES HERE
-			updateTeam.setTeamName(teamName);
-			updateTeam.setTeamLimit(teamLimit);
-			updateTeam.setPmId(pmId);
-			updateTeam.setSupId(supId);
 			updateTeam.setTermId(termId);
+			updateTeam.setWikiLink(link);
 			
+			System.out.println("Updating SQL...");
 			//UPDATE SQL
 			tdm.modify(updateTeam, industry, technology);
-			tdm.modifyStudents(updateTeam, members, roles);
-		}catch(Exception e){
+			//tdm.modifyStudents(updateTeam, members, roles);
 			
+			session.setAttribute("message", "Profile Saved");
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("teamProfile.jsp?id="+teamId);

@@ -1,7 +1,7 @@
 package servlet;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.*;
@@ -47,24 +47,18 @@ public class GenerateAnalyticsCSVServlet extends HttpServlet {
 				factor = "Tech";
 				break;
 			case 3:
-				data = adm.projectBySkills();
-				title = "Projects By Skills";
-				dataType = "Project";
-				factor = "Skill";
-				break;
-			case 4:
 				data = adm.studentBySkill();
 				title = "Students By Skills";
 				dataType = "Student";
 				factor = "Skill";
 				break;
-			case 5:
+			case 4:
 				data = adm.teamByInd();
 				title = "Teams By Industry";
 				dataType = "Team";
 				factor = "Industry";
 				break;
-			case 6:
+			case 5:
 				data = adm.teamByTech();
 				title = "Teams By Technology";
 				dataType = "Team";
@@ -74,7 +68,32 @@ public class GenerateAnalyticsCSVServlet extends HttpServlet {
 				data = new TreeMap<String, TreeMap<Integer, ArrayList<Integer>>>();
 				break;
 		}
-		/*
+		
+		String directory = "C:\\Users\\admin\\git\\Lightning-Strike\\WebContent\\Analytics Data\\";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HHmm");
+		Date date = new Date();
+		String timestampStr = sdf.format(date);
+		
+		directory += timestampStr;
+		directory += " " + title;
+		
+		
+		File f = new File(directory);
+		try{
+		    if(f.mkdir()) { 
+		        System.out.println("Directory Created");
+		    } else {
+		        System.out.println("Directory is not created");
+		    }
+		} catch(Exception e){
+		    e.printStackTrace();
+		} 
+		
+		
+		File file = null;
+        Writer output = null;
+		
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition","attachment;filename=test.csv");
 		
@@ -84,15 +103,23 @@ public class GenerateAnalyticsCSVServlet extends HttpServlet {
 		HashMap<Integer, Integer> stateMap = new HashMap<Integer, Integer>();
 		try
 		{
-		    
+		   
 		    for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : data.entrySet()){
+		    	String acadYear = entry.getKey();
+		    	
+		    	String acadYearfmt = acadYear.replaceAll("/", "");
+		    	acadYearfmt = acadYearfmt.replaceAll(" ", "");
+		    	
+		    	String dataFile = directory + "\\" + acadYearfmt + ".csv";
+		    	
+		    	file = new File(dataFile);
+		        output = new BufferedWriter(new FileWriter(file));
+		        
 		    	TreeMap<Integer, ArrayList<Integer>> mapValue = entry.getValue();
-		    	if(text.length() < 1){
-		    		text = entry.getKey();
-		    	}else{
-		    		text += "\n" + entry.getKey();
-		    	}
+		    	
 		    	for (Map.Entry<Integer, ArrayList<Integer>> entryValue : mapValue.entrySet()){
+		    		state += "," + entryValue.getKey();
+		    		
 		    		ArrayList<Integer> rawValues = entryValue.getValue();
 		    		for(int i = 0; i < rawValues.size(); i++){
 		    			if(!allRawValues.contains(rawValues.get(i))){
@@ -104,12 +131,17 @@ public class GenerateAnalyticsCSVServlet extends HttpServlet {
 		    		}
 		    		text += "," + rawValues.size();
 		    	}
-		    	
+		    	output.write(state);
+		    	output.write(text);
+		    	System.out.println(text);
 		    }
 		    
 		    for(int i = 0; i < allRawValues.size(); i++){
 		    	state += "," + Integer.toString(allRawValues.get(i));
 		    }
+		    
+		    output.flush();
+		    output.close();
 		    
 		    
 		    String collatedData = state + "\n" + text;
@@ -129,21 +161,24 @@ public class GenerateAnalyticsCSVServlet extends HttpServlet {
 		    out.flush();
 		    out.close();
 		    
+		    
+		    /*
 		    for (Map.Entry<Integer, Integer> entry : stateMap.entrySet())
 		    {
 		    	System.out.println(entry.getKey() + "/" + entry.getValue());
 		    }
-		    
+		    */
 		}
 		catch(Exception e){
 		     e.printStackTrace();
-		}*/
+		}
+		
 		request.setAttribute("data", data);
 		request.setAttribute("dataType", dataType);
 		request.setAttribute("title", title);
 		request.setAttribute("factor", factor);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("testGroupCharts.jsp"); 
-		rd.forward(request, response);
+		//rd.forward(request, response);
 	}
 }

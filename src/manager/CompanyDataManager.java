@@ -71,7 +71,7 @@ public class CompanyDataManager implements Serializable {
 				+ "SET company_name = '" + company.getCoyName() + "', "
 				+ "company_address = '" + company.getCoyAdd() + "', "
 				+ "company_contact_num = " + company.getCoyContactNum() + ", "
-				+ "org_type = " + company.getOrgType() + " "
+				+ "organization_type = " + company.getOrgType() + " "
 				+ " WHERE id = " + company.getID()); 
 	}
 

@@ -1,54 +1,42 @@
 <script>
 
-function validateFormOnSubmit(theForm) {
+function validateForm(theForm) {
 	var reason = "";
 
-	  reason += validateUsername(theForm.userName);
 	  reason += validateFullname(theForm.fullName);
 	  reason += validatePhone(theForm.contactNum);
 	  reason += validateEmail(theForm.email);
-	  reason += validateEmpty(theForm.coyName);
-	  reason += validatePhone(theForm.coyContact);
-	  reason += validateCoyAdd(theForm.coyAdd);
-	  reason += validatePassword(theForm.password);		      
+	  reason += validateUsername(theForm.userName);
+	  reason += validatePassword(theForm.password);
+	  reason += validateSelect(theForm.orgType);	
 	  if (reason != "") {
 	    alert("Some fields need correction:\n" + reason);
 	    return false;
 	  }
-
 	  return true;
 }
-
-function validateUsername(fld) {
-    var error = "";
-    var illegalChars = /\W/; // allow letters, numbers and underscores
- 
-    if (fld.value == "") {
-        fld.style.background = 'Yellow'; 
-        error = "You didn't enter a username.\n";
-    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
-        fld.style.background = 'Yellow'; 
-        error = "Your username is the too short.\n";
-    } else if (illegalChars.test(fld.value)) {
-        fld.style.background = 'Yellow'; 
-        error = "Your username contains illegal characters.\n";
-    } else {
-        fld.style.background = 'White';
-    } 
-    return error;
+function validateSelect(fld){
+	var error="";
+	if(fld.value == "default"){
+		fld.style.background='Yellow';
+		error="Please select an Organization type.\n";
+	}else{
+		fld.style.background='White';
+	}
+	return error;
 }
 
 function validateFullname(fld) {
     var error = "";
     var illegalChars = /[0-9]/; // allow letters ONLY
  
-    if (fld.value == "") {
+    if (fld.value.length == 0) {
         fld.style.background = 'Yellow'; 
-        error = "You didn't enter your full name.\n";
-    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
+        error = "Please enter your full name.\n";
+    } /* else if ((fld.value.length < 5) || (fld.value.length > 15)) {
         fld.style.background = 'Yellow'; 
         error = "Your full name is the wrong length.\n";
-    } else if (illegalChars.test(fld.value)) {
+    } */ else if (illegalChars.test(fld.value)) {
         fld.style.background = 'Yellow'; 
         error = "Your full name contains illegal characters.\n";
     } else {
@@ -57,22 +45,24 @@ function validateFullname(fld) {
     return error;
 }
 
-function validatePhone(fld) {
-    var error = "";
-    var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');     
-
-   if (fld.value == "") {
-        error = "You didn't enter a phone number.\n";
-        fld.style.background = 'Yellow';
-    } else if (isNaN(parseInt(stripped))) {
-        error = "The phone number contains illegal characters.\n";
-        fld.style.background = 'Yellow';
-    } else if (!(stripped.length == 8)) {
-        error = "The phone number is too short.\n";
-        fld.style.background = 'Yellow';
-    } 
-    return error;
-}
+function validatePhone(fld)  
+{  
+  var error  = "";
+  var phoneno = /^[\d\.\-\+]+$/;  
+  if(!(fld.value.match(phoneno))){  
+	  error = "Invalid phone number.\n"; 
+	  fld.style.background='Yellow';
+  }else if(fld.value.length == 0){  
+	  error = "Please enter a phone number.\n";  
+	  fld.style.background='Yellow'; 
+  }else if(fld.value.length<8){
+	  error="Invalid phone number. \n";
+	  fld.style.background='Yellow';
+  }else {
+      fld.style.background = 'White';
+  }
+  return error;
+}  
 
 function validateEmail(fld) {
     var error="";
@@ -80,9 +70,9 @@ function validateEmail(fld) {
     var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
     var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
     
-    if (fld.value == "") {
+    if (fld.value.length == 0) {
         fld.style.background = 'Yellow';
-        error = "You didn't enter an email address.\n";
+        error = "Please enter an email address.\n";
     } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
         fld.style.background = 'Yellow';
         error = "Please enter a valid email address.\n";
@@ -95,55 +85,29 @@ function validateEmail(fld) {
     return error;
 }
 
-function validateEmpty(fld) {
+function validateUsername(fld) {
     var error = "";
   
     if (fld.value.length == 0) {
         fld.style.background = 'Yellow'; 
-        error = "You didn't enter your company name.\n";
+        error = "Please enter your username.\n";
     } else {
         fld.style.background = 'White';
     }
     return error;   
 }
 
-function validateCoyAdd(fld) {
-    var error = "";
-    var illegalChars = /\W_/; // allow letters and numbers
- 
-    if (fld.value == "") {
-        fld.style.background = 'Yellow'; 
-        error = "You didn't enter an address.\n";
-    } else if ((fld.value.length < 5) || (fld.value.length > 15)) {
-        fld.style.background = 'Yellow'; 
-        error = "Your address is the too short.\n";
-    } else if (illegalChars.test(fld.value)) {
-        fld.style.background = 'Yellow'; 
-        error = "Your address contains illegal characters.\n";
-    } else {
-        fld.style.background = 'White';
-    } 
-    return error;
-}
-
 function validatePassword(fld) {
     var error = "";
-    //var illegalChars = /[\W_]/; // allow only letters and numbers 
- 
-    if (fld.value == "") {
-        fld.style.background = 'Yellow';
-        error = "You didn't enter a password.\n";
-    } else if ((fld.value.length < 7) || (fld.value.length > 15)) {
-        error = "Your password must be between 7-15 characters. \n";
-        fld.style.background = 'Yellow';
-    } else if (!((fld.value.search(/(a-z)+/)) && (fld.value.search(/(0-9)+/)))) {
-        error = "Your password must contain at least one numeral.\n";
-        fld.style.background = 'Yellow';
+  
+    if (fld.value.length == 0) {
+        fld.style.background = 'Yellow'; 
+        error = "Please enter your password.\n";
     } else {
         fld.style.background = 'White';
     }
-   return error;
-}  
+    return error;   
+}
 
 function trim(s)
 {

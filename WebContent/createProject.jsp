@@ -132,7 +132,7 @@ int currMth = now.get(Calendar.MONTH);
 		if(username == null){
 			session.setAttribute("message", "You need to be logged in to create a project");
 			invalidAccess = true;
-			response.sendRedirect("searchProject.jsp");
+			response.sendRedirect("./searchProject.jsp");
 		}
 	
 	User u = udm.retrieve(username);
@@ -317,7 +317,7 @@ int currMth = now.get(Calendar.MONTH);
 											%>
 												<table>
 												<tr class="spaceunder"> 
-												<h4><%=subcatName %></h4>
+												<font style="color:#4E6CA3; font-weight:bold; font-size: 16px;"><%=subcatName %></font>
 											<%
 											if(technologies.size() > 0){
 												for(int l = 0; l < technologies.size(); l++){
@@ -361,7 +361,7 @@ int currMth = now.get(Calendar.MONTH);
 								</div>
 						    </div>
 						  </div>
-					  </div>
+					  
 						
 						<%
 						SponsorDataManager spdm = new SponsorDataManager();
@@ -386,17 +386,20 @@ int currMth = now.get(Calendar.MONTH);
 								<input type="submit" id="createproject" Value="Create Project" class="btn btn-success" />
 							</td>
 						  <%
-							}else{
-								%>
-							You are not eligible to create a project.
-								<%
-							}
+							}else{%>
+							<div class="alert alert-warning">
+							  <strong>You are not eligible to create a project.</strong>
+							</div>	
+							<td class="space" align="justify">	
+								<input type="submit" id="createproject" Value="Create Project" class="btn btn-success" disabled />
+							</td>
+							<%-- <% out.println("You are not eligible to create a project.");%> --%>	
+							<%}
 						  %>
 						  </tr>
 					 	</table>
 						</form>
 						</div>
-						
 						</div>
 					<br/>
 	</body>

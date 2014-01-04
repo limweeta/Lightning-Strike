@@ -35,10 +35,9 @@ View:
 <select name="viewType">
 	<option value="1">Projects by Industry</option>
 	<option value="2">Projects by Technology</option>
-	<option value="3">Projects by Skills</option>
-	<option value="4">Students By Skill</option>
-	<option value="5">Teams by Preferred Industry</option>
-	<option value="6">Teams by Preferred Technology</option>
+	<option value="3">Students By Skill</option>
+	<option value="4">Teams by Preferred Industry</option>
+	<option value="5">Teams by Preferred Technology</option>
 </select>
 <input type="submit" value="View" />
 </form>

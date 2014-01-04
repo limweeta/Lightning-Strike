@@ -14,7 +14,7 @@
 	ProjectDataManager pdm = new ProjectDataManager();
 	UserDataManager udm = new UserDataManager();
 	
-	ArrayList<Student> students = sdm.retrieveAll();
+	ArrayList<Student> students = sdm.retrieveAllCurrent();
 	
 	Team userTeam = null;
 	try{
@@ -162,7 +162,8 @@ for(int i = 0; i < students.size(); i++){
 			<%} %>
 			<%=supname %></a></td>
 			<% 
-			if(tdm.emptySlots(userTeam) && visitorTeamId != 0 && !sdm.hasTeam(student)){
+			if(tdm.emptySlots(userTeam)){
+				if(visitorTeamId != 0 && !sdm.hasTeam(student)){
 			%>
 				<td class="center">
 				<form action="inviteStudent" method="post">
@@ -172,10 +173,11 @@ for(int i = 0; i < students.size(); i++){
 				</form>
 				</td>
 			<%
-			}else{
-				%>
-				<td class="center">Ineligible</td>
-				<%
+				}else{
+					%>
+					<td class="center">Ineligible</td>
+					<%
+				}
 			}
 			%>
 	</tr>

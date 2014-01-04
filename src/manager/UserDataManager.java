@@ -40,6 +40,30 @@ public class UserDataManager implements Serializable {
 		return Users;
 	}
 	
+	public ArrayList<String> retrieveAllSchoolUsernames() {
+		ArrayList<String> users = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users"
+				+ " WHERE type NOT LIKE 'Sponsor'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			String username = array.get(1);
+			
+			users.add(username);
+		}
+		
+		Collections.sort(users, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareTo(s2);
+	        }
+		});
+		
+		return users;
+	}
+	
 	public ArrayList<User> retrieveAll() {
 		ArrayList<User> Users = new ArrayList<User>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users");

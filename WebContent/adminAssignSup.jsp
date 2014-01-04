@@ -43,6 +43,7 @@
 %>
 <script type="text/javascript">
 $(function() {
+	
 	var studentNameList = [
 	                       <%
 	                       for(int i = 0; i < usernameList.size(); i++){
@@ -171,8 +172,9 @@ ArrayList<Team> currentTeamsWithoutSupervisor = tdm.retrieveAllCurrentTeamsWitho
 						<div class="control-group">
 						  <label class="control-label" for="teamId">Team Name</label>
 						  <div class="controls">
-						    <select name="teamId">
-						  		<option value="0">Choose one</option>
+						    <select name="teamId" id="teamId">
+						  		<option value="default">Choose Team</option>
+						  		<option disabled>---Teams Without Supervisors ---</option>
 						  	<%
 						  		for(int i = 0; i < currentTeamsWithoutSupervisor.size(); i++){
 						  			Team t = currentTeamsWithoutSupervisor.get(i);
@@ -181,6 +183,7 @@ ArrayList<Team> currentTeamsWithoutSupervisor = tdm.retrieveAllCurrentTeamsWitho
 						  			<%
 						  		}
 						  	%>
+						  	<option disabled>---Teams with Supervisors ---</option>
 						  	<%
 						  		for(int i = 0; i < currentTeamsWithSupervisor.size(); i++){
 						  			Team t = currentTeamsWithSupervisor.get(i);
@@ -198,8 +201,8 @@ ArrayList<Team> currentTeamsWithoutSupervisor = tdm.retrieveAllCurrentTeamsWitho
 						<div class="control-group">
 						  <label class="control-label" for="assignSup">Supervisor</label>
 						  <div class="controls">
-						    	<select name="assignSup">
-						  		<option value="0">Choose one</option>
+						    	<select name="assignSup" id="assignSup">
+						  		<option value="default">Choose Supervisor</option>
 						  	<%
 						  		for(int i = 0; i < allFaculty.size(); i++){
 						  			User u = allFaculty.get(i);

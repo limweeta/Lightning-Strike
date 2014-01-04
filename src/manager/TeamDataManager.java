@@ -59,6 +59,22 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	public boolean isPartOfTeam(Team team, User u){
+		boolean isPartOfTeam = false;
+		
+		if(team != null){
+			HashMap<String, ArrayList<String>> map = 
+					MySQLConnector.executeMySQL("select", "SELECT * FROM students WHERE team_id = " + team.getId() + " AND id = " + u.getID());
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if (iterator.hasNext()){
+				isPartOfTeam = true;
+			}
+		}
+		return isPartOfTeam;
+	}
+	
 	public boolean hasProj(Team team){
 		boolean hasProj = false;
 		
@@ -89,6 +105,22 @@ public class TeamDataManager implements Serializable {
 		return invited;
 	}
 	
+	public boolean studentHasRequested(int teamId, User std){
+		boolean requested = false;
+		
+		if(teamId != 0){
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request "
+					+ "WHERE team_id = " + teamId + " AND student_id = " + std.getID());
+			Set<String> keySet = map.keySet();
+			Iterator<String> iterator = keySet.iterator();
+			
+			if (iterator.hasNext()){
+				requested = true;
+			}
+		}
+		return requested;
+	}
+	
 	public String getTeamStatus(Team team){
 		String status = "";
 		
@@ -103,6 +135,40 @@ public class TeamDataManager implements Serializable {
 		}
 		
 		return status;
+	}
+	
+	public ArrayList<Team> retrieveSponsoredTeams(Sponsor sponsor) {
+		
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts, projects p "
+				+ "WHERE p.team_id = t.id AND t.id = ts.team_id AND ts.status_id = 6 AND p.sponsor_id = " + sponsor.getID());
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
+			
+			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
+			teams.add(addTeam);
+		}
+		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	            	return t1.getTeamName().compareTo(t2.getTeamName());
+	        }
+		});
+		
+		return teams;
 	}
 	
 	public ArrayList<Team> retrieveSupervisingCurrentTeams(String username) {
@@ -130,8 +196,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(addTeam);
 		}
 		
@@ -169,8 +236,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team addTeam = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(addTeam);
 		}
 		
@@ -227,51 +295,13 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(team);
 		}
 		
 		return teams;
-	}
-	
-	public Map<Integer, Integer> analyticsRetrieveTeamByTerm() {
-		ArrayList<Integer> rawList = new ArrayList<Integer>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams");
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		HashMap<Integer, Integer> numOfTeamsByTerm = new HashMap<Integer, Integer>();
-		int nullCounter = 0;
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			try{
-				int termId 		= Integer.parseInt(array.get(7));
-				int pmId 		= Integer.parseInt(array.get(3));
-				int supId 		= Integer.parseInt(array.get(4));
-				int rev1Id 		= Integer.parseInt(array.get(5));
-				int rev2Id 		= Integer.parseInt(array.get(6));
-				rawList.add(termId);
-			}catch(Exception e){
-				nullCounter ++;
-				numOfTeamsByTerm.put(0, nullCounter);
-			}
-
-		}
-		
-		Integer counter = 0;
-		for(int i  = 0; i < rawList.size(); i++){
-			if(numOfTeamsByTerm.containsKey(rawList.get(i))){
-				counter = numOfTeamsByTerm.get(rawList.get(i));
-				numOfTeamsByTerm.put(rawList.get(i), counter + 1);
-			}else{
-				counter  = 1;
-				numOfTeamsByTerm.put(rawList.get(i), counter);
-			}
-		}
-		Map<Integer, Integer> sortedMap = new TreeMap<Integer, Integer>(numOfTeamsByTerm);
-		return sortedMap;
 	}
 	
 	public ArrayList<Team> retrieveAllCurrentTeamsWithSupervisor() {
@@ -291,8 +321,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(team);
 		}
 		
@@ -322,8 +353,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(team);
 		}
 		
@@ -353,8 +385,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			teams.add(team);
 		}
 		
@@ -431,7 +464,7 @@ public class TeamDataManager implements Serializable {
 			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
 			teams.add(team);
 		}
-		System.out.println(query);
+		
 		return teams;
 	}
 	
@@ -643,8 +676,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			team = new Team(id, teamName2,teamLimit, pmId, supId, rev1, rev2, termId);
+			team = new Team(id, teamName2,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			
 		}
 		return team;
@@ -681,6 +715,7 @@ public class TeamDataManager implements Serializable {
 			teamSkills.add(skillId);
 			
 		}
+		
 		return teamSkills;
 	}
 	
@@ -824,6 +859,21 @@ public class TeamDataManager implements Serializable {
 	
 	// check for conflicting objects
 	
+	public boolean hasLeftFeedback(Team team, Sponsor sponsor){
+		boolean hasLeftFeedback = false;
+		
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from team_sponsorfeedback"
+				+ " WHERE team_id = " + team.getId() + " AND sponsor_id = " + sponsor.getID() + " AND date >= NOW() - INTERVAL 6 MONTH;");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		if (iterator.hasNext()){
+			hasLeftFeedback = true;
+		}
+		
+		return hasLeftFeedback;
+	}
+	
 	public boolean isTeamNameTaken(String teamName){
 		boolean isTaken = false;
 		
@@ -870,8 +920,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			Team team = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			Team team = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 			retrievedTeams.add(team);
 		}
 		return retrievedTeams;
@@ -894,8 +945,9 @@ public class TeamDataManager implements Serializable {
 			int rev1 		= Integer.parseInt(array.get(5));
 			int rev2 		= Integer.parseInt(array.get(6));
 			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
 			
-			retrievedTeam = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId);
+			retrievedTeam = new Team(id2, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
 		}
 		return retrievedTeam;
 	}
@@ -917,9 +969,12 @@ public class TeamDataManager implements Serializable {
 		int rev1		= 	team.getRev1Id();
 		int rev2		= 	team.getRev2Id();
 		int termId		= 	team.getTermId();
+		String link		=	team.getWikiLink();
+		
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`teams` "
-				+ "(`id`, `team_name`, `team_limit`, `pm_id`, `supervisor_id`, `reviewer1_id`, `reviewer2_id`, `term_id`) "
-				+ "VALUES (" + teamId + ", '" + teamName + "', " + teamLimit + ", " + pmId + ", " + supId + ", " + rev1 + ", " + rev2 + ", " + termId + ");");
+				+ "(`id`, `team_name`, `team_limit`, `pm_id`, `supervisor_id`, `reviewer1_id`, `reviewer2_id`, `term_id`, `wiki_link`) "
+				+ "VALUES (" + teamId + ", '" + teamName + "', " + teamLimit + ", " + pmId + ", "
+						+ supId + ", " + rev1 + ", " + rev2 + ", " + termId + ", '" + link + "');");
 		
 		for(int i = 0; i < prefIndustry.length; i++){
 			try{
@@ -980,12 +1035,35 @@ public class TeamDataManager implements Serializable {
 				+ "supervisor_id = " + team.getSupId() + ", "
 				+ "reviewer1_id = " + team.getRev1Id() + ", "
 				+ "reviewer2_id = " + team.getRev2Id() + ", "
-				+ "term_id = " + team.getTermId() + " "
+				+ "term_id = " + team.getTermId() + ", "
+				+ "wiki_link = '" + team.getWikiLink() + "' "
 				+ "WHERE id = " + team.getId());
 	}
 	
 	
 	public void modify(Team team, String[] industry, String[] technology){
+		
+		if(industry != null && industry.length > 0){
+			MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_industry WHERE team_id = " + team.getId());
+			
+			for(int i = 0; i < industry.length; i++){
+				MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
+						+ "(`team_id`, `industry_id`) "
+						+ "VALUES (" + team.getId() + ", " + Integer.parseInt(industry[i]) + ");");
+			}
+		}
+		
+		if(technology != null && technology.length > 0){
+			MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + team.getId());
+			
+			for(int i = 0; i < technology.length; i++){
+				MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_technology` "
+						+ "(`team_id`, `technology_id`) "
+						+ "VALUES (" + team.getId() + ", " + Integer.parseInt(technology[i]) + ");");
+			}
+			
+		}
+		
 		MySQLConnector.executeMySQL("update", "UPDATE teams SET "
 				+ "team_name = '" + team.getTeamName() + "', "
 				+ "team_limit = " + team.getTeamLimit() + ", "
@@ -993,23 +1071,9 @@ public class TeamDataManager implements Serializable {
 				+ "supervisor_id = " + team.getSupId() + ", "
 				+ "reviewer1_id = " + team.getRev1Id() + ", "
 				+ "reviewer2_id = " + team.getRev2Id() + ", "
-				+ "term_id = " + team.getTermId() + " "
+				+ "term_id = " + team.getTermId() + ", "
+				+ "wiki_link = '" + team.getWikiLink() + "' "
 				+ "WHERE id = " + team.getId());
-		
-		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + team.getId());
-		MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_industry WHERE team_id = " + team.getId());
-		
-		for(int i = 0; i < industry.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_industry` "
-					+ "(`team_id`, `industry_id`) "
-					+ "VALUES (" + team.getId() + ", " + Integer.parseInt(industry[i]) + ");");
-		}
-		
-		for(int i = 0; i < technology.length; i++){
-			MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`team_preferred_technology` "
-					+ "(`team_id`, `technology_id`) "
-					+ "VALUES (" + team.getId() + ", " + Integer.parseInt(technology[i]) + ");");
-		}
 	}
 	
 	public void modifyStudents(Team team, String[] members, String[] roles){

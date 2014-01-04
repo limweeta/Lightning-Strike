@@ -84,6 +84,58 @@ public class StudentDataManager implements Serializable {
 		return isValid;
 	}
 	
+	public ArrayList<Student> retrieveAllCurrent() {
+		ArrayList<Student> students = new ArrayList<Student>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE users.type LIKE 'Student';");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		int currYear = cal.get(cal.YEAR);
+		int currMth = cal.get(cal.MONTH);
+		
+		int year = 0;
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id 				= Integer.parseInt(array.get(0));
+			String username 	= array.get(1);
+			String fullName 	= array.get(2);
+			String contactNum 	= array.get(3);
+			String email 		= array.get(4);
+			String type			= array.get(5);
+			String secondMajor 	= array.get(7);
+			int role 			= Integer.parseInt(array.get(8));
+			int teamId 			= Integer.parseInt(array.get(9));
+			int prefRole 		= Integer.parseInt(array.get(10));
+			
+			try{
+				int matricYear = Integer.parseInt(username.substring(username.length() - 4, username.length()));
+				
+				year = currYear - matricYear;
+				
+				Student student = new Student(id, username, fullName, contactNum, email, type,  secondMajor, role, teamId, prefRole);
+				
+				if(currMth > 8){
+					year++;
+					
+				}
+				
+				if(year == 3 || year == 4){
+					students.add(student);
+				}
+				
+				System.out.println(year);
+			}catch(Exception e){}
+		}
+		
+		return students;
+	}
+	
 	public ArrayList<Student> retrieveAll() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE users.type LIKE 'Student';");
@@ -120,9 +172,6 @@ public class StudentDataManager implements Serializable {
 		while (iterator.hasNext()){
 			String key = iterator.next();
 			ArrayList<String> array = map.get(key);	
-			int id 				= Integer.parseInt(array.get(0));
-			String secondMajor 	= array.get(1);
-			String role 	= array.get(2);
 			int teamId 	= Integer.parseInt(array.get(3));
 			
 			if(teamId != 0){

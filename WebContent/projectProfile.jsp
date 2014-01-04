@@ -139,6 +139,7 @@
 	int projTeamId = 0;
 	String strTerm = "";
 	String supervisor = "";
+	String teamLink = "";
 	
 	Term term = null;
 	try{
@@ -153,9 +154,10 @@
 		projTeam = tdm.retrieve(reqProj.getTeamId());
 		projTeamName = projTeam.getTeamName();
 		projTeamId = projTeam.getId();
-		
+		teamLink = "teamProfile.jsp?id=" + projTeam.getId();
 	}catch(Exception e){
 		projTeamName = "No Team Yet";
+		teamLink = "#";
 	}
 	
 	try{
@@ -163,8 +165,17 @@
 	}catch(Exception e){
 		supervisor = "No Supervisor Yet";
 	}
-
+	
+	String link = reqProj.getWikiLink(); 
+	
+	if(link == null){
+		link = "Not specified";
+	}else{
+		link = reqProj.getWikiLink();
+	}
+	
 	User projSponsor = null;
+	String sponsorLink = "";
 	String company = "";
 	String sponsorName = "";
 	int sponsorId = 0;
@@ -187,10 +198,12 @@
 		coyId = cdm.retrieve(sponsorId).getID();
 		
 		orgType = odm.retrieve(cdm.retrieve(sponsorId).getOrgType()).getOrgType();
+		sponsorLink = "userProfile.jsp?id=" + projSponsor.getID();
 		
 	}catch(Exception e){
 		sponsorName = "No Sponsor Yet";
 		company = "Not Applicable";
+		sponsorLink = "#";
 		orgType = "N/A";
 	}
 	
@@ -343,7 +356,7 @@
 		  <div class="controls">
 		  <input type=hidden name="projId" value="<%=reqId%>">
 		  	<input type="hidden" name="sponsorId" value="<%=sponsorId%>">
-		    <%=sponsorName %>
+		    <a href="<%=sponsorLink%>"><%=sponsorName %></a>
 		  </div>
 		</div>
 		
@@ -360,17 +373,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="team">Team</label>
 		  <div class="controls">
-		    <%
-			if(type.equalsIgnoreCase("admin")){
-			  %>
-		    <input id="team" name="team" type="text" value=" <%=projTeamName %>" class="input-large">
-		     <%
-				}else{
-					%>
-			<%=projTeamName %>
-					<%
-				}
-		  %>
+			<a href="<%=teamLink%>"><%=projTeamName %></a>
 		  </div>
 		</div>
 		
@@ -510,6 +513,42 @@
 		  </div>
 		</div>
 		
+		<div class="control-group">
+		  <label class="control-label" for="org">Wiki Link</label>
+		  <div class="controls">
+		   <%
+		  if(sessUser != null){
+				if(userId == reqProj.getCreatorId()){
+			  %>
+		    <input type="text" id="link" name="link" class="input-large" value="<%=link%>">
+			<%
+				}else{
+					if( reqProj.getWikiLink() == null){
+				%>
+				
+				<%=link %>
+		  <%
+					}else{
+						%>
+				<a href="<%=link%>"><%=link %></a>
+						<%
+					}
+		  	}
+		  }else{
+			  if( reqProj.getWikiLink() == null){
+				%>
+				
+				<%=link %>
+		  <%
+					}else{
+						%>
+				<a href="<%=link%>"><%=link %></a>
+						<%
+					}
+		  } %>
+		  </div>
+		</div>
+		
 		  <div class="panel panel-default">
 		    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" style="cursor:pointer;">
 		      <h4 class="panel-title">
@@ -525,7 +564,7 @@
 			  int numOfSubCat = 0;
 			  ArrayList<Technology> technologies = new ArrayList<Technology>();
 			  ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
-				 if(pdm.isUndertakingProject(username, reqId)){
+				 if(pdm.isCreator(username, reqProj)){
 								  for(int i = 1; i <= numOfCat; i++){
 									  numOfSubCat = techdm.retrieveNumOfSubCat(i);
 									  String catName = techdm.retrieveTechCatName(i);
@@ -638,9 +677,6 @@
 				</div>
 		    </div>
 		  </div>
-	  </div>
-	 
-		</br></br>
 		<div class="control-group">
 		  <table>
 		  	 <tr>
@@ -679,7 +715,6 @@
 		</tr>
 		</table>
 			</div>	
-		</div>
 		</div>
 	</body>
 

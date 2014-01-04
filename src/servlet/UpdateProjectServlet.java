@@ -60,24 +60,14 @@ public class UpdateProjectServlet extends HttpServlet {
 		String projName = request.getParameter("projName");
 		String projDesc = request.getParameter("projectDesc");
 		String projStatus = request.getParameter("projStatus");
+		String link = request.getParameter("link");
 		
-		String[] skillsLang		= request.getParameterValues("skillLang");
-		String[] skillsOthers	= request.getParameterValues("skillOthers");
 		String[] technologies = request.getParameterValues("technology");
 		
-		if(skillsLang == null){
-			skillsLang = new String[0];
-		}
-		
-		if(skillsOthers == null){
-			skillsOthers = new String[0];
-		}
 		
 		if(technologies == null){
 			technologies = new String[0];
-		}
-		
-		String[] skills = (String[]) ArrayUtils.addAll(skillsLang, skillsOthers);
+		};
 		
 		int industryId = Integer.parseInt(request.getParameter("industry"));
 		int termId = 0;  
@@ -99,11 +89,11 @@ public class UpdateProjectServlet extends HttpServlet {
 				updateProj.setStatus(projStatus);
 				updateProj.setIndustry(industryId);
 				updateProj.setIntendedTermId(termId);
+				updateProj.setWikiLink(link);
 				
 				//UPDATE SQL
 				pdm.modify(updateProj);
 				pdm.modifyTechnology(updateProj, technologies);
-				pdm.modifyPrefSkill(updateProj, skills);
 				
 				session.setAttribute("message", "Profile Updated");
 			}catch(Exception e){
@@ -116,7 +106,7 @@ public class UpdateProjectServlet extends HttpServlet {
 		}catch(Exception e){
 			session.setAttribute("teamId", projTeamId);
 			session.setAttribute("assignSupName", request.getParameter("assignSup"));
-			response.sendRedirect("assignSupervisor");
+			response.sendRedirect("adminAssignSup.jsp");
 		}
 		
 		

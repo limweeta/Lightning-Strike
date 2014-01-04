@@ -122,7 +122,9 @@ color: white ;
                	<ul class="dropdown-menu">
                		<li><a href="./searchTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
 		          	<li><a href="./createTeam.jsp" style="font-size: 16px; color: white;font-weight: 200;">Create</a></li>
+		          	<%if(stdm.hasTeam(s)){ %>
 		          	<li><a href="./teamProfile.jsp?id=<%=teamIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Team</a></li>
+		          	<%} %>
 		          	<%if(!stdm.hasTeam(s)){
 		          	%>
 		          	<li><a href="./matchTeam" style="font-size: 16px; color: white;font-weight: 200;">Match to Team</a></li>
@@ -162,6 +164,24 @@ color: white ;
 	          		&nbsp; My Profile
 	          	</a>
 	          	</li>
+	          	<li id="switchRoles" style="padding-top:5px;">
+	          	<form action="switchRole" method="post" onsubmit="this.reset()" style="margin: 0 20 0px;">
+		  			<i class="fa fa-users" style="color:white; padding-right:8px;"></i> 
+		  			<select id="role" name="role" class="input-small" onchange="this.form.submit()">
+		  			<option value="#">Role</option>
+		  				<%
+		  				RoleDataManager rdm = new RoleDataManager();
+		  				ArrayList<String> roleTypes = rdm.retrieveUserRole(sUsername, "Student");
+		  				
+		  				for(int i = 0; i < roleTypes.size(); i++){
+		  					%>
+		  					<option><%=roleTypes.get(i) %></option>
+		  					<%
+		  				}
+		  				%>
+		  			</select>
+				</form>
+	          </li>
 	          	<li>
 	          	<form id="logout" action="logout" method="post" style="display:none;"></form>
 	          	<a href="#" onclick="logout.submit()" style="font-size: 16px; color: white;font-weight: 200;">

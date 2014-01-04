@@ -146,16 +146,6 @@
 						<legend>Assign Reviewers</legend>
 					
 						<div class="span7">
-						<!-- Text input--><!-- 
-						<div class="control-group">
-						  <label class="control-label" for="teamId">Team Name</label>
-						  <div class="controls">
-						    <input id="teamName" name="teamName" type="text" class="input-large">
-						  </div>
-						</div> -->
-						<!-- </div></br> -->
-						<!-- <div class="span3"> -->
-						<!-- Text input-->
 						<div class="control-group">
 						  <label class="control-label" for="projName">Team Name</label>
 						  <div class="controls">

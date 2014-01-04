@@ -327,6 +327,10 @@ String dateStr = Integer.toString(currDay) + "/" + Integer.toString(currMth) + "
 						    <br />
 						    <font size=-2 color=red>You have yet to complete your project</font>
 						    <%
+							}else if(tdm.hasLeftFeedback(team, sponsor)){
+								%>
+								<font size=-1 color=red>You have already left feedback for this sponsor</font>	
+								<%
 							}else{
 								%>
 							<input type="submit" id="teamSponsorFeedback" value="Submit Feedback" class="btn btn-success">	

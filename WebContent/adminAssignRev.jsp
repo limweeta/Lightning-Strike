@@ -41,6 +41,43 @@
 	int currMth = now.get(Calendar.MONTH);
 %>
 <script type="text/javascript">
+/* function validateForm(theForm) {
+	var reason = "";
+
+	  reason += validateTeam(theForm.teamId);	
+	  reason += validateRev(theForm.assignRev1);
+	  if (reason != "") {
+	    alert("Some fields need correction:\n" + reason);
+	    return false;
+	  }
+
+	  return true;
+}
+
+function validateTeam(fld) {
+    var error = "";
+  
+    if (fld.value == "default") {
+        fld.style.background = 'Yellow'; 
+        error = "Please select a team. \n";
+    } else {
+        fld.style.background = 'White';
+    }
+    return error;   
+}
+
+function validateRev(fld) {
+    var error = "";
+  
+    if (fld.value == "default") {
+        fld.style.background = 'Yellow'; 
+        error = "Please select a reviewer.\n";
+    } else {
+        fld.style.background = 'White';
+    }
+    return error;   
+} */
+
 $(function() {
 	var studentNameList = [
 	                       <%
@@ -131,7 +168,7 @@ $(function() {
 </head>
 <%
 ArrayList<User> allFaculty = udm.retrieveAllFaculty();
-ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
+ArrayList<Team> currentTeams = tdm.retrieveAll();
 %>
 <body>
 	<div class="container" id="content-container">
@@ -178,8 +215,8 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 						<div class="control-group">
 						  <label class="control-label" for="projName">Team Name</label>
 						  <div class="controls">
-						    <select name="teamId">
-						  		<option value="0">Choose one</option>
+						    <select name="teamId" id="teamId">
+						  		<option value="default">Choose one</option>
 						  	<%
 						  		for(int i = 0; i < currentTeams.size(); i++){
 						  			Team t = currentTeams.get(i);
@@ -197,8 +234,8 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 						<div class="control-group">
 						  <label class="control-label" for="assignRev1">Reviewer 1</label>
 						  <div class="controls">
-						  	<select name="assignRev1">
-						  		<option value="0">Choose one</option>
+						  	<select name="assignRev1" id="assignRev1">
+						  		<option value="default">Choose one</option>
 						  	<%
 						  		for(int i = 0; i < allFaculty.size(); i++){
 						  			User u = allFaculty.get(i);
@@ -216,7 +253,7 @@ ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 						<div class="control-group">
 						  <label class="control-label" for="assignRev2">Reviewer 2</label>
 						  <div class="controls">
-						   <select name="assignRev2">
+						   <select name="assignRev2" id="assignRev2">
 						   	<option value="0">Choose one</option>
 						  	<%
 						  		for(int i = 0; i < allFaculty.size(); i++){

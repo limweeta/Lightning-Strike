@@ -187,13 +187,34 @@
 					<span class="label label-default" style="padding:10px;"><%=status %></span></br>
 				<%} %>
 				</h5>
-		
+		<%
+		StudentDataManager stdm = new StudentDataManager();
+		if(usertype.equalsIgnoreCase("Student")){ 
+			User std = udm.retrieve(username);
+			if(!stdm.hasTeam(std) && !tdm.studentHasRequested(teamId, std)){
+		%>
+			<form action="stdRequest" method="post">
+				<input type="hidden" name="teamId" value="<%=teamId %>">
+				<input type="hidden" name="userId" value="<%=sessUserId %>">
+				<% 
+				try{
+					if(tdm.emptySlots(team) && !stdm.hasTeam(sessUser)){ %>
+			  		<input type="submit" value="Request to Join" class="btn btn-warning" onclick="this.disabled=true;this.value='Request Sent';">
+			  		<% }
+				}catch(Exception e){}
+		  		%>
+		  		
+		  	</form>
+		<%
+			}
+		}
+		%>
 		<div class="panel-group" id="accordion">
 		  <div class="panel panel-default">
 		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" style="cursor:pointer;">
 		      <h4 class="panel-title">
 		        <a class="accordion-toggle">
-		          Students Request (<%=studentInvites.size() %>)
+		          Students Request (<%=studentRequests.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -202,11 +223,11 @@
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(studentInvites.size() == 0){
+		  if(studentRequests.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < studentInvites.size(); i++){
-		  		Student student = studentInvites.get(i);
+		  	for(int i = 0; i < studentRequests.size(); i++){
+		  		Student student = studentRequests.get(i);
 		  		%>
 		  		<td>
 		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
@@ -243,7 +264,7 @@
 		    <div class="panel-heading"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" style="cursor:pointer;">
 		      <h4 class="panel-title">
 		        <a class="accordion-toggle">
-		          Students Invited (<%=studentRequests.size() %>)
+		          Students Invited (<%=studentInvites.size() %>)
 		        </a>
 		      </h4>
 		    </div>
@@ -252,11 +273,11 @@
 		 			<table width="100%">
 				    	<tr class="spaceunder">
 							 <%
-		  if(studentRequests.size() == 0){
+		  if(studentInvites.size() == 0){
 			  out.println("None");
 		  }else{
-		  	for(int i = 0; i < studentRequests.size(); i++){
-		  		Student student = studentRequests.get(i);
+		  	for(int i = 0; i < studentInvites.size(); i++){
+		  		Student student = studentInvites.get(i);
 		  		%>
 		  		<td>
 		  		<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> <br /><br />
@@ -302,13 +323,13 @@
             for(int i=0; i < members.size(); i++){
             	Student student = members.get(i);
             	%>
-            	<span class = "label label-info"><a href="userProfile.jsp?id=<%=student.getID()%>" style="color: #FFFFFF"><%=student.getFullName() %></a> 
+            	<a href="userProfile.jsp?id=<%=student.getID()%>"><%=student.getFullName() %></a> 
             	<%
             	RoleDataManager rdm = new RoleDataManager();
             	int roleId = student.getRole();
             	Role r = rdm.retrieve(roleId);
             	%>
-            	| <%=r.getRoleName() %>  </span><br /><br />
+            	| <%=r.getRoleName() %>  <br /><br />
 	            	<%
 	            		if(sessUserId == student.getID()){
 	            	%>
@@ -338,7 +359,7 @@
 		  <div class="controls">
 		  <%
     	  TermDataManager termdm = new TermDataManager();
-	            		if(sessUserId == team.getPmId()){
+	           if(tdm.isPartOfTeam(team, sessUser) || usertype.equalsIgnoreCase("Admin")){
 	       %>
 		  <select id="term" name="term" class="input-large">
 		    	  <%
@@ -350,11 +371,11 @@
 		    		Term showTerm = terms.get(i); 
 		    		if((termId) == showTerm.getId()){	
 		    	%>
-		    	  <option value="<%=showTerm.getId()%>" selected><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+		    	  <option value="<%=showTerm.getId()%>" selected><%="AY" + showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
 		    	 <%
 		    		}else{
     			%>
-		    	  <option value="<%=showTerm.getId()%>"><%=showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
+		    	  <option value="<%=showTerm.getId()%>"><%="AY" + showTerm.getAcadYear() + " T" + showTerm.getSem() %></option>
 		    	 <%	
 		    		}
 		    	  }
@@ -362,8 +383,8 @@
 		</select> 
 		<%} else{ 
 					Term term = termdm.retrieve(team.getTermId());%>
-		  	<span class="label label-info"><%="AY" + term.getAcadYear() + " T" + term.getSem()%></span>
-		  	<input type="hidden" name="termId" value="<%=term.getId() %>">
+		  	<%="AY" + term.getAcadYear() + " T" + term.getSem()%>
+		  	<input type="hidden" name="term" value="<%=term.getId() %>">
 		  	<%} %>
 		  	
 		  </div>
@@ -371,7 +392,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
-		  	<span class="label label-info"><a href="projectProfile.jsp?id=<%=projId%>" style="color: #FFFFFF"><%=projName %></a></span>
+		  	<a href="projectProfile.jsp?id=<%=projId%>"><%=projName %></a>
 		  </div>
 		</div>
 		<div class="control-group">
@@ -389,7 +410,7 @@
 				  supervisorName = "No supervisor yet";
 			  }
 			%>
-			<span class="label label-info"><a href="<%=profileLink%>" style="color: #FFFFFF"><%=supervisorName %></a></span>
+			<a href="<%=profileLink%>"><%=supervisorName %></a>
 		  </div>
 		</div><br />
 		
@@ -419,12 +440,52 @@
 				  rev2Name = "Not assigned";
 			  }
 			%>
-			<span class="label label-info"><a href="<%=rev1ProfileLink%>" style="color: #FFFFFF"><%=rev1Name %><br /><br />
+			<a href="<%=rev1ProfileLink%>"><%=rev1Name %></a><br /><br />
 			
-			<span class="label label-info"><a href="<%=rev2ProfileLink%>" style="color: #FFFFFF"><%=rev2Name %><br />
-			</a></span>
+			<a href="<%=rev2ProfileLink%>"><%=rev2Name %></a><br />
+			
 		  </div>
 		</div><br />
+		
+		<div class="control-group">
+		  <label class="control-label" for="supervisor">Wiki Link</label>
+		  <div class="controls">
+			<%
+			String wikiLink = wikiLink = team.getWikiLink();;
+			
+			if(wikiLink == null){
+				wikiLink = "Not Specified";
+			}else{
+				wikiLink = team.getWikiLink();
+			}
+			if(sessUser != null){
+				if(tdm.isPartOfTeam(team, sessUser)){
+					%>
+					<textarea name="link"><%=wikiLink%></textarea>
+					<%
+				}else{
+					if(team.getWikiLink() == null){
+						out.println(wikiLink);
+					}else{
+						%>
+						<a href="<%=wikiLink %>"><%=wikiLink %></a>
+						<%
+					}
+				}
+			}else{
+				if(team.getWikiLink() == null){
+					out.println(wikiLink);
+				}else{
+					%>
+					<a href="<%=wikiLink %>"><%=wikiLink %></a>
+					<%
+				}
+			}
+			%>
+			
+		  </div>
+		</div><br />
+		
 		<!-- @CHLOE PUT SKILLS IN THE SAME AS INDUSTRY AND TECH -->
 		
 	<div class="panel-group" id="accordion">
@@ -588,72 +649,122 @@
 		    </div>
 		    <div id="collapseFour" class="panel-collapse collapse in">
 		      <div class="panel-body">
-			    	<table>
-				    	<tr class="spaceunder">
-							<%
-							    ArrayList<Technology> allTech= techdm.retrieveAll();
-							    int count1 = 0;
-								boolean checked1 = false;
-								
-								if(sessUserTeamId == teamId){
-								
-								for(int i = 0; i < allTech.size(); i++){
-									checked1 = false;
-									Technology hasTech = allTech.get(i);
-									count1++;
-									for(int j  = 0; j < allTech.size(); j++){
-										if(techdm.hasPrefTech(teamId, hasTech.getId())){
-											checked1=true;
-										}
-									}
-									if(checked1){
-								%>
-								<td>
-								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>" checked="checked">&nbsp;<span class="label label-default"><%=allTech.get(i).getTechName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								   <%
-								  }else{
-								  %><td>
-								  <input type="checkbox" name="technology" value="<%=allTech.get(i).getId() %>">&nbsp;<span class="label label-default"><%=allTech.get(i).getTechName() %></span>&nbsp;&nbsp;
-								  </td><td></td>
-								  <%  
-									}
-								  
-								  if((i+1) % 3 == 0){
-								  %>
-							  		</tr><tr class="spaceunder">
-							  	<%
-								 	 }
-							 	 }
-								%>
-								<input type="text" name="technology" placeholder="Others">
-								<%
-							}else{
-								allTech = techdm.retrieveTechByTeam(teamId);
-								if(allTech.size() < 1){
-									%>
-									No preferred technologies indicated
-									<%
-								}else{
-									for(int i = 0; i < allTech.size(); i++){
-										Technology tech = allTech.get(i);
-										%>
-										<td>
-											&nbsp;<span class="label label-default"><%=tech.getTechName() %></span>&nbsp;&nbsp;
-										</td>
-										<%
-										 if((i+1) % 3 == 0){
-											  %>
+			    	<%
+			   ArrayList<String> tech = techdm.retrieveByTeamId(team.getId());
+			  int numOfCat = techdm.retrieveNoOfTechCat();
+			  int numOfSubCat = 0;
+			  ArrayList<Technology> technologies = new ArrayList<Technology>();
+			  ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
+				 if(tdm.isPartOfTeam(team, sessUser)){
+								  for(int i = 1; i <= numOfCat; i++){
+									  numOfSubCat = techdm.retrieveNumOfSubCat(i);
+									  String catName = techdm.retrieveTechCatName(i);
+									  %>
+										<h2><%=catName %></h2>
+										
+									  <%
+										subcatIdList = techdm.retrieveTechSubCatIdList(i);
+										for(int k = 0; k <= subcatIdList.size(); k++){
+											int subcatid = 0; 
+											try{
+												subcatid = subcatIdList.get(k);
+											}catch(Exception e){
+												subcatid = 0;
+											}
+
+											technologies = techdm.retrieveTechSubCatId(i, subcatid);
+											String subcatName = techdm.retrieveTechSubCatName(subcatid);
+											%>
+												<table>
+												<tr class="spaceunder"> 
+												<h4><%=subcatName %></h4>
+											<%
+											if(technologies.size() > 0){
+												for(int l = 0; l < technologies.size(); l++){
+										  			Technology tech2 = technologies.get(l);
+										  			if(techdm.hasTech(tech, tech2)){
+											%><td>
+												  <input type="checkbox" name="technology" value="<%=tech2.getId()%>" checked="checked">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+												 
+											</td><td></td>
+												   <%
+												  }else{
+												  %><td>
+												  <input type="checkbox" name="technology" value="<%=tech2.getId()%>">&nbsp;<span class="label label-default"><%=tech2.getTechName() %></span>&nbsp;&nbsp;
+												  </td><td></td>
+											  <%
+												  }
+												  if((l+1) % 5 == 0){
+												  %>
 											  </tr><tr class="spaceunder">
 											  <%
-										  }
-									}
+												  }
+											 
+										 }
+								  }else{
+									  out.println("None indicated");
+								  }
+								  %>
+								   </tr></table>
+								  <%
+										}
+								  }
+								  %>
+								 
+								  <br />
+								  <%
+				 }else{
+					 
+					 for(int i = 1; i <= numOfCat; i++){
+						  numOfSubCat = techdm.retrieveNumOfSubCat(i);
+						  String catName = techdm.retrieveTechCatName(i);
+						  %>
+							<h2><%=catName %></h2>
+							
+						  <%
+							subcatIdList = techdm.retrieveTechSubCatIdList(i);
+							for(int k = 0; k <= subcatIdList.size(); k++){
+								int subcatid = 0; 
+								try{
+									subcatid = subcatIdList.get(k);
+								}catch(Exception e){
+									subcatid = 0;
 								}
-							}
-							  %>
-					  	</tr>
-					</table> 
-					
+								technologies = techdm.retrieveTechCatIdByTeam(i, subcatid, team.getId());
+								String subcatName = techdm.retrieveTechSubCatName(subcatid);
+								%>
+									<table>
+												<h4><%=subcatName %></h4>
+												
+												<tr class="spaceunder"> 
+										  <%
+										  if(technologies.size() < 1){
+											  out.println("No technology indicated");
+										  }else{
+											  for(int j = 0; j < technologies.size(); j++){
+											  Technology techPublic = technologies.get(j);
+											  %>
+											  <td>
+											  	<span class="label label-default">
+											  	<%=techPublic.getTechName() %></span>&nbsp;&nbsp;
+											  </td>
+											   <%
+												  if((j+1) % 5 == 0){
+												  %>
+											  </tr><tr class="spaceunder">
+											  <%
+												  }
+											 }
+										  }
+											  %>
+										  </tr></table> 
+								<%
+							 }
+					  }
+					 
+				}
+					  
+				 %>
 				</div>
 		    </div>
 		  </div>
@@ -664,7 +775,7 @@
 		<tr>
 		<%
 		try{
-			if(udm.retrieve(username).getID() == team.getPmId()){
+			if(tdm.isPartOfTeam(team, sessUser) || usertype.equalsIgnoreCase("Admin")){
 				%>
 				<td class="space">
 		    	<input type="submit" id="updateTeam" value="Save Profile" class="btn btn-success">
@@ -676,7 +787,7 @@
 			}catch(Exception e){}
 		
 		try{
-			if(udm.retrieve(username).getID() == team.getPmId()){
+			if(udm.retrieve(username).getID() == team.getPmId() || usertype.equalsIgnoreCase("Admin")){
 				%>
 				<form method="post" action="deleteTeam">
 					<input type="hidden" name="teamId" value="<%=teamId %>">
@@ -690,7 +801,7 @@
 		}
 		%>
 		
-		<%
+		<%-- <%
 		StudentDataManager stdm = new StudentDataManager();
 		if(usertype.equalsIgnoreCase("Student")){ 
 		%>
@@ -710,7 +821,7 @@
 		  	</td>
 		<%
 		}
-		%>
+		%> --%>
 		</tr>
 		</table>
 		</div>

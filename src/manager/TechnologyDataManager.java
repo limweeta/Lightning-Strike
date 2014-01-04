@@ -11,6 +11,39 @@ public class TechnologyDataManager implements Serializable {
 	public TechnologyDataManager() {
 	}
 	
+	public ArrayList<Technology> retrieveTechCatIdByTeam(int catid, int subcatid, int teamId){
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		
+		switch (catid){
+			case 1:
+				technologies = retrievePlatformTechByProj(subcatid, teamId);
+				break;
+			case 2:
+				technologies = retrieveDevToolsTechByProj(subcatid, teamId);
+				break;
+			case 3:
+				technologies = retrieveLanguageTechByProj(subcatid, teamId);
+				break;
+			case 4:
+				technologies = retrieveFrameworkTechByProj(subcatid, teamId);
+				break;
+			case 5:
+				technologies = retrieveOtherTechByProj(subcatid, teamId);
+				break;
+			default:
+				technologies = new ArrayList<Technology>();
+				break;
+		}
+		
+		Collections.sort(technologies, new Comparator<Technology>() {
+	        @Override public int compare(Technology t1, Technology t2) {
+	            	return t1.getTechName().compareTo(t2.getTechName());
+	        }
+		});
+		
+		return technologies;
+	}
+	
 	public ArrayList<Technology> retrieveTechCatIdByProject(int catid, int subcatid, int projId){
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		
@@ -465,6 +498,146 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	public ArrayList<Technology> retrievePlatformTechByTeam(int subcatid, int teamid) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		String query = "";
+		if(subcatid == 0){
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NULL "
+					+ "AND t.tech_cat_id = 1 and tpt.team_id = " + teamid;
+		}else{
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NOT NULL "
+					+ "AND t.tech_cat_id = 1 and tpt.team_id = " + teamid;
+		}
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveDevToolsTechByTeam(int subcatid, int teamId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		String query = "";
+		if(subcatid == 0){
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NULL "
+					+ "AND t.tech_cat_id = 2 and tpt.team_id = " + teamId;
+		}else{
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NOT NULL "
+					+ "AND t.tech_cat_id = 2 and tpt.team_id = " + teamId;
+		}
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveLanguageTechByTeam(int subcatid, int teamId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		String query = "";
+		if(subcatid == 0){
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NULL "
+					+ "AND t.tech_cat_id = 3 and tpt.team_id = " + teamId;
+		}else{
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NOT NULL "
+					+ "AND t.tech_cat_id = 3 and tpt.team_id = " + teamId;
+		}
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveFrameworkTechByTeam(int subcatid, int teamId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		String query = "";
+		if(subcatid == 0){
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NULL "
+					+ "AND t.tech_cat_id = 4 and tpt.team_id = " + teamId;
+		}else{
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NOT NULL "
+					+ "AND t.tech_cat_id = 4 and tpt.team_id = " + teamId;
+		}
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
+	public ArrayList<Technology> retrieveOtherTechByTeam(int subcatid, int teamId) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		String query = "";
+		if(subcatid == 0){
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NULL "
+					+ "AND t.tech_cat_id = 5 and tpt.team_id = " + teamId;
+		}else{
+			query = "SELECT * FROM technologies t, team_preferred_technology tpt, technologies tech "
+					+ "WHERE tech.tech_cat_id = tpt.technology_id AND t.id = tpt.technology_id AND tech.tech_sub_cat_id IS NOT NULL "
+					+ "AND t.tech_cat_id = 5 and tpt.team_id = " + teamId;
+		}
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", query);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int id = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			Technology technology = new Technology(id, techName);
+			technologies.add(technology);
+		}
+		return technologies;
+	}
+	
 	public boolean hasTech(ArrayList<String> tech, Technology techCheck){
 		boolean hasTech = false;
 			for(int i = 0; i < tech.size(); i++){
@@ -494,6 +667,22 @@ public class TechnologyDataManager implements Serializable {
 		ArrayList<String> proj_tech = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
 				.executeMySQL("select", "SELECT technology_Id FROM `is480-matching`.project_technologies WHERE project_Id = " + projId);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			String techId = array.get(0);
+			
+			proj_tech.add(techId);
+		}
+		return proj_tech;
+	}
+	
+	public ArrayList<String> retrieveByTeamId(int teamId) {
+		ArrayList<String> proj_tech = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT technology_Id FROM `is480-matching`.team_preferred_technology WHERE team_id = " + teamId);
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while (iterator.hasNext()) {

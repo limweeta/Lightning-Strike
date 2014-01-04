@@ -59,6 +59,16 @@
     <servlet-name>AddAnnouncementServlet</servlet-name>
     <url-pattern>/addAnn</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AddRoleServlet</servlet-name>
+    <servlet-class>servlet.AddRoleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddRoleServlet</servlet-name>
+    <url-pattern>/addRole</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>DeleteTermServlet</servlet-name>
     <servlet-class>servlet.DeleteTermServlet</servlet-class>
