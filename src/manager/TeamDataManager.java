@@ -301,6 +301,45 @@ public class TeamDataManager implements Serializable {
 			teams.add(team);
 		}
 		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	        	return t1.getTeamName().compareToIgnoreCase(t2.getTeamName());
+	        }
+		});
+		
+		return teams;
+	}
+	
+	public ArrayList<Team> retrieveAllCurrentTeams() {
+		ArrayList<Team> teams = new ArrayList<Team>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts "
+				+ "WHERE t.id=ts.team_id AND ts.status_id != 6");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String teamName = array.get(1);
+			int teamLimit	= Integer.parseInt(array.get(2));
+			int pmId		= Integer.parseInt(array.get(3));
+			int supId 		= Integer.parseInt(array.get(4));
+			int rev1 		= Integer.parseInt(array.get(5));
+			int rev2 		= Integer.parseInt(array.get(6));
+			int termId 		= Integer.parseInt(array.get(7));
+			String link		= array.get(8);
+			
+			Team team = new Team(id, teamName,teamLimit, pmId, supId, rev1, rev2, termId, link);
+			teams.add(team);
+		}
+		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	        	return t1.getTeamName().compareToIgnoreCase(t2.getTeamName());
+	        }
+		});
+		
 		return teams;
 	}
 	

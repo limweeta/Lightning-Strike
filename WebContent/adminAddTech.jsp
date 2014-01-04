@@ -179,6 +179,18 @@ function validateTech(fld) {
 						  </div>
 						</div>
 						<div class="control-group">
+						  <label class="control-label" for="tech">Category</label>
+						  <div class="controls">
+						   <input type="text" class="input-large" name="tech" id="tech">
+						  </div>
+						</div>
+						<div class="control-group">
+						  <label class="control-label" for="tech">Sub Category</label>
+						  <div class="controls">
+						   <input type="text" class="input-large" name="tech" id="tech">
+						  </div>
+						</div>
+						<div class="control-group">
 						  <div class="controls">
 						    <input type="submit" value="Add Tech" class="btn btn-success">
 						  </div>

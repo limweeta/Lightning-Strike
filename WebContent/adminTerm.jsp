@@ -154,7 +154,7 @@
 						</div>
 						</fieldset>
 					</form>
-					<form name="editTerm" action="" method="post" class="form-horizontal">
+					<form name="editTerm" action="editTerm" method="post" class="form-horizontal">
 						<fieldset>
 						<legend>Edit Term</legend>
 						<div class="span7">

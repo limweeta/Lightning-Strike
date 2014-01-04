@@ -68,7 +68,14 @@
     <servlet-name>AddRoleServlet</servlet-name>
     <url-pattern>/addRole</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>EditTermServlet</servlet-name>
+    <servlet-class>servlet.EditTermServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditTermServlet</servlet-name>
+    <url-pattern>/editTerm</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>DeleteTermServlet</servlet-name>
     <servlet-class>servlet.DeleteTermServlet</servlet-class>

@@ -23,6 +23,7 @@
 		  <label class="control-label" for="projectterm">Project Term</label>
 		  <div class="controls">
 		   <select id="term" name="term" class="input-large">
+		   <option value="16">Test Data Here</option>
 		    	  <%
 		    	  TermDataManager termdm = new TermDataManager();
 		    	  ArrayList<Term> terms  = termdm.retrieveFromNextSem();

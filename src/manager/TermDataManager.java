@@ -187,7 +187,12 @@ public class TermDataManager implements Serializable {
 				+ " VALUES ('" + acadYear + "', " + sem + ", '" + term.getStartDate() + " 00:00:00', '" + term.getEndDate() + " 23:59:59');");
 	}
 
-	public void modify(Company company) {
+	public void modify(Term term) {
+		MySQLConnector.executeMySQL("update",
+				"UPDATE term SET "
+				+ "start_date = '" + term.getStartDate() + " 00:00:00', "
+				+ "end_date = '" + term.getEndDate() + " 23:59:59' "
+				+ "WHERE id = " + term.getId());
 	}
 
 	public void remove(int termid) {

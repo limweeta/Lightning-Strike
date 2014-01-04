@@ -14,6 +14,8 @@
 	ProjectDataManager pdm = new ProjectDataManager();
 	UserDataManager udm = new UserDataManager();
 	
+	String sessionType = (String) session.getAttribute("type");
+	
 	ArrayList<Student> students = sdm.retrieveAllCurrent();
 	
 	Team userTeam = null;
@@ -78,7 +80,7 @@
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 150px;">Project</th>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Supervisor</th>
 			<% 
-			if(tdm.emptySlots(userTeam)){
+			if(tdm.emptySlots(userTeam) && sessionType.equalsIgnoreCase("Student")){
 			%>
 			<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 170px;">Invite</th>
 			<%
@@ -162,7 +164,7 @@ for(int i = 0; i < students.size(); i++){
 			<%} %>
 			<%=supname %></a></td>
 			<% 
-			if(tdm.emptySlots(userTeam)){
+			if(tdm.emptySlots(userTeam) && sessionType.equalsIgnoreCase("Student")){
 				if(visitorTeamId != 0 && !sdm.hasTeam(student)){
 			%>
 				<td class="center">

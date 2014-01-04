@@ -168,7 +168,7 @@ $(function() {
 </head>
 <%
 ArrayList<User> allFaculty = udm.retrieveAllFaculty();
-ArrayList<Team> currentTeams = tdm.retrieveAll();
+ArrayList<Team> currentTeams = tdm.retrieveAllCurrentTeams();
 %>
 <body>
 	<div class="container" id="content-container">
