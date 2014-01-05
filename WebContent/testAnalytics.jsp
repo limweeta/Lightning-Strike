@@ -1,8 +1,53 @@
-Number of Projects
+
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="resources/d3.chart.min.js" charset="utf-8"></script>
-<div id="bargraph" >
-</div>
+<%	
+TermDataManager termdm = new TermDataManager();
+ArrayList<Term> allTerms = termdm.retrieveAll();
+ %>
+<form action="">
+
+<h4>Choose which data you would like to view</h4>
+<select name="type">
+	<option value=1>Projects by Technology</option>
+	<option value=2>Projects by Industry</option>
+	<option value=3>Teams by Preferred Technology</option>
+	<option value=4>Teams by Preferred Industry</option>
+	<option value=5>Students by Skills</option>
+</select>
+
+<h4>Term</h4>
+
+Select Term: 
+<select name="term">
+	<option value="0" selected>-</option>
+	<%
+	for(int i = 0; i < allTerms.size(); i++){
+		Term term = allTerms.get(i);
+		%>
+		<option value="<%=term.getId()%>"><%="AY" + term.getAcadYear() + " T" + term.getSem() %></option>
+		<%
+	}
+	%>
+</select>
+<input type="submit" value="View" />
+</form>
+<%
+String title = "";
+int type = 5;
+try{
+ 	type = Integer.parseInt(request.getParameter("type"));
+}catch(Exception e){
+	type = 5;
+}
+
+int term = 0;
+try{
+	term = Integer.parseInt(request.getParameter("term"));
+}catch(Exception e){
+	term = 0;
+}
+%>
 
 <%@ page import="manager.*"%>
 <%@ page import="model.*"%>
@@ -10,19 +55,54 @@ Number of Projects
 <%
 AnalyticsDataManager adm = new AnalyticsDataManager();
 
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projSkillMap = adm.projectBySkills();
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projTechMap = adm.projectByTech();
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projIndMap = adm.projectByInd();
+TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> dataMap = null;
+String dataType = "";
+switch(type){
+	case 1:
+		dataMap = adm.projectByTech(term);
+		dataType = "Tech";
+		title = "Projects by Technology";
+		break;
+	case 2:
+		dataMap = adm.projectByInd(term);
+		title = "Projects by Industry";
+		dataType = "Ind";
+		break;
+	case 3:
+		dataMap = adm.teamByTech(term);
+		title = "Teams by Preferred Technology";
+		dataType = "Tech";
+		break;
+	case 4:
+		dataMap = adm.teamByInd(term);
+		title = "Teams by Preferred Technology";
+		dataType = "Ind";
+		break;
+	case 5:
+		dataMap = adm.studentBySkill(term);
+		title = "Students by Skill";
+		dataType = "Skill";
+		break;
+	default:
+		dataMap = adm.studentBySkill(term);
+		title = "Students by Skill";
+		dataType = "Skill";
+		break;
+}
 
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> teamIndMap = adm.teamByInd();
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> teamTechMap = adm.teamByTech();
 
-TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> studentSkillMap = adm.studentBySkill();
+//TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projIndMap = adm.projectByInd();
 
-Set set = projSkillMap.entrySet();
-Iterator i2 = set.iterator(); 
+//TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> teamIndMap = adm.teamByInd();
+//TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> teamTechMap = adm.teamByTech();
+
+//TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> studentSkillMap = adm.studentBySkill();
 
 %>
+<h1><%=title %></h1>
+<div id="bargraph" >
+</div>
+
 <style>
         .Barchart .label {
           font-size: 10px;
@@ -258,40 +338,50 @@ d3.chart('BarChart', {
 
 var barchart = d3.select('#bargraph')
   .append('svg')
-  .attr('height', 300)
-  .attr('width', 400)
+  .attr('height', 500)
+  .attr('width', 1200)
   .chart('BarChart');
 
-
-
-
-
 <%
-HashMap<String, Integer> map1 = new HashMap<String, Integer>();
-map1.put("AY11/12 T1", 1);
-map1.put("AY11/12 T2", 2);
-map1.put("AY12/13 T1", 3);
-map1.put("AY12/13 T2", 4);
-map1.put("AY13/14 T1", 5);
-map1.put("AY13/14 T2", 6);
-
 HashMap<Integer, String> map2 = new HashMap<Integer, String>();
-map2.put(1, "{ name : 'AY11/12 T1', value : 29 }");
-map2.put(2, "{ name : 'AY11/12 T2', value : 32 }");
-map2.put(3, "{ name : 'AY12/13 T1', value : 48 }");
-map2.put(4, "{ name : 'AY12/13 T2', value : 49 }");
-map2.put(5, "{ name : 'AY13/14 T1', value : 58 }");
-map2.put(6, "{ name : 'AY13/14 T2', value : 68 }");
+TechnologyDataManager techdm = new TechnologyDataManager();
+IndustryDataManager idm = new IndustryDataManager();
+SkillDataManager skdm = new SkillDataManager();
 
-System.out.println(request.getParameter("termEnd"));
-System.out.println(map1.get(request.getParameter("termEnd")));
-int start = map1.get(request.getParameter("termStart")==null?"AY11/12 T1":request.getParameter("termStart"));
-int end = map1.get(request.getParameter("termEnd")==null?"AY13/14 T2":request.getParameter("termEnd"));
-if(start==0) start=1;
-if(end==0) end=6;
+for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : dataMap.entrySet())
+{
+	map2 = new HashMap<Integer, String>();
+	
+	String term2 = entry.getKey();
+	TreeMap<Integer, ArrayList<Integer>> data = entry.getValue();
+	int graphNum = 0;
+	for(Map.Entry<Integer, ArrayList<Integer>> entry2 : data.entrySet()){
+		graphNum++;
+		int dataid = entry2.getKey();
+		int numOfValues = entry2.getValue().size();
+		
+		try{
+			
+			if(dataType.equalsIgnoreCase("Tech")){
+				Technology tech = techdm.retrieve(dataid);
+				map2.put(graphNum, "{ name : '" + tech.getTechName() + "', value : " + numOfValues + " }");
+			}else if(dataType.equalsIgnoreCase("Ind")){
+				Industry ind = idm.retrieve(dataid);
+				map2.put(graphNum, "{ name : '" +ind.getIndustryName() + "', value : " + numOfValues + " }");
+			}else{
+				Skill skill = skdm.retrieve(dataid);
+				map2.put(graphNum, "{ name : '" + skill.getSkillName() + "', value : " + numOfValues + " }");
+			}
+		}catch(Exception e){}
+		
+	}
+	
+	
+}
+
 String jsonString = "";
-for (int i = start ; i <= end; i++) {
-	jsonString = jsonString + map2.get(i).toString()+",";
+for (Map.Entry<Integer, String> entry : map2.entrySet()) {
+	jsonString = jsonString + entry.getValue().toString()+",";
 	
 }
 %>
@@ -299,79 +389,6 @@ barchart.draw([
 	 <%= jsonString %>
 ]);
 
-
-
 </script>
  
 <br>
-
-<form action="">
-
-From 
-
-<select name="termStart">
-<option value="AY11/12 T1" selected>AY2011/2012 T1</option>
-<option value="AY11/12 T2">AY2011/2012 T2</option>
-<option value="AY12/13 T1">AY2012/2013 T1</option>
-<option value="AY12/13 T2">AY2012/2013 T2</option>
-<option value="AY13/14 T1">AY2013/2014 T1</option>
-<option value="AY13/14 T2">AY2013/2014 T2</option>
-</select>
-
-To
-
-<select name="termEnd">
-<option value="AY11/12 T1">AY2011/2012 T1</option>
-<option value="AY11/12 T2">AY2011/2012 T2</option>
-<option value="AY12/13 T1">AY2012/2013 T1</option>
-<option value="AY12/13 T2">AY2012/2013 T2</option>
-<option value="AY13/14 T1" selected>AY2013/2014 T1</option>
-<option value="AY13/14 T2">AY2013/2014 T2</option>
-</select>
-
-<br/><br/>
-
-<div id="option">
- 	<!-- <input name= "updateButton"
- 		type= "button"
- 		value= "Update"
- 		style= "right"
- 		onclick ="updateData()"/> -->
- 	<input type="submit" value="Update">
- </div>
-</form>
-
- 
- 
- <div>
-		<p>
-		Raw Data:<br />
-		
-             	2011/2012 T1 : 29<br />
-             	
-             	2011/2012 T2 : 32<br />
-             	
-             	2012/2013 T1 : 48<br />
-             	
-             	2012/2013 T2 : 49<br />
-             	
-             	2013/2014 T1 : 58<br />
-             	
-             	2013/2014 T2 : 68<br />
-            
-		</p>
-</div>
-<hr />
-Project By Skills -- Map Format: Year, Skill Id, Project Id
-<hr /><br />
-<%
-
-
-for (Map.Entry<String, TreeMap<Integer, ArrayList<Integer>>> entry : projSkillMap.entrySet())
-{
-	out.println(entry.getKey() + "/" + entry.getValue() + "<br /><br />");
-}
-
-%>
-<hr />
-<br />
