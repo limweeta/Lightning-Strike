@@ -27,6 +27,27 @@ public class StudentDataManager implements Serializable {
 		return majors;
 	}
 	
+	public Student retrieveAllStudentByTeamRole(int teamId, int role) {
+
+		Student student = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM students "
+				+ "WHERE team_id = " + teamId + " AND role_id = " + role);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int stdId	 	= Integer.parseInt(array.get(2));
+			
+			try{
+				student = retrieve(stdId);
+			}catch(Exception e){}
+		}
+		
+		return student;
+	}
+	
 	public ArrayList<Student> retrieveStudentsInvitedByTeam(int teamId) {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM team_request WHERE team_id = " + teamId);

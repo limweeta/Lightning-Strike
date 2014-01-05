@@ -34,6 +34,9 @@
 	  
 	  SponsorDataManager sponsordm = new SponsorDataManager();
 	  ArrayList<String> sponsorUsernameList = sponsordm.retrieveSponsorUsernames();
+	  
+	  TechnologyDataManager techdm = new TechnologyDataManager();
+	  ArrayList<Technology> techList = techdm.retrieveAll();
   %>
   <%
 	Calendar now = Calendar.getInstance();
@@ -149,6 +152,10 @@ function validateTech(fld) {
           }
         });
       });
+    function trim(s)
+    {
+      return s.replace(/^\s+|\s+$/, '');
+    } 
 	</script>	
 </head>
 <body>
@@ -181,13 +188,33 @@ function validateTech(fld) {
 						<div class="control-group">
 						  <label class="control-label" for="tech">Category</label>
 						  <div class="controls">
-						   <input type="text" class="input-large" name="tech" id="tech">
-						  </div>
-						</div>
-						<div class="control-group">
-						  <label class="control-label" for="tech">Sub Category</label>
-						  <div class="controls">
-						   <input type="text" class="input-large" name="tech" id="tech">
+						   <select name="techCat" id="techCat" class="input-large">
+						   		<option value="default" selected>Choose One</option>
+						   		<%
+					   	 		int numOfCat = techdm.retrieveNoOfTechCat();
+							  	int numOfSubCat = 0;
+								
+						   		for(int i = 0; i <= numOfCat; i++){
+						   			numOfSubCat = techdm.retrieveNumOfSubCat(i);
+									String catName = techdm.retrieveTechCatName(i);
+						   		if(!catName.trim().equals("")){%>
+						   		<optgroup label="<%=catName %>">
+						   		<%
+						   		ArrayList<Technology> subcatIdList = techdm.retrieveSubCatFromCat(i);
+						   		for(int k = 0; k < subcatIdList.size(); k++){
+						   			Technology tech = subcatIdList.get(k);
+						   			int catid = techdm.retrieveCatIdFromSubCatId(tech.getId());
+								%>
+								<option value="<%=catid + " " +tech.getId() %>"><%=tech.getTechName() %></option>
+						   		
+						   		<%}
+						   		%>
+						   		<option value="0">None</option>
+						   		</optgroup>
+						   		<%
+						   		}
+						   		}%>
+						   </select>
 						  </div>
 						</div>
 						<div class="control-group">

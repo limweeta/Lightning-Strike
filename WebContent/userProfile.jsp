@@ -287,9 +287,13 @@ function toggleSkill(source) {
 			} %>
 		<!-- Form Name -->
 		<h5>User Profile
-			<%if(udm.isSuspended(uProfile.getUsername())){ %>
+			<%if(sessiontype.equalsIgnoreCase("Admin")){
+				if(udm.isSuspended(uProfile.getUsername())){ %>
 					<span class="label label-danger" style="padding:10px;">User Suspended</span></br>
-			<%} %>
+			<%	}
+			} 
+			%>
+			
 		</h5>
 		<%if (usertype.equalsIgnoreCase("Student")){ %>
 		<div class="panel-group" id="accordion">
@@ -475,7 +479,7 @@ function toggleSkill(source) {
 		<!-- </div></br> -->
 		<!-- <div class="span3"> -->
 		<!-- Text input-->
-		<%if(usertype.equals("Sponsor")){ 
+		<%if(usertype.equalsIgnoreCase("Sponsor")){ 
 			Sponsor sponsor = sponsordm.retrieve(profileid);
 		
 			ArrayList<Project> sponsoredProjects = pdm.retrieveAllFromSponsor(sponsor);
@@ -495,21 +499,14 @@ function toggleSkill(source) {
 			</div>
 			<hr />
 		<% } %>
-		<!-- </div> -->
-		<!-- <div class="span4"> -->
-		<!-- Text input-->
 			
-		<%if(usertype.equalsIgnoreCase("Student")|| sessiontype.equalsIgnoreCase("Admin")){%>
-		<!-- </div> -->
-		<!-- <div class="span5"> -->
-		<!-- Text input-->
-		<div class="control-group">
+		<%
+		if(usertype.equalsIgnoreCase("Student") || (sessiontype.equalsIgnoreCase("Admin") && !sessiontype.equalsIgnoreCase(usertype))){
+			if((sessionUsername.equals(uProfile.getUsername())|| sessiontype.equalsIgnoreCase("Admin")) && usertype.equalsIgnoreCase("Student")){
+			%>
+			<div class="control-group">
 		  <label class="control-label" for="secondMajor">Second Major</label>
 		  <div class="controls">
-		  	 
-		  	<%
-			if(sessionUsername.equals(uProfile.getUsername())||sessiontype.equalsIgnoreCase("Admin")){
-			%>
 			<select id="secondmaj" name="secondmajor" class="input-large">
 			<%
 			
@@ -533,8 +530,6 @@ function toggleSkill(source) {
 					out.println(student.getSecondMajor());
 				}
 					  %>
-					
-		     
 		  </div>
 		</div>
 		<hr />
@@ -690,7 +685,7 @@ function toggleSkill(source) {
 		  	<%-- <input id="team" name="team" type="text" placeholder=" <%=ind.getIndustryName() %>" class="input-xlarge"> --%>
 		 </br> 
 		
-		<%}else if(usertype.equalsIgnoreCase("Sponsor") || sessiontype.equalsIgnoreCase("Admin")){ 
+		<%}else if(usertype.equalsIgnoreCase("Sponsor") || (sessiontype.equalsIgnoreCase("Admin")  && !sessiontype.equalsIgnoreCase(usertype))){ 
 		Company company = cdm.retrieve(profileid);
 		int orgId = company.getOrgType();
 		OrganizationDataManager odm = new OrganizationDataManager();
@@ -699,6 +694,7 @@ function toggleSkill(source) {
 		Sponsor sponsor = sponsordm.retrieve(profileid);
 		ArrayList<Team> invitedTeams = sponsordm.getInvitedTeams(sponsor);
 		%>
+		
 		
 		 <div class="control-group">
 		  <label class="control-label" for="coyName">Invited Teams </label>
@@ -781,7 +777,7 @@ function toggleSkill(source) {
 			</div>
 		</div>
 		<hr />
-		<%}else if(usertype.equalsIgnoreCase("Supervisor")){ %>
+		<%}else if(usertype.equalsIgnoreCase("Supervisor") || (sessiontype.equalsIgnoreCase("Admin") && !sessiontype.equalsIgnoreCase(usertype))){ %>
 		<div class="control-group">
 		  <label class="control-label" for="coyName">Current Teams </label>
 		  <div class="controls">
@@ -844,7 +840,7 @@ function toggleSkill(source) {
 		<%
 		}
 		%>
-		<% if(usertype.equalsIgnoreCase("Student") && !sessionUsername.equalsIgnoreCase(uProfile.getUsername())){ %>
+		<% if(usertype.equalsIgnoreCase("Student") && !sessionUsername.equalsIgnoreCase(uProfile.getUsername()) && !sessiontype.equalsIgnoreCase("admin")){ %>
 		  <form action="inviteStudent" method="post">
 		  	<input type="hidden" name="studentId" value="<%=profileid%>">
 		  	<input type="hidden" name="visitorTeamId" value="<%=visitorTeamId%>">

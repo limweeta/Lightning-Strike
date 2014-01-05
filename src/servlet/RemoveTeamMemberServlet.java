@@ -50,13 +50,47 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		int teamId = Integer.parseInt(request.getParameter("teamId"));
-		System.out.println(userId);
 		
 		try{
 			Student std = stdm.retrieve(userId);
+			
+			
 			Team team = tdm.retrieve(teamId);
-			std.setRole(0);
-			std.setTeamId(0);
+			
+			ArrayList<String> members = tdm.retrieveStudentsInTeam(team.getTeamName());
+			
+			if(members.size() == 1){
+				tdm.remove(team.getId());
+			}else{
+				int nextRole = std.getRole();
+				
+				std.setRole(0);
+				std.setTeamId(0);
+				stdm.modify(std);
+				
+				members = tdm.retrieveStudentsInTeam(team.getTeamName());
+				
+				if(nextRole != 1){
+					nextRole = 0;
+					int stdRole = 0;
+					for(int i = 0; i < members.size(); i++){
+						Student student = stdm.retrieve(members.get(i));
+						stdRole = student.getRole();
+						
+						if(nextRole == 0 || stdRole < nextRole){
+							nextRole = stdRole;
+						}
+					}
+					
+					std = stdm.retrieveAllStudentByTeamRole(team.getId(), nextRole);
+					std.setRole(1);
+					
+					stdm.modify(std);
+					
+				}
+				
+			}
+			
 			
 			/*
 			ServletContext context = getServletContext();
@@ -71,7 +105,7 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 		     
 		     EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 			*/
-			stdm.modify(std);
+			
 		}catch(Exception e){
 			
 		} 

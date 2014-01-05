@@ -8,6 +8,18 @@
 		font-family:Impact;
 		font-size:1.75em;
 	}
+	.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0 -20px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
 /* 	#teamName{
 		width:49.8em;
 		font-size:1em;
@@ -102,8 +114,8 @@ int currDay = now.get(Calendar.DAY_OF_MONTH);
 String dateStr = Integer.toString(currDay) + "/" + Integer.toString(currMth) + "/" + Integer.toString(currYear);
 %>
 	<body>
-		<div id="container">
-			<div id="content">
+		<div class="container">
+			<div class="content">
 					<form class="form-horizontal" method="post" action="sponsorFeedback" name="sponsorFeedback" id="sponsorFeedback">
 
 						<!-- Form Name -->

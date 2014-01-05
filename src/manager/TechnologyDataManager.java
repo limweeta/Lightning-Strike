@@ -110,6 +110,20 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	public int retrieveCatIdFromSubCatId(int subcatid) {
+		int catid = 0;;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT tech_cat_id FROM `is480-matching`.tech_sub_cat WHERE id = " + subcatid);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			catid = Integer.parseInt(array.get(0));
+		}
+		return catid;
+	}
+	
 	public String retrieveTechCatName(int catid) {
 		String catName = "";
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -171,6 +185,51 @@ public class TechnologyDataManager implements Serializable {
 			numOfSubCat = Integer.parseInt(array.get(0));
 		}
 		return numOfSubCat;
+	}
+	
+	public String retrieveSubCatName(int subcatid) {
+		String subcatname = "";
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT sub_cat_name FROM `is480-matching`.tech_sub_cat WHERE id = " + subcatid);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		if (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			subcatname = array.get(0);
+		}
+		return subcatname;
+	}
+	
+	public ArrayList<Technology> retrieveSubCatFromCat(int catid) {
+		ArrayList<Technology> technologies = new ArrayList<Technology>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL("select", "SELECT id FROM `is480-matching`.tech_sub_cat WHERE tech_cat_id = " + catid);
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		TechnologyDataManager techdm = new TechnologyDataManager();
+		
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int subcatid = Integer.parseInt(array.get(0));
+			
+			
+			try{
+				Technology retrievedTech = techdm.retrieveSubCat(subcatid);
+				
+				technologies.add(retrievedTech);
+			}catch(Exception e){}
+			
+		}
+		
+		Collections.sort(technologies, new Comparator<Technology>() {
+	        @Override public int compare(Technology t1, Technology t2) {
+	            	return t1.getTechName().compareTo(t2.getTechName());
+	        }
+		});
+		return technologies;
 	}
 	
 	public int retrieveNoOfTechCat() {
@@ -714,6 +773,25 @@ public class TechnologyDataManager implements Serializable {
 		return technology;
 	}
 	
+	public Technology retrieveSubCat(int id) throws Exception {
+		Technology technology = null;
+		HashMap<String, ArrayList<String>> map = MySQLConnector
+				.executeMySQL(
+						"select",
+						"SELECT * FROM `is480-matching`.tech_sub_cat where id = "	+ id + ";");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);
+			int techid = Integer.parseInt(array.get(0));
+			String techName = array.get(1);
+			
+			technology = new Technology(techid, techName);
+		}
+		return technology;
+	}
+	
 	public int retrieveTechId(String tech) {
 		int techId = 0;
 		ArrayList<Technology> techList = new ArrayList<Technology>();
@@ -765,6 +843,14 @@ public class TechnologyDataManager implements Serializable {
 			MySQLConnector.executeMySQL("insert",
 					"INSERT INTO `is480-matching`.`technologies` (technology, tech_sub_cat_id, tech_cat_id)"
 					+ " VALUES ('"	+ newTech + "', NULL, 5);");
+		}
+	}
+	
+	public void add(String newTech, int catid, String subcatid) {
+		if(newTech.length() > 2){
+			MySQLConnector.executeMySQL("insert",
+					"INSERT INTO `is480-matching`.`technologies` (technology, tech_sub_cat_id, tech_cat_id)"
+					+ " VALUES ('"	+ newTech + "', "+subcatid+", "+catid+");");
 		}
 	}
 	

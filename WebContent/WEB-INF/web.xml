@@ -59,7 +59,14 @@
     <servlet-name>AddAnnouncementServlet</servlet-name>
     <url-pattern>/addAnn</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>AddTechServlet</servlet-name>
+    <servlet-class>servlet.AddTechServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddTechServlet</servlet-name>
+    <url-pattern>/addTech</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>AddRoleServlet</servlet-name>
     <servlet-class>servlet.AddRoleServlet</servlet-class>

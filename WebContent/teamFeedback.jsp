@@ -112,8 +112,8 @@ try{
       });
 	</script>	
 	<body>
-		<div id="container">
-			<div id="content">
+		<div class="container">
+			<div class="content">
 					<form class="form-horizontal" method="post" name="teamFeedback" action="teamFeedback">
 
 						<!-- Form Name -->

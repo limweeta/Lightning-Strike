@@ -286,7 +286,6 @@ color: white ;
               <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: white;font-weight: bold;">Sponsor<b class="caret"></b></a>
                	<ul class="dropdown-menu">
                		<li><a href="userProfile.jsp?id=<%=userIdNav %>" style="font-size: 16px; color: white;font-weight: 200;">My Profile</a></li>
-               		<li><a href="./myProjects.jsp" style="font-size: 16px; color: white;font-weight: 200;">My Projects</a></li>
                		<li><a href="./sponsorFeedback.jsp" style="font-size: 16px; color: white;font-weight: 200;">Feedback</a></li>
                	</ul>
                </li>
