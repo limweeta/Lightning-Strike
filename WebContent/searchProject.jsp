@@ -1,6 +1,4 @@
-<%@ page import="manager.*"%>
-<%@ page import="model.*"%>
-<%@ page import="java.util.*" %>
+c
 <html>
 
 <style type="text/css">
