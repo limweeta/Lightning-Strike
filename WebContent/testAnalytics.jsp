@@ -1,25 +1,49 @@
+<%@ page import="manager.*"%>
+<%@ page import="model.*"%>
+<%@ page import="java.util.*" %><style type="text/css">
 
+	.container > .content {
+	
+	background-color: #ffffff;
+	padding: 20px;
+	width:1200px;
+	margin: 0 -150px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	}
+
+</style>
+<%@ include file="template.jsp" %>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="resources/d3.chart.min.js" charset="utf-8"></script>
 <%	
 TermDataManager termdm = new TermDataManager();
 ArrayList<Term> allTerms = termdm.retrieveAll();
  %>
+ <div class="container">
+ <div class="content">
 <form action="">
-
-<h4>Choose which data you would like to view</h4>
-<select name="type">
+<div class="control-group">
+ <label class="control-label" for="data">Choose which data you would like to view</label>
+ <div class="controls">
+<!-- <h4>Choose which data you would like to view</h4> -->
+<select name="type" class="input-large">
 	<option value=1>Projects by Technology</option>
 	<option value=2>Projects by Industry</option>
 	<option value=3>Teams by Preferred Technology</option>
 	<option value=4>Teams by Preferred Industry</option>
 	<option value=5>Students by Skills</option>
 </select>
-
-<h4>Term</h4>
-
-Select Term: 
-<select name="term">
+</div>
+</div>
+<div class="control-group">
+ <label class="control-label" for="term">Select Term</label>
+ <div class="controls">
+<select name="term" class="input-large">
 	<option value="0" selected>-</option>
 	<%
 	for(int i = 0; i < allTerms.size(); i++){
@@ -30,15 +54,21 @@ Select Term:
 	}
 	%>
 </select>
-<input type="submit" value="View" />
+</div>
+</div>
+<div class="control-group">
+ <div class="controls">
+ <input type="submit" value="View" class="btn btn-info"/>
+ </div>
+ </div>
 </form>
 <%
 String title = "";
-int type = 5;
+int tyPe = 5;
 try{
- 	type = Integer.parseInt(request.getParameter("type"));
+ 	tyPe = Integer.parseInt(request.getParameter("type"));
 }catch(Exception e){
-	type = 5;
+	tyPe = 5;
 }
 
 int term = 0;
@@ -48,16 +78,12 @@ try{
 	term = 0;
 }
 %>
-
-<%@ page import="manager.*"%>
-<%@ page import="model.*"%>
-<%@ page import="java.util.*" %>
 <%
 AnalyticsDataManager adm = new AnalyticsDataManager();
 
 TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> dataMap = null;
 String dataType = "";
-switch(type){
+switch(tyPe){
 	case 1:
 		dataMap = adm.projectByTech(term);
 		dataType = "Tech";
@@ -99,8 +125,10 @@ switch(type){
 //TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> studentSkillMap = adm.studentBySkill();
 
 %>
-<h1><%=title %></h1>
-<div id="bargraph" >
+<h6><%=title %></h6>
+</br>
+<div class="bargraph" id="bargraph" >
+
 </div>
 
 <style>
@@ -390,5 +418,6 @@ barchart.draw([
 ]);
 
 </script>
- 
+ </div>
+ </div>
 <br>

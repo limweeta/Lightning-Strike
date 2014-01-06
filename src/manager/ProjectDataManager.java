@@ -533,7 +533,8 @@ public class ProjectDataManager implements Serializable {
 		double score = 0.0;
 		double totalScore = 0.0;
 		for(int i = 0; i < preferredIndustry.size(); i++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from"
+					+ " projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
 			Set<String> keySet = map.keySet();
 			Iterator<String> iterator = keySet.iterator();
 			
@@ -569,7 +570,8 @@ public class ProjectDataManager implements Serializable {
 		double totalScore = 0.0;
 		
 		for(int i = 0; i < preferredTechnologies.size(); i++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE technology_id = " + preferredTechnologies.get(i));
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_technologies WHERE "
+					+ "technology_id = " + preferredTechnologies.get(i));
 			Set<String> keySet = map.keySet();
 			Iterator<String> iterator = keySet.iterator();
 			
@@ -587,7 +589,8 @@ public class ProjectDataManager implements Serializable {
 		projectId = new ArrayList<Integer>(new HashSet<Integer>(projectId));
 		
 		for(int j = 0; j < projectId.size(); j++){
-			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE team_id = 0 AND id = " + projectId.get(j));
+			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE team_id = 0 "
+					+ "AND id = " + projectId.get(j));
 			Set<String> keySet = map.keySet();
 			Iterator<String> iterator = keySet.iterator();
 			
@@ -623,7 +626,8 @@ public class ProjectDataManager implements Serializable {
 		return projects;            
 	}
 	
-	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> preferredTechnologies){
+	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> 
+	preferredTechnologies){
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		ArrayList<ProjectScore> finalProjects = new ArrayList<ProjectScore>();
 		

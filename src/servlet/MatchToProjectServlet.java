@@ -72,7 +72,7 @@ public class MatchToProjectServlet extends HttpServlet {
 			//Cross Ref with project_preferred_skills
 			
 			ArrayList<ProjectScore> combinedMatches = pdm.mergedMatchedProjects(matchedIndustry, matchedTechnology);
-			System.out.println("Merge Matched");
+			
 			request.setAttribute("combinedProjMatches", combinedMatches);
 			
 			destPage = "showMatched.jsp";

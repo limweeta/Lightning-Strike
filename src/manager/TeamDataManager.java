@@ -11,9 +11,24 @@ public class TeamDataManager implements Serializable {
 	
 	public TeamDataManager() {}
 	
-	public ArrayList<String> retrieveSuitableSupervisors(int teamId) {
+	public ArrayList<User> retrieveSuitableSupervisors(int teamId) {
+		TermDataManager tdm = new TermDataManager();
+		
+		Calendar now = Calendar.getInstance();
+		int currYear = now.get(Calendar.YEAR);
+		int currMth = now.get(Calendar.MONTH);
+		int currTermId = 0;
+		
+		try{
+			currTermId = tdm.retrieveTermId(currYear, currMth);
+		}catch(Exception e){
+			currTermId = 0;
+		}
+		
 		ArrayList<String> teams = new ArrayList<String>();
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from users u WHERE u.type NOT LIKE 'Student' AND u.type NOT LIKE 'Sponsor'");
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from users u, supervisor_term st "
+				+ "WHERE st.supervisor_id = u.id AND u.type NOT LIKE 'Student' AND u.type NOT LIKE 'Sponsor' "
+				+ "AND st.term = ");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -33,30 +48,10 @@ public class TeamDataManager implements Serializable {
 			supervisors.add(u);
 		}
 		
-		ArrayList<Integer> teamSkills = retrieveTeamSkillsById(teamId);
 		
 		UserDataManager udm = new UserDataManager();
 		
-		
-		Map<Integer, Integer> matchScore = new HashMap<Integer, Integer>();
-		
-		for(int i = 0; i < supervisors.size(); i++){
-			User tmpUser = supervisors.get(i);
-			int numOfMatches = 0;
-			for(int j = 0; j < teamSkills.size(); j++){
-				int skillId = teamSkills.get(i);
-				if(udm.hasSkill(tmpUser, skillId)){
-					numOfMatches++;
-				}
-			}
-			
-			matchScore.put(tmpUser.getID(), numOfMatches);
-		}
-		
-		Map<Integer, Integer> sortedMap = new TreeMap<Integer, Integer>(matchScore);
-		
-		
-		return teams;
+		return supervisors;
 	}
 	
 	public boolean isPartOfTeam(Team team, User u){
