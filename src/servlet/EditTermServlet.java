@@ -41,6 +41,8 @@ public class EditTermServlet extends HttpServlet {
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		
+		//TO DO: Check that end date is 16 weeks after startDate
+		
 		TermDataManager termdm = new TermDataManager();
 		
 		String termName =  "";

@@ -35,6 +35,7 @@ public class DeleteTermServlet extends HttpServlet {
 		
 		try{
 			if(termId != null && termId.length > 0){
+				//remove terms if any
 				for(int i = 0; i < termId.length; i++){
 					tdm.remove(Integer.parseInt(termId[i]));
 				}

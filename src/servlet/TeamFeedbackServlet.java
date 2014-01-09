@@ -56,7 +56,7 @@ public class TeamFeedbackServlet extends HttpServlet {
 		try{
 			
 			grader = stdm.retrieve(gradername);
-			
+			//adds in rating for each member (Peer eval)
 			for(int i = 0; i < members.length; i++){
 				student = stdm.retrieve(members[i]);
 				

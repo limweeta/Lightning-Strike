@@ -72,29 +72,12 @@ function validateRole(fld) {
         
       });
     
-    $(function() {
-        $( "#from" ).datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 3,
-          onClose: function( selectedDate ) {
-            $( "#to" ).datepicker( "option", "minDate", selectedDate );
-          }
-        });
-        $( "#to" ).datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 3,
-          onClose: function( selectedDate ) {
-            $( "#from" ).datepicker( "option", "maxDate", selectedDate );
-          }
-        });
-      });
 	</script>	
 </head>
 <body>
 	<div class="container" id="content-container">
 		<div class="content">	
+		<!-- DISPLAY FEEDBACK MESSAGE -->
 		<%
 						String message = (String) session.getAttribute("message"); 
 						if(message == null || message.isEmpty()){

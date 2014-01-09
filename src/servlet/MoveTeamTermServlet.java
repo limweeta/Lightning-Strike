@@ -26,28 +26,33 @@ public class MoveTeamTermServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		TeamDataManager tdm = new TeamDataManager();
+		TermDataManager termdm = new TermDataManager();
 		
 		int termId = Integer.parseInt(request.getParameter("term"));
 		
-		String teamName = request.getParameter("teamName");
+		String teamName = request.getParameter("team");
 		
 		Team updateTeam = null;
-		
+		Term term = null;
 		try{
 			updateTeam = tdm.retrieveTeamByName(teamName);
 			
-			//UPDATE VALUES HERE
+			//UPDATE TEAM TERM
 			updateTeam.setTermId(termId);
 			
 			//UPDATE SQL
 			tdm.modify(updateTeam);
-		}catch(Exception e){
 			
+			term = termdm.retrieve(termId);
+			
+			session.setAttribute("message", updateTeam.getTeamName() + " has been moved to AY" + term.getAcadYear() + " T" + term.getSem());
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("teamProfile.jsp?id="+updateTeam.getId());
+		RequestDispatcher rd = request.getRequestDispatcher("adminTeam.jsp?");
 		rd.forward(request, response);
 	}
 }

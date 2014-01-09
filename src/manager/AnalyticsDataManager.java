@@ -11,50 +11,65 @@ private static final long serialVersionUID = 1L;
 	
 	public AnalyticsDataManager() {}
 	
+	//Retrieve Number of project with specific technologies
 	public TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projectByTech(int termid){
 		
 		String query = "";
 		
+		//query to retrieve term(s)
 		if(termid != 0){
 			query = "select DISTINCT(intended_term_id) FROM projects WHERE intended_term_id = " + termid;
 		}else{
 			query = "select DISTINCT(intended_term_id) FROM projects WHERE intended_term_id = " + 15;
 		}
 		
+		//Store tech id as key for list of project ids
 		TreeMap<Integer, ArrayList<Integer>> techMap = new TreeMap<Integer, ArrayList<Integer>>();
+		
+		//store term as key for list of tech mappings
 		TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> termMap = new TreeMap<String, TreeMap<Integer, ArrayList<Integer>>>();
+		
+		// collated list of all term mappings
 		TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> finalTermMap = new TreeMap<String, TreeMap<Integer, ArrayList<Integer>>>();
 		
+		//execute query for each available term
 		HashMap<String, ArrayList<String>> termidmap = 
 				MySQLConnector.executeMySQL("select", query);
 		
 		Set<String> termidkeySet = termidmap.keySet();
 		Iterator<String> termiditerator = termidkeySet.iterator();
 		
+		//run through list of all terms
 		while(termiditerator.hasNext()){
 			String termidkey = termiditerator.next();
 			ArrayList<String> termidarray = termidmap.get(termidkey);	
+			
+			//retrieve termid of each term
 			int termidval = Integer.parseInt(termidarray.get(0));
+			
 			
 			HashMap<String, ArrayList<String>> map = 
 					MySQLConnector.executeMySQL("select", 
-							"select ps.id, ps.project_id, p.intended_term_id, ps.skill_id "
-							+ "from projects p, project_preferred_skills ps "
-							+ "WHERE p.id = ps.project_id AND p.intended_term_id = " + termidval + " "
+							"select ps.id, pt.project_id, p.intended_term_id, pt.technology_id "
+							+ "from projects p, project_technologies pt "
+							+ "WHERE p.id = pt.project_id AND p.intended_term_id = " + termidval + " "
 							+ "ORDER BY p.intended_term_id ASC");
 			
 			Set<String> keySet = map.keySet();
 			Iterator<String> iterator = keySet.iterator();
 			
+			//generates new map for each term
 			techMap = new TreeMap<Integer, ArrayList<Integer>>();
+			
+			//generates new map for each term
 			termMap = new TreeMap<String, TreeMap<Integer, ArrayList<Integer>>>();
 			
-			//Array: project_id, intended_term_id, skill_id
+			//stores raw data of all project Ids
 			ArrayList<Integer> rawProjList = new ArrayList<Integer>();
 			
 			TermDataManager termdm = new TermDataManager();
 		
-			int count  = 0;
+		
 			while (iterator.hasNext()){
 				String key = iterator.next();
 				ArrayList<String> array = map.get(key);	
@@ -67,9 +82,13 @@ private static final long serialVersionUID = 1L;
 				try{
 					term = termdm.retrieve(termId);
 					
-					String fullTerm = term.getAcadYear() + " T" + term.getSem();
+					//sets key format
+					String fullTerm = "AY" + term.getAcadYear() + " T" + term.getSem();
 					
+					//gets current list of projects with that a particular id
 					rawProjList = techMap.get(techId);
+					
+					//gets current map within particular term
 					techMap = termMap.get(fullTerm);
 					
 					if(rawProjList == null){
@@ -77,7 +96,7 @@ private static final long serialVersionUID = 1L;
 					}
 					
 					rawProjList.add(projectId);
-					count++;
+					
 					if(techMap == null){
 						techMap = new TreeMap<Integer, ArrayList<Integer>>();
 					}
@@ -88,11 +107,12 @@ private static final long serialVersionUID = 1L;
 				}catch(Exception e){}
 				
 			}
-
+			//consolidates all terms
 			finalTermMap.putAll(termMap);
 		}
 		return finalTermMap;
 	}
+	
 	
 	public TreeMap<String, TreeMap<Integer, ArrayList<Integer>>> projectByInd(int termid){
 		

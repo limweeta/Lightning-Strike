@@ -11,6 +11,7 @@ public class TeamDataManager implements Serializable {
 	
 	public TeamDataManager() {}
 	
+	//retrieves list of sueprvisor eligible for a team; TO REVIEW: Supervisors now based on term and number of teams supervising
 	public ArrayList<User> retrieveSuitableSupervisors(int teamId) {
 		TermDataManager tdm = new TermDataManager();
 		
@@ -54,6 +55,7 @@ public class TeamDataManager implements Serializable {
 		return supervisors;
 	}
 	
+	//checks if a user is a part of a particular team
 	public boolean isPartOfTeam(Team team, User u){
 		boolean isPartOfTeam = false;
 		
@@ -70,6 +72,7 @@ public class TeamDataManager implements Serializable {
 		return isPartOfTeam;
 	}
 	
+	//checks if a team is undertaking a projct
 	public boolean hasProj(Team team){
 		boolean hasProj = false;
 		
@@ -85,6 +88,7 @@ public class TeamDataManager implements Serializable {
 		return hasProj;
 	}
 	
+	//checks if a sponsor has invited a particular team to view their projects
 	public boolean hasInvited(int teamId, int sponsorId){
 		boolean invited = false;
 		
@@ -100,6 +104,7 @@ public class TeamDataManager implements Serializable {
 		return invited;
 	}
 	
+	//checks if a student has requested to join a team
 	public boolean studentHasRequested(int teamId, User std){
 		boolean requested = false;
 		
@@ -115,6 +120,7 @@ public class TeamDataManager implements Serializable {
 		}
 		return requested;
 	}
+	
 	
 	public String getTeamStatus(Team team){
 		String status = "";
@@ -132,6 +138,8 @@ public class TeamDataManager implements Serializable {
 		return status;
 	}
 	
+	
+	//retrieves list of teams from a particular sponsor
 	public ArrayList<Team> retrieveSponsoredTeams(Sponsor sponsor) {
 		
 		ArrayList<Team> teams = new ArrayList<Team>();
@@ -166,6 +174,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieves list of teams supervised by user
 	public ArrayList<Team> retrieveSupervisingCurrentTeams(String username) {
 		UserDataManager udm = new UserDataManager();
 		User u = null;
@@ -206,6 +215,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieves list of teams used to be supervised by user
 	public ArrayList<Team> retrieveSupervisingPastTeams(String username) {
 		UserDataManager udm = new UserDataManager();
 		User u = null;
@@ -246,6 +256,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieve all students in a particular team
 	public ArrayList<Student> retrieveAllStudents(Team team) {
 		ArrayList<Student> members = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE students.team_id = " + team.getId());
@@ -273,6 +284,7 @@ public class TeamDataManager implements Serializable {
 		return members;
 	}
 	
+	//retrieves list of teams by the term
 	public ArrayList<Team> retrieveAllByTerm(int reqTermId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams WHERE term_id = " + reqTermId);
@@ -305,6 +317,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieve teams whose status are not completed
 	public ArrayList<Team> retrieveAllCurrentTeams() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts "
@@ -338,6 +351,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieves list of teams who are registered with supervisor 
 	public ArrayList<Team> retrieveAllCurrentTeamsWithSupervisor() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts WHERE t.id=ts.team_id AND t.supervisor_id != 0 AND ts.status_id != 6");
@@ -370,6 +384,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieves list of teams who are registered without supervisor 
 	public ArrayList<Team> retrieveAllCurrentTeamsWithoutSupervisor() {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams t, team_status ts WHERE t.id=ts.team_id AND t.supervisor_id = 0 AND ts.status_id != 6");
@@ -425,9 +440,17 @@ public class TeamDataManager implements Serializable {
 			teams.add(team);
 		}
 		
+		Collections.sort(teams, new Comparator<Team>() {
+	        @Override public int compare(Team t1, Team t2) {
+	            	return t1.getTeamName().compareToIgnoreCase(t2.getTeamName());
+	        }
+		});
+		
+		
 		return teams;
 	}
 	
+	//advanced search for search team page
 	public ArrayList<Team> retrieveAllByFilter(int term, String[] tech, String[] ind, String[] skills) {
 	
 		String query = "select * from teams t, team_preferred_industry tpi, team_preferred_technology tpt, students s, user_skills us"
@@ -502,6 +525,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//returns list of student ids in a team
 	public ArrayList<Integer> retrieveStudentsInTeam(Team team) {
 		ArrayList<Integer> membersId = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from students WHERE team_id = " + team.getId());
@@ -519,6 +543,7 @@ public class TeamDataManager implements Serializable {
 		
 		return membersId;
 	}
+	
 	
 	public ArrayList<String> retrieveStudentsInTeam(String teamName) {
 		Team team = null;
@@ -542,6 +567,7 @@ public class TeamDataManager implements Serializable {
 		return members;
 	}
 	
+	//retrieve list of teams that student has requested to join
 	public ArrayList<Team> retrieveStudentRequests(int studentId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request WHERE student_id = " + studentId);
@@ -565,6 +591,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieve list of teams who has invited student to join them
 	public ArrayList<Team> retrieveAllInvites(int studentId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM team_request WHERE student_id = " + studentId);
@@ -588,6 +615,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//retrieve list of teams who have applied for  particular proj
 	public ArrayList<Team> retrieveTeamsByAppliedProj(int projId) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from applied_projects WHERE project_id = " + projId);
@@ -626,6 +654,7 @@ public class TeamDataManager implements Serializable {
 		return teams;
 	}
 	
+	//checks if a team is full or not
 	public boolean emptySlots(Team team){
 		boolean result = false;
 		
@@ -656,6 +685,7 @@ public class TeamDataManager implements Serializable {
 		
 	}
 	
+	//checks if a particular team role has been filled based on student's preference
 	public boolean emptyPosition(Team team, Student std){
 		
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select role_id from students WHERE team_id = " + team.getId());
@@ -677,6 +707,7 @@ public class TeamDataManager implements Serializable {
 		return teamHasRole;
 	}
 	
+	//checks for teams based on student's preferred role
 	public ArrayList<Team> retrieveEligibleTeams(Student std) {
 		ArrayList<Team> teams = new ArrayList<Team>();
 		ArrayList<Team> allTeams = retrieveAll();
@@ -692,6 +723,7 @@ public class TeamDataManager implements Serializable {
 		
 		return teams;
 	}
+	
 	
 	public Team retrieveTeamByName(String teamName){
 		Team team = null;
@@ -718,6 +750,7 @@ public class TeamDataManager implements Serializable {
 		return team;
 	}
 	
+	//retrieves team id based on User
 	public int retrieveTeamIdByUser(User u){
 		int teamId = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from students WHERE id = " + u.getID() + "");
@@ -735,6 +768,7 @@ public class TeamDataManager implements Serializable {
 		return teamId;
 	}
 	
+	//retrieves skills of members in a team 
 	public ArrayList<Integer> retrieveTeamSkillsById(int teamId){
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + teamId + ";");
@@ -753,6 +787,7 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	//retrieves other skills of members in a team 
 	public ArrayList<Integer> retrieveTeamSkillsByOthers(Team team){
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk, skills s WHERE s.id=sk.skill_id AND sk.user_id = std.id AND std.team_id = " + team.getId() + " AND s.skill_type NOT LIKE 'Language';");
@@ -785,6 +820,7 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	//retrieves language skills of members in a team 
 	public ArrayList<Integer> retrieveTeamSkillsByLanguage(Team team){
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk, skills s WHERE s.id=sk.skill_id AND sk.user_id = std.id AND std.team_id = " + team.getId() + " AND s.skill_type LIKE 'Language';");
@@ -816,6 +852,7 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	//retrieves skill id of members in a team 
 	public ArrayList<Integer> retrieveTeamSkills(Team team){
 		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + team.getId() + ";");
@@ -833,6 +870,7 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	//retrieves skill name of members in a team 
 	public ArrayList<String> retrieveTeamSkillName(Team team){
 		ArrayList<String> teamSkills = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select DISTINCT sk.skill_id from students std, user_skills sk WHERE sk.user_id = std.id AND std.team_id = " + team.getId() + ";");
@@ -857,6 +895,7 @@ public class TeamDataManager implements Serializable {
 		return teamSkills;
 	}
 	
+	//retrieves preferred technology of a team 
 	public ArrayList<Integer> retrieveTeamPreferredTechnology(Team team){
 		ArrayList<Integer> teamPreferredTech = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select technology_id from team_preferred_technology where team_id = " + team.getId() + ";");
@@ -874,6 +913,7 @@ public class TeamDataManager implements Serializable {
 		return teamPreferredTech;
 	}
 	
+	//retrieves preferred industry of a team 
 	public ArrayList<Integer> retrieveTeamPreferredIndustry(Team team){
 		ArrayList<Integer> teamPreferredIndustry = new ArrayList<Integer>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select industry_id from team_preferred_industry where team_id = " + team.getId() + ";");
@@ -891,8 +931,7 @@ public class TeamDataManager implements Serializable {
 		return teamPreferredIndustry;
 	}
 	
-	// check for conflicting objects
-	
+	//checks if a team has left feedback for a sponsor
 	public boolean hasLeftFeedback(Team team, Sponsor sponsor){
 		boolean hasLeftFeedback = false;
 		
@@ -908,6 +947,7 @@ public class TeamDataManager implements Serializable {
 		return hasLeftFeedback;
 	}
 	
+	//checks if a team name has already been taken
 	public boolean isTeamNameTaken(String teamName){
 		boolean isTaken = false;
 		
@@ -922,6 +962,7 @@ public class TeamDataManager implements Serializable {
 		return isTaken;
 	}
 	
+	//retrieve team id based on student
 	public int retrievebyStudent(int id) throws Exception{
 		int teamId = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select team_id from students where id = " + id + ";");
@@ -937,6 +978,7 @@ public class TeamDataManager implements Serializable {
 		return teamId;
 	}
 	
+	//unused method. Consider removing
 	public ArrayList<Team> retrievebyFaculty(int id) throws Exception{
 		 ArrayList<Team> retrievedTeams = new ArrayList<Team>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from teams where id = " + id + ";");
@@ -1076,7 +1118,7 @@ public class TeamDataManager implements Serializable {
 	
 	
 	public void modify(Team team, String[] industry, String[] technology){
-		
+		//clears all preferred industry when updating team profile
 		if(industry != null && industry.length > 0){
 			MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_industry WHERE team_id = " + team.getId());
 			
@@ -1087,6 +1129,7 @@ public class TeamDataManager implements Serializable {
 			}
 		}
 		
+		//clears all preferred technology when updating team profile
 		if(technology != null && technology.length > 0){
 			MySQLConnector.executeMySQL("delete", "DELETE FROM team_preferred_technology WHERE team_id = " + team.getId());
 			

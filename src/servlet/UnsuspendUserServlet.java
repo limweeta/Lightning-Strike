@@ -34,11 +34,12 @@ public class UnsuspendUserServlet extends HttpServlet {
 		User u = null;
 		
 		try{
-			
+			//checks if any has been selected
 			if(userid == null || userid.length < 1){
 				 session.setAttribute("message", "No users selected to unsuspend");
 			}else{
 				String message = "The following users have been unsuspended: <br />";
+				//unsuspends users
 				for(int i = 0; i < userid.length; i++){
 					u = udm.retrieve(Integer.parseInt(userid[i]));
 					udm.unsuspend(u);

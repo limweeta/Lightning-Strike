@@ -34,19 +34,12 @@ public class EmailSendingServlet extends HttpServlet {
  
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        // reads form fields
+        // servlet used to send emails
         String recipient = request.getParameter("recipient");
         String subject = request.getParameter("subject");
         String content = request.getParameter("content");
  
         String resultMessage = "";
-        System.out.println(host);
-        System.out.println(port);
-        System.out.println(user);
-        System.out.println(recipient);
-        System.out.println(pass);
-        System.out.println(subject);
-        System.out.println(content);
 
         try {
             EmailUtility.sendEmail(host, port, user, pass, recipient, subject,

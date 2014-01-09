@@ -60,8 +60,10 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 			ArrayList<String> members = tdm.retrieveStudentsInTeam(team.getTeamName());
 			
 			if(members.size() == 1){
+				//if team size == 1, delete the team
 				tdm.remove(team.getId());
 			}else{
+				
 				int nextRole = std.getRole();
 				
 				std.setRole(0);
@@ -70,6 +72,7 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 				
 				members = tdm.retrieveStudentsInTeam(team.getTeamName());
 				
+				//find the next lowest role id
 				if(nextRole != 1){
 					nextRole = 0;
 					int stdRole = 0;
@@ -82,6 +85,7 @@ public class RemoveTeamMemberServlet extends HttpServlet {
 						}
 					}
 					
+					//assign the next lowest role id as pm
 					std = stdm.retrieveAllStudentByTeamRole(team.getId(), nextRole);
 					std.setRole(1);
 					

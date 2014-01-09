@@ -10,7 +10,7 @@ public class AnnouncementDataManager implements Serializable {
 
 	public AnnouncementDataManager() {
 	}
-
+	
 	public ArrayList<Announcement> retrieveAll() {
 		ArrayList<Announcement> announcements = new ArrayList<Announcement>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT * FROM `is480-matching`.announcements ORDER BY time_stamp DESC;");
@@ -35,7 +35,8 @@ public class AnnouncementDataManager implements Serializable {
 		
 		return announcements;
 	}
-
+	
+	//id = announcement id
 	public Announcement retrieve(int id) throws Exception {
 		Announcement announcement = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -55,7 +56,8 @@ public class AnnouncementDataManager implements Serializable {
 		}
 		return announcement;
 	}
-
+	
+	//adding a new announcement
 	public void add(Announcement announcement) {
 		String ann = announcement.getAnnouncement();
 		MySQLConnector.executeMySQL("insert",

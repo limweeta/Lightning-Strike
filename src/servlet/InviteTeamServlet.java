@@ -41,8 +41,10 @@ public class InviteTeamServlet extends HttpServlet {
 			sponsor.getCoyId();
 			
 			team  = tdm.retrieve(teamId);
-			ArrayList<Student> members = tdm.retrieveAllStudents(team);
 			
+			//retrieve all members in team
+			ArrayList<Student> members = tdm.retrieveAllStudents(team);
+			/*
 			ServletContext context = getServletContext();
 			String host = context.getInitParameter("host");
 			String port = context.getInitParameter("port");
@@ -52,7 +54,7 @@ public class InviteTeamServlet extends HttpServlet {
 		    String subject = "[IS480] Your team has an invitation to view a project";
 		    String content = sponsor.getFullName() + " has invited you to view his/her project(s)."
 		    		+ "\n Click 202.161.45.127/is480-matching/userProfile.jsp?id=" + sponsor.getID() + " to view";
-		    /* 
+		     
 		    for(int i  = 0; i < members.size(); i++){
 		    	Student std = members.get(i);
 		    	recipient = std.getEmail();  
@@ -65,6 +67,8 @@ public class InviteTeamServlet extends HttpServlet {
 		    recipient = sponsor.getEmail();
 		    EmailUtility.sendEmail(host, port, user, pass, recipient, subject, content);
 		    */
+			
+			//store invite in database
 		    tdm.inviteTeam(teamId, sponsor.getID());
 		    
 			session.setAttribute("message", "You have invited " + team.getTeamName() + " to view your project");

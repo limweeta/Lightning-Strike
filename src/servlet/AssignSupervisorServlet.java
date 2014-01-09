@@ -32,7 +32,7 @@ public class AssignSupervisorServlet extends HttpServlet {
 
 		UserDataManager udm = new UserDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		ProjectDataManager pdm = new ProjectDataManager();
+		
 		
 		String supUser = request.getParameter("assignSup");
 		String teamName = request.getParameter("teamName");
@@ -40,6 +40,7 @@ public class AssignSupervisorServlet extends HttpServlet {
 		int teamId = 0; 
 		
 		try{
+			//check for valid team id
 			teamId = Integer.parseInt(request.getParameter("teamId"));
 		}catch(Exception e){
 			try{

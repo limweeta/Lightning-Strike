@@ -55,8 +55,8 @@
 						  <div class="controls">
 						    <select id="sponsor" name="sponsor" class="input-large">
 						    	  <%
-						    	  SponsorDataManager sdm = new SponsorDataManager();
-						    	  ArrayList<String> sponsors  = sdm.retrieveSponsorUsernames();
+						    	  SponsorDataManager spdm = new SponsorDataManager();
+						    	  ArrayList<String> sponsors  = spdm.retrieveSponsorUsernames();
 								  
 						    	  for(int i = 0; i < sponsors.size(); i++){
 						    		String sUsername = sponsors.get(i);

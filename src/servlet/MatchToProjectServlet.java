@@ -48,7 +48,6 @@ public class MatchToProjectServlet extends HttpServlet {
 		Team stdTeam = null;
 		ArrayList<Integer> preferredIndustry = new ArrayList<Integer>();
 		ArrayList<Integer> preferredTechnologies = new ArrayList<Integer>();
-		ArrayList<Integer> teamSkills = new ArrayList<Integer>();
 		
 		double score = 0.0;
 		
@@ -59,9 +58,9 @@ public class MatchToProjectServlet extends HttpServlet {
 			
 			stdTeam = tdm.retrieve(tdm.retrievebyStudent(user.getID()));
 			
+			//gets team's preferred industry and technologies
 			preferredIndustry = tdm.retrieveTeamPreferredIndustry(stdTeam);
 			preferredTechnologies = tdm.retrieveTeamPreferredTechnology(stdTeam);
-			teamSkills = tdm.retrieveTeamSkills(stdTeam);
 			
 			//Cross Ref with projects.industry_id
 			ArrayList<ProjectScore> matchedIndustry = pdm.matchByIndustry(preferredIndustry);
@@ -73,6 +72,7 @@ public class MatchToProjectServlet extends HttpServlet {
 			
 			ArrayList<ProjectScore> combinedMatches = pdm.mergedMatchedProjects(matchedIndustry, matchedTechnology);
 			
+			//store list to be forwarded to results page
 			request.setAttribute("combinedProjMatches", combinedMatches);
 			
 			destPage = "showMatched.jsp";

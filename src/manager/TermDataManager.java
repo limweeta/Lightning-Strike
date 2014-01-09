@@ -11,6 +11,7 @@ public class TermDataManager implements Serializable {
 	public TermDataManager() {
 	}
 	
+	//retrieve term of particular date
 	public int retrieveCurrTerm(String date) throws Exception {
 		int termid = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -25,6 +26,7 @@ public class TermDataManager implements Serializable {
 		return termid;
 	}
 	
+	//checks if term name is taken when creating new term
 	public boolean isTermNameTaken(String acadYear, String sem) throws Exception {
 		boolean nameTaken = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -37,6 +39,7 @@ public class TermDataManager implements Serializable {
 		return nameTaken;
 	}
 	
+	//retrieves terms whose start date is after the current date
 	public ArrayList<Term> retrieveAllFutureTerms() {
 		ArrayList<Term> terms = new ArrayList<Term>();
 		
@@ -68,6 +71,7 @@ public class TermDataManager implements Serializable {
 		return terms;
 	}
 	
+	
 	public ArrayList<Term> retrieveAll() {
 		ArrayList<Term> terms = new ArrayList<Term>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select","SELECT * FROM `is480-matching`.term ORDER BY id ASC");
@@ -94,6 +98,7 @@ public class TermDataManager implements Serializable {
 		return terms;
 	}
 	
+	//retrieves terms whose start date is after the current date
 	public ArrayList<Term> retrieveFromNextSem() {
 		ArrayList<Term> terms = new ArrayList<Term>();
 		
@@ -130,6 +135,7 @@ public class TermDataManager implements Serializable {
 		return terms;
 	}
 	
+	//retrieves term id based on year and month queried
 	public int retrieveTermId(int year, int month) throws Exception {
 		int termId = 0;
 		String acadYear = "";
@@ -160,6 +166,7 @@ public class TermDataManager implements Serializable {
 		}
 		return termId;
 	}
+	
 	
 	public Term retrieve(int id) throws Exception {
 		Term term = null;

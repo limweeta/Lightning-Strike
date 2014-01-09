@@ -152,7 +152,7 @@
 						<div class="control-group">
 						  <label class="control-label" for="teamName">Team Name</label>
 						  <div class="controls">
-						    <select id="term" name="term" class="input-large">
+						    <select id="team" name="team" class="input-large">
 						    	  <%
 						    	  TeamDataManager teamdm = new TeamDataManager();
 						    	  ArrayList<Team> teams  = teamdm.retrieveAll();
@@ -160,7 +160,7 @@
 						    	  for(int i = 0; i < teams.size(); i++){
 						    		Team showTeam = teams.get(i);
 						    		%>
-						    	  <option value="<%=showTeam.getId()%>" selected><%=showTeam.getTeamName()%></option>
+						    	  <option value="<%=showTeam.getTeamName()%>" selected><%=showTeam.getTeamName()%></option>
 						    	 <%
 						    	  }
 						    	 %>
@@ -168,7 +168,7 @@
 						  </div>
 						</div>
 						<div class="control-group">
-						  <label class="control-label" for="projectterm">Project Term</label>
+						  <label class="control-label" for="projectterm">Term</label>
 						  <div class="controls">
 						   <select id="term" name="term" class="input-large">
 						    	  <%

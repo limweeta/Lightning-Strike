@@ -11,6 +11,7 @@ public class TechnologyDataManager implements Serializable {
 	public TechnologyDataManager() {
 	}
 	
+	//retrieves a team's particular tech preferences
 	public ArrayList<Technology> retrieveTechCatIdByTeam(int catid, int subcatid, int teamId){
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		
@@ -44,6 +45,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieves a project's particular tech preferences
 	public ArrayList<Technology> retrieveTechCatIdByProject(int catid, int subcatid, int projId){
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		
@@ -77,6 +79,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieves a list of technology from a particular subcategory
 	public ArrayList<Technology> retrieveTechSubCatId(int catid, int subCatId){
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		
@@ -110,6 +113,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieves category based on subcat
 	public int retrieveCatIdFromSubCatId(int subcatid) {
 		int catid = 0;;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -124,6 +128,7 @@ public class TechnologyDataManager implements Serializable {
 		return catid;
 	}
 	
+	//retrieve category name based on id
 	public String retrieveTechCatName(int catid) {
 		String catName = "";
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -138,6 +143,7 @@ public class TechnologyDataManager implements Serializable {
 		return catName;
 	}
 	
+	//retrieve sub category name based on id
 	public String retrieveTechSubCatName(int subcatid) {
 		String catName = "";
 		if(subcatid == 0){
@@ -156,6 +162,7 @@ public class TechnologyDataManager implements Serializable {
 		return catName;
 	}
 	
+	//retrieves list of subcategories based on category
 	public ArrayList<Integer> retrieveTechSubCatIdList(int catid) {
 		ArrayList<Integer> subcatIdList = new ArrayList<Integer>();
 		
@@ -173,6 +180,7 @@ public class TechnologyDataManager implements Serializable {
 		return subcatIdList;
 	}
 	
+	//retrieve number of sub cats based on category
 	public int retrieveNumOfSubCat(int catid) {
 		int numOfSubCat = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -187,6 +195,7 @@ public class TechnologyDataManager implements Serializable {
 		return numOfSubCat;
 	}
 	
+	//retrieve name of sub cat based on sub cat
 	public String retrieveSubCatName(int subcatid) {
 		String subcatname = "";
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -201,6 +210,7 @@ public class TechnologyDataManager implements Serializable {
 		return subcatname;
 	}
 	
+	//retrieve list of technology sub category based on category 
 	public ArrayList<Technology> retrieveSubCatFromCat(int catid) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -232,6 +242,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve num of tech categories
 	public int retrieveNoOfTechCat() {
 		int numOfTechCat = 0;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -246,6 +257,7 @@ public class TechnologyDataManager implements Serializable {
 		return numOfTechCat;
 	}
 	
+	//retrieve list of technology by team
 	public ArrayList<Technology> retrieveTechByTeam(int teamid) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -297,6 +309,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve platforms technology in a particular sub category
 	public ArrayList<Technology> retrievePlatformTech(int subCatId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -321,6 +334,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve dev tools technology in a particular sub category
 	public ArrayList<Technology> retrieveDevToolsTech(int subCatId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -345,6 +359,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve language technology in a particular sub category
 	public ArrayList<Technology> retrieveLanguageTech(int subCatId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -369,6 +384,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve framework technology in a particular sub category
 	public ArrayList<Technology> retrieveFrameworkTech(int subCatId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -393,6 +409,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve other technology in a particular sub category
 	public ArrayList<Technology> retrieveOtherTech(int subCatId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -417,6 +434,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve platforms technology in a particular sub category and project
 	public ArrayList<Technology> retrievePlatformTechByProj(int subcatid, int projId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -445,6 +463,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve dev tools technology in a particular sub category and project
 	public ArrayList<Technology> retrieveDevToolsTechByProj(int subcatid, int projId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -473,6 +492,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve language technology in a particular sub category and project
 	public ArrayList<Technology> retrieveLanguageTechByProj(int subcatid, int projId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -501,6 +521,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve framework technology in a particular sub category and project
 	public ArrayList<Technology> retrieveFrameworkTechByProj(int subcatid, int projId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -529,6 +550,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve other technology in a particular sub category and project
 	public ArrayList<Technology> retrieveOtherTechByProj(int subcatid, int projId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -557,6 +579,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve platforms technology in a particular sub category and team
 	public ArrayList<Technology> retrievePlatformTechByTeam(int subcatid, int teamid) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -585,6 +608,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve dev tools technology in a particular sub category and team
 	public ArrayList<Technology> retrieveDevToolsTechByTeam(int subcatid, int teamId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -613,6 +637,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve language technology in a particular sub category and team
 	public ArrayList<Technology> retrieveLanguageTechByTeam(int subcatid, int teamId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -641,6 +666,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve framework technology in a particular sub category and team
 	public ArrayList<Technology> retrieveFrameworkTechByTeam(int subcatid, int teamId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -669,6 +695,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//retrieve other technology in a particular sub category and team
 	public ArrayList<Technology> retrieveOtherTechByTeam(int subcatid, int teamId) {
 		ArrayList<Technology> technologies = new ArrayList<Technology>();
 		String query = "";
@@ -697,6 +724,7 @@ public class TechnologyDataManager implements Serializable {
 		return technologies;
 	}
 	
+	//checks if a proj or team has preferred tech
 	public boolean hasTech(ArrayList<String> tech, Technology techCheck){
 		boolean hasTech = false;
 			for(int i = 0; i < tech.size(); i++){
@@ -707,6 +735,7 @@ public class TechnologyDataManager implements Serializable {
 		return hasTech;
 	}
 	
+	//checks if a team has preferred tech
 	public boolean hasPrefTech(int teamId, int techId) {
 		boolean hasTech = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -722,6 +751,7 @@ public class TechnologyDataManager implements Serializable {
 		return hasTech;
 	} 
 	
+	//retrieves list of technology names by project
 	public ArrayList<String> retrieveByProjId(int projId) {
 		ArrayList<String> proj_tech = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -738,6 +768,7 @@ public class TechnologyDataManager implements Serializable {
 		return proj_tech;
 	}
 	
+	//retrieves list of technology names by team
 	public ArrayList<String> retrieveByTeamId(int teamId) {
 		ArrayList<String> proj_tech = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -773,6 +804,7 @@ public class TechnologyDataManager implements Serializable {
 		return technology;
 	}
 	
+	//retrieves tech object from sub cat id
 	public Technology retrieveSubCat(int id) throws Exception {
 		Technology technology = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector
@@ -792,6 +824,7 @@ public class TechnologyDataManager implements Serializable {
 		return technology;
 	}
 	
+	//retrieve tech id from techname
 	public int retrieveTechId(String tech) {
 		int techId = 0;
 		ArrayList<Technology> techList = new ArrayList<Technology>();
@@ -837,7 +870,8 @@ public class TechnologyDataManager implements Serializable {
 		MySQLConnector.executeMySQL("insert",
 				"INSERT INTO `is480-matching`.`technologies` VALUES ("	+ id + ", '" + tech  + "');");
 	}
-
+	
+	//adds a new technology based on user input
 	public void add(String newTech) {
 		if(newTech.length() > 2){
 			MySQLConnector.executeMySQL("insert",
@@ -846,6 +880,7 @@ public class TechnologyDataManager implements Serializable {
 		}
 	}
 	
+	//adds a new technology based on admin input
 	public void add(String newTech, int catid, String subcatid) {
 		if(newTech.length() > 2){
 			MySQLConnector.executeMySQL("insert",

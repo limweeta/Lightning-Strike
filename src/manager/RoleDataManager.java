@@ -11,6 +11,7 @@ public class RoleDataManager implements Serializable {
 	public RoleDataManager() {
 	}
 	
+	//retrieves a list of roles a user has been assigned
 	public ArrayList<String> retrieveUserRole(String username, String type) {
 		ArrayList<String> types = new ArrayList<String>();
 		UserDataManager udm = new UserDataManager();
@@ -82,7 +83,8 @@ public class RoleDataManager implements Serializable {
 		}
 		return role;
 	}
-
+	
+	//adds a new role to an existing user
 	public void add(User u, String role) {
 		int id = u.getID();
 		

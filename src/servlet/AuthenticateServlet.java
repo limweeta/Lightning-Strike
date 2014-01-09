@@ -29,6 +29,8 @@ public class AuthenticateServlet extends HttpServlet {
 		String username = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
+		//manual login; used for when external users/sponsors log in
+		
 		UserDataManager udm = new UserDataManager();
 		
 		if(!username.trim().isEmpty() && !password.trim().isEmpty()) {
@@ -40,7 +42,7 @@ public class AuthenticateServlet extends HttpServlet {
 					
 					String fullName = authSponsor.getFullName();
 					String sponsorUsername	= authSponsor.getUsername();
-					//String userType = authSponsor.getType();
+					
 					if(!udm.isSuspended(sponsorUsername)){
 						
 						session.setAttribute("fullname", fullName);

@@ -54,11 +54,14 @@ public class AddTermServlet extends HttpServlet {
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		
+		//TO DO: Validation to ensure end date is 16 weeks after start date
+		
 		TermDataManager termdm = new TermDataManager();
 		
 		boolean existingTerm = false;
 		
 		try{
+			//check if term is taken
 			existingTerm = termdm.isTermNameTaken(acadYear, sem);
 			
 			if(!existingTerm){

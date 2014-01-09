@@ -304,7 +304,6 @@ color: white;
                		<li><a href="./searchSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Search</a></li>
                		<li class="dropdown"><a href="./adminAssignSup.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Supervisor</a></li>
                		<li class="dropdown"><a href="./adminAssignRev.jsp" style="font-size: 16px; color: white;font-weight: 200;">Assign Reviewer</a></li>
-					<li class="dropdown"><a href="#" style="font-size: 16px; color: white;font-weight: 200;">Match Supervisor to Team</a></li>
 					<li><a href="./adminSuspend.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspend User</a></li>
 					<li><a href="./adminSuspended.jsp" style="font-size: 16px; color: white;font-weight: 200;">Suspended Users</a></li>
                	</ul>
@@ -315,7 +314,7 @@ color: white;
                		<li><a href="./export.jsp" style="font-size: 16px; color: white;font-weight: 200;">Export</a></li>
                	</ul>
                </li>
-               <li class="dropdown"><a href="#" style="font-size: 16px; color: white;font-weight: bold;">Charts</a>
+               <li class="dropdown"><a href="testAnalytics.jsp" style="font-size: 16px; color: white;font-weight: bold;">Charts</a>
                </li>
               
               <!--  <li><a href="#" >Schedule</a></li>

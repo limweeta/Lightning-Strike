@@ -66,7 +66,7 @@ public class SponsorFeedbackServlet extends HttpServlet {
 		try{
 			team = tdm.retrieveTeamByName(teamName);
 			
-			//System.out.println(date);
+			
 			fdm.add(team.getId(), sponsorId, techRating, domRating, projRating, coyRating, 
 					often, modeOfComm, how, free, another, feedback);
 			

@@ -51,6 +51,7 @@ public class RegisterServlet extends HttpServlet {
 		UserDataManager udm = new UserDataManager();
 		CompanyDataManager cdm = new CompanyDataManager();
 		
+		//gets user id; Can be removed if user table is altered to auto increment (AI)
 		ArrayList<User> users = udm.retrieveAll();
 		int id = 0;
 		for(int i =0; i < users.size(); i++){
@@ -87,6 +88,7 @@ public class RegisterServlet extends HttpServlet {
 		
 		String password	= request.getParameter("password");
 		
+		//if company is empty
 		if(coyName == null || coyName.length() <= 1){
 			coyName = "Not Applicable";
 			cContact = "Not Applicable";

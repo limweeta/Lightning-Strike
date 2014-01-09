@@ -38,13 +38,17 @@ public class AcceptInviteServlet extends HttpServlet {
 		Team team = null;
 		
 		try{
+			//set student's team id to current one
 			std = stdm.retrieve(stdId);
 			std.setTeamId(teamId);
 			team  = tdm.retrieve(teamId);
 			
+			//if there are still free slots
 			if(tdm.emptySlots(team)){
+				//remove all team invites
 				tdm.removeAllTeamInvite(teamId);
 			}else{
+				//remove invite to student
 				tdm.removeTeamInvite(stdId, teamId);
 			}
 			

@@ -45,7 +45,7 @@ public class SearchTeamServlet extends HttpServlet {
 		
 		String keyword = request.getParameter("keyword");
 		String keywordType = request.getParameter("keywordType");
-		
+		//TO DO: Filter by keyword; see: searchProject servlet
 		
 			try{
 				term = Integer.parseInt(request.getParameter("term"));
@@ -53,7 +53,7 @@ public class SearchTeamServlet extends HttpServlet {
 				term = 0;
 			}
 			
-			
+			//retrieve by filters
 			teams = tdm.retrieveAllByFilter(term, tech, ind, skills);
 		
 		

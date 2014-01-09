@@ -20,7 +20,7 @@
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	}
 </style>
-			 <%
+<%
 	  UserDataManager udm = new UserDataManager();
 	  ArrayList<String> facultyNameList = udm.retrieveFacultyFullname();
 	  
@@ -61,7 +61,7 @@
 						    	  for(int i = 0; i < teams.size(); i++){
 						    		Team showTeam = teams.get(i);
 						    		%>
-						    	  <option value="<%=showTeam.getId()%>" selected><%=showTeam.getTeamName()%></option>
+						    	  <option value="<%=showTeam.getId()%>"><%=showTeam.getTeamName()%></option>
 						    	 <%
 						    	  }
 						    	 %>

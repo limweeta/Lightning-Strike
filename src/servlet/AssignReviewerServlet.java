@@ -36,8 +36,7 @@ public class AssignReviewerServlet extends HttpServlet {
 		
 		int rev1User = Integer.parseInt(request.getParameter("assignRev1"));
 		int rev2User =  Integer.parseInt(request.getParameter("assignRev2"));
-		System.out.println(rev1User);
-		System.out.println(rev2User);
+		
 		int teamId = 0;
 		String teamName = request.getParameter("teamName");
 		
@@ -59,6 +58,7 @@ public class AssignReviewerServlet extends HttpServlet {
 		try{
 			String message = "";
 			
+			//set first reviewer
 			u = udm.retrieve(rev1User);
 			rev1Id = u.getID();
 			t = tdm.retrieve(teamId);
@@ -66,6 +66,7 @@ public class AssignReviewerServlet extends HttpServlet {
 			
 			message += u.getFullName();
 			
+			//set second reviewer
 			u = udm.retrieve(rev2User);
 			rev2Id = u.getID();
 			

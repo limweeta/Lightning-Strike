@@ -36,10 +36,11 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 		String contact = request.getParameter("contact");
 		
 
-
+		
 		String secondMajor = request.getParameter("secondmajor");
 		User user = null;
 		
+		//updates the following if it is a student
 		if(type.equalsIgnoreCase("Student")){
 			
 			int prefRole = 0;
@@ -74,7 +75,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 					
 				}
 			}
-		}else if(type.equalsIgnoreCase("Sponsor")){
+		}else if(type.equalsIgnoreCase("Sponsor")){//updates following if it's a sponsor
 			try{
 				CompanyDataManager cdm = new CompanyDataManager();
 				
@@ -90,7 +91,7 @@ public class UpdateCurrentProfileServlet extends HttpServlet {
 			}
 		}
 		
-		try{
+		try{//generic information for all types updated
 			String fullname = request.getParameter("fullname");
 			
 			user = udm.retrieve(userId);

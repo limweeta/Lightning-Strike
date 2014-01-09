@@ -33,7 +33,7 @@ public class UpdateProjectServlet extends HttpServlet {
 		
 		int projID = Integer.parseInt(request.getParameter("projId"));
 		int companyId = 0;
-		
+		//field validation
 		try{
 			companyId = Integer.parseInt(request.getParameter("coyId"));
 		}catch(Exception e){

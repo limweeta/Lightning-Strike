@@ -36,6 +36,7 @@ public class OrganizationDataManager implements Serializable {
 		return orgs;
 	}
 	
+	//performs check to see if a team has listed an organization type as it's preferred choice
 	public boolean hasOrg(ArrayList<String> orgs, Organization orgCheck){
 		boolean hasOrg = false;
 			for(int i = 0; i < orgs.size(); i++){

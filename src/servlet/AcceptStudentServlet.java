@@ -24,6 +24,7 @@ public class AcceptStudentServlet extends HttpServlet {
 	public void processAuthenticateRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain");
+		
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		
@@ -32,7 +33,7 @@ public class AcceptStudentServlet extends HttpServlet {
 		
 		StudentDataManager stdm = new StudentDataManager();
 		TeamDataManager tdm = new TeamDataManager();
-		
+		//TO-DO: check if team is full before removing all other requests
 		tdm.removeAllStudentRequest(teamId);
 		
 		Student std = null;

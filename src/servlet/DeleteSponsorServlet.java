@@ -36,7 +36,7 @@ public class DeleteSponsorServlet extends HttpServlet {
 		Sponsor sponsor = null;
 		try{
 			sponsor = sponsordm.retrieve(sponsorUsername);
-			sponsor.getID();
+			
 			/*
 			ServletContext context = getServletContext();
 			String host = context.getInitParameter("host");

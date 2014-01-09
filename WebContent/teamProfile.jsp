@@ -392,6 +392,16 @@
 		<div class="control-group">
 		  <label class="control-label" for="project">Project</label>
 		  <div class="controls">
+		  <%
+			String projprofileLink = "#";
+			  try{
+				  teamProj = pdm.retrieve(projId);
+				  projprofileLink = "projectProfile.jsp?id=" + projId;
+			  }catch(Exception e){
+				  projprofileLink = "#";
+				  projName = "No Project yet";
+			  }
+			%>
 		  	<a href="projectProfile.jsp?id=<%=projId%>"><%=projName %></a>
 		  </div>
 		</div>
@@ -453,7 +463,7 @@
 			<%
 			String wikiLink = wikiLink = team.getWikiLink();;
 			
-			if(wikiLink == null){
+			if(wikiLink == null || wikiLink.equalsIgnoreCase("null")){
 				wikiLink = "Not Specified";
 			}else{
 				wikiLink = team.getWikiLink();

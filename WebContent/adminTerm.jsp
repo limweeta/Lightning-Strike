@@ -201,21 +201,21 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="display dataTable" style="width: 900px; margin:inherit;"id="example" aria-describedby="example_info">
 			<thead>
 			<tr role="row">
-				<th class="center" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Delete</th>
 				<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 12px;">Term</th>
 				<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Start Date</th>
 				<th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">End Date</th>	
+				<th class="center" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 10px;">Delete</th>
 				
 			</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<th rowspan="1" colspan="1">Delete</th>
+				
 				<th rowspan="1" colspan="1">Term</th>
 				<th rowspan="1" colspan="1">Start Date</th>
 				<th rowspan="1" colspan="1">End Date</th>
-				
+				<th rowspan="1" colspan="1">Delete</th>
 			</tr>
 		</tfoot>
 	<tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -228,7 +228,7 @@
 		String endDate = term.getEndDate();
 	%>
 		<tr class="">
-				<td class="center"><input type="checkbox" name="termId" value="<%=termId%>" /></td>
+				
 				<td class="center "><%=termName %></td>
 				<td class="center">
 				<%=startDate %>
@@ -236,6 +236,7 @@
 				<td class="center">
 				<%=endDate %>	
 				</td>
+				<td class="center"><input type="checkbox" name="termId" value="<%=termId%>" /></td>
 				
 		</tr>
 	<%

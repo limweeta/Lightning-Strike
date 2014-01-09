@@ -37,7 +37,7 @@ if(sessionUsername == null || sessionUsername.isEmpty()){
 		  <div class="controls">
 		    <%
 		    TeamDataManager tdm = new TeamDataManager();
-			ArrayList<Team> teams = tdm.retrieveSupervisingTeams(sessionUsername);
+			ArrayList<Team> teams = tdm.retrieveSupervisingCurrentTeams(sessionUsername);
 			
 			if(teams.size() < 1){
 				out.println("No teams under supervision");

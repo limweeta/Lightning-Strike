@@ -54,6 +54,7 @@ public class AddRoleServlet extends HttpServlet {
 		String role = request.getParameter("role");
 		User u = null;
 		try{
+			//checks if role is valid
 			Integer.parseInt(role);
 			
 			session.setAttribute("message", "Please choose a valid role.");

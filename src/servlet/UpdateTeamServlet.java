@@ -24,6 +24,8 @@ public class UpdateTeamServlet extends HttpServlet {
 	}
 	
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		//updates from teamProfile.jsp
+		
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
@@ -59,7 +61,9 @@ public class UpdateTeamServlet extends HttpServlet {
 			updateTeam.setTermId(termId);
 			updateTeam.setWikiLink(link);
 			
-			System.out.println("Updating SQL...");
+			//TO DO: Update members and roles; do validation check for eligible members
+			
+			
 			//UPDATE SQL
 			tdm.modify(updateTeam, industry, technology);
 			//tdm.modifyStudents(updateTeam, members, roles);

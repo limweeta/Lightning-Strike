@@ -269,7 +269,8 @@ box-shadow: 0 1px 2px rgba(0,0,0,.15);
 						      <input type="text" name="userName" id="userName" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Username" size="45" maxlength="25"/></br>
 							  <input type="password" name="password"  id="password" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Password" size="45" maxlength="20"/></br>
 							  <input type="text" name="contactNum" id="contactNum" class="input-large" style="margin-bottom: 20px; height:30px;"  placeholder="*Contact Number" size="45" maxlength="30"/></br>
-							  <input type="text" name="email"  id="email" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Email" size="45" maxlength="50"/></br>
+							  <input type="text" name="email"  id="email" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="*Email" size="45" maxlength="50"/>
+							 	<hr/>
 							  <input type="text" name="coyName"  id="coyName" class="input-large" style="margin-bottom: 20px; height:30px;"  placeholder="Company Name" size="45" maxlength="60"/></br>
 							  <input type="text" name="coyContact"  id="coyContact" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Contact Number" size="45" maxlength="30"/></br>
 							  <input type="text" name="coyAdd"  id="coyAdd" class="input-large" style="margin-bottom: 20px; height:30px;" placeholder="Company Address" size="45" maxlength="80"/></br>

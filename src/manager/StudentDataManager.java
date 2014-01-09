@@ -10,6 +10,7 @@ public class StudentDataManager implements Serializable {
 	
 	public StudentDataManager() {}
 	
+	//retrieve all second majors listed in database
 	public ArrayList<String> retrieveAllMajors() {
 		ArrayList<String> majors = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM second_major");
@@ -27,6 +28,7 @@ public class StudentDataManager implements Serializable {
 		return majors;
 	}
 	
+	//retrieves student based on their role in the team
 	public Student retrieveAllStudentByTeamRole(int teamId, int role) {
 
 		Student student = null;
@@ -48,6 +50,7 @@ public class StudentDataManager implements Serializable {
 		return student;
 	}
 	
+	//retrieves list of students that has been invited by a team to join them
 	public ArrayList<Student> retrieveStudentsInvitedByTeam(int teamId) {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM team_request WHERE team_id = " + teamId);
@@ -71,7 +74,7 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 
-	
+	//retrieves list of students who have requested to join a particular team
 	public ArrayList<Student> retrieveStudentRequests(int teamId) {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM student_request WHERE team_id = " + teamId);
@@ -95,6 +98,7 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
+	//checks if a second major entered is a valid one
 	public boolean isValidMajor(String major){
 		boolean isValid = false;
 		ArrayList<String> allMajors = retrieveAllMajors();
@@ -105,6 +109,7 @@ public class StudentDataManager implements Serializable {
 		return isValid;
 	}
 	
+	//retrieve students who ar eligible for FYP (year 3,4) TO REVIEW: SQL query is wrong
 	public ArrayList<Student> retrieveAllCurrent() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE users.type LIKE 'Student';");
@@ -150,7 +155,6 @@ public class StudentDataManager implements Serializable {
 					students.add(student);
 				}
 				
-				System.out.println(year);
 			}catch(Exception e){}
 		}
 		
@@ -184,6 +188,7 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
+	//checks if a particular user already has a team
 	public boolean hasTeam(User std) {
 		boolean hasTeam = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.students WHERE id = " + std.getID() + " ;");
@@ -203,6 +208,7 @@ public class StudentDataManager implements Serializable {
 		return hasTeam;
 	}
 	
+	//retrieves list of all students full names
 	public ArrayList<String> retrieveFullNameList() throws Exception{
 		ArrayList<String> nameList = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");
@@ -226,6 +232,7 @@ public class StudentDataManager implements Serializable {
 		return nameList;
 	}
 	
+	//retrieves list of all students user names
 	public ArrayList<String> retrieveUsernameList() throws Exception{
 		ArrayList<String> nameList = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id;");
@@ -320,7 +327,8 @@ public class StudentDataManager implements Serializable {
 		MySQLConnector.executeMySQL("insert", "INSERT INTO `is480-matching`.`students` (`id`, `second_major`, `role_id`, `team_id`, `preferred_role_id`) VALUES ('" + id + "', '" + secondMajor + "', " + role + ", " + teamId + ", " + preferredRole + ");");
 		System.out.println("student added successfully");
 	}
-		
+	
+	//updates student table in case of reshuffle of team members
 	public void updateStudent(int id,int teamId, String role){
 		
 		MySQLConnector.executeMySQL("update", "UPDATE `is480-matching`.`students` SET `team_id`=" + teamId + " WHERE `id`=" + id );
@@ -328,6 +336,7 @@ public class StudentDataManager implements Serializable {
 		//fix this statement.
 	}
 	
+	//retrieves all students in a particular team
 	public ArrayList<Student> getTeamListFromTeamId(int teamId){
 		ArrayList<Student> students = new ArrayList<Student>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users inner join `is480-matching`.students on users.id=students.id WHERE students.team_id = " + teamId);
@@ -362,6 +371,7 @@ public class StudentDataManager implements Serializable {
 		return students;
 	}
 	
+	//modifies a user based on changes made to their student profile
 	public void modify(User user, Student student, String[] skills){
 		MySQLConnector.executeMySQL("update", "UPDATE users SET "
 				+ "contact_num = '" + user.getContactNum() + "',"

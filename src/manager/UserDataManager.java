@@ -13,7 +13,7 @@ public class UserDataManager implements Serializable {
 	public ArrayList<User> retrieveAllFaculty() {
 		ArrayList<User> Users = new ArrayList<User>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users"
-				+ " WHERE type LIKE 'Supervisor' OR type LIKE 'Admin'");
+				+ " WHERE type LIKE 'Supervisor'");
 		Set<String> keySet = map.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		
@@ -87,6 +87,55 @@ public class UserDataManager implements Serializable {
 		return Users;
 	}
 	
+	public ArrayList<String> retrieveAllSponsor() {
+		ArrayList<String> usernames = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users WHERE type LIKE 'Sponsor'");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String username = array.get(1);
+			
+			usernames.add(username);
+		}
+		
+		Collections.sort(usernames, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareToIgnoreCase(s2);
+	        }
+		});
+		
+		return usernames;
+	}
+	
+	public ArrayList<String> retrieveAllUsernames() {
+		ArrayList<String> usernames = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users");
+		Set<String> keySet = map.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		
+		while (iterator.hasNext()){
+			String key = iterator.next();
+			ArrayList<String> array = map.get(key);	
+			int id = Integer.parseInt(array.get(0));
+			String username = array.get(1);
+			
+			usernames.add(username);
+		}
+		
+		Collections.sort(usernames, new Comparator<String>() {
+	        @Override public int compare(String s1, String s2) {
+	            	return s1.compareToIgnoreCase(s2);
+	        }
+		});
+		
+		
+		return usernames;
+	}
+	
 	public ArrayList<User> retrieveSuspendedUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM suspended_list");
@@ -112,6 +161,7 @@ public class UserDataManager implements Serializable {
 		return users;
 	}
 	
+	//checks if a user has a particular skill
 	public boolean hasSkill(User u, int skillId) {
 		boolean hasSkill = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM user_skills WHERE user_id = " + u.getID() + " AND skill_id = " + skillId +";");
@@ -184,6 +234,7 @@ public class UserDataManager implements Serializable {
 		return User;
 	}
 	
+	//consider revising: 2 students might have same full name
 	public User retrieveByFullName(String fullName) throws Exception{
 		User User = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.users where users.full_name LIKE '" + fullName + "';");
@@ -218,6 +269,7 @@ public class UserDataManager implements Serializable {
 		
 	}
 	
+	//checks if user is suspended
 	public boolean isSuspended(String username){
 		boolean isSuspended = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "'");
@@ -230,6 +282,7 @@ public class UserDataManager implements Serializable {
 		return isSuspended;
 	}
 	
+	//gets date suspended
 	public String getDateSuspended(String username){
 		String dateSuspended = "";
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT date FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "' ORDER BY date DESC");
@@ -245,6 +298,7 @@ public class UserDataManager implements Serializable {
 		return dateSuspended;
 	}
 	
+	//gets reason for suspension
 	public String getReason(String username){
 		String reason = "";
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT reason FROM `is480-matching`.suspended_list WHERE username LIKE '" + username + "' ORDER BY date DESC");
@@ -260,6 +314,7 @@ public class UserDataManager implements Serializable {
 		return reason;
 	}
 	
+	//suspends a user
 	public void suspend(User User, String reason){
 		
 		String username = User.getUsername();
@@ -269,6 +324,7 @@ public class UserDataManager implements Serializable {
 		
 	}
 	
+	//unsuspend a user
 	public void unsuspend(User User){
 		
 		String username = User.getUsername();
@@ -278,7 +334,7 @@ public class UserDataManager implements Serializable {
 		
 	}
 	
-	
+	//checks if user is a sponsor
 	public boolean isSponsor(String username){
 		boolean isSponsor = false;
 		
@@ -293,6 +349,7 @@ public class UserDataManager implements Serializable {
 		return isSponsor;
 	}
 	
+	//checks if username is taken when registering
 	public boolean isTaken(String username){
 		boolean isTaken = false;
 		
@@ -307,6 +364,7 @@ public class UserDataManager implements Serializable {
 		return isTaken;
 	}
 	
+	//adds list of skills for first time users
 	public void addSkills(String[] skills, int userId){
 		
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "SELECT * FROM `is480-matching`.`user_skills`");

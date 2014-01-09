@@ -40,6 +40,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	//checks if a particular user is the creator of a project
 	public boolean isCreator(String username, Project proj) {
 		boolean isCreator = false;
 		
@@ -61,6 +62,7 @@ public class ProjectDataManager implements Serializable {
 		return isCreator;
 	}
 	
+	//checks if a particular user is undertaking a project
 	public boolean isUndertakingProject(String username, int projId) {
 		boolean isUndertaking = false;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects p, students s, teams t, users u WHERE p.team_id = t.id AND s.id = u.id AND t.id = s.team_id AND u.username LIKE '" + username + "' AND p.id = " + projId);
@@ -74,6 +76,7 @@ public class ProjectDataManager implements Serializable {
 		return isUndertaking;
 	}
 	
+	//used for advanced search in project search, returns list of projects that matches the filter
 	public ArrayList<Project> retrieveAllByFilter(int term, int ind, int tech, int skill) {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		String query = "select * from projects p, project_technologies pt, project_preferred_skills ps WHERE p.id = pt.project_id AND p.id = ps.project_id";
@@ -121,6 +124,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	//used for advanced search in project search, returns list of projects that has the keyword entered
 	public ArrayList<Project> retrieveAllByKeyword(String keyword, String keywordType) {
 		String query = "";
 		
@@ -205,6 +209,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	//retrieves all projects from a particular sponsor
 	public ArrayList<Project> retrieveAllFromSponsor(Sponsor sponsor) {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE sponsor_id = " + sponsor.getID());
@@ -234,6 +239,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	//retrieves all incomplete projects
 	public ArrayList<Project> retrieveCurrent() {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		TermDataManager tdm = new TermDataManager();
@@ -273,8 +279,8 @@ public class ProjectDataManager implements Serializable {
 		}
 		return projects;
 	}
-	// check for conflicting objects
 	
+	//retrieves projectID from sponsor. TO BE REVISED: sponsor can have more than 1 project
 	public int getProjIdFromSponsor(int sponsorId){
 		int projId = 0;
 		
@@ -288,11 +294,11 @@ public class ProjectDataManager implements Serializable {
 			
 			projId = Integer.parseInt(array.get(0));
 		}
-		System.out.println(sponsorId);
+		
 		return projId;
 	}
 	
-	
+	//checks for conflicting project names
 	public boolean isProjNameTaken(String projName){
 		boolean isTaken = false;
 		
@@ -307,6 +313,7 @@ public class ProjectDataManager implements Serializable {
 		return isTaken;
 	}
 	
+	//checks if a student is already undertaking a project
 	public boolean hasProj(User std) {
 		StudentDataManager stdm = new StudentDataManager();
 		Student student = null;
@@ -342,6 +349,7 @@ public class ProjectDataManager implements Serializable {
 		return hasProj;
 	}
 	
+	//checks if a faculty member is a supervisor for a team undertaking a particular project
 	public boolean isSup(int projId, int facultyId){
 		boolean isSup = false;
 		
@@ -357,6 +365,7 @@ public class ProjectDataManager implements Serializable {
 		return isSup;
 	}
 	
+	//checks if a faculty member is a reviewer for a team undertaking a particular project
 	public boolean isRev(int projId, int facultyId){
 		boolean isRev = false;
 		
@@ -374,6 +383,7 @@ public class ProjectDataManager implements Serializable {
 		return isRev;
 	}
 	
+	//returns list of project names in database
 	public ArrayList<String> retrieveProjName() {
 		ArrayList<String> projects = new ArrayList<String>();
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects");
@@ -392,6 +402,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;
 	}
 	
+	//returns Project that a user has created. TO BE REVISED: Creator could have created more than 1 project
 	public Project retrieveProjIdFromCreator(int creatorId) {
 		Project p = null;
 		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE creator_id  = " + creatorId);
@@ -420,6 +431,7 @@ public class ProjectDataManager implements Serializable {
 		return p;
 	}
 	
+	//returns a project that a team is undertaking
 	public Project getProjFromTeam(int teamId){
 		Project proj = null;
 		ArrayList<Project> allProjs = retrieveAll();
@@ -465,6 +477,7 @@ public class ProjectDataManager implements Serializable {
 		return proj;
 	}
 	
+	//checks if a team is eligible to apply for a particular project
 	public boolean isEligibleForApplication(int teamId, int userId, int projId){
 		boolean hasProj = false;
 		boolean hasApplied = false;
@@ -512,26 +525,12 @@ public class ProjectDataManager implements Serializable {
 		return isEligible;
 	}
 	
-	public double totalIndustrybyProj(int projId){
-		double total = 0.0;
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from projects WHERE id = " + projId);
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			
-			total++;
-			
-		}
-		return total;
-	}
-	
+	//matches projects to a teams's preferred industry
 	public ArrayList<ProjectScore> matchByIndustry(ArrayList<Integer> preferredIndustry){
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
 		double score = 0.0;
 		double totalScore = 0.0;
+		// for each preferred industry indicated, query database for projects in that industry
 		for(int i = 0; i < preferredIndustry.size(); i++){
 			HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from"
 					+ " projects WHERE sponsor_id != 0 AND team_id = 0 AND industry_id = " + preferredIndustry.get(i));
@@ -553,7 +552,10 @@ public class ProjectDataManager implements Serializable {
 				int creatorId 		= 	Integer.parseInt(array.get(8));
 				int intendedTermId	= 	Integer.parseInt(array.get(9));
 				
+				
 				Project proj = new Project(id, coyId, teamId, sponsorId, projName, projDesc, status, industry, creatorId, intendedTermId);
+				
+				//store into java objects to consolidate score
 				ProjectScore ps = new ProjectScore(proj, score, totalScore);
 				projects.add(ps);
 			}
@@ -626,6 +628,7 @@ public class ProjectDataManager implements Serializable {
 		return projects;            
 	}
 	
+	//merge all projects returned
 	public ArrayList<ProjectScore> mergedMatchedProjects(ArrayList<ProjectScore> preferredIndustry, ArrayList<ProjectScore> 
 	preferredTechnologies){
 		ArrayList<ProjectScore> projects = new ArrayList<ProjectScore>();
@@ -645,7 +648,7 @@ public class ProjectDataManager implements Serializable {
 				ProjectScore ps = projects.get(i);
 				for(int j = 0; j < finalProjects.size(); j++){
 					ProjectScore finalPs = finalProjects.get(j);
-					
+					//calculates score to be returned
 					if(ps.getProject().getId() == finalPs.getProject().getId()){
 						finalPs.setScore(finalPs.getScore() + ps.getScore());
 						finalPs.setTotalScore(finalPs.getTotalScore() + ps.getTotalScore());
@@ -799,49 +802,7 @@ public class ProjectDataManager implements Serializable {
 					+ "VALUES (" + projId + ", " + teamId + ");");
 	}
 	
-	
-	
-	public int numOfSkillNotCovered(ArrayList<Integer> teamSkill, int projId){
-		int numOfSkillCovered = 0;
-		int totalSkill = 0;
-		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE project_id = " + projId);
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			totalSkill++;
-			int retrievedSkillId 	= 	Integer.parseInt(array.get(2));
-			
-			for(int i = 0; i< teamSkill.size(); i++){
-				if(retrievedSkillId == teamSkill.get(i)){
-					numOfSkillCovered++;
-				}
-			}
-			
-			
-		}
-		return totalSkill - numOfSkillCovered;
-	}
-	
-	public int totalNumOfSkill(int projId){
-		int totalSkill = 0;
-		
-		HashMap<String, ArrayList<String>> map = MySQLConnector.executeMySQL("select", "select * from project_preferred_skills WHERE project_id = " + projId);
-		Set<String> keySet = map.keySet();
-		Iterator<String> iterator = keySet.iterator();
-		
-		while (iterator.hasNext()){
-			String key = iterator.next();
-			ArrayList<String> array = map.get(key);	
-			totalSkill++;
-			
-		}
-		return totalSkill;
-	}
-	
+	//returns number of technology not matched when comparing project and a team's preferred tech
 	public int numOfTechNotCovered(ArrayList<Integer> preferredTechnologies, int projId){
 		int numOfTechCovered = 0;
 		int totalTech = 0;
@@ -867,6 +828,7 @@ public class ProjectDataManager implements Serializable {
 		return totalTech - numOfTechCovered;
 	}
 	
+	//retrieves total number of technology used by a project
 	public int totalNumOfTech(int projId){
 		int totalTech = 0;
 		
@@ -883,6 +845,7 @@ public class ProjectDataManager implements Serializable {
 		return totalTech;
 	}
 	
+	//adds a technology when a project is indicated
 	public void addTech(int projid, int techid){
 		MySQLConnector.executeMySQL("insert", "INSERT INTO project_technologies (`project_id`, `technology_id`) VALUES (" + projid + ", " + techid + ");");
 	}
@@ -934,10 +897,12 @@ public class ProjectDataManager implements Serializable {
 		
 	}
 	
+	//invalidates all instances of teams who have applied for a project
 	public void removeAllApplication(int projId){
 		MySQLConnector.executeMySQL("delete", "delete from applied_projects where project_id = " + projId + ";");
 	}
 	
+	//removes instance of a particular team who has applied for project
 	public void removeTeamApplication(int teamId){
 		MySQLConnector.executeMySQL("delete", "delete from applied_projects where team_id = " + teamId + ";");
 	}

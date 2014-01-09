@@ -37,6 +37,9 @@ public class CreateTeamServlet extends HttpServlet {
 		ArrayList<Team> teams = tdm.retrieveAll();
 		int teamid = 0;
 		
+		//generate next team id; 
+		//unnecessary if team table structure id change to AI (auto-increment)
+		
 		int largestId = 0;
 		for(int j = 0; j < teams.size(); j++){
 			if(teams.get(j).getId() > largestId){
@@ -49,6 +52,7 @@ public class CreateTeamServlet extends HttpServlet {
 		int teamLimit = Integer.parseInt(request.getParameter("teamlimit"));
 		int termId = Integer.parseInt(request.getParameter("term"));
 		
+		//no initial reviewers
 		int rev1 = 0;
 		int rev2 = 0;
 		
@@ -63,6 +67,7 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		String[] allIndustry = null;
 		
+		//checks for null lists for preferred industry and technology
 		
 		if(industryNew != null && prefIndustry == null){
 			allIndustry = new String[industryNew.length];
@@ -85,6 +90,8 @@ public class CreateTeamServlet extends HttpServlet {
 		}else{
 			allTech = new String[0];
 		}
+		
+		// merge industry and tech lists together
 		
 		if(industryNew.length > 0){
 			String[] newInd = new String[industryNew.length]; 
@@ -126,12 +133,15 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		int numOfActiveMembers = 0;
 		
+		//checks if team name is already taken
 		boolean isNameTaken = tdm.isTeamNameTaken(teamName);
 		
+		//checks for invalid members keyed in
 		boolean[] invalidMembers = new boolean[teamMembers.length];
 		
 		for(int i = 0; i < teamMembers.length; i++){
 			try{
+				//checks if members keyed in already have teams. TO DO: Check if student is in year 3 or higher
 				Student st = sdm.retrieve(teamMembers[i]);
 				invalidMembers[i] = sdm.hasTeam(st);
 			}catch(Exception e){
@@ -148,6 +158,7 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		int numOfInvalidMembers = 0;
 		
+		//counts number of members who are ineligible
 		for(int i = 0; i < invalidMembers.length; i++){
 			if(invalidMembers[i] == true){
 				numOfInvalidMembers++;
@@ -156,6 +167,7 @@ public class CreateTeamServlet extends HttpServlet {
 		
 		boolean sameMember = false;
 		
+		//checks for array positions with blank fields
 		for(int i = 0; i < teamMembers.length; i++){
 			int memCount = 0;
 			for(int j = 0; j < teamMemberClone.length; j++){
@@ -181,7 +193,7 @@ public class CreateTeamServlet extends HttpServlet {
 			session.setAttribute("message", "The number of members exceed your team limit. Please try again");
 			response.sendRedirect("createTeam.jsp");
 		}else{
-		
+			//creator assigned as proj manager 
 			String projectManager = teamMembers[0];
 			
 			int pmid = 0;
@@ -192,6 +204,7 @@ public class CreateTeamServlet extends HttpServlet {
 			
 			Team team = new Team(teamid, teamName, teamLimit, pmid, supId, rev1, rev2, termId);
 			
+			//update all other members
 			for(int i = 0; i < teamMembers.length; i++){
 				User u = null; 
 				try{

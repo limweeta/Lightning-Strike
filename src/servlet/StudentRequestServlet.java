@@ -40,6 +40,7 @@ public class StudentRequestServlet extends HttpServlet {
 			pm = stdm.retrieve(team.getPmId());
 			std = stdm.retrieve(userId);
 			
+			//adds in student request to db
 			tdm.studentRequest(userId, teamId);
 			
 			/*

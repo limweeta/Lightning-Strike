@@ -114,6 +114,9 @@ public class LoginServlet extends HttpServlet {
 			 * IF INSIDE THIS BLOCK, USER IS AUTHENTICATED
 			 * INSERT YOUR CODE TO BE PERFORMED WHEN AUTHENTICATED	
 			 *************************************************/
+		//SSO AUTHENTICATION
+			
+		//Edit from here on
 			UserDataManager udm = new UserDataManager();
 			
 			
@@ -126,7 +129,7 @@ public class LoginServlet extends HttpServlet {
 				String type = "Student";
 				try {
 					
-
+					// checks if username is suspended
 					if(udm.isSuspended(username)){
 						session.setAttribute("message","You have  been suspended. Please contact the administrator for more details");
 						session.removeAttribute("username");
@@ -139,7 +142,7 @@ public class LoginServlet extends HttpServlet {
 						if (username.matches(".*\\d.*")) {
 							type = "Student";
 						} else {
-							type = "Faculty";
+							type = "Supervisor";
 						}
 						
 						if (u == null) {

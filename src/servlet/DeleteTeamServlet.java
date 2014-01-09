@@ -40,6 +40,7 @@ public class DeleteTeamServlet extends HttpServlet {
 			team = tdm.retrieve(teamId);
 			
 			membersId = tdm.retrieveStudentsInTeam(team);
+			//TO DO: update all members to set team and role to 0
 			
 			/*
 			ServletContext context = getServletContext();

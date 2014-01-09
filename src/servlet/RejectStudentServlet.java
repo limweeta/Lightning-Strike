@@ -38,6 +38,8 @@ public class RejectStudentServlet extends HttpServlet {
 		try{
 			t = tdm.retrieve(teamId);
 			st = stdm.retrieve(stdId);
+			
+			//remove request from db
 			tdm.removeStudentRequest(stdId, teamId);
 			
 			/*

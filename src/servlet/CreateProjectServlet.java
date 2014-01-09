@@ -38,7 +38,7 @@ public class CreateProjectServlet extends HttpServlet {
 		
 		ArrayList<Project> projects = pdm.retrieveAll();
 		int id = 0;
-		
+		//generate next proj id; unnecessary if proj table structure id change to AI (auto-increment)
 		for(int i=0; i < projects.size(); i++){
 			Project p = projects.get(i);
 			if(id <= p.getId()){
@@ -64,12 +64,18 @@ public class CreateProjectServlet extends HttpServlet {
 			technologies = new String[0];
 		}
 		
+		if(technologyNew == null){
+			technologyNew = new String[0];
+		}
+		
+		//merge all technologies 
 		String[] allTech = new String[technologies.length + technologyNew.length];
 		
 		if(technologyNew.length > 0){
 			String[] newTech = new String[technologyNew.length]; 
 			
 			TechnologyDataManager techdm = new TechnologyDataManager();
+			
 			for(int i = 0; i < technologyNew.length; i++){
 				String techName = technologyNew[i];
 				if(techName.trim().length() > 2){
@@ -98,18 +104,21 @@ public class CreateProjectServlet extends HttpServlet {
 		int sponsor_id = 0;
 		int creator_id = 0; 
 		
+		//check if there is a valid company
 		try{
 			company_id = Integer.parseInt(company);
 		}catch(Exception e){
 			company_id = 0;
 		}
 		
+		//check if there is a valid sponsor
 		try{
 			sponsor_id = Integer.parseInt(sponsor);
 		}catch(Exception e){
 			sponsor_id = 0;
 		}
 		
+		//check if there is a valid creator
 		try{
 			creator_id = udm.retrieve(username).getID();
 		}catch(Exception e){
@@ -136,6 +145,10 @@ public class CreateProjectServlet extends HttpServlet {
 					
 					ArrayList<Technology> techs = tdm.retrieveAll();
 					int nextId = 0;
+					//generate next project_technologies id; 
+					//unnecessary if project_technologies table structure id 
+					//change to AI (auto-increment)
+					
 					for(int i = 0; i < techs.size(); i++){
 						Technology tmpTech = techs.get(i);
 						if(nextId <= tmpTech.getId()){

@@ -26,6 +26,8 @@ public class UpdateProfileServlet extends HttpServlet {
 
 	public void processAuthenticateRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		//for first time users to the system
+		
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
@@ -34,6 +36,7 @@ public class UpdateProfileServlet extends HttpServlet {
 		ArrayList<User> users = udm.retrieveAll();
 		int id = 0;
 		
+		//geenrates new id in user table; unnecessary if table type altered to AI (auto increment)
 		for(int i=0; i < users.size(); i++){
 			User u = users.get(i);
 			if(id < u.getID()){

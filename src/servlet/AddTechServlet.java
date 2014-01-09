@@ -51,7 +51,7 @@ public class AddTechServlet extends HttpServlet {
 		UserDataManager udm = new UserDataManager();
 		
 		String techCat = request.getParameter("techCat");
-		
+		//split categories in to cat and sub cat
 		String[] categories = techCat.split(" ");
 		
 		int catid = Integer.parseInt(categories[0]);
@@ -66,6 +66,7 @@ public class AddTechServlet extends HttpServlet {
 		User u = null;
 
 		try{
+			
 			techdm.add(techName, catid, subcatid);
 			
 			session.setAttribute("message", techName + " has been added to the list");

@@ -36,6 +36,7 @@ public class SuspendUserServlet extends HttpServlet {
 		try{
 			u = udm.retrieve(username);
 			
+			//checks if user is already suspended
 			if(udm.isSuspended(username)){
 				 session.setAttribute("message", u.getFullName() + " is already suspended");
 			}else{

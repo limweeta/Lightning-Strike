@@ -31,7 +31,7 @@ public class SearchProjectServlet extends HttpServlet {
 	
 	public void processRegisterRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		//advanced search for project goes here
 		response.setContentType("text/plain");
 		
 		ProjectDataManager pdm = new ProjectDataManager();
@@ -45,10 +45,13 @@ public class SearchProjectServlet extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		String keywordType = request.getParameter("keywordType");
 		
+		//checks if there's any keyword entered
 		if(keyword.length() > 0){
+			
 			projects = pdm.retrieveAllByKeyword(keyword, keywordType);
-			System.out.println("Here: /" + keyword.length() + "/");
+			//System.out.println("Here: /" + keyword.length() + "/");
 		}else{
+			//searches for relevant categories to filter from
 			try{
 				term = Integer.parseInt(request.getParameter("term"));
 			}catch(Exception e){
@@ -73,7 +76,7 @@ public class SearchProjectServlet extends HttpServlet {
 				skills = 0;
 			}
 			projects = pdm.retrieveAllByFilter(term, ind, tech, skills);
-			System.out.println("There: " + term + " " + ind + " " + tech + " " + skills);
+			
 		}
 		
 		request.setAttribute("projectList", projects);

@@ -148,6 +148,7 @@ public class SponsorDataManager implements Serializable {
 		System.out.println("sponsor added successfully");
 	}
 	
+	//retrieve teams that have been invited by a particular sponsor to view their projects
 	public ArrayList<Team> getInvitedTeams(Sponsor sponsor){
 		ArrayList<Team> invitedTeams = new ArrayList<Team>();
 		Team team = null;
@@ -178,6 +179,7 @@ public class SponsorDataManager implements Serializable {
 		
 	}
 	
+	//to review; possible unused method
 	public Sponsor getSponsorFromList(ArrayList<Sponsor> array, int sponsorId){
 		
 		Sponsor sponsor = null;

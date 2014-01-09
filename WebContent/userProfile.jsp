@@ -200,6 +200,7 @@ function toggleSkill(source) {
         $( "#secondmaj" ).autocomplete({
             source: majorList
           });
+    }
  </script>
 <body>
 	<%
@@ -502,11 +503,14 @@ function toggleSkill(source) {
 			
 		<%
 		if(usertype.equalsIgnoreCase("Student") || (sessiontype.equalsIgnoreCase("Admin") && !sessiontype.equalsIgnoreCase(usertype))){
+		%>
+			<div class="control-group">
+		  	<label class="control-label" for="secondMajor">Second Major</label>
+		  	<div class="controls">
+			<%	
 			if((sessionUsername.equals(uProfile.getUsername())|| sessiontype.equalsIgnoreCase("Admin")) && usertype.equalsIgnoreCase("Student")){
 			%>
-			<div class="control-group">
-		  <label class="control-label" for="secondMajor">Second Major</label>
-		  <div class="controls">
+			
 			<select id="secondmaj" name="secondmajor" class="input-large">
 			<%
 			
@@ -847,12 +851,10 @@ function toggleSkill(source) {
 		    <input type="submit" id="inviteStudent" value="Invite" class="btn btn-info" onclick="this.disabled=true;this.value='Invited';">
 		   </form>
 		<% }%>
-		</div> 
-	
-	</div>
+		</div>
+		</div>
 </body>
 <%
 }
 %>
-
 </html>

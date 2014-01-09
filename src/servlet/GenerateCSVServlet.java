@@ -32,6 +32,7 @@ public class GenerateCSVServlet extends HttpServlet {
 	
 	public void processAuthenticateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
+		//servlet used to export team data to csv for Scheduling usage
 		
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition","attachment;filename=schedulingdata.csv");

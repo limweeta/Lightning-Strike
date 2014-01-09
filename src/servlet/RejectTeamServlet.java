@@ -42,6 +42,7 @@ public class RejectTeamServlet extends HttpServlet {
 		Student pm = null;
 		User sponsor = null;
 		try{
+			//CODE INCORRECT; TO DO: remove team from applied_projects in db
 			p = pdm.retrieve(projId);
 			p.setTeamId(teamId);
 			

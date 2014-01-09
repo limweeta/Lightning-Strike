@@ -46,6 +46,7 @@ public class ApplyProjectServlet extends HttpServlet {
 			team = tdm.retrieve(teamId);
 			p = pdm.retrieve(projId);
 			
+			//checks if team is eligible to apply for project
 			eligibleToApply = pdm.isEligibleForApplication(teamId, sessionUser.getID(), p.getId());
 			
 			User u = udm.retrieve(p.getCreatorId());
@@ -53,6 +54,7 @@ public class ApplyProjectServlet extends HttpServlet {
 			if(teamId == 0){
 				session.setAttribute("message", "You must have a team before you can apply for a project");
 			}else if(eligibleToApply){
+				//add to database
 				pdm.applyProj(teamId, projId);
 				//SEND NOTIFICATION TO CREATOR
 					
